@@ -7,6 +7,9 @@
     "build": "next build",
     "start": "next start"
   },
+  "engines": {
+    "node": "20.x"
+  },
   "dependencies": {
     "@mlc-ai/web-llm": "^0.2.81",
     "next": "^14.2.0",
