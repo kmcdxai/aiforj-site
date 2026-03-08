@@ -3,11 +3,6 @@ import { NextResponse } from 'next/server';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// Disable Next.js body parsing so we can verify the Stripe signature
-export const config = {
-  api: { bodyParser: false },
-};
-
 export async function POST(request) {
   const body = await request.text();
   const sig = request.headers.get('stripe-signature');
