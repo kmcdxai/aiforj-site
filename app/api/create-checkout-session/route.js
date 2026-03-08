@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST() {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { timeout: 8000, maxNetworkRetries: 0 });
+  const domain = (process.env.NEXT_PUBLIC_DOMAIN || 'https://aiforj.com').trim();
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -13,8 +14,8 @@ export async function POST() {
         },
       ],
       mode: 'subscription',
-      success_url: `${process.env.NEXT_PUBLIC_DOMAIN}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_DOMAIN}/`,
+      success_url: `${domain}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${domain}/`,
       allow_promotion_codes: true,
       subscription_data: {
         trial_period_days: 7,
