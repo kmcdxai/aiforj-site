@@ -466,7 +466,7 @@ function useWebLLM() {
 
     setStatus("loading");
     try {
-      const webllm = await import("https://esm.run/@mlc-ai/web-llm");
+      const webllm = await import("@mlc-ai/web-llm");
       const engine = new webllm.MLCEngine();
       engine.setInitProgressCallback((progress) => {
         setLoadProgress(Math.round((progress.progress || 0) * 100));
