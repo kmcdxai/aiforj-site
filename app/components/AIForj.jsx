@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { XAxis, YAxis, Tooltip, ResponsiveContainer, Area, AreaChart } from "recharts";
+import EmailCapture from "./EmailCapture";
 
 // ═══════════════════════════════════════════════════════════════
 // PRODUCTION CONFIG
@@ -46,19 +47,42 @@ const COLOR_THEMES = {
   unmotivated: { bg: "#EEF3EB", accent: "#5B8C5A", text: "#1E3220", subtle: "rgba(91,140,90,0.08)", card: "rgba(235,248,232,0.6)", breathe: "91,140,90" },
   lonely: { bg: "#F5EDF0", accent: "#9A6B7B", text: "#3A1E2A", subtle: "rgba(154,107,123,0.08)", card: "rgba(248,232,238,0.6)", breathe: "154,107,123" },
   fine: { bg: "#EDF2F5", accent: "#5A8CA0", text: "#1E2E3A", subtle: "rgba(90,140,160,0.08)", card: "rgba(232,242,248,0.6)", breathe: "90,140,160" },
-  stressed: { bg: "#F0F3ED", accent: "#6B8C6B", text: "#1E321E", subtle: "rgba(107,140,107,0.08)", card: "rgba(238,248,235,0.6)", breathe: "107,140,107" },
+  stressed:      { bg: "#F0F3ED", accent: "#6B8C6B", text: "#1E321E", subtle: "rgba(107,140,107,0.08)", card: "rgba(238,248,235,0.6)", breathe: "107,140,107" },
+  burnout:       { bg: "#F5F0EC", accent: "#8C6B4A", text: "#3A2A18", subtle: "rgba(140,107,74,0.08)",  card: "rgba(248,240,230,0.6)", breathe: "140,107,74"  },
+  relationship:  { bg: "#F5ECF0", accent: "#9A4A6B", text: "#3A1A28", subtle: "rgba(154,74,107,0.08)",  card: "rgba(248,228,238,0.6)", breathe: "154,74,107"  },
+  night:         { bg: "#12162A", accent: "#8B9FD4", text: "#D8E0F5", subtle: "rgba(139,159,212,0.08)", card: "rgba(28,34,56,0.85)",  breathe: "139,159,212"  },
+  socialanxiety: { bg: "#F0EDF5", accent: "#6B5A9A", text: "#28203A", subtle: "rgba(107,90,154,0.08)",  card: "rgba(238,232,248,0.6)", breathe: "107,90,154"  },
+  imposter:      { bg: "#F2EFF5", accent: "#6A5B8A", text: "#2A2040", subtle: "rgba(106,91,138,0.08)",  card: "rgba(240,235,248,0.6)", breathe: "106,91,138"  },
+  grief:         { bg: "#ECEFF5", accent: "#4A5A7A", text: "#1A2038", subtle: "rgba(74,90,122,0.08)",   card: "rgba(230,234,248,0.6)", breathe: "74,90,122"   },
 };
 
 const EMOTIONS = [
-  { id: "anxious", label: "Anxious", icon: "⚡", desc: "Racing thoughts, worry, tension" },
-  { id: "overwhelmed", label: "Overwhelmed", icon: "🌊", desc: "Too much, can't process" },
-  { id: "sad", label: "Sad", icon: "🌧", desc: "Heavy, low, tearful" },
-  { id: "angry", label: "Angry", icon: "🔥", desc: "Frustrated, irritated, furious" },
-  { id: "numb", label: "Numb", icon: "🧊", desc: "Disconnected, empty, flat" },
-  { id: "unmotivated", label: "Unmotivated", icon: "🪫", desc: "No energy, can't start" },
-  { id: "lonely", label: "Lonely", icon: "🌑", desc: "Isolated, disconnected" },
-  { id: "stressed", label: "Stressed", icon: "⏰", desc: "Pressure, deadline, tense" },
-  { id: "fine", label: "I'm Good", icon: "☀️", desc: "Optimize & grow" },
+  { id: "anxious",       label: "Anxious",           icon: "⚡",  desc: "Racing thoughts, worry, tension"    },
+  { id: "overwhelmed",   label: "Overwhelmed",        icon: "🌊",  desc: "Too much, can't process"            },
+  { id: "stressed",      label: "Stressed",           icon: "⏰",  desc: "Pressure, deadline, tense"          },
+  { id: "burnout",       label: "Burned Out",         icon: "🪨",  desc: "Depleted, running on empty"         },
+  { id: "angry",         label: "Angry",              icon: "🔥",  desc: "Frustrated, irritated, furious"     },
+  { id: "sad",           label: "Sad",                icon: "🌧",  desc: "Heavy, low, tearful"                },
+  { id: "grief",         label: "Grief / Loss",       icon: "🕊️",  desc: "Missing someone or something"       },
+  { id: "relationship",  label: "Relationship Pain",  icon: "💔",  desc: "Conflict, hurt, disconnected"       },
+  { id: "night",         label: "3AM Spiral",         icon: "🌙",  desc: "Can't sleep, mind racing"           },
+  { id: "socialanxiety", label: "Social Anxiety",     icon: "😰",  desc: "Nervous about people or situations" },
+  { id: "imposter",      label: "Imposter Syndrome",  icon: "🎭",  desc: "Don't belong, will be found out"    },
+  { id: "lonely",        label: "Lonely",             icon: "🌑",  desc: "Isolated, disconnected"             },
+  { id: "numb",          label: "Numb",               icon: "🧊",  desc: "Disconnected, empty, flat"          },
+  { id: "unmotivated",   label: "Unmotivated",        icon: "🪫",  desc: "No energy, can't start"             },
+  { id: "fine",          label: "I'm Good",           icon: "☀️",  desc: "Optimize & grow"                    },
+];
+
+// ═══════════════════════════════════════════════════════════════
+// EMERGENCY QUICK TOOLS — instant, no-full-session interventions
+// ═══════════════════════════════════════════════════════════════
+const QUICK_TOOLS = [
+  { id: "box",    icon: "▣",  label: "Box Breathing",        time: "2 min", desc: "4-4-4-4. Instant calm.",          type: "breathing", breathe: { inhale: 4, hold: 4, exhale: 4 }, free: true  },
+  { id: "sigh",   icon: "🌬️", label: "Physiological Sigh",   time: "1 min", desc: "Stanford's fastest stress reset.", type: "breathing", breathe: { inhale: 3, hold: 1, exhale: 7 }, free: true  },
+  { id: "ground", icon: "🌿", label: "5-4-3-2-1 Grounding",  time: "3 min", desc: "Stop panic with your senses.",     type: "grounding",                                              free: true  },
+  { id: "defuse", icon: "🧠", label: "Thought Defusion",     time: "2 min", desc: "Detach from a looping thought.",   type: "defusion",                                               free: false },
+  { id: "tipp",   icon: "❄️", label: "TIPP Crisis Skill",    time: "3 min", desc: "DBT's fastest emotion reducer.",   type: "tipp",                                                   free: false },
 ];
 
 // ═══════════════════════════════════════════════════════════════
@@ -248,6 +272,124 @@ const PROTOCOLS = {
         { id: "kindness", label: "Kindness", desc: "Gentleness with yourself and others" },
         { id: "growth", label: "Growth", desc: "Learning and stretching" },
       ], fieldKey: "compass" },
+    ],
+  },
+  burnout: {
+    title: "Burnout Recovery",
+    basis: "Maslach Burnout Framework + ACT + Self-Compassion",
+    icon: "🪨",
+    steps: [
+      { type: "breathing", title: "Nervous System Reset", instruction: "Burnout means your system has been in overdrive for too long without recovery. This exhale-extended pattern activates your body's restoration mode.", breathe: { inhale: 4, hold: 4, exhale: 6 } },
+      { type: "scale", title: "Depletion Level", instruction: "How empty do you feel right now — emotionally, physically, mentally? There's no wrong answer.", fieldKey: "depletion", min: 1, max: 10 },
+      { type: "select", title: "Primary Drain Source", instruction: "Maslach's burnout research identifies 6 root causes. Which fits most?", options: [
+        { id: "workload",    label: "Unsustainable workload",  desc: "Too much, for too long, with no recovery time" },
+        { id: "control",     label: "Lack of control",         desc: "Little say over decisions that affect you" },
+        { id: "recognition", label: "No recognition",          desc: "Your effort goes unseen or unrewarded" },
+        { id: "values",      label: "Values mismatch",         desc: "What you do conflicts with who you are" },
+        { id: "community",   label: "Isolation or conflict",   desc: "Unsupported, disconnected, or surrounded by tension" },
+        { id: "unfair",      label: "Chronic unfairness",      desc: "Rules and expectations don't apply equally" },
+      ], fieldKey: "drainSource" },
+      { type: "input", title: "The Last Time You Felt Restored", instruction: "When did you last feel genuinely replenished — not just 'off' but actually restored? Describe the moment specifically.", placeholder: "e.g., 'That long weekend two summers ago when I turned my phone off...'", fieldKey: "lastRestored" },
+      { type: "input", title: "One Energy Boundary This Week", instruction: "What is one concrete limit you could set in the next 7 days to start protecting your energy?", placeholder: "e.g., 'No work messages after 8pm' or 'I skip the optional Friday meeting'", fieldKey: "boundary" },
+    ],
+  },
+  relationship: {
+    title: "Relationship Reset",
+    basis: "EFT (Emotionally Focused Therapy) + DBT Interpersonal Effectiveness",
+    icon: "💔",
+    steps: [
+      { type: "breathing", title: "De-escalation First", instruction: "Relationship pain activates survival instincts. This pattern moves you from raw reaction to thoughtful response before anything else.", breathe: { inhale: 4, hold: 2, exhale: 8 } },
+      { type: "select", title: "Type of Hurt", instruction: "Which kind of pain is most alive right now?", options: [
+        { id: "conflict",       label: "Active conflict",       desc: "You're in or just had an argument or fight" },
+        { id: "betrayal",       label: "Betrayal or breach",    desc: "Trust was broken in some way" },
+        { id: "neglect",        label: "Feeling unseen",        desc: "Your needs or feelings are being ignored" },
+        { id: "disappointment", label: "Deep disappointment",   desc: "Someone didn't show up the way you needed" },
+        { id: "distance",       label: "Growing distance",      desc: "A slow drift — things feel less close" },
+        { id: "longing",        label: "Missing closeness",     desc: "You want connection with someone who feels far" },
+      ], fieldKey: "hurtType" },
+      { type: "input", title: "The Facts Only", instruction: "Describe what happened using only observable facts. No interpretations. What would a camera have recorded?", placeholder: "e.g., 'They didn't respond for 3 days. When they did, it was one sentence.'", fieldKey: "facts" },
+      { type: "input", title: "What I Actually Need", instruction: "Underneath the hurt — what do you genuinely need from this relationship right now?", placeholder: "e.g., 'To feel like I matter. Consistent communication.'", fieldKey: "need" },
+      { type: "input", title: "One Caring Act for Yourself", instruction: "While this heals, what is one kind thing you can do for yourself today — something that doesn't depend on the other person?", placeholder: "e.g., 'Take a long walk' or 'Call a friend who shows up for me'", fieldKey: "selfCare" },
+    ],
+  },
+  night: {
+    title: "Midnight Reset",
+    basis: "CBT-Insomnia (CBT-I) + ACT Defusion + Somatic Calming",
+    icon: "🌙",
+    steps: [
+      { type: "breathing", title: "4-7-8 Sleep Breath", instruction: "Dr. Andrew Weil's 4-7-8 technique is the fastest method for quieting a racing nighttime mind. The 8-count exhale activates your vagus nerve directly.", breathe: { inhale: 4, hold: 7, exhale: 8 } },
+      { type: "input", title: "Externalize the Spiral", instruction: "Write the exact thought or worry that's looping. Get it out of your head and onto the screen — externalization alone reduces its power significantly.", placeholder: "e.g., 'The presentation. Whether I said something wrong. The email I haven't sent...'", fieldKey: "worry", multiline: true },
+      { type: "select", title: "What Kind of Spiral", instruction: "Knowing the pattern helps break it.", options: [
+        { id: "ruminating", label: "Rehashing the past",       desc: "Replaying conversations or events on loop" },
+        { id: "future",     label: "Dreading tomorrow",        desc: "Catastrophizing about what might go wrong" },
+        { id: "solving",    label: "Problem-solving mode",     desc: "Brain won't stop trying to fix things right now" },
+        { id: "shame",      label: "Shame spiral",             desc: "'Why did I say that...' 'I'm so stupid...'" },
+        { id: "unknown",    label: "Ambient dread",            desc: "Unspecific — just heavy, restless, unsettled" },
+      ], fieldKey: "spiralType" },
+      { type: "input", title: "Permission Sentence", instruction: "Write: 'Tonight, I give myself permission to...' This is about releasing the grip, not solving anything.", placeholder: "e.g., '...not have the answer tonight. Morning will be clearer.'", fieldKey: "permission" },
+      { type: "select", title: "Sleep Anchor Technique", instruction: "Choose one technique to carry into the next few minutes:", options: [
+        { id: "pmr",    label: "Progressive muscle release", desc: "Tense then release each body part, toes to head" },
+        { id: "count",  label: "Reverse counting",           desc: "Count backwards from 300 by 3s — occupies the thinking mind" },
+        { id: "image",  label: "Safe place visualization",   desc: "A vivid, detailed place where you feel completely safe" },
+        { id: "body",   label: "Body scan surrender",        desc: "Notice each part of your body sinking into the mattress" },
+        { id: "senses", label: "Present-moment anchoring",   desc: "Name what you hear, feel, smell right now in the dark" },
+      ], fieldKey: "sleepTechnique" },
+    ],
+  },
+  socialanxiety: {
+    title: "Social Courage Protocol",
+    basis: "CBT-Social Anxiety + Exposure Therapy + Mindful Self-Compassion",
+    icon: "😰",
+    steps: [
+      { type: "breathing", title: "Pre-Event Physiological Reset", instruction: "Social anxiety spikes cortisol and adrenaline. This pattern lowers physiological activation before you face the situation.", breathe: { inhale: 4, hold: 4, exhale: 6 } },
+      { type: "input", title: "The Specific Situation", instruction: "What social situation is triggering this anxiety right now? Be concrete — vague anxiety needs a specific address.", placeholder: "e.g., 'Presenting to the whole team at 3pm today' or 'Partner's family dinner tonight'", fieldKey: "situation" },
+      { type: "select", title: "The Core Fear", instruction: "Social anxiety always guards something deeper. What is it protecting you from?", options: [
+        { id: "judgment",      label: "Being judged negatively",    desc: "They'll think I'm stupid, boring, or not enough" },
+        { id: "rejection",     label: "Rejection",                  desc: "They won't like me, want me there, or include me" },
+        { id: "embarrassment", label: "Embarrassment",              desc: "I'll stumble, go blank, or say something wrong" },
+        { id: "exposure",      label: "Being truly seen",           desc: "If they see the real me, they won't accept it" },
+        { id: "scrutiny",      label: "Being watched and analyzed", desc: "I'll act strange because I know they're observing me" },
+        { id: "conflict",      label: "Conflict or awkwardness",    desc: "Something tense or uncomfortable will happen" },
+      ], fieldKey: "coreFear" },
+      { type: "input", title: "The Evidence Check", instruction: "What actual, concrete evidence do you have that your fear will definitely come true today?", placeholder: "e.g., 'Honestly... none. The last time I presented it went fine.'", fieldKey: "evidence" },
+      { type: "input", title: "Your Courage Statement", instruction: "Complete: 'Even if I feel anxious, I can still ___'", placeholder: "e.g., '...show up, be present, and be myself. I don't have to be perfect.'", fieldKey: "courage" },
+    ],
+  },
+  imposter: {
+    title: "Inner Critic Reset",
+    basis: "CBT + ACT Defusion + Self-Compassion Research (Kristin Neff)",
+    icon: "🎭",
+    steps: [
+      { type: "scale", title: "Imposter Intensity", instruction: "How loudly is the inner critic speaking right now?", fieldKey: "intensity", min: 1, max: 10 },
+      { type: "input", title: "What Triggered This", instruction: "Something activated this feeling. What happened — a comment, a comparison, a new responsibility, a success that felt undeserved?", placeholder: "e.g., 'My manager just gave me a bigger project and I immediately felt terrified I'd be exposed'", fieldKey: "trigger" },
+      { type: "select", title: "The Inner Critic's Loudest Line", instruction: "Which thought is repeating the most?", options: [
+        { id: "deserve",   label: "I don't deserve this",           desc: "This role, success, or recognition isn't rightfully mine" },
+        { id: "fraud",     label: "They'll find out I'm a fraud",   desc: "It's only a matter of time before I'm exposed" },
+        { id: "qualified", label: "Everyone else is more qualified", desc: "I'm the least capable person in this room" },
+        { id: "lucky",     label: "I just got lucky",               desc: "My results aren't real skill — just circumstance" },
+        { id: "belong",    label: "I don't belong here",            desc: "This world, room, or level isn't for someone like me" },
+      ], fieldKey: "criticLine" },
+      { type: "input", title: "One Concrete Piece of Evidence Against It", instruction: "Name one specific, undeniable piece of evidence that you DO belong here — a real skill, result, or moment that was entirely yours.", placeholder: "e.g., 'I built the entire reporting system from scratch with no guidance. That was real.'", fieldKey: "evidence" },
+      { type: "input", title: "The Compassion Redirect", instruction: "If your closest friend said those exact words about themselves, what would you say back to them?", placeholder: "e.g., 'You worked incredibly hard for this. The results speak for themselves.'", fieldKey: "compassion" },
+    ],
+  },
+  grief: {
+    title: "Grief Protocol",
+    basis: "Complicated Grief Treatment + Meaning-Making Therapy + Polyvagal",
+    icon: "🕊️",
+    steps: [
+      { type: "breathing", title: "Space for What's Here", instruction: "Grief asks to be held, not fixed or rushed. This rhythm helps you stay present with what's real without being swept away by it.", breathe: { inhale: 4, hold: 3, exhale: 5 } },
+      { type: "select", title: "The Nature of This Loss", instruction: "What kind of loss is most alive right now?", options: [
+        { id: "person",       label: "A person — death",          desc: "Someone has died or is dying" },
+        { id: "relationship", label: "A relationship",            desc: "A partnership, friendship, or connection that ended" },
+        { id: "identity",     label: "A version of yourself",     desc: "Who you were before — a role, life chapter, or belief" },
+        { id: "future",       label: "A future you imagined",     desc: "Plans, hopes, or possibilities that won't happen now" },
+        { id: "health",       label: "Health or ability",         desc: "A body, capacity, or wellness that has changed" },
+        { id: "place",        label: "A place or sense of home",  desc: "Somewhere you belonged that's gone or different now" },
+      ], fieldKey: "lossType" },
+      { type: "input", title: "What You Miss Most", instruction: "What is the ONE thing you miss most? Be specific and honest — grief honors specificity.", placeholder: "e.g., 'The way she laughed at her own jokes before the punchline even came'", fieldKey: "missing" },
+      { type: "input", title: "What Still Lives in You", instruction: "What did this person, relationship, or chapter of life give you that still lives inside you today?", placeholder: "e.g., 'The belief that I'm capable of being deeply loved. She showed me that.'", fieldKey: "legacy" },
+      { type: "input", title: "One Act of Honoring", instruction: "What is one small, meaningful thing you could do today to honor this loss — not to move past it, but to acknowledge it?", placeholder: "e.g., 'Write a letter I won't send' or 'Visit the place we used to go'", fieldKey: "honoring" },
     ],
   },
 };
@@ -443,10 +585,65 @@ function generateFallbackInsight(emotion, responses, protocol) {
       out += "\n\nDo your micro-habit right now. Two minutes. Go.";
       return out;
     },
+    burnout: (r) => {
+      let out = "Burnout isn't weakness — it's what happens when a capable, caring person gives more than they receive for too long. Maslach's research shows burnout has a root cause, and you just identified yours.";
+      if (r.drainSource) out += `\n\nYour primary drain: ${r.drainSource.label?.toLowerCase()}. This is key. Burnout recovery isn't just rest — it's addressing the source. Rest without structural change leads to re-burnout.`;
+      if (r.boundary) out += `\n\nYour chosen boundary — "${r.boundary}" — is where recovery actually begins. Boundaries aren't selfish. They're what make sustained contribution possible. Honor it this week. Your future energy depends on it.`;
+      return out;
+    },
+    relationship: (r) => {
+      let out = "Relationship pain is one of the most physiologically activating experiences humans have — your nervous system treats social threat the same as physical danger. You handled it well by separating facts from interpretation.";
+      if (r.need) out += `\n\nWhat you actually need: "${r.need}" — that's the real conversation waiting to happen. DBT Interpersonal Effectiveness teaches that most relationship conflicts are fundamentally about unmet needs, not the surface argument.`;
+      if (r.selfCare) out += `\n\nYour self-care plan: "${r.selfCare}". Do it before you try to resolve anything. You can't pour from empty, and you can't communicate clearly from activation.`;
+      return out;
+    },
+    night: (r) => {
+      let out = "3AM thoughts have a particular cruelty — they feel more real and more catastrophic than they actually are. This is because the prefrontal cortex (your rational mind) is less active at night, leaving your amygdala in charge.";
+      if (r.worry) out += `\n\nYou wrote: "${r.worry?.slice(0,80)}${r.worry?.length > 80 ? "..." : ""}". That's now on the screen, not just in your head. CBT-Insomnia research shows that externalizing 3AM thoughts reduces their grip within minutes.`;
+      if (r.permission) out += `\n\nYour permission: "${r.permission}". Say it out loud, once, and mean it. You don't have to solve tonight's problems tonight.`;
+      out += "\n\nNow: do your chosen sleep technique. Give it 10 full minutes before evaluating whether it worked.";
+      return out;
+    },
+    socialanxiety: (r) => {
+      let out = "Social anxiety runs on prediction — your brain generates a worst-case social scenario and treats it as fact before anything has happened. CBT research shows this prediction is wrong the vast majority of the time.";
+      if (r.evidence) out += `\n\nYour evidence check: "${r.evidence}". That's the most powerful tool in this entire protocol. When you search for evidence and find little or none, you're doing cognitive restructuring in real time.`;
+      if (r.courage) out += `\n\n"${r.courage}" — hold onto that. Courage in social anxiety isn't the absence of fear. It's moving toward the situation while the fear is still present. Every time you do that, you're rewiring your threat response.`;
+      return out;
+    },
+    imposter: (r) => {
+      let out = `Your inner critic is running at ${r.intensity || "high"}/10. That's information, not truth. Imposter syndrome is extraordinarily common among high-achievers — Pauline Clance's research found it affects up to 70% of successful people.`;
+      if (r.evidence) out += `\n\nYour concrete evidence: "${r.evidence}". Read that again slowly. That is real. That is yours. No one can take that away from the narrative. ACT defusion asks you to hold the imposter thought AND the evidence simultaneously — both can be true.`;
+      if (r.compassion) out += `\n\nWhat you'd say to a friend: "${r.compassion}". Now say it to yourself — with the same warmth and certainty. Kristin Neff's self-compassion research shows this single shift is more effective than self-esteem work.`;
+      return out;
+    },
+    grief: (r) => {
+      let out = "Grief is not a problem to solve or a stage to pass through quickly. It's a testimony to how much something mattered. The intensity of grief is proportional to the depth of love or attachment — it's not weakness.";
+      if (r.missing) out += `\n\n"${r.missing}" — that specificity matters. Grief therapists call this 'continuing bonds' — the relationship doesn't end with the loss. The love continues in the specific memories you carry.`;
+      if (r.legacy) out += `\n\n"${r.legacy}" — this is meaning-making. Viktor Frankl showed that even in unimaginable loss, humans find meaning — and that meaning becomes the bridge between grief and living forward.`;
+      if (r.honoring) out += `\n\nYour act of honoring: "${r.honoring}". Do it. Rituals of remembrance are one of the most powerful tools in grief processing. You don't have to rush forward.`;
+      return out;
+    },
   };
+
 
   const fn = emotionInsights[emotion];
   return fn ? fn(responses) : "Session complete. Reflect on what you wrote — your own words contain more wisdom than you might realize.";
+}
+
+// Intelligent fallback for AI chat follow-ups
+function generateChatFallback(emotion, responses, userMessage) {
+  const msg = userMessage.toLowerCase();
+  if (msg.includes("why") && (msg.includes("feel") || msg.includes("this") || msg.includes("happen")))
+    return `What you're experiencing makes complete sense given what you shared. The ${emotion} you're feeling is a natural signal — your brain flagging something important. The work isn't to eliminate the feeling, but to listen to what it's trying to tell you without being controlled by it. What does it feel like it's pointing toward?`;
+  if (msg.includes("what should i do") || msg.includes("what do i do") || msg.includes("what now") || msg.includes("next"))
+    return `Based on your session, the most important next step is the concrete action you identified. The research is clear: doing something small — even imperfectly — rewires neural pathways faster than thinking about doing it. What would it take to start that in the next 10 minutes?`;
+  if (msg.includes("doesn't work") || msg.includes("not working") || msg.includes("still feel") || msg.includes("not better"))
+    return `That's honest and important. These tools work over time and with repetition — not always in a single session. What you're doing by showing up is itself therapeutic. If this persists or intensifies, please reach out to a professional. You can also text HOME to 741741 anytime. Are there any specific parts of the session that resonated, even a little?`;
+  if (msg.includes("more about") || msg.includes("explain") || msg.includes("tell me"))
+    return `The protocol you completed draws from clinically validated therapy — the same approaches used in professional settings. The breathing came first because emotional processing is almost impossible when you're physiologically activated. We worked with the cognitive layer next, then the behavioral. Which part would you like to go deeper on?`;
+  if (msg.includes("thank") || msg.includes("feel better") || msg.includes("helped") || msg.includes("good"))
+    return `That means a lot. The real work is yours — you showed up, engaged honestly, and sat with something difficult. That takes real courage. Come back whenever you need to reset. You've genuinely got this.`;
+  return `That's worth exploring. What you're noticing — "${userMessage.slice(0, 60)}${userMessage.length > 60 ? "..." : ""}" — shows real self-awareness. The fact that you can observe this pattern in yourself is significant. What feels most true about it right now?`;
 }
 
 // WebLLM Engine Manager
@@ -593,6 +790,223 @@ Provide a personalized, evidence-based reflection and one actionable insight usi
         </div>
       ) : (
         <div style={{ fontSize: 15, lineHeight: 1.8, color: theme.text, whiteSpace: "pre-wrap" }}>{insight}</div>
+      )}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SHARE CARD — Viral sharing after session (free feature)
+// ═══════════════════════════════════════════════════════════════
+function ShareCard({ emotion, protocol, insight, theme }) {
+  const [copied, setCopied] = useState(false);
+  const e = EMOTIONS.find(x => x.id === emotion);
+  const snippet = insight ? insight.split('\n')[0].slice(0, 180) : `Just completed a ${protocol?.title} session using ${protocol?.basis}.`;
+  const cardText = `${e?.icon} I just processed "${e?.label?.toLowerCase()}" with AIForj\n\n"${snippet}"\n\n— Evidence-based wellness, free at aiforj.com`;
+  const copy = () => {
+    navigator.clipboard.writeText(cardText).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); }).catch(() => {});
+  };
+  return (
+    <div style={{ background: theme.subtle, borderRadius: 20, padding: 20, marginBottom: 20, border: `1px solid rgba(${theme.breathe},0.12)` }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+        <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 2, color: theme.accent, fontWeight: 600 }}>Share Your Session</span>
+        <button onClick={copy} style={{ padding: "6px 16px", fontSize: 12, fontFamily: "'DM Sans', sans-serif", background: copied ? theme.accent : "transparent", color: copied ? theme.bg : theme.accent, border: `1px solid ${theme.accent}`, borderRadius: 20, cursor: "pointer", transition: "all 0.3s" }}>
+          {copied ? "✓ Copied!" : "Copy to Share"}
+        </button>
+      </div>
+      <div style={{ padding: "14px 18px", background: theme.card, borderRadius: 14, fontSize: 13, lineHeight: 1.7, color: theme.text, backdropFilter: "blur(10px)", fontStyle: "italic", opacity: 0.85 }}>
+        "{snippet.slice(0, 120)}{snippet.length > 120 ? "..." : ""}"
+        <span style={{ display: "block", marginTop: 6, fontSize: 11, color: theme.accent, opacity: 0.6, fontStyle: "normal" }}>— aiforj.com · free evidence-based wellness</span>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// QUICK TOOL MODAL — instant interventions
+// ═══════════════════════════════════════════════════════════════
+function QuickToolModal({ tool, theme, isPremium, onUpgrade, onClose }) {
+  const [gtStep, setGtStep] = useState(0);
+  const [gtInput, setGtInput] = useState("");
+  const [defuseInput, setDefuseInput] = useState("");
+  const [defuseReframe, setDefuseReframe] = useState("");
+  const [defuseStep, setDefuseStep] = useState(0);
+  const [breathDone, setBreathDone] = useState(false);
+  const [done, setDone] = useState(false);
+  const GROUNDING = [
+    { count: 5, sense: "SEE",   icon: "👁️",  prompt: "Look around. Name 5 things you can see right now." },
+    { count: 4, sense: "FEEL",  icon: "🤲", prompt: "Notice your body. Name 4 things you can physically feel." },
+    { count: 3, sense: "HEAR",  icon: "👂", prompt: "Go still. Name 3 sounds you can hear right now." },
+    { count: 2, sense: "SMELL", icon: "👃", prompt: "Take a breath. Name 2 things you can smell." },
+    { count: 1, sense: "TASTE", icon: "👅", prompt: "Name 1 thing you can taste — or deeply want to." },
+  ];
+  const overlay = { position: "fixed", inset: 0, background: "rgba(0,0,0,0.55)", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000, padding: 24, animation: "fadeIn 0.3s ease" };
+  const box = { background: theme.bg, borderRadius: 24, padding: "36px 28px", maxWidth: 460, width: "100%", boxShadow: "0 24px 80px rgba(0,0,0,0.18)", maxHeight: "90vh", overflowY: "auto" };
+  const btn = (active) => ({ marginTop: 12, padding: "14px", width: "100%", background: active ? theme.text : `rgba(${theme.breathe},0.15)`, color: active ? theme.bg : `rgba(${theme.breathe},0.4)`, border: "none", borderRadius: 50, cursor: active ? "pointer" : "not-allowed", fontFamily: "'DM Sans', sans-serif", fontSize: 14 });
+
+  if (!isPremium && !tool.free) {
+    return (
+      <div style={overlay} onClick={onClose}>
+        <div onClick={e => e.stopPropagation()} style={{ ...box, textAlign: "center" }}>
+          <span style={{ fontSize: 40, display: "block", marginBottom: 12 }}>{tool.icon}</span>
+          <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, fontWeight: 400, color: theme.text, margin: "0 0 8px" }}>{tool.label}</h3>
+          <p style={{ fontSize: 14, color: theme.accent, margin: "0 0 24px", lineHeight: 1.6 }}>{tool.desc}</p>
+          <button onClick={onUpgrade} style={{ padding: "14px 36px", background: `linear-gradient(135deg, ${theme.accent}, ${theme.text})`, color: theme.bg, border: "none", borderRadius: 50, cursor: "pointer", fontSize: 14, fontFamily: "'DM Sans', sans-serif", fontWeight: 500, width: "100%" }}>✦ Unlock with Premium</button>
+          <button onClick={onClose} style={{ marginTop: 12, background: "none", border: "none", color: theme.accent, cursor: "pointer", fontSize: 13, fontFamily: "'DM Sans', sans-serif", opacity: 0.6 }}>Maybe later</button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={overlay}>
+      <div style={box}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
+          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 20, fontWeight: 400, color: theme.text }}>{tool.icon} {tool.label}</span>
+          <button onClick={onClose} style={{ background: "none", border: "none", fontSize: 22, color: theme.accent, cursor: "pointer", opacity: 0.5 }}>×</button>
+        </div>
+
+        {done ? (
+          <div style={{ textAlign: "center", padding: "24px 0" }}>
+            <span style={{ fontSize: 52, display: "block", marginBottom: 16 }}>✓</span>
+            <p style={{ fontSize: 16, color: theme.text, marginBottom: 8 }}>Done. Notice how you feel.</p>
+            <p style={{ fontSize: 13, color: theme.accent, opacity: 0.7, lineHeight: 1.6 }}>{tool.id === "ground" ? "You just pulled your nervous system into the present moment. Anxiety can't survive there." : "Your nervous system just got a deliberate reset."}</p>
+            <button onClick={onClose} style={{ ...btn(true), marginTop: 20 }}>Close</button>
+          </div>
+        ) : tool.type === "breathing" ? (
+          <>
+            <p style={{ fontSize: 14, color: theme.accent, lineHeight: 1.7, marginBottom: 24 }}>{tool.id === "box" ? "Box breathing (4-4-4-4) is used by Navy SEALs and surgeons before high-stakes moments. It creates a measurable physiological state change in under 2 minutes." : "The physiological sigh — discovered at Stanford — is the fastest known way to reduce real-time stress. The double inhale fully inflates the lungs; the long exhale triggers the vagus nerve."}</p>
+            <BreathingExercise config={tool.breathe} onComplete={() => setDone(true)} theme={theme} />
+          </>
+        ) : tool.type === "grounding" ? (
+          gtStep < GROUNDING.length ? (
+            <>
+              <div style={{ textAlign: "center", marginBottom: 24 }}>
+                <span style={{ fontSize: 42, display: "block", marginBottom: 10 }}>{GROUNDING[gtStep].icon}</span>
+                <p style={{ fontSize: 16, color: theme.text, fontFamily: "'Playfair Display', serif", fontStyle: "italic", margin: 0 }}>{GROUNDING[gtStep].prompt}</p>
+                <div style={{ display: "flex", gap: 6, justifyContent: "center", marginTop: 12 }}>
+                  {GROUNDING.map((_, i) => <div key={i} style={{ width: 7, height: 7, borderRadius: "50%", background: i <= gtStep ? theme.accent : `rgba(${theme.breathe},0.2)`, transition: "all 0.3s" }} />)}
+                </div>
+              </div>
+              <textarea value={gtInput} onChange={e => setGtInput(e.target.value)} rows={3} placeholder={`List ${GROUNDING[gtStep].count} things...`} style={{ width: "100%", padding: 16, fontSize: 14, border: `1px solid rgba(${theme.breathe},0.15)`, borderRadius: 14, background: theme.card, color: theme.text, resize: "none", lineHeight: 1.6, fontFamily: "'DM Sans', sans-serif" }} />
+              <button onClick={() => { setGtInput(""); setGtStep(s => s + 1); }} disabled={!gtInput.trim()} style={btn(!!gtInput.trim())}>{gtStep < GROUNDING.length - 1 ? "Next →" : "Complete"}</button>
+            </>
+          ) : (
+            <div style={{ textAlign: "center", padding: "24px 0" }}>
+              <span style={{ fontSize: 52, display: "block", marginBottom: 16 }}>🌿</span>
+              <p style={{ fontSize: 16, color: theme.text, marginBottom: 8 }}>Grounding complete.</p>
+              <p style={{ fontSize: 13, color: theme.accent, lineHeight: 1.6 }}>You activated your prefrontal cortex through sensory presence. Panic and rumination can't coexist with this kind of awareness.</p>
+              <button onClick={onClose} style={btn(true)}>Close</button>
+            </div>
+          )
+        ) : tool.type === "defusion" ? (
+          defuseStep === 0 ? (
+            <>
+              <p style={{ fontSize: 14, color: theme.accent, lineHeight: 1.7, marginBottom: 20 }}>ACT defusion separates you from your thoughts. You are not your thoughts — you are the observer of them. This simple reframe changes a thought from a command into just... a thought.</p>
+              <p style={{ fontSize: 14, color: theme.text, marginBottom: 10, fontWeight: 500 }}>What thought is looping?</p>
+              <input type="text" value={defuseInput} onChange={e => setDefuseInput(e.target.value)} placeholder="e.g., 'I'm going to fail'" style={{ width: "100%", padding: "14px 16px", fontSize: 14, border: `1px solid rgba(${theme.breathe},0.15)`, borderRadius: 14, background: theme.card, color: theme.text, fontFamily: "'DM Sans', sans-serif" }} />
+              <button onClick={() => setDefuseStep(1)} disabled={!defuseInput.trim()} style={btn(!!defuseInput.trim())}>Continue</button>
+            </>
+          ) : (
+            <>
+              <div style={{ background: theme.card, borderRadius: 14, padding: 16, marginBottom: 20, backdropFilter: "blur(10px)" }}>
+                <p style={{ fontSize: 11, color: theme.accent, margin: "0 0 6px", textTransform: "uppercase", letterSpacing: 1 }}>Defused version</p>
+                <p style={{ fontSize: 16, color: theme.text, margin: 0, fontStyle: "italic" }}>"I notice I'm having the thought that {defuseInput.toLowerCase().replace(/^(i'm|i am)\s/i, "")}"</p>
+              </div>
+              <p style={{ fontSize: 14, color: theme.accent, lineHeight: 1.7, marginBottom: 16 }}>Say it out loud. Notice how distance appears between you and the thought. The thought is still there — but now you're observing it, not drowning in it.</p>
+              <p style={{ fontSize: 14, color: theme.text, marginBottom: 10, fontWeight: 500 }}>What will you do despite this thought?</p>
+              <input type="text" value={defuseReframe} onChange={e => setDefuseReframe(e.target.value)} placeholder="e.g., 'Prepare my best and show up anyway'" style={{ width: "100%", padding: "14px 16px", fontSize: 14, border: `1px solid rgba(${theme.breathe},0.15)`, borderRadius: 14, background: theme.card, color: theme.text, fontFamily: "'DM Sans', sans-serif" }} />
+              <button onClick={() => setDone(true)} disabled={!defuseReframe.trim()} style={btn(!!defuseReframe.trim())}>Complete</button>
+            </>
+          )
+        ) : tool.type === "tipp" ? (
+          <div>
+            <p style={{ fontSize: 14, color: theme.accent, lineHeight: 1.7, marginBottom: 20 }}>TIPP is DBT's fastest skill for reducing intense emotional activation. It works by changing your body chemistry directly — no thinking required.</p>
+            {[
+              { letter: "T", title: "Temperature", icon: "❄️", desc: "Splash cold water on your face or hold ice for 30 seconds. This triggers the mammalian dive reflex — heart rate drops immediately." },
+              { letter: "I", title: "Intense Exercise", icon: "⚡", desc: "60 seconds of jumping jacks or running in place right now. Intense physical action burns the adrenaline driving your emotion." },
+              { letter: "P", title: "Paced Breathing", icon: "🌬️", desc: "Inhale 4, exhale 8. Repeat 5 times. The longer exhale activates your parasympathetic nervous system within minutes." },
+              { letter: "P", title: "Paired Muscle Relaxation", icon: "🤲", desc: "On each exhale, consciously release one body part — jaw first, then shoulders, chest, hands. Tension + deliberate release retrains your nervous system." },
+            ].map((s, i) => (
+              <div key={i} style={{ display: "flex", gap: 16, padding: "14px 0", borderBottom: i < 3 ? `1px solid rgba(${theme.breathe},0.1)` : "none" }}>
+                <div style={{ width: 34, height: 34, borderRadius: "50%", background: theme.accent, display: "flex", alignItems: "center", justifyContent: "center", color: theme.bg, fontSize: 14, fontWeight: 700, flexShrink: 0 }}>{s.letter}</div>
+                <div>
+                  <div style={{ fontSize: 14, fontWeight: 500, color: theme.text, marginBottom: 4 }}>{s.icon} {s.title}</div>
+                  <div style={{ fontSize: 13, color: theme.accent, lineHeight: 1.6 }}>{s.desc}</div>
+                </div>
+              </div>
+            ))}
+            <button onClick={onClose} style={{ ...btn(true), marginTop: 20 }}>Got it — I'll do this now</button>
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// AI COMPANION CHAT — post-session conversation (premium)
+// ═══════════════════════════════════════════════════════════════
+function AIChat({ emotion, responses, protocol, theme, webllm }) {
+  const [messages, setMessages] = useState([{ role: "assistant", content: `I've reviewed your ${protocol?.title} session. What's coming up for you — any questions, or something you'd like to go deeper on?` }]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const bottomRef = useRef(null);
+  const MAX = 10;
+
+  const sessionContext = Object.entries(responses).map(([key, val]) => {
+    const step = protocol?.steps.find(s => s.fieldKey === key);
+    const display = typeof val === "object" ? val.label : val;
+    return step ? `${step.title}: ${display}` : "";
+  }).filter(Boolean).join("\n");
+
+  const send = async () => {
+    if (!input.trim() || loading || messages.length >= MAX) return;
+    const userMsg = { role: "user", content: input.trim() };
+    const next = [...messages, userMsg];
+    setMessages(next); setInput(""); setLoading(true);
+    let reply = null;
+    if (webllm?.status === "ready") {
+      const sysPrompt = `${CLINICAL_SYSTEM_PROMPT}\n\nContext: User completed ${protocol?.title} (${protocol?.basis}) for ${emotion}.\nSession:\n${sessionContext}\n\nYou are in a follow-up chat. Be warm, focused, under 120 words.`;
+      reply = await webllm.generate(sysPrompt, next.map(m => `${m.role}: ${m.content}`).join("\n\n"));
+    }
+    if (!reply) reply = generateChatFallback(emotion, responses, userMsg.content);
+    setMessages([...next, { role: "assistant", content: reply }]);
+    setLoading(false);
+  };
+
+  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages, loading]);
+  const remaining = Math.floor((MAX - messages.length) / 2);
+
+  return (
+    <div style={{ background: theme.subtle, borderRadius: 20, padding: 24, marginTop: 20, border: `1px solid rgba(${theme.breathe},0.12)` }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ fontSize: 16 }}>💬</span>
+          <span style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: 2, color: theme.accent, fontWeight: 600 }}>Continue the Conversation ✦</span>
+        </div>
+        {remaining > 0 && <span style={{ fontSize: 11, color: theme.accent, opacity: 0.5 }}>{remaining} exchange{remaining !== 1 ? "s" : ""} left</span>}
+      </div>
+      <div style={{ maxHeight: 300, overflowY: "auto", display: "flex", flexDirection: "column", gap: 10, marginBottom: 14 }}>
+        {messages.map((m, i) => (
+          <div key={i} style={{ display: "flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start" }}>
+            <div style={{ maxWidth: "85%", padding: "11px 16px", borderRadius: m.role === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px", background: m.role === "user" ? theme.text : theme.card, color: m.role === "user" ? theme.bg : theme.text, fontSize: 14, lineHeight: 1.6, backdropFilter: "blur(10px)" }}>{m.content}</div>
+          </div>
+        ))}
+        {loading && (
+          <div style={{ display: "flex", gap: 4, padding: "11px 16px", background: theme.card, borderRadius: "16px 16px 16px 4px", width: 60 }}>
+            {[0, 1, 2].map(i => <div key={i} style={{ width: 6, height: 6, borderRadius: "50%", background: theme.accent, animation: `pulse 1s infinite ${i * 0.2}s` }} />)}
+          </div>
+        )}
+        <div ref={bottomRef} />
+      </div>
+      {messages.length < MAX ? (
+        <div style={{ display: "flex", gap: 8 }}>
+          <input type="text" value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => { if (e.key === "Enter" && !loading) send(); }} placeholder="Ask a follow-up question..." style={{ flex: 1, padding: "11px 16px", fontSize: 14, border: `1px solid rgba(${theme.breathe},0.15)`, borderRadius: 50, background: theme.card, color: theme.text, fontFamily: "'DM Sans', sans-serif" }} />
+          <button onClick={send} disabled={!input.trim() || loading} style={{ padding: "11px 20px", background: input.trim() && !loading ? theme.text : `rgba(${theme.breathe},0.15)`, color: input.trim() && !loading ? theme.bg : `rgba(${theme.breathe},0.4)`, border: "none", borderRadius: 50, cursor: input.trim() && !loading ? "pointer" : "not-allowed", fontSize: 14, fontFamily: "'DM Sans', sans-serif" }}>Send</button>
+        </div>
+      ) : (
+        <p style={{ fontSize: 13, color: theme.accent, opacity: 0.6, textAlign: "center", margin: 0 }}>Session complete. Consider journaling these insights for deeper reflection.</p>
       )}
     </div>
   );
@@ -799,13 +1213,15 @@ export default function AIForj() {
   const [isPremium, setIsPremium] = useState(false);
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [selectedQuickTool, setSelectedQuickTool] = useState(null);
+  const [showQuickTool, setShowQuickTool] = useState(false);
 
   const webllm = useWebLLM();
   const theme = COLOR_THEMES[emotion] || COLOR_THEMES.default;
   const protocol = emotion ? PROTOCOLS[emotion] : null;
   const currentStep = protocol?.steps[step];
 
-  // Load persisted data on mount
+  // Load persisted data on mount + handle URL params for deep-linking
   useEffect(() => {
     (async () => {
       const saved = await Storage.get("sessions");
@@ -814,6 +1230,33 @@ export default function AIForj() {
       if (prem) setIsPremium(true);
       setDataLoaded(true);
     })();
+
+    // Read ?tool= and ?start= URL params to auto-launch quick tools or emotions
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const toolId = params.get("tool");
+      const startId = params.get("start");
+      if (toolId) {
+        const found = QUICK_TOOLS.find((t) => t.id === toolId);
+        if (found) {
+          setSelectedQuickTool(found);
+          setShowQuickTool(true);
+        }
+      } else if (startId) {
+        const validEmotion = EMOTIONS.find((e) => e.id === startId);
+        if (validEmotion) {
+          setEmotion(startId);
+          setScreen("session");
+          setStep(0);
+          setResponses({});
+          setInputVal("");
+          setSelected(null);
+          setScaleVal(5);
+          setBreathDone(false);
+          setFadeKey((k) => k + 1);
+        }
+      }
+    }
   }, []);
 
   // Persist sessions
@@ -893,23 +1336,23 @@ export default function AIForj() {
           fontSize: 20, color: theme.accent, cursor: "pointer", opacity: 0.5,
         }}>×</button>
 
-        <div style={{ textAlign: "center", marginBottom: 24 }}>
+        <div style={{ textAlign: "center", marginBottom: 20 }}>
           <span style={{ fontSize: 36, display: "block", marginBottom: 8 }}>✦</span>
-          <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 400, color: theme.text, margin: "0 0 8px" }}>
+          <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 400, color: theme.text, margin: "0 0 6px" }}>
             AIForj Premium
           </h3>
-          <p style={{ fontSize: 14, color: theme.accent, opacity: 0.7, margin: 0, lineHeight: 1.5 }}>
-            Your personal mental wellness system.
+          <p style={{ fontSize: 13, color: theme.accent, opacity: 0.7, margin: "0 0 10px", lineHeight: 1.5 }}>
+            Your personal mental wellness co-pilot.
           </p>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 24 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 20 }}>
           {[
-            { icon: "🧠", title: "AI Personalized Insights", desc: "Deep analysis of your patterns using your own words — powered by private, on-device AI" },
+            { icon: "🧠", title: "AI Personalized Insights", desc: "Deep analysis of your session using your own words — private, on-device AI" },
+            { icon: "💬", title: "AI Chat Co-Pilot", desc: "Continue the conversation after any session — ask questions, go deeper, get answers" },
             { icon: "📊", title: "Mood Analytics Dashboard", desc: "Track emotional patterns, streaks, and progress over time" },
-            { icon: "📓", title: "Daily Guided Journal", desc: "Clinician-crafted prompts for deeper self-reflection" },
-            { icon: "📋", title: "Full Session History", desc: "Review and reflect on all past sessions with persistent storage" },
-            { icon: "🔓", title: "Advanced Protocols", desc: "Extended therapeutic flows with deeper interventions" },
+            { icon: "📓", title: "Daily Guided Journal", desc: "20 clinician-crafted prompts for deeper self-reflection" },
+            { icon: "🛡️", title: "Advanced DBT Crisis Tools", desc: "Thought Defusion + TIPP skill — DBT's most powerful emotion regulators" },
             { icon: "🔒", title: "Complete Privacy", desc: "AI runs entirely on your device — your thoughts never leave your browser" },
           ].map((f) => (
             <div key={f.title} style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "10px 14px", background: theme.subtle, borderRadius: 14 }}>
@@ -929,9 +1372,9 @@ export default function AIForj() {
             color: theme.bg, border: "none", borderRadius: 50,
             cursor: "pointer", letterSpacing: 0.5, width: "100%", marginBottom: 8, fontWeight: 500,
           }}>
-            Start Premium — $9.99/month
+            Start My 7-Day Free Trial
           </button>
-          <p style={{ fontSize: 11, color: theme.accent, opacity: 0.4, margin: "8px 0 0" }}>Cancel anytime. 7-day free trial. Your wellness, your terms.</p>
+          <p style={{ fontSize: 11, color: theme.accent, opacity: 0.4, margin: "8px 0 0" }}>Then $9.99/month. Cancel anytime. No commitment.</p>
         </div>
       </div>
     </div>
@@ -961,6 +1404,15 @@ export default function AIForj() {
       }} />
 
       {showUpgrade && <PremiumModal />}
+      {showQuickTool && selectedQuickTool && (
+        <QuickToolModal
+          tool={selectedQuickTool}
+          theme={theme}
+          isPremium={isPremium}
+          onUpgrade={() => { setShowQuickTool(false); setShowUpgrade(true); }}
+          onClose={() => setShowQuickTool(false)}
+        />
+      )}
 
       {/* WebLLM loading indicator for premium users */}
       {isPremium && webllm.status === "loading" && (
@@ -979,9 +1431,8 @@ export default function AIForj() {
 
       {/* Header */}
       <header style={{ padding: "24px 28px", display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 10 }}>
-        <div onClick={reset} style={{ cursor: "pointer", display: "flex", alignItems: "baseline", gap: 1 }}>
-          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 500, color: theme.text }}>AI</span>
-          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 500, color: theme.accent }}>Forj</span>
+        <div onClick={reset} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}>
+          <img src="/aif.jpeg" alt="AIForj" style={{ height: 90, width: "auto", borderRadius: 12, boxShadow: "0 4px 18px rgba(0,0,0,0.12)", transition: "transform 0.2s ease", display: "block" }} onMouseEnter={e => e.currentTarget.style.transform="scale(1.04)"} onMouseLeave={e => e.currentTarget.style.transform="scale(1)"} />
           {isPremium && <span style={{ fontSize: 9, marginLeft: 6, padding: "2px 8px", background: theme.accent, color: theme.bg, borderRadius: 10, fontWeight: 600, letterSpacing: 1, textTransform: "uppercase", fontFamily: "'DM Sans', sans-serif" }}>PRO</span>}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
@@ -1020,7 +1471,7 @@ export default function AIForj() {
       {/* ─── HOME ─── */}
       {screen === "home" && (
         <div key={fadeKey} style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "calc(100vh - 80px)", padding: "0 24px 80px", animation: "fadeIn 0.8s ease" }}>
-          <div style={{ textAlign: "center", maxWidth: 560, marginBottom: 48 }}>
+          <div style={{ textAlign: "center", maxWidth: 560, marginBottom: 40 }}>
             <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(30px, 5vw, 44px)", fontWeight: 400, color: theme.text, margin: "0 0 14px", lineHeight: 1.2, letterSpacing: -0.5 }}>
               How do you feel<br />right now?
             </h1>
@@ -1047,7 +1498,33 @@ export default function AIForj() {
             ))}
           </div>
 
-          <div style={{ marginTop: 56, textAlign: "center", maxWidth: 480 }}>
+          {/* Quick Tools Row */}
+          <div style={{ width: "100%", maxWidth: 700, marginTop: 32 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+              <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 2, color: theme.accent, fontWeight: 600, opacity: 0.7 }}>Quick Tools</span>
+              <span style={{ fontSize: 11, color: theme.accent, opacity: 0.4 }}>— instant interventions, no session needed</span>
+            </div>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {QUICK_TOOLS.map((tool) => (
+                <button key={tool.id} onClick={() => { setSelectedQuickTool(tool); setShowQuickTool(true); }} style={{
+                  display: "flex", alignItems: "center", gap: 8, padding: "10px 16px",
+                  background: theme.card, border: `1px solid rgba(${theme.breathe},0.08)`,
+                  borderRadius: 30, cursor: "pointer", transition: "all 0.2s", backdropFilter: "blur(10px)",
+                  fontFamily: "'DM Sans', sans-serif",
+                }}
+                onMouseEnter={el => { el.currentTarget.style.background = `rgba(${theme.breathe},0.1)`; el.currentTarget.style.transform = "translateY(-1px)"; }}
+                onMouseLeave={el => { el.currentTarget.style.background = theme.card; el.currentTarget.style.transform = "translateY(0)"; }}
+                >
+                  <span style={{ fontSize: 16 }}>{tool.icon}</span>
+                  <span style={{ fontSize: 13, fontWeight: 500, color: theme.text }}>{tool.label}</span>
+                  <span style={{ fontSize: 11, color: theme.accent, opacity: 0.5 }}>{tool.time}</span>
+                  {!tool.free && <span style={{ fontSize: 10, padding: "2px 6px", background: theme.accent, color: theme.bg, borderRadius: 8, fontWeight: 600 }}>PRO</span>}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ marginTop: 48, textAlign: "center", maxWidth: 480 }}>
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8, marginBottom: 16 }}>
               {["CBT", "DBT", "ACT", "IPT", "MBSR", "Behavioral Activation", "Positive Psychology"].map((t) => (
                 <span key={t} style={{ padding: "4px 12px", background: theme.subtle, borderRadius: 12, fontSize: 11, color: theme.accent, letterSpacing: 0.5 }}>{t}</span>
@@ -1058,6 +1535,8 @@ export default function AIForj() {
               <br />Science-backed. AI-powered.
             </p>
           </div>
+
+          <EmailCapture />
         </div>
       )}
 
@@ -1144,6 +1623,8 @@ export default function AIForj() {
 
             <AIInsight emotion={emotion} responses={responses} protocol={protocol} theme={theme} isPremium={isPremium} onUpgrade={() => setShowUpgrade(true)} webllm={webllm} />
 
+            <ShareCard emotion={emotion} protocol={protocol} insight={isPremium ? undefined : undefined} theme={theme} />
+
             <div style={{ background: theme.subtle, borderRadius: 20, padding: 28, marginBottom: 28 }}>
               <h3 style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: 2, color: theme.accent, margin: "0 0 18px", fontWeight: 600 }}>Session Notes</h3>
               {Object.entries(responses).map(([key, val]) => {
@@ -1168,7 +1649,17 @@ export default function AIForj() {
               }}>New Session</button>
             </div>
 
-            <div style={{ marginTop: 40, padding: 20, background: theme.subtle, borderRadius: 16, textAlign: "center" }}>
+            {isPremium ? (
+              <AIChat emotion={emotion} responses={responses} protocol={protocol} theme={theme} webllm={webllm} />
+            ) : (
+              <div onClick={() => setShowUpgrade(true)} style={{ marginTop: 20, padding: "20px 24px", background: theme.subtle, borderRadius: 20, border: `1px dashed rgba(${theme.breathe},0.2)`, cursor: "pointer", textAlign: "center" }}>
+                <span style={{ fontSize: 16 }}>💬</span>
+                <span style={{ fontSize: 13, color: theme.accent, marginLeft: 8, fontWeight: 500 }}>Continue the conversation with your AI co-pilot</span>
+                <span style={{ display: "block", fontSize: 11, color: theme.accent, opacity: 0.5, marginTop: 4 }}>Premium — tap to unlock</span>
+              </div>
+            )}
+
+            <div style={{ marginTop: 28, padding: 20, background: theme.subtle, borderRadius: 16, textAlign: "center" }}>
               <p style={{ fontSize: 11, color: theme.accent, opacity: 0.5, lineHeight: 1.7, margin: 0 }}>
                 AIForj provides evidence-based self-help tools and is not a substitute for professional care.
                 <br />If you are in crisis, contact the <strong>988 Suicide & Crisis Lifeline</strong> — call or text 988.
