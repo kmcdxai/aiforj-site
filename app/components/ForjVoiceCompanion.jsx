@@ -499,8 +499,8 @@ function TherapyModalities() {
   return (
     <div style={{ marginBottom: 32 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
-        <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 2, color: "#6090A8", fontWeight: 600, fontFamily: "'Sora', sans-serif" }}>Evidence-Based Approaches</span>
-        <span style={{ fontSize: 11, color: "#6090A8", opacity: 0.4, fontFamily: "'IBM Plex Sans', sans-serif" }}>— tap any to learn more</span>
+        <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 2, color: "#7DB0C8", fontWeight: 600, fontFamily: "'Sora', sans-serif" }}>Evidence-Based Approaches</span>
+        <span style={{ fontSize: 11, color: "#7DB0C8", opacity: 0.4, fontFamily: "'IBM Plex Sans', sans-serif" }}>— tap any to learn more</span>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
         {MODALITIES.map((m) => (
@@ -511,7 +511,7 @@ function TherapyModalities() {
             >
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <span style={{ fontSize: 12, fontWeight: 700, color: open === m.name ? "#5BBFB0" : "#6090A8", fontFamily: "'Sora', sans-serif", minWidth: 52 }}>{m.name}</span>
-                <span style={{ fontSize: 12, color: "#6090A8", fontFamily: "'IBM Plex Sans', sans-serif", opacity: 0.7 }}>{m.full}</span>
+                <span style={{ fontSize: 12, color: "#7DB0C8", fontFamily: "'IBM Plex Sans', sans-serif", opacity: 0.7 }}>{m.full}</span>
               </div>
               <span style={{ fontSize: 14, color: open === m.name ? "#5BBFB0" : "#6090A8", opacity: 0.5, flexShrink: 0, transform: open === m.name ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>▾</span>
             </button>
@@ -520,7 +520,7 @@ function TherapyModalities() {
                 <p style={{ fontSize: 13, color: "#D8E8F0", lineHeight: 1.7, margin: "0 0 10px", fontFamily: "'IBM Plex Sans', sans-serif" }}>{m.plain}</p>
                 <div style={{ display: "flex", alignItems: "flex-start", gap: 6 }}>
                   <span style={{ fontSize: 11, color: "#5BBFB0", fontWeight: 600, fontFamily: "'Sora', sans-serif", flexShrink: 0, marginTop: 1 }}>Best for:</span>
-                  <span style={{ fontSize: 11, color: "#6090A8", fontFamily: "'IBM Plex Sans', sans-serif", lineHeight: 1.6 }}>{m.best}</span>
+                  <span style={{ fontSize: 11, color: "#7DB0C8", fontFamily: "'IBM Plex Sans', sans-serif", lineHeight: 1.6 }}>{m.best}</span>
                 </div>
               </div>
             )}
@@ -568,13 +568,13 @@ function BreathingOverlay({ pattern, onClose }) {
 
   return (
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.9)", backdropFilter: "blur(20px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", zIndex: 100, animation: "fadeIn 0.5s ease" }}>
-      <span style={{ fontSize: 12, color: "#6090A8", letterSpacing: 3, textTransform: "uppercase", marginBottom: 32, fontFamily: "'Sora', sans-serif" }}>{p.name}</span>
+      <span style={{ fontSize: 12, color: "#7DB0C8", letterSpacing: 3, textTransform: "uppercase", marginBottom: 32, fontFamily: "'Sora', sans-serif" }}>{p.name}</span>
       <div style={{ width: sz, height: sz, borderRadius: "50%", background: `radial-gradient(circle, rgba(91,191,176,0.3) 0%, rgba(91,191,176,0.05) 100%)`, transition: "all 1.8s ease-in-out", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", boxShadow: `0 0 ${sz/2}px rgba(91,191,176,0.15)`, border: "1px solid rgba(91,191,176,0.15)" }}>
         <span style={{ fontSize: 13, textTransform: "uppercase", letterSpacing: 3, color: "#5BBFB0", fontWeight: 600, fontFamily: "'Sora', sans-serif" }}>{label}</span>
         <span style={{ fontSize: 40, fontWeight: 300, color: "#D8E8F0", marginTop: 4, fontFamily: "'IBM Plex Sans', sans-serif" }}>{count}</span>
       </div>
-      <span style={{ fontSize: 12, color: "#6090A8", marginTop: 24, fontFamily: "'IBM Plex Sans', sans-serif", opacity: 0.6 }}>Cycle {Math.min(cycle + 1, totalCycles)} / {totalCycles}</span>
-      <button onClick={onClose} style={{ marginTop: 32, background: "none", border: "1px solid rgba(91,191,176,0.2)", padding: "8px 24px", borderRadius: 20, color: "#6090A8", fontSize: 12, cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif" }}>End Early</button>
+      <span style={{ fontSize: 12, color: "#7DB0C8", marginTop: 24, fontFamily: "'IBM Plex Sans', sans-serif", opacity: 0.6 }}>Cycle {Math.min(cycle + 1, totalCycles)} / {totalCycles}</span>
+      <button onClick={onClose} style={{ marginTop: 32, background: "none", border: "1px solid rgba(91,191,176,0.2)", padding: "8px 24px", borderRadius: 20, color: "#7DB0C8", fontSize: 12, cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif" }}>End Early</button>
     </div>
   );
 }
@@ -629,7 +629,7 @@ function SessionInsights({ messages, onClose, theme }) {
       <div style={{ background: "#1C3248", borderRadius: 24, padding: "36px 32px", maxWidth: 460, width: "100%", maxHeight: "85vh", overflowY: "auto", border: "1px solid rgba(91,191,176,0.1)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
           <span style={{ fontFamily: "'Sora', sans-serif", fontSize: 20, fontWeight: 600, color: "#D8E8F0" }}>Session Insights</span>
-          <button onClick={onClose} style={{ background: "none", border: "none", color: "#6090A8", fontSize: 20, cursor: "pointer" }}>×</button>
+          <button onClick={onClose} style={{ background: "none", border: "none", color: "#7DB0C8", fontSize: 20, cursor: "pointer" }}>×</button>
         </div>
 
         {/* Stats */}
@@ -637,23 +637,23 @@ function SessionInsights({ messages, onClose, theme }) {
           {[{ val: userMsgs.length, label: "Messages" }, { val: techniques.length, label: "Techniques" }, { val: `${Math.round(messages.length * 0.4)}m`, label: "Duration" }].map(s => (
             <div key={s.label} style={{ flex: 1, background: "rgba(91,191,176,0.05)", borderRadius: 12, padding: "12px 8px", textAlign: "center", border: "1px solid rgba(91,191,176,0.08)" }}>
               <span style={{ fontSize: 22, fontWeight: 300, color: "#5BBFB0", display: "block", fontFamily: "'Sora', sans-serif" }}>{s.val}</span>
-              <span style={{ fontSize: 10, color: "#6090A8", textTransform: "uppercase", letterSpacing: 1, fontFamily: "'IBM Plex Sans', sans-serif" }}>{s.label}</span>
+              <span style={{ fontSize: 10, color: "#7DB0C8", textTransform: "uppercase", letterSpacing: 1, fontFamily: "'IBM Plex Sans', sans-serif" }}>{s.label}</span>
             </div>
           ))}
         </div>
 
         {/* Techniques used */}
-        <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "#6090A8", fontWeight: 600, display: "block", marginBottom: 10, fontFamily: "'Sora', sans-serif" }}>Techniques Applied</span>
+        <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "#7DB0C8", fontWeight: 600, display: "block", marginBottom: 10, fontFamily: "'Sora', sans-serif" }}>Techniques Applied</span>
         {techniques.map(t => (
           <div key={t.name} style={{ display: "flex", gap: 10, alignItems: "center", padding: "8px 12px", background: "rgba(91,191,176,0.03)", borderRadius: 10, marginBottom: 6, borderLeft: "2px solid rgba(91,191,176,0.2)" }}>
             <span style={{ fontSize: 12, fontWeight: 600, color: "#5BBFB0", minWidth: 60, fontFamily: "'Sora', sans-serif" }}>{t.name}</span>
-            <span style={{ fontSize: 11, color: "#6090A8", fontFamily: "'IBM Plex Sans', sans-serif" }}>{t.desc}</span>
+            <span style={{ fontSize: 11, color: "#7DB0C8", fontFamily: "'IBM Plex Sans', sans-serif" }}>{t.desc}</span>
           </div>
         ))}
 
         <div style={{ marginTop: 20, padding: "14px 16px", background: "rgba(91,191,176,0.03)", borderRadius: 12, border: "1px solid rgba(91,191,176,0.08)" }}>
-          <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "#6090A8", fontWeight: 600, display: "block", marginBottom: 6, fontFamily: "'Sora', sans-serif" }}>Clinical Note</span>
-          <span style={{ fontSize: 13, color: "#6090A8", lineHeight: 1.7, fontFamily: "'IBM Plex Sans', sans-serif" }}>
+          <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "#7DB0C8", fontWeight: 600, display: "block", marginBottom: 6, fontFamily: "'Sora', sans-serif" }}>Clinical Note</span>
+          <span style={{ fontSize: 13, color: "#7DB0C8", lineHeight: 1.7, fontFamily: "'IBM Plex Sans', sans-serif" }}>
             This session used {techniques.map(t => t.name).join(", ")} techniques dynamically selected based on your needs.
             Forj adapted its approach {techniques.length > 1 ? "multiple times" : ""} during your conversation to provide the most relevant support.
             For deeper work on the patterns explored today, consider connecting with a licensed therapist.
@@ -661,7 +661,7 @@ function SessionInsights({ messages, onClose, theme }) {
         </div>
 
         <div style={{ marginTop: 16, textAlign: "center" }}>
-          <span style={{ fontSize: 10, color: "#6090A8", opacity: 0.4, fontFamily: "'IBM Plex Sans', sans-serif" }}>Session data stored locally on your device only.</span>
+          <span style={{ fontSize: 10, color: "#7DB0C8", opacity: 0.4, fontFamily: "'IBM Plex Sans', sans-serif" }}>Session data stored locally on your device only.</span>
         </div>
       </div>
     </div>
@@ -678,7 +678,7 @@ function UpgradeModal({ onClose, onSubscribe }) {
         <div style={{ textAlign: "center", marginBottom: 24 }}>
           <span style={{ fontSize: 36, display: "block", marginBottom: 10 }}>✦</span>
           <span style={{ fontFamily: "'Sora', sans-serif", fontSize: 22, fontWeight: 600, color: "#D8E8F0", display: "block" }}>AIForj Premium</span>
-          <span style={{ fontSize: 13, color: "#6090A8", marginTop: 6, display: "block", fontFamily: "'IBM Plex Sans', sans-serif" }}>Unlock the full therapeutic experience</span>
+          <span style={{ fontSize: 13, color: "#7DB0C8", marginTop: 6, display: "block", fontFamily: "'IBM Plex Sans', sans-serif" }}>Unlock the full therapeutic experience</span>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 24 }}>
           {[
@@ -695,7 +695,7 @@ function UpgradeModal({ onClose, onSubscribe }) {
               <span style={{ fontSize: 16, flexShrink: 0 }}>{f.i}</span>
               <div>
                 <span style={{ fontSize: 13, fontWeight: 600, color: "#D8E8F0", display: "block", fontFamily: "'IBM Plex Sans', sans-serif" }}>{f.t}</span>
-                <span style={{ fontSize: 11, color: "#6090A8", fontFamily: "'IBM Plex Sans', sans-serif" }}>{f.d}</span>
+                <span style={{ fontSize: 11, color: "#7DB0C8", fontFamily: "'IBM Plex Sans', sans-serif" }}>{f.d}</span>
               </div>
             </div>
           ))}
@@ -703,7 +703,7 @@ function UpgradeModal({ onClose, onSubscribe }) {
         <button onClick={onSubscribe} className="btn-glow" style={{ width: "100%", padding: "16px", fontSize: 15, fontFamily: "'Sora', sans-serif", background: "linear-gradient(90deg, #5BBFB0, #4AAAC8, #5BBFB0)", backgroundSize: "200% 100%", animation: "shimmer 3s ease infinite", color: "#14263A", border: "none", borderRadius: 50, cursor: "pointer", fontWeight: 700, letterSpacing: 0.5, transition: "all 0.2s" }}>
           Start 7-Day Free Trial
         </button>
-        <p style={{ textAlign: "center", fontSize: 12, color: "#6090A8", marginTop: 10, lineHeight: 1.6, fontFamily: "'IBM Plex Sans', sans-serif" }}>Then $9.99/mo — less than a single therapy copay.<br />Less than one coffee a week. Cancel anytime.</p>
+        <p style={{ textAlign: "center", fontSize: 12, color: "#7DB0C8", marginTop: 10, lineHeight: 1.6, fontFamily: "'IBM Plex Sans', sans-serif" }}>Then $9.99/mo — less than a single therapy copay.<br />Less than one coffee a week. Cancel anytime.</p>
       </div>
     </div>
   );
@@ -1212,7 +1212,7 @@ export default function ForjVoiceCompanion() {
           <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#5BBFB0", animation: "orbPulse 1s infinite" }} />
           <div>
             <span style={{ fontSize: 11, color: "#D8E8F0", fontWeight: 500, display: "block", fontFamily: "'IBM Plex Sans', sans-serif" }}>Loading AI Engine</span>
-            <span style={{ fontSize: 10, color: "#6090A8", fontFamily: "'IBM Plex Sans', sans-serif" }}>{webllmProgress}% — runs privately on your device</span>
+            <span style={{ fontSize: 10, color: "#7DB0C8", fontFamily: "'IBM Plex Sans', sans-serif" }}>{webllmProgress}% — runs privately on your device</span>
           </div>
         </div>
       )}
@@ -1226,23 +1226,23 @@ export default function ForjVoiceCompanion() {
           {tier !== "free" && <span style={{ fontSize: 8, marginLeft: 6, padding: "2px 7px", background: "linear-gradient(90deg, #5BBFB0, #4AAAC8)", color: "#14263A", borderRadius: 8, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", fontFamily: "'Sora', sans-serif" }}>PRO</span>}
         </div>
         <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-          <button onClick={() => setShowBreathing("4-4-6")} className="btn-glow" style={{ background: "rgba(91,191,176,0.06)", border: "1px solid rgba(91,191,176,0.12)", padding: "5px 12px", borderRadius: 16, fontSize: 10, color: "#6090A8", cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif", letterSpacing: 1, transition: "all 0.2s" }}>
+          <button onClick={() => setShowBreathing("4-4-6")} className="btn-glow" style={{ background: "rgba(91,191,176,0.06)", border: "1px solid rgba(91,191,176,0.12)", padding: "5px 12px", borderRadius: 16, fontSize: 10, color: "#7DB0C8", cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif", letterSpacing: 1, transition: "all 0.2s" }}>
             Breathe
           </button>
           {tierConfig.features.sessionInsights && messages.length > 4 && (
-            <button onClick={() => setShowInsights(true)} className="btn-glow" style={{ background: "rgba(91,191,176,0.06)", border: "1px solid rgba(91,191,176,0.12)", padding: "5px 12px", borderRadius: 16, fontSize: 10, color: "#6090A8", cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif", letterSpacing: 1, transition: "all 0.2s" }}>
+            <button onClick={() => setShowInsights(true)} className="btn-glow" style={{ background: "rgba(91,191,176,0.06)", border: "1px solid rgba(91,191,176,0.12)", padding: "5px 12px", borderRadius: 16, fontSize: 10, color: "#7DB0C8", cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif", letterSpacing: 1, transition: "all 0.2s" }}>
               Insights
             </button>
           )}
           {messages.length > 2 && (
-            <button onClick={() => setShowHistory(!showHistory)} className="btn-glow" style={{ background: "rgba(91,191,176,0.06)", border: "1px solid rgba(91,191,176,0.12)", padding: "5px 12px", borderRadius: 16, fontSize: 10, color: "#6090A8", cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif", letterSpacing: 1, transition: "all 0.2s" }}>
+            <button onClick={() => setShowHistory(!showHistory)} className="btn-glow" style={{ background: "rgba(91,191,176,0.06)", border: "1px solid rgba(91,191,176,0.12)", padding: "5px 12px", borderRadius: 16, fontSize: 10, color: "#7DB0C8", cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif", letterSpacing: 1, transition: "all 0.2s" }}>
               {showHistory ? "Hide" : "Chat"}
             </button>
           )}
           {streak > 1 && (
             <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 10px", background: "rgba(91,191,176,0.06)", borderRadius: 12, border: "1px solid rgba(91,191,176,0.1)" }}>
               <span style={{ fontSize: 10 }}>🔥</span>
-              <span style={{ fontSize: 9, color: "#6090A8", fontWeight: 600, letterSpacing: 1, fontFamily: "'IBM Plex Sans', sans-serif" }}>{streak}d</span>
+              <span style={{ fontSize: 9, color: "#7DB0C8", fontWeight: 600, letterSpacing: 1, fontFamily: "'IBM Plex Sans', sans-serif" }}>{streak}d</span>
             </div>
           )}
           {tier === "free" && (
@@ -1262,17 +1262,17 @@ export default function ForjVoiceCompanion() {
             <span style={{ fontFamily: "'IBM Plex Sans', sans-serif", fontSize: 16, color: "#D8E8F0", lineHeight: 1.6, fontStyle: "italic", display: "block", fontWeight: 300 }}>
               "{dailyInsight.quote}"
             </span>
-            <span style={{ fontSize: 10, color: "#6090A8", marginTop: 8, display: "block", letterSpacing: 1 }}>— {dailyInsight.source}</span>
+            <span style={{ fontSize: 10, color: "#7DB0C8", marginTop: 8, display: "block", letterSpacing: 1 }}>— {dailyInsight.source}</span>
             <button onClick={() => {
               if (navigator.share) navigator.share({ title: dailyInsight.quote, text: `"${dailyInsight.quote}" — ${dailyInsight.source}\n\naiforj.com — free AI wellness companion`, url: "https://aiforj.com" }).catch(() => {});
               else { navigator.clipboard.writeText(`"${dailyInsight.quote}" — ${dailyInsight.source}\n\naiforj.com`).catch(() => {}); }
-            }} style={{ position: "absolute", top: 10, right: 12, background: "none", border: "none", fontSize: 12, color: "#6090A8", cursor: "pointer", padding: 4 }}>↗</button>
+            }} style={{ position: "absolute", top: 10, right: 12, background: "none", border: "none", fontSize: 12, color: "#7DB0C8", cursor: "pointer", padding: 4 }}>↗</button>
           </div>
         )}
 
         {/* Value proposition */}
         {messages.length <= 1 && (
-          <p style={{ textAlign: "center", fontFamily: "'Sora', sans-serif", fontSize: 17, color: "#6090A8", marginBottom: 20, animation: "fadeIn 1s ease", lineHeight: 1.6, fontWeight: 400 }}>
+          <p style={{ textAlign: "center", fontFamily: "'Sora', sans-serif", fontSize: 17, color: "#7DB0C8", marginBottom: 20, animation: "fadeIn 1s ease", lineHeight: 1.6, fontWeight: 400 }}>
             Talk or type how you're feeling. Get grounded in minutes. 100% private.
           </p>
         )}
@@ -1281,7 +1281,7 @@ export default function ForjVoiceCompanion() {
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 28, animation: "fadeIn 1s ease", flexWrap: "wrap", justifyContent: "center" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 7, padding: "7px 16px", background: "rgba(91,191,176,0.06)", borderRadius: 20, border: "1px solid rgba(91,191,176,0.12)" }}>
             <span style={{ fontSize: 13 }}>🔒</span>
-            <span style={{ fontSize: 11, color: "#6090A8", letterSpacing: 0.5, fontFamily: "'IBM Plex Sans', sans-serif", fontWeight: 500 }}>100% Private — nothing leaves your browser</span>
+            <span style={{ fontSize: 11, color: "#7DB0C8", letterSpacing: 0.5, fontFamily: "'IBM Plex Sans', sans-serif", fontWeight: 500 }}>100% Private — nothing leaves your browser</span>
           </div>
         </div>
 
@@ -1311,7 +1311,7 @@ export default function ForjVoiceCompanion() {
                 {remainingMsgs} message{remainingMsgs !== 1 ? "s" : ""} left{remainingMsgs <= 1 ? " — your breakthrough might be one message away" : ""} ·{" "}
               </span>
             )}
-            {remainingSessions !== null && <span style={{ color: "#6090A8" }}>{remainingSessions} session{remainingSessions !== 1 ? "s" : ""} left today</span>}
+            {remainingSessions !== null && <span style={{ color: "#7DB0C8" }}>{remainingSessions} session{remainingSessions !== 1 ? "s" : ""} left today</span>}
           </div>
         )}
 
@@ -1323,7 +1323,7 @@ export default function ForjVoiceCompanion() {
               if (navigator.share) navigator.share({ title: "This helped me", text: shareText, url: "https://aiforj.com" }).catch(() => {});
               else { navigator.clipboard.writeText(shareText).catch(() => {}); }
               setShowShare(false);
-            }} style={{ background: "rgba(91,191,176,0.05)", border: "1px solid rgba(91,191,176,0.1)", padding: "8px 18px", borderRadius: 20, fontSize: 11, color: "#6090A8", cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif" }}>
+            }} style={{ background: "rgba(91,191,176,0.05)", border: "1px solid rgba(91,191,176,0.1)", padding: "8px 18px", borderRadius: 20, fontSize: 11, color: "#7DB0C8", cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif" }}>
               ↗ Know someone who needs this? Share
             </button>
             <a href="https://aiforj.gumroad.com/l/jmdqvd" target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, color: "#5BBFB0", textDecoration: "none", opacity: 0.85, fontFamily: "'IBM Plex Sans', sans-serif" }}>
@@ -1352,10 +1352,10 @@ export default function ForjVoiceCompanion() {
       {showHistory && (
         <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, maxHeight: "45vh", overflowY: "auto", background: "rgba(20,38,58,0.97)", backdropFilter: "blur(20px)", borderTop: "1px solid rgba(91,191,176,0.08)", padding: "16px 20px", animation: "fadeIn 0.3s", zIndex: 50 }}>
           <div style={{ maxWidth: 480, margin: "0 auto" }}>
-            <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "#6090A8", fontWeight: 600, display: "block", marginBottom: 12, fontFamily: "'Sora', sans-serif" }}>Session</span>
+            <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "#7DB0C8", fontWeight: 600, display: "block", marginBottom: 12, fontFamily: "'Sora', sans-serif" }}>Session</span>
             {messages.map((m, i) => (
               <div key={i} style={{ marginBottom: 8, padding: "8px 14px", background: m.role === "user" ? "rgba(45,212,191,0.04)" : "rgba(91,191,176,0.04)", borderRadius: 10, borderLeft: `2px solid ${m.role === "user" ? "rgba(45,212,191,0.2)" : "rgba(91,191,176,0.15)"}` }}>
-                <span style={{ fontSize: 9, color: "#6090A8", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 3, fontFamily: "'Sora', sans-serif" }}>{m.role === "user" ? "You" : "Forj"}</span>
+                <span style={{ fontSize: 9, color: "#7DB0C8", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 3, fontFamily: "'Sora', sans-serif" }}>{m.role === "user" ? "You" : "Forj"}</span>
                 <span style={{ fontSize: 13, color: "#D8E8F0", lineHeight: 1.6, fontFamily: "'IBM Plex Sans', sans-serif", opacity: 0.8 }}>{m.text}</span>
               </div>
             ))}
@@ -1365,7 +1365,7 @@ export default function ForjVoiceCompanion() {
 
       {/* Scroll indicator */}
       <div style={{ textAlign: "center", padding: "24px 0 12px", animation: "float 3s ease-in-out infinite" }}>
-        <span style={{ fontSize: 11, color: "#6090A8", letterSpacing: 2, textTransform: "uppercase", display: "block", marginBottom: 6, fontFamily: "'Sora', sans-serif", opacity: 0.5 }}>Explore guided tools</span>
+        <span style={{ fontSize: 11, color: "#7DB0C8", letterSpacing: 2, textTransform: "uppercase", display: "block", marginBottom: 6, fontFamily: "'Sora', sans-serif", opacity: 0.5 }}>Explore guided tools</span>
         <span style={{ fontSize: 18, color: "#5BBFB0", opacity: 0.4 }}>↓</span>
       </div>
 
@@ -1384,7 +1384,7 @@ export default function ForjVoiceCompanion() {
             <h2 style={{ fontFamily: "'Sora', sans-serif", fontSize: "clamp(26px, 4vw, 38px)", fontWeight: 600, color: "#D8E8F0", margin: "0 0 14px", lineHeight: 1.2 }}>
               How do you feel<br />right now?
             </h2>
-            <p style={{ fontSize: 15, color: "#6090A8", fontWeight: 300, margin: "0 0 20px", lineHeight: 1.7, fontFamily: "'IBM Plex Sans', sans-serif" }}>
+            <p style={{ fontSize: 15, color: "#7DB0C8", fontWeight: 300, margin: "0 0 20px", lineHeight: 1.7, fontFamily: "'IBM Plex Sans', sans-serif" }}>
               Evidence-based guided sessions. 3–5 minutes.<br />No login. No data stored. Completely private.
             </p>
 
@@ -1394,7 +1394,7 @@ export default function ForjVoiceCompanion() {
                 const text = "Someone I care about might need this — free, private AI wellness companion.\n\naiforj.com";
                 if (navigator.share) navigator.share({ title: "AIForj — Free AI Wellness Companion", text, url: "https://aiforj.com" }).catch(() => {});
                 else { navigator.clipboard.writeText(text).catch(() => {}); }
-              }} className="btn-glow" style={{ background: "none", border: "1px solid rgba(91,191,176,0.15)", padding: "8px 20px", borderRadius: 20, fontSize: 12, color: "#6090A8", cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif", transition: "all 0.2s" }}>
+              }} className="btn-glow" style={{ background: "none", border: "1px solid rgba(91,191,176,0.15)", padding: "8px 20px", borderRadius: 20, fontSize: 12, color: "#7DB0C8", cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif", transition: "all 0.2s" }}>
                 ↗ Know someone who's struggling? Send them this page
               </button>
             </div>
@@ -1434,13 +1434,13 @@ export default function ForjVoiceCompanion() {
                     }}>
                       <span style={{ fontSize: 26 }}>{e.icon}</span>
                       <span style={{ fontSize: 14, fontWeight: 500, color: "#D8E8F0", fontFamily: "'IBM Plex Sans', sans-serif" }}>{e.label}</span>
-                      <span style={{ fontSize: 11, color: "#6090A8", opacity: 0.7, fontFamily: "'IBM Plex Sans', sans-serif" }}>{e.desc}</span>
+                      <span style={{ fontSize: 11, color: "#7DB0C8", opacity: 0.7, fontFamily: "'IBM Plex Sans', sans-serif" }}>{e.desc}</span>
                     </a>
                   ))}
                 </div>
                 {!showAllPathways && (
                   <div style={{ textAlign: "center", marginBottom: 36 }}>
-                    <button onClick={() => setShowAllPathways(true)} className="btn-glow" style={{ background: "none", border: "1px solid rgba(91,191,176,0.12)", padding: "8px 22px", borderRadius: 20, fontSize: 12, color: "#6090A8", cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif", transition: "all 0.2s" }}>
+                    <button onClick={() => setShowAllPathways(true)} className="btn-glow" style={{ background: "none", border: "1px solid rgba(91,191,176,0.12)", padding: "8px 22px", borderRadius: 20, fontSize: 12, color: "#7DB0C8", cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif", transition: "all 0.2s" }}>
                       See all pathways →
                     </button>
                   </div>
@@ -1453,8 +1453,8 @@ export default function ForjVoiceCompanion() {
           {/* Quick Tools */}
           <div style={{ marginBottom: 40 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-              <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 2, color: "#6090A8", fontWeight: 600, fontFamily: "'Sora', sans-serif" }}>Quick Tools</span>
-              <span style={{ fontSize: 11, color: "#6090A8", opacity: 0.4, fontFamily: "'IBM Plex Sans', sans-serif" }}>— instant interventions, no session needed</span>
+              <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 2, color: "#7DB0C8", fontWeight: 600, fontFamily: "'Sora', sans-serif" }}>Quick Tools</span>
+              <span style={{ fontSize: 11, color: "#7DB0C8", opacity: 0.4, fontFamily: "'IBM Plex Sans', sans-serif" }}>— instant interventions, no session needed</span>
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               {[
@@ -1472,7 +1472,7 @@ export default function ForjVoiceCompanion() {
                 }}>
                   <span style={{ fontSize: 16 }}>{tool.icon}</span>
                   <span style={{ fontSize: 13, fontWeight: 500, color: "#D8E8F0" }}>{tool.label}</span>
-                  <span style={{ fontSize: 11, color: "#6090A8", opacity: 0.6 }}>{tool.time}</span>
+                  <span style={{ fontSize: 11, color: "#7DB0C8", opacity: 0.6 }}>{tool.time}</span>
                   {!tool.free && <span style={{ fontSize: 10, padding: "2px 6px", background: "linear-gradient(90deg, #5BBFB0, #4AAAC8)", color: "#14263A", borderRadius: 8, fontWeight: 700 }}>PRO</span>}
                 </a>
               ))}
@@ -1486,12 +1486,12 @@ export default function ForjVoiceCompanion() {
               <div style={{ padding: "24px 22px", background: "rgba(91,191,176,0.04)", border: "1px solid rgba(91,191,176,0.1)", borderRadius: 20, backdropFilter: "blur(12px)" }}>
                 <span style={{ fontSize: 24, display: "block", marginBottom: 10 }}>🗣️</span>
                 <h4 style={{ fontFamily: "'Sora', sans-serif", fontSize: 16, fontWeight: 600, color: "#D8E8F0", margin: "0 0 8px" }}>Talk or Type</h4>
-                <p style={{ fontSize: 13, color: "#6090A8", lineHeight: 1.7, margin: 0, fontFamily: "'IBM Plex Sans', sans-serif" }}>Personalized support in the moment. The AI adapts to what you say using 16 therapeutic techniques.</p>
+                <p style={{ fontSize: 13, color: "#7DB0C8", lineHeight: 1.7, margin: 0, fontFamily: "'IBM Plex Sans', sans-serif" }}>Personalized support in the moment. The AI adapts to what you say using 16 therapeutic techniques.</p>
               </div>
               <div style={{ padding: "24px 22px", background: "rgba(91,191,176,0.04)", border: "1px solid rgba(91,191,176,0.1)", borderRadius: 20, backdropFilter: "blur(12px)" }}>
                 <span style={{ fontSize: 24, display: "block", marginBottom: 10 }}>🧭</span>
                 <h4 style={{ fontFamily: "'Sora', sans-serif", fontSize: 16, fontWeight: 600, color: "#D8E8F0", margin: "0 0 8px" }}>Guided Tools</h4>
-                <p style={{ fontSize: 13, color: "#6090A8", lineHeight: 1.7, margin: 0, fontFamily: "'IBM Plex Sans', sans-serif" }}>A structured reset in 2–5 minutes. Choose what you're feeling and follow the guided protocol.</p>
+                <p style={{ fontSize: 13, color: "#7DB0C8", lineHeight: 1.7, margin: 0, fontFamily: "'IBM Plex Sans', sans-serif" }}>A structured reset in 2–5 minutes. Choose what you're feeling and follow the guided protocol.</p>
               </div>
             </div>
           </div>
@@ -1501,9 +1501,9 @@ export default function ForjVoiceCompanion() {
             <div style={{ background: "linear-gradient(135deg, rgba(91,191,176,0.06), rgba(45,212,191,0.03))", borderRadius: 24, padding: "36px 28px", textAlign: "center", marginBottom: 32, border: "1px solid rgba(91,191,176,0.1)", backdropFilter: "blur(12px)" }}>
               <span style={{ fontSize: 32, display: "block", marginBottom: 8 }}>✦</span>
               <h3 style={{ fontFamily: "'Sora', sans-serif", fontSize: 22, fontWeight: 600, color: "#D8E8F0", margin: "0 0 10px", lineHeight: 1.3 }}>When the free reset helps — but you need more depth</h3>
-              <p style={{ fontSize: 14, color: "#6090A8", margin: "0 0 14px", lineHeight: 1.7, fontFamily: "'IBM Plex Sans', sans-serif" }}>Track patterns over time. Access advanced techniques. Understand why the same feelings keep returning.</p>
-              <p style={{ fontSize: 13, color: "#6090A8", margin: "0 0 6px", lineHeight: 1.7, fontFamily: "'IBM Plex Sans', sans-serif", opacity: 0.7 }}>AI insights, mood analytics, guided journal, advanced crisis tools, unlimited sessions</p>
-              <p style={{ fontSize: 12, color: "#6090A8", opacity: 0.5, margin: "0 0 20px", fontFamily: "'IBM Plex Sans', sans-serif" }}>7-day free trial · $9.99/month · Cancel anytime</p>
+              <p style={{ fontSize: 14, color: "#7DB0C8", margin: "0 0 14px", lineHeight: 1.7, fontFamily: "'IBM Plex Sans', sans-serif" }}>Track patterns over time. Access advanced techniques. Understand why the same feelings keep returning.</p>
+              <p style={{ fontSize: 13, color: "#7DB0C8", margin: "0 0 6px", lineHeight: 1.7, fontFamily: "'IBM Plex Sans', sans-serif", opacity: 0.7 }}>AI insights, mood analytics, guided journal, advanced crisis tools, unlimited sessions</p>
+              <p style={{ fontSize: 12, color: "#7DB0C8", opacity: 0.5, margin: "0 0 20px", fontFamily: "'IBM Plex Sans', sans-serif" }}>7-day free trial · $9.99/month · Cancel anytime</p>
               <button onClick={handleSubscribe} className="btn-glow" style={{
                 padding: "14px 44px", fontSize: 15, fontFamily: "'Sora', sans-serif",
                 background: "linear-gradient(135deg, #5BBFB0, #4AAAC8)", color: "#14263A",
@@ -1516,8 +1516,8 @@ export default function ForjVoiceCompanion() {
 
           {/* CBT Workbook — reframed with context */}
           <div style={{ marginBottom: 40, textAlign: "center" }}>
-            <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 2, color: "#6090A8", fontWeight: 600, fontFamily: "'Sora', sans-serif", display: "block", marginBottom: 6 }}>Practice between sessions</span>
-            <p style={{ fontSize: 14, color: "#6090A8", margin: "0 0 16px", lineHeight: 1.6, fontFamily: "'IBM Plex Sans', sans-serif" }}>The thoughts that keep coming back? This workbook teaches you how to rewire them.</p>
+            <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 2, color: "#7DB0C8", fontWeight: 600, fontFamily: "'Sora', sans-serif", display: "block", marginBottom: 6 }}>Practice between sessions</span>
+            <p style={{ fontSize: 14, color: "#7DB0C8", margin: "0 0 16px", lineHeight: 1.6, fontFamily: "'IBM Plex Sans', sans-serif" }}>The thoughts that keep coming back? This workbook teaches you how to rewire them.</p>
             <a href="https://aiforj.gumroad.com/l/jmdqvd" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "block" }}>
               <div className="card-hover" style={{ display: "flex", alignItems: "center", gap: 20, padding: "22px 24px", background: "rgba(91,191,176,0.05)", border: "1px solid rgba(91,191,176,0.15)", borderRadius: 20, backdropFilter: "blur(12px)", boxShadow: "0 4px 24px rgba(91,191,176,0.04)" }}>
                 <span style={{ fontSize: 36, flexShrink: 0 }}>📘</span>
@@ -1526,7 +1526,7 @@ export default function ForjVoiceCompanion() {
                     <span style={{ fontSize: 15, fontWeight: 600, color: "#D8E8F0", fontFamily: "'Sora', sans-serif" }}>CBT Thought Reframe Workbook</span>
                     <span style={{ fontSize: 11, padding: "2px 9px", background: "linear-gradient(90deg, rgba(91,191,176,0.2), rgba(45,212,191,0.2))", border: "1px solid rgba(91,191,176,0.3)", color: "#5BBFB0", borderRadius: 20, fontWeight: 600, fontFamily: "'Sora', sans-serif", letterSpacing: 0.5 }}>$27</span>
                   </div>
-                  <span style={{ fontSize: 13, color: "#6090A8", fontFamily: "'IBM Plex Sans', sans-serif" }}>84 pages · 30 days of exercises · 10 cognitive distortions</span>
+                  <span style={{ fontSize: 13, color: "#7DB0C8", fontFamily: "'IBM Plex Sans', sans-serif" }}>84 pages · 30 days of exercises · 10 cognitive distortions</span>
                 </div>
                 <span style={{ fontSize: 18, color: "#5BBFB0", opacity: 0.6, flexShrink: 0 }}>→</span>
               </div>
@@ -1546,39 +1546,39 @@ export default function ForjVoiceCompanion() {
         {/* Trust badges */}
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8, marginBottom: 20 }}>
           {["PMHNP-BC Designed", "Evidence-Based", "Zero Data Collection", "100% On-Device AI", "HIPAA-Grade Privacy"].map(b => (
-            <span key={b} style={{ padding: "4px 12px", background: "rgba(91,191,176,0.05)", border: "1px solid rgba(91,191,176,0.1)", borderRadius: 20, fontSize: 10, color: "#6090A8", letterSpacing: 0.5, fontWeight: 500, fontFamily: "'IBM Plex Sans', sans-serif" }}>{b}</span>
+            <span key={b} style={{ padding: "4px 12px", background: "rgba(91,191,176,0.05)", border: "1px solid rgba(91,191,176,0.1)", borderRadius: 20, fontSize: 10, color: "#7DB0C8", letterSpacing: 0.5, fontWeight: 500, fontFamily: "'IBM Plex Sans', sans-serif" }}>{b}</span>
           ))}
         </div>
 
         <p style={{ fontSize: 14, color: "#D8E8F0", lineHeight: 1.6, margin: "0 0 4px", fontWeight: 500, fontFamily: "'IBM Plex Sans', sans-serif" }}>
           Built by a Board Certified Psychiatric Mental Health Nurse Practitioner
         </p>
-        <p style={{ fontSize: 12, color: "#6090A8", margin: "0 0 24px", fontFamily: "'IBM Plex Sans', sans-serif" }}>Caring for the Whole Human</p>
+        <p style={{ fontSize: 12, color: "#7DB0C8", margin: "0 0 24px", fontFamily: "'IBM Plex Sans', sans-serif" }}>Caring for the Whole Human</p>
 
         {/* Footer nav links */}
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 20, marginBottom: 24 }}>
-          <a href="https://aiforj.com" style={{ fontSize: 12, color: "#6090A8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", transition: "color 0.2s" }}
+          <a href="https://aiforj.com" style={{ fontSize: 12, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", transition: "color 0.2s" }}
             onMouseEnter={e => e.currentTarget.style.color = "#5BBFB0"} onMouseLeave={e => e.currentTarget.style.color = "#6090A8"}>AIForj.com</a>
-          <a href="/tools" style={{ fontSize: 12, color: "#6090A8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", transition: "color 0.2s" }}
+          <a href="/tools" style={{ fontSize: 12, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", transition: "color 0.2s" }}
             onMouseEnter={e => e.currentTarget.style.color = "#5BBFB0"} onMouseLeave={e => e.currentTarget.style.color = "#6090A8"}>Guided Protocols</a>
-          <a href="https://aiforj.gumroad.com/l/jmdqvd" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "#6090A8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", transition: "color 0.2s" }}
+          <a href="https://aiforj.gumroad.com/l/jmdqvd" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", transition: "color 0.2s" }}
             onMouseEnter={e => e.currentTarget.style.color = "#5BBFB0"} onMouseLeave={e => e.currentTarget.style.color = "#6090A8"}>📘 CBT Workbook</a>
-          <a href="https://medium.com/@kcooke493/im-a-psych-np-and-i-built-a-free-ai-wellness-tool-8d46e01a6852" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "#6090A8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", transition: "color 0.2s" }}
+          <a href="https://medium.com/@kcooke493/im-a-psych-np-and-i-built-a-free-ai-wellness-tool-8d46e01a6852" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", transition: "color 0.2s" }}
             onMouseEnter={e => e.currentTarget.style.color = "#5BBFB0"} onMouseLeave={e => e.currentTarget.style.color = "#6090A8"}>Read Our Story</a>
-          <a href="https://x.com/AIForj" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "#6090A8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", transition: "color 0.2s" }}
+          <a href="https://x.com/AIForj" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", transition: "color 0.2s" }}
             onMouseEnter={e => e.currentTarget.style.color = "#5BBFB0"} onMouseLeave={e => e.currentTarget.style.color = "#6090A8"}>𝕏 @AIForj</a>
         </div>
 
         {/* Landing page guides */}
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 16, marginBottom: 24 }}>
-          <span style={{ fontSize: 11, color: "#6090A8", opacity: 0.5, fontFamily: "'IBM Plex Sans', sans-serif", width: "100%", textAlign: "center", marginBottom: 4 }}>Help with...</span>
-          <a href="/3am-spiral" style={{ fontSize: 11, color: "#6090A8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", padding: "4px 14px", background: "rgba(91,191,176,0.04)", border: "1px solid rgba(91,191,176,0.08)", borderRadius: 16, transition: "all 0.2s" }}
+          <span style={{ fontSize: 11, color: "#7DB0C8", opacity: 0.5, fontFamily: "'IBM Plex Sans', sans-serif", width: "100%", textAlign: "center", marginBottom: 4 }}>Help with...</span>
+          <a href="/3am-spiral" style={{ fontSize: 11, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", padding: "4px 14px", background: "rgba(91,191,176,0.04)", border: "1px solid rgba(91,191,176,0.08)", borderRadius: 16, transition: "all 0.2s" }}
             onMouseEnter={e => { e.currentTarget.style.color = "#5BBFB0"; e.currentTarget.style.borderColor = "rgba(91,191,176,0.2)"; }} onMouseLeave={e => { e.currentTarget.style.color = "#6090A8"; e.currentTarget.style.borderColor = "rgba(91,191,176,0.08)"; }}>🌙 3AM Spiral</a>
-          <a href="/overwhelmed" style={{ fontSize: 11, color: "#6090A8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", padding: "4px 14px", background: "rgba(91,191,176,0.04)", border: "1px solid rgba(91,191,176,0.08)", borderRadius: 16, transition: "all 0.2s" }}
+          <a href="/overwhelmed" style={{ fontSize: 11, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", padding: "4px 14px", background: "rgba(91,191,176,0.04)", border: "1px solid rgba(91,191,176,0.08)", borderRadius: 16, transition: "all 0.2s" }}
             onMouseEnter={e => { e.currentTarget.style.color = "#5BBFB0"; e.currentTarget.style.borderColor = "rgba(91,191,176,0.2)"; }} onMouseLeave={e => { e.currentTarget.style.color = "#6090A8"; e.currentTarget.style.borderColor = "rgba(91,191,176,0.08)"; }}>🌊 Overwhelmed</a>
-          <a href="/burned-out" style={{ fontSize: 11, color: "#6090A8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", padding: "4px 14px", background: "rgba(91,191,176,0.04)", border: "1px solid rgba(91,191,176,0.08)", borderRadius: 16, transition: "all 0.2s" }}
+          <a href="/burned-out" style={{ fontSize: 11, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", padding: "4px 14px", background: "rgba(91,191,176,0.04)", border: "1px solid rgba(91,191,176,0.08)", borderRadius: 16, transition: "all 0.2s" }}
             onMouseEnter={e => { e.currentTarget.style.color = "#5BBFB0"; e.currentTarget.style.borderColor = "rgba(91,191,176,0.2)"; }} onMouseLeave={e => { e.currentTarget.style.color = "#6090A8"; e.currentTarget.style.borderColor = "rgba(91,191,176,0.08)"; }}>🪨 Burned Out</a>
-          <a href="/find-help" style={{ fontSize: 11, color: "#6090A8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", padding: "4px 14px", background: "rgba(91,191,176,0.04)", border: "1px solid rgba(91,191,176,0.08)", borderRadius: 16, transition: "all 0.2s" }}
+          <a href="/find-help" style={{ fontSize: 11, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", padding: "4px 14px", background: "rgba(91,191,176,0.04)", border: "1px solid rgba(91,191,176,0.08)", borderRadius: 16, transition: "all 0.2s" }}
             onMouseEnter={e => { e.currentTarget.style.color = "#5BBFB0"; e.currentTarget.style.borderColor = "rgba(91,191,176,0.2)"; }} onMouseLeave={e => { e.currentTarget.style.color = "#6090A8"; e.currentTarget.style.borderColor = "rgba(91,191,176,0.08)"; }}>🔍 Find a Provider</a>
         </div>
 
@@ -1587,20 +1587,20 @@ export default function ForjVoiceCompanion() {
             const text = "Free AI therapeutic companion — clinician-built, completely private, evidence-based. This helped me.\n\naiforj.com";
             if (navigator.share) navigator.share({ title: "AIForj", text, url: "https://aiforj.com" }).catch(() => {});
             else navigator.clipboard.writeText(text).catch(() => {});
-          }} className="btn-glow" style={{ background: "none", border: "1px solid rgba(91,191,176,0.15)", padding: "8px 20px", borderRadius: 20, fontSize: 12, color: "#6090A8", cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif", transition: "all 0.2s" }}>
+          }} className="btn-glow" style={{ background: "none", border: "1px solid rgba(91,191,176,0.15)", padding: "8px 20px", borderRadius: 20, fontSize: 12, color: "#7DB0C8", cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif", transition: "all 0.2s" }}>
             ↗ Share AIForj
           </button>
         </div>
 
         <EmailCapture />
 
-        <p style={{ fontSize: 11, color: "#6090A8", opacity: 0.5, lineHeight: 1.7, margin: "0 0 8px", fontFamily: "'IBM Plex Sans', sans-serif" }}>
+        <p style={{ fontSize: 11, color: "#7DB0C8", opacity: 0.5, lineHeight: 1.7, margin: "0 0 8px", fontFamily: "'IBM Plex Sans', sans-serif" }}>
           AIForj is a wellness companion — not a therapist or substitute for professional care.
         </p>
-        <p style={{ fontSize: 11, color: "#6090A8", opacity: 0.5, lineHeight: 1.7, margin: "0 0 16px", fontFamily: "'IBM Plex Sans', sans-serif" }}>
+        <p style={{ fontSize: 11, color: "#7DB0C8", opacity: 0.5, lineHeight: 1.7, margin: "0 0 16px", fontFamily: "'IBM Plex Sans', sans-serif" }}>
           In crisis? Call or text <strong style={{ color: "#5BBFB0", opacity: 0.8 }}>988</strong> · Text HOME to <strong style={{ color: "#5BBFB0", opacity: 0.8 }}>741741</strong>
         </p>
-        <p style={{ fontSize: 11, color: "#6090A8", opacity: 0.3, margin: 0, fontFamily: "'IBM Plex Sans', sans-serif" }}>
+        <p style={{ fontSize: 11, color: "#7DB0C8", opacity: 0.3, margin: 0, fontFamily: "'IBM Plex Sans', sans-serif" }}>
           © 2026 AIForj. All rights reserved.
         </p>
       </footer>

@@ -1,5 +1,5 @@
-import AIForj from './components/AIForj';
+import ForjVoiceCompanion from './components/ForjVoiceCompanion';
 
 export default function Home() {
-  return <AIForj />;
+  return <ForjVoiceCompanion />;
 }

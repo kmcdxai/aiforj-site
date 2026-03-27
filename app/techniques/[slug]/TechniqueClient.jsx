@@ -3,11 +3,12 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import EmailCapture from "../../components/EmailCapture";
+import ShareResultCard from "../../components/ShareResultCard";
 
-const ACCENT = "#6B7F6E";
+const ACCENT = "#8FA892";
 const BG = "#14263A";
-const TEXT = "#D8E8F0";
-const SUBTLE = "rgba(107,127,110,0.12)";
+const TEXT = "#E8F0F5";
+const SUBTLE = "rgba(107,127,110,0.18)";
 
 // ─── Breathing Animator ───
 function BreathingStep({ breathe, onComplete }) {
@@ -201,7 +202,7 @@ function BreathingVisual({ phases, totalCycles, onDone }) {
       <p
         style={{
           fontSize: 12,
-          color: `rgba(216,232,240,0.4)`,
+          color: `rgba(232,240,245,0.55)`,
           marginBottom: 16,
         }}
       >
@@ -253,7 +254,7 @@ function TextInputStep({ step, onComplete }) {
   const [value, setValue] = useState("");
   return (
     <div>
-      <p style={{ color: `rgba(216,232,240,0.7)`, fontSize: 15, lineHeight: 1.7, marginBottom: 20 }}>
+      <p style={{ color: `rgba(232,240,245,0.85)`, fontSize: 15, lineHeight: 1.7, marginBottom: 20 }}>
         {step.instruction}
       </p>
       <textarea
@@ -276,7 +277,7 @@ function MultiInputStep({ step, onComplete }) {
   const allFilled = values.every((v) => v.trim());
   return (
     <div>
-      <p style={{ color: `rgba(216,232,240,0.7)`, fontSize: 15, lineHeight: 1.7, marginBottom: 20 }}>
+      <p style={{ color: `rgba(232,240,245,0.85)`, fontSize: 15, lineHeight: 1.7, marginBottom: 20 }}>
         {step.instruction}
       </p>
       {step.fields.map((field, i) => (
@@ -329,7 +330,7 @@ function TimerStep({ step, onComplete }) {
 
   return (
     <div style={{ textAlign: "center" }}>
-      <p style={{ color: `rgba(216,232,240,0.7)`, fontSize: 15, lineHeight: 1.7, marginBottom: 24 }}>
+      <p style={{ color: `rgba(232,240,245,0.85)`, fontSize: 15, lineHeight: 1.7, marginBottom: 24 }}>
         {step.instruction}
       </p>
       <div
@@ -361,7 +362,7 @@ function TimerStep({ step, onComplete }) {
 function ReflectionStep({ step, onComplete }) {
   return (
     <div>
-      <p style={{ color: `rgba(216,232,240,0.7)`, fontSize: 15, lineHeight: 1.8, marginBottom: 24, whiteSpace: "pre-line" }}>
+      <p style={{ color: `rgba(232,240,245,0.85)`, fontSize: 15, lineHeight: 1.8, marginBottom: 24, whiteSpace: "pre-line" }}>
         {step.instruction}
       </p>
       <button onClick={onComplete} style={btnStyle}>
@@ -375,7 +376,7 @@ function ReflectionStep({ step, onComplete }) {
 function ChoiceStep({ step, onComplete }) {
   return (
     <div>
-      <p style={{ color: `rgba(216,232,240,0.7)`, fontSize: 15, lineHeight: 1.7, marginBottom: 20 }}>
+      <p style={{ color: `rgba(232,240,245,0.85)`, fontSize: 15, lineHeight: 1.7, marginBottom: 20 }}>
         {step.instruction}
       </p>
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -434,13 +435,13 @@ function BodyScanStep({ step, onComplete }) {
 
   return (
     <div style={{ textAlign: "center" }}>
-      <p style={{ fontSize: 12, color: `rgba(216,232,240,0.4)`, marginBottom: 8 }}>
+      <p style={{ fontSize: 12, color: `rgba(232,240,245,0.55)`, marginBottom: 8 }}>
         Region {regionIdx + 1} of {regions.length}
       </p>
       <p style={{ fontSize: 22, color: TEXT, fontFamily: "'Sora', sans-serif", fontWeight: 400, marginBottom: 8 }}>
         {regions[regionIdx]}
       </p>
-      <p style={{ color: `rgba(216,232,240,0.6)`, fontSize: 14, lineHeight: 1.7, marginBottom: 20 }}>
+      <p style={{ color: `rgba(232,240,245,0.75)`, fontSize: 14, lineHeight: 1.7, marginBottom: 20 }}>
         Bring your attention here. Notice any sensations — warmth, tension, tingling, or nothing at all. No judgment.
       </p>
       <div style={{ fontSize: 32, color: ACCENT, fontWeight: 300, marginBottom: 20, fontFamily: "'Sora', sans-serif" }}>
@@ -460,7 +461,7 @@ function RatingStep({ step, onComplete }) {
   const max = step.max || 10;
   return (
     <div style={{ textAlign: "center" }}>
-      <p style={{ color: `rgba(216,232,240,0.7)`, fontSize: 15, lineHeight: 1.7, marginBottom: 24 }}>
+      <p style={{ color: `rgba(232,240,245,0.85)`, fontSize: 15, lineHeight: 1.7, marginBottom: 24 }}>
         {step.instruction}
       </p>
       <div style={{ display: "flex", justifyContent: "center", gap: 8, flexWrap: "wrap", marginBottom: 24 }}>
@@ -486,7 +487,7 @@ function RatingStep({ step, onComplete }) {
           </button>
         ))}
       </div>
-      <div style={{ display: "flex", justifyContent: "space-between", maxWidth: 300, margin: "0 auto 20px", fontSize: 12, color: `rgba(216,232,240,0.4)` }}>
+      <div style={{ display: "flex", justifyContent: "space-between", maxWidth: 300, margin: "0 auto 20px", fontSize: 12, color: `rgba(232,240,245,0.55)` }}>
         <span>{step.minLabel || "Low"}</span>
         <span>{step.maxLabel || "High"}</span>
       </div>
@@ -574,6 +575,35 @@ function StructuredData({ technique }) {
     })),
   };
 
+  const webPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: technique.metaTitle,
+    description: technique.metaDescription,
+    url: `https://aiforj.com/techniques/${technique.slug}`,
+    isPartOf: {
+      "@type": "WebSite",
+      name: "AIForj",
+      url: "https://aiforj.com",
+    },
+    author: {
+      "@type": "Person",
+      name: "Kevin Cooke D'Alo, PMHNP-BC",
+      jobTitle: "Board Certified Psychiatric Mental Health Nurse Practitioner",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "AIForj",
+      url: "https://aiforj.com",
+    },
+    dateModified: "2026-03-27",
+    inLanguage: "en-US",
+    about: {
+      "@type": "MedicalCondition",
+      name: technique.subtitle,
+    },
+  };
+
   return (
     <>
       <script
@@ -584,6 +614,10 @@ function StructuredData({ technique }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
+      />
     </>
   );
 }
@@ -593,18 +627,23 @@ export default function TechniqueClient({ technique, related }) {
   const [exerciseStarted, setExerciseStarted] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [exerciseDone, setExerciseDone] = useState(false);
+  const [exerciseStartTime, setExerciseStartTime] = useState(null);
+  const [elapsedMinutes, setElapsedMinutes] = useState(0);
   const exerciseRef = useRef(null);
 
   const handleStepComplete = () => {
     if (currentStep < technique.steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
+      const mins = exerciseStartTime ? Math.max(1, Math.round((Date.now() - exerciseStartTime) / 60000)) : 0;
+      setElapsedMinutes(mins);
       setExerciseDone(true);
     }
   };
 
   const startExercise = () => {
     setExerciseStarted(true);
+    setExerciseStartTime(Date.now());
     setCurrentStep(0);
     setExerciseDone(false);
     setTimeout(() => exerciseRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
@@ -628,14 +667,14 @@ export default function TechniqueClient({ technique, related }) {
             <span style={{ fontSize: 12, padding: "4px 12px", background: `rgba(107,127,110,0.15)`, borderRadius: 8, color: ACCENT, fontWeight: 600 }}>
               {technique.modality}
             </span>
-            <span style={{ fontSize: 12, padding: "4px 12px", background: "rgba(255,255,255,0.04)", borderRadius: 8, color: `rgba(216,232,240,0.5)` }}>
+            <span style={{ fontSize: 12, padding: "4px 12px", background: "rgba(255,255,255,0.04)", borderRadius: 8, color: `rgba(232,240,245,0.65)` }}>
               {technique.time}
             </span>
           </div>
           <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(26px, 5vw, 38px)", fontWeight: 400, color: TEXT, margin: "0 0 12px", lineHeight: 1.2 }}>
             {technique.title}
           </h1>
-          <p style={{ fontSize: 16, color: `rgba(216,232,240,0.6)`, margin: "0 0 16px", lineHeight: 1.6, fontWeight: 300 }}>
+          <p style={{ fontSize: 16, color: `rgba(232,240,245,0.75)`, margin: "0 0 16px", lineHeight: 1.6, fontWeight: 300 }}>
             {technique.subtitle}
           </p>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px", background: "rgba(107,127,110,0.08)", borderRadius: 20, border: `1px solid ${SUBTLE}` }}>
@@ -647,7 +686,7 @@ export default function TechniqueClient({ technique, related }) {
         <section style={{ marginBottom: 36 }}>
           <h2 style={h2Style}>What This Is</h2>
           <p style={proseStyle}>{technique.whatThisIs}</p>
-          <p style={{ fontSize: 13, color: `rgba(216,232,240,0.4)`, marginTop: 8 }}>
+          <p style={{ fontSize: 13, color: `rgba(232,240,245,0.55)`, marginTop: 8 }}>
             Origin: {technique.origin}
           </p>
         </section>
@@ -663,7 +702,7 @@ export default function TechniqueClient({ technique, related }) {
           <h2 style={h2Style}>Guided Exercise</h2>
           {!exerciseStarted ? (
             <div style={{ textAlign: "center", padding: "32px 20px", background: "rgba(255,255,255,0.03)", borderRadius: 16, border: `1px solid ${SUBTLE}` }}>
-              <p style={{ fontSize: 15, color: `rgba(216,232,240,0.6)`, marginBottom: 20, lineHeight: 1.6 }}>
+              <p style={{ fontSize: 15, color: `rgba(232,240,245,0.75)`, marginBottom: 20, lineHeight: 1.6 }}>
                 This interactive exercise takes about {technique.time}. Everything stays on your device — nothing is stored or sent anywhere.
               </p>
               <button onClick={startExercise} style={btnStyle}>
@@ -671,20 +710,20 @@ export default function TechniqueClient({ technique, related }) {
               </button>
             </div>
           ) : exerciseDone ? (
-            <div style={{ textAlign: "center", padding: "32px 20px", background: "rgba(107,127,110,0.06)", borderRadius: 16, border: `1px solid ${SUBTLE}` }}>
-              <div style={{ fontSize: 32, marginBottom: 12 }}>✓</div>
-              <p style={{ fontSize: 18, color: TEXT, fontFamily: "'Sora', sans-serif", marginBottom: 8 }}>
-                Exercise complete
-              </p>
-              <p style={{ fontSize: 14, color: `rgba(216,232,240,0.5)`, marginBottom: 24, lineHeight: 1.6 }}>
-                Take a moment to notice how you feel now compared to when you started.
-              </p>
-              <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+            <div style={{ padding: "32px 20px", background: "rgba(107,127,110,0.06)", borderRadius: 16, border: `1px solid ${SUBTLE}` }}>
+              <div style={{ textAlign: "center", marginBottom: 28 }}>
+                <div style={{ fontSize: 32, marginBottom: 12 }}>✓</div>
+                <p style={{ fontSize: 18, color: TEXT, fontFamily: "'Sora', sans-serif", marginBottom: 8 }}>
+                  Exercise complete
+                </p>
+                <p style={{ fontSize: 14, color: `rgba(232,240,245,0.65)`, marginBottom: 16, lineHeight: 1.6 }}>
+                  Take a moment to notice how you feel now compared to when you started.
+                </p>
                 <button onClick={startExercise} style={btnSecondaryStyle}>
                   Do It Again
                 </button>
-                <ShareButton technique={technique} />
               </div>
+              <ShareResultCard technique={technique} elapsedMinutes={elapsedMinutes} />
             </div>
           ) : (
             <div style={{ padding: "28px 20px", background: "rgba(255,255,255,0.03)", borderRadius: 16, border: `1px solid ${SUBTLE}` }}>
@@ -692,7 +731,7 @@ export default function TechniqueClient({ technique, related }) {
                 <span style={{ fontSize: 12, color: ACCENT, fontWeight: 600 }}>
                   {technique.steps[currentStep].title}
                 </span>
-                <span style={{ fontSize: 12, color: `rgba(216,232,240,0.4)` }}>
+                <span style={{ fontSize: 12, color: `rgba(232,240,245,0.55)` }}>
                   Step {currentStep + 1} / {technique.steps.length}
                 </span>
               </div>
@@ -713,7 +752,7 @@ export default function TechniqueClient({ technique, related }) {
           <h2 style={h2Style}>When to Use This</h2>
           <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
             {technique.whenToUse.map((w, i) => (
-              <li key={i} style={{ padding: "10px 0", borderBottom: i < technique.whenToUse.length - 1 ? `1px solid rgba(107,127,110,0.08)` : "none", fontSize: 15, color: `rgba(216,232,240,0.7)`, lineHeight: 1.5 }}>
+              <li key={i} style={{ padding: "10px 0", borderBottom: i < technique.whenToUse.length - 1 ? `1px solid rgba(107,127,110,0.08)` : "none", fontSize: 15, color: `rgba(232,240,245,0.85)`, lineHeight: 1.5 }}>
                 <span style={{ color: ACCENT, marginRight: 10 }}>→</span>
                 {w}
               </li>
@@ -729,7 +768,7 @@ export default function TechniqueClient({ technique, related }) {
               <summary style={{ padding: "14px 18px", fontSize: 15, color: TEXT, cursor: "pointer", fontWeight: 500 }}>
                 {faq.q}
               </summary>
-              <p style={{ padding: "0 18px 14px", fontSize: 14, color: `rgba(216,232,240,0.6)`, lineHeight: 1.7, margin: 0 }}>
+              <p style={{ padding: "0 18px 14px", fontSize: 14, color: `rgba(232,240,245,0.75)`, lineHeight: 1.7, margin: 0 }}>
                 {faq.a}
               </p>
             </details>
@@ -747,7 +786,7 @@ export default function TechniqueClient({ technique, related }) {
                   <p style={{ fontSize: 15, color: TEXT, margin: "6px 0 4px", fontWeight: 500 }}>
                     {r.title.split(":")[0]}
                   </p>
-                  <span style={{ fontSize: 12, color: `rgba(216,232,240,0.4)` }}>{r.time}</span>
+                  <span style={{ fontSize: 12, color: `rgba(232,240,245,0.55)` }}>{r.time}</span>
                 </Link>
               ))}
             </div>
@@ -755,11 +794,8 @@ export default function TechniqueClient({ technique, related }) {
         )}
 
         {/* ─── Share ─── */}
-        <section style={{ textAlign: "center", marginBottom: 36, padding: "28px 20px", background: "rgba(107,127,110,0.06)", borderRadius: 16 }}>
-          <p style={{ fontSize: 17, color: TEXT, fontFamily: "'Sora', sans-serif", marginBottom: 14 }}>
-            This helped? Send it to someone who might need it.
-          </p>
-          <ShareButton technique={technique} />
+        <section style={{ marginBottom: 36 }}>
+          <ShareResultCard technique={technique} elapsedMinutes={elapsedMinutes} />
         </section>
 
         {/* ─── CTAs ─── */}
@@ -777,10 +813,10 @@ export default function TechniqueClient({ technique, related }) {
 
         {/* ─── Footer ─── */}
         <footer style={{ textAlign: "center", marginTop: 48, paddingTop: 28, borderTop: `1px solid rgba(107,127,110,0.08)` }}>
-          <p style={{ fontSize: 12, color: `rgba(216,232,240,0.35)`, lineHeight: 1.8 }}>
-            If you're in crisis: <strong style={{ color: `rgba(216,232,240,0.5)` }}>988 Lifeline</strong> — call or text 988 | <strong style={{ color: `rgba(216,232,240,0.5)` }}>Crisis Text Line</strong> — text HOME to 741741
+          <p style={{ fontSize: 12, color: `rgba(232,240,245,0.5)`, lineHeight: 1.8 }}>
+            If you're in crisis: <strong style={{ color: `rgba(232,240,245,0.65)` }}>988 Lifeline</strong> — call or text 988 | <strong style={{ color: `rgba(232,240,245,0.65)` }}>Crisis Text Line</strong> — text HOME to 741741
           </p>
-          <p style={{ fontSize: 11, color: `rgba(216,232,240,0.2)`, marginTop: 12, lineHeight: 1.8 }}>
+          <p style={{ fontSize: 11, color: `rgba(232,240,245,0.4)`, marginTop: 12, lineHeight: 1.8 }}>
             AIForj is a wellness companion — not a therapist or substitute for professional care.<br />
             Built by a Board Certified PMHNP-BC — Caring for the Whole Human<br />
             © 2026 AIForj.com
@@ -825,15 +861,15 @@ const btnSecondaryStyle = {
 
 const h2Style = {
   fontFamily: "'Sora', sans-serif",
-  fontSize: 20,
+  fontSize: 22,
   fontWeight: 500,
   color: TEXT,
-  marginBottom: 14,
+  marginBottom: 16,
 };
 
 const proseStyle = {
-  fontSize: 15,
-  color: "rgba(216,232,240,0.7)",
+  fontSize: 16,
+  color: "rgba(232,240,245,0.88)",
   lineHeight: 1.8,
   margin: 0,
 };

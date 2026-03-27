@@ -11,5 +11,9 @@ html, body {
 }
 
 body {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 16px;
+  background: #14263A;
+  color: #E0EDF4;
+  line-height: 1.6;
 }

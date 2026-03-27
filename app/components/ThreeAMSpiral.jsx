@@ -134,11 +134,11 @@ export default function ThreeAMSpiral() {
 
       <header style={{ padding:"16px 20px", display:"flex", justifyContent:"space-between", alignItems:"center", position:"relative", zIndex:10 }}>
         <a href="/" style={{ textDecoration:"none", display:"flex", alignItems:"baseline", gap:2 }}>
-          <span style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:19, color:"rgba(180,200,220,0.4)" }}>AI</span>
+          <span style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:19, color:"rgba(200,215,230,0.6)" }}>AI</span>
           <span style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:19, color:"#5b8fa8" }}>Forj</span>
         </a>
         {step !== "landing" && step !== "close" && (
-          <span style={{ fontSize:11, color:"rgba(180,200,220,0.25)", fontVariantNumeric:"tabular-nums" }}>{mins}:{secs.toString().padStart(2,"0")}</span>
+          <span style={{ fontSize:11, color:"rgba(200,215,230,0.45)", fontVariantNumeric:"tabular-nums" }}>{mins}:{secs.toString().padStart(2,"0")}</span>
         )}
       </header>
 
@@ -148,12 +148,12 @@ export default function ThreeAMSpiral() {
           <div key={fk} style={{ animation:"fadeUp 1.2s ease", paddingTop:"14vh" }}>
             <p style={{ fontSize:12, color:"#5b8fa8", letterSpacing:4, textTransform:"uppercase", marginBottom:20, fontWeight:500 }}>Can't sleep</p>
             <h1 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"clamp(34px,7vw,52px)", fontWeight:300, lineHeight:1.15, marginBottom:24, color:"#dde4ee" }}>It's late. Your<br/>brain won't stop.</h1>
-            <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(180,200,220,0.5)", marginBottom:20 }}>Replaying conversations. Predicting disasters. Listing everything undone. The thoughts loop and there's no off switch.</p>
-            <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(180,200,220,0.65)", marginBottom:20 }}>Here's what's happening: your prefrontal cortex — the rational part — drops up to 30% in activity after midnight. Meanwhile your amygdala, the threat system, runs unsupervised. That's why the same thought that feels manageable at 2pm feels catastrophic at 2am. Your brain's editor went home but the alarm system stayed.</p>
-            <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(180,200,220,0.65)", marginBottom:20 }}>There's also a cortisol factor: your body's cortisol levels begin rising around 2-3am in preparation for waking. If you're already stressed, this bump jolts you into hypervigilant wakefulness — wide awake, heart racing, mind spinning.</p>
+            <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(200,215,230,0.75)", marginBottom:20 }}>Replaying conversations. Predicting disasters. Listing everything undone. The thoughts loop and there's no off switch.</p>
+            <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(200,215,230,0.82)", marginBottom:20 }}>Here's what's happening: your prefrontal cortex — the rational part — drops up to 30% in activity after midnight. Meanwhile your amygdala, the threat system, runs unsupervised. That's why the same thought that feels manageable at 2pm feels catastrophic at 2am. Your brain's editor went home but the alarm system stayed.</p>
+            <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(200,215,230,0.82)", marginBottom:20 }}>There's also a cortisol factor: your body's cortisol levels begin rising around 2-3am in preparation for waking. If you're already stressed, this bump jolts you into hypervigilant wakefulness — wide awake, heart racing, mind spinning.</p>
             <p style={{ fontSize:16, lineHeight:1.8, color:"#5b8fa8", marginBottom:44 }}>This protocol uses six evidence-based techniques — sequenced in the order your nervous system needs them — to bring your rational brain back online. About 10 minutes. No app. No login.</p>
             <div style={{ textAlign:"center" }}><Btn onClick={() => go("check")}>Start the protocol</Btn></div>
-            <p style={{ fontSize:10, color:"rgba(180,200,220,0.2)", marginTop:36, lineHeight:1.7, textAlign:"center" }}>Built by a Board Certified PMHNP. 100% private — nothing stored or sent.</p>
+            <p style={{ fontSize:10, color:"rgba(200,215,230,0.4)", marginTop:36, lineHeight:1.7, textAlign:"center" }}>Built by a Board Certified PMHNP. 100% private — nothing stored or sent.</p>
           </div>
         )}
 
@@ -161,15 +161,15 @@ export default function ThreeAMSpiral() {
           <div key={fk} style={{ animation:"fadeUp 0.8s ease", paddingTop:"6vh" }}>
             <p style={{ fontSize:11, color:"#5b8fa8", letterSpacing:3, textTransform:"uppercase", marginBottom:6 }}>Step 1 of 6</p>
             <h2 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:28, fontWeight:300, marginBottom:12, color:"#dde4ee" }}>How activated are you right now?</h2>
-            <p style={{ fontSize:14, lineHeight:1.8, color:"rgba(180,200,220,0.5)", marginBottom:24 }}>Baseline check. You'll rate again at the end to see the shift.</p>
+            <p style={{ fontSize:14, lineHeight:1.8, color:"rgba(200,215,230,0.75)", marginBottom:24 }}>Baseline check. You'll rate again at the end to see the shift.</p>
             <div style={{ padding:24, background:"rgba(91,143,168,0.04)", borderRadius:16, border:"1px solid rgba(91,143,168,0.08)" }}>
               <div style={{ display:"flex", justifyContent:"space-between", marginBottom:8 }}>
-                <span style={{ fontSize:12, color:"rgba(180,200,220,0.4)" }}>Calm</span>
+                <span style={{ fontSize:12, color:"rgba(200,215,230,0.6)" }}>Calm</span>
                 <span style={{ fontSize:28, fontFamily:"'Cormorant Garamond', serif", color:stressLevel > 7 ? "#c4796b" : stressLevel > 4 ? "#b8935a" : "#5a8c6b" }}>{stressLevel}</span>
-                <span style={{ fontSize:12, color:"rgba(180,200,220,0.4)" }}>Spiraling</span>
+                <span style={{ fontSize:12, color:"rgba(200,215,230,0.6)" }}>Spiraling</span>
               </div>
               <input type="range" min={1} max={10} value={stressLevel} onChange={e => setStressLevel(+e.target.value)} />
-              <p style={{ fontSize:12, color:"rgba(180,200,220,0.35)", marginTop:8, textAlign:"center" }}>
+              <p style={{ fontSize:12, color:"rgba(200,215,230,0.55)", marginTop:8, textAlign:"center" }}>
                 {stressLevel <= 3 ? "Mildly restless — we'll settle this quickly" : stressLevel <= 6 ? "Moderately activated — your amygdala is running the show" : stressLevel <= 8 ? "Highly activated — racing thoughts, tight chest. Common at this hour." : "Full alarm mode. This protocol is built for exactly this."}
               </p>
             </div>
@@ -181,7 +181,7 @@ export default function ThreeAMSpiral() {
           <div key={fk} style={{ animation:"fadeUp 0.8s ease", paddingTop:"6vh" }}>
             <p style={{ fontSize:11, color:"#5b8fa8", letterSpacing:3, textTransform:"uppercase", marginBottom:6 }}>Step 2 of 6</p>
             <h2 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:28, fontWeight:300, marginBottom:12, color:"#dde4ee" }}>The 4-7-8 breath</h2>
-            <p style={{ fontSize:14, lineHeight:1.8, color:"rgba(180,200,220,0.5)", marginBottom:6 }}>Developed by Dr. Andrew Weil, based on pranayama. The long hold saturates blood with oxygen while the extended exhale activates the vagus nerve, shifting from fight/flight to rest/digest.</p>
+            <p style={{ fontSize:14, lineHeight:1.8, color:"rgba(200,215,230,0.75)", marginBottom:6 }}>Developed by Dr. Andrew Weil, based on pranayama. The long hold saturates blood with oxygen while the extended exhale activates the vagus nerve, shifting from fight/flight to rest/digest.</p>
             <p style={{ fontSize:13, color:"#5b8fa8", opacity:0.8, marginBottom:20 }}>4 in through nose. 7 hold. 8 out through mouth. Three cycles.</p>
             <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:20, padding:"12px 0" }}>
               {breathPhase === "ready" ? (
@@ -189,7 +189,7 @@ export default function ThreeAMSpiral() {
               ) : breathPhase === "done" ? (
                 <div style={{ textAlign:"center" }}>
                   <p style={{ fontSize:18, fontFamily:"'Cormorant Garamond', serif", color:"#5b8fa8" }}>Your heart rate just dropped.</p>
-                  <p style={{ fontSize:13, color:"rgba(180,200,220,0.4)", marginTop:6 }}>The vagus nerve is doing its job.</p>
+                  <p style={{ fontSize:13, color:"rgba(200,215,230,0.6)", marginTop:6 }}>The vagus nerve is doing its job.</p>
                 </div>
               ) : (
                 <>
@@ -211,14 +211,14 @@ export default function ThreeAMSpiral() {
           <div key={fk} style={{ animation:"fadeUp 0.8s ease", paddingTop:"6vh" }}>
             <p style={{ fontSize:11, color:"#5b8fa8", letterSpacing:3, textTransform:"uppercase", marginBottom:6 }}>Step 3 of 6</p>
             <h2 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:28, fontWeight:300, marginBottom:12, color:"#dde4ee" }}>Get it all out</h2>
-            <p style={{ fontSize:14, lineHeight:1.8, color:"rgba(180,200,220,0.5)", marginBottom:6 }}>Your working memory holds ~4 items. You're juggling 40. Your brain recycles thoughts because it's afraid of forgetting — so it replays the whole list on loop. Externalize everything so it can stop.</p>
+            <p style={{ fontSize:14, lineHeight:1.8, color:"rgba(200,215,230,0.75)", marginBottom:6 }}>Your working memory holds ~4 items. You're juggling 40. Your brain recycles thoughts because it's afraid of forgetting — so it replays the whole list on loop. Externalize everything so it can stop.</p>
             <p style={{ fontSize:14, lineHeight:1.8, color:"#5b8fa8", opacity:0.8, marginBottom:20 }}>Write EVERYTHING. Worries, tasks, replays, what-ifs, random fears, that thing from 2019. Don't organize. Just dump.</p>
             <textarea value={dumpText} onChange={e => setDumpText(e.target.value)} placeholder={"That email I haven't replied to...\nWhat if I said the wrong thing...\nRent is due and I'm not sure...\nI need to call the doctor...\nWhy did they look at me like that...\nI'm falling behind on everything...\nWhat if this never gets better..."} rows={9} style={{ width:"100%", padding:18, fontSize:14, fontFamily:"'DM Sans', sans-serif", background:"rgba(255,255,255,0.03)", border:"1px solid rgba(91,143,168,0.12)", borderRadius:14, color:"#c0d0e0", resize:"vertical", lineHeight:1.8 }} />
             {wordCount > 0 && <p style={{ fontSize:12, color:"#5b8fa8", opacity:0.5, marginTop:8 }}>{wordCount} words, {lineCount} thoughts externalized.{wordCount > 50 ? " Your working memory just got significantly lighter." : " Keep going."}</p>}
             <div style={{ padding:16, background:"rgba(91,143,168,0.06)", borderRadius:12, border:"1px solid rgba(91,143,168,0.1)", marginTop:16 }}>
               <p style={{ fontSize:12, color:"rgba(180,200,220,0.7)", lineHeight:1.7 }}><strong style={{ color:"#5b8fa8" }}>Pennebaker (1997):</strong> Writing about worries for even 5 minutes reduces their emotional intensity and frees working memory. Participants who wrote anxious thoughts before exams performed significantly better — writing freed cognitive resources anxiety was consuming.</p>
             </div>
-            <p style={{ fontSize:10, color:"rgba(180,200,220,0.2)", marginTop:12, textAlign:"center" }}>Nothing stored or sent. Exists only on your screen.</p>
+            <p style={{ fontSize:10, color:"rgba(200,215,230,0.4)", marginTop:12, textAlign:"center" }}>Nothing stored or sent. Exists only on your screen.</p>
             {wordCount >= 15 && <div style={{ animation:"fadeUp 0.5s ease", textAlign:"center", marginTop:20 }}><Btn onClick={() => go("forensics")}>Next: Examine the loudest thought</Btn></div>}
           </div>
         )}
@@ -227,11 +227,11 @@ export default function ThreeAMSpiral() {
           <div key={fk} style={{ animation:"fadeUp 0.8s ease", paddingTop:"6vh" }}>
             <p style={{ fontSize:11, color:"#5b8fa8", letterSpacing:3, textTransform:"uppercase", marginBottom:6 }}>Step 4 of 6</p>
             <h2 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:28, fontWeight:300, marginBottom:12, color:"#dde4ee" }}>Thought forensics</h2>
-            <p style={{ fontSize:14, lineHeight:1.8, color:"rgba(180,200,220,0.5)", marginBottom:20 }}>One thought is louder than the rest — the one your brain keeps returning to. We're going to examine it like a detective examines evidence: with facts, not emotion. This is the core CBT technique adapted for 3am.</p>
+            <p style={{ fontSize:14, lineHeight:1.8, color:"rgba(200,215,230,0.75)", marginBottom:20 }}>One thought is louder than the rest — the one your brain keeps returning to. We're going to examine it like a detective examines evidence: with facts, not emotion. This is the core CBT technique adapted for 3am.</p>
             <div style={{ display:"flex", flexDirection:"column", gap:20 }}>
               <div>
                 <label style={{ fontSize:11, color:"#5b8fa8", letterSpacing:2, textTransform:"uppercase", display:"block", marginBottom:6, fontWeight:600 }}>The loudest thought right now</label>
-                <p style={{ fontSize:12, color:"rgba(180,200,220,0.35)", marginBottom:8 }}>Write it exactly as your brain says it. Don't filter.</p>
+                <p style={{ fontSize:12, color:"rgba(200,215,230,0.55)", marginBottom:8 }}>Write it exactly as your brain says it. Don't filter.</p>
                 <input type="text" value={loudestThought} onChange={e => setLoudestThought(e.target.value)} placeholder="e.g., 'Everything is falling apart and I can't fix any of it'" style={{ width:"100%", padding:16, fontSize:14, fontFamily:"'DM Sans', sans-serif", background:"rgba(255,255,255,0.03)", border:"1px solid rgba(91,143,168,0.12)", borderRadius:12, color:"#c0d0e0" }} />
               </div>
               {loudestThought.trim() && (
@@ -241,7 +241,7 @@ export default function ThreeAMSpiral() {
                     {distortions.map(d => (
                       <button key={d.id} onClick={() => setDistortion(d.id)} style={{ display:"flex", flexDirection:"column", alignItems:"flex-start", padding:"12px 16px", background:distortion===d.id ? "rgba(91,143,168,0.1)" : "rgba(255,255,255,0.02)", border:distortion===d.id ? "1px solid rgba(91,143,168,0.3)" : "1px solid rgba(91,143,168,0.06)", borderRadius:10, cursor:"pointer", textAlign:"left", width:"100%" }}>
                         <span style={{ fontSize:13, fontWeight:500, color:"#c0d0e0" }}>{d.label}</span>
-                        <span style={{ fontSize:11, color:"rgba(180,200,220,0.4)", marginTop:2 }}>{d.desc}</span>
+                        <span style={{ fontSize:11, color:"rgba(200,215,230,0.6)", marginTop:2 }}>{d.desc}</span>
                       </button>
                     ))}
                   </div>
@@ -250,7 +250,7 @@ export default function ThreeAMSpiral() {
               {distortion && (
                 <div style={{ animation:"fadeUp 0.4s ease" }}>
                   <label style={{ fontSize:11, color:"#5b8fa8", letterSpacing:2, textTransform:"uppercase", display:"block", marginBottom:6, fontWeight:600 }}>Evidence that CONTRADICTS this thought</label>
-                  <p style={{ fontSize:12, color:"rgba(180,200,220,0.35)", marginBottom:8 }}>Not feelings. Facts. Things that happened. Things that are true.</p>
+                  <p style={{ fontSize:12, color:"rgba(200,215,230,0.55)", marginBottom:8 }}>Not feelings. Facts. Things that happened. Things that are true.</p>
                   <textarea value={evidence} onChange={e => setEvidence(e.target.value)} placeholder="e.g., 'I handled a similar situation last month. I have people who've helped. Last time I thought everything was ruined, it wasn't.'" rows={3} style={{ width:"100%", padding:16, fontSize:14, fontFamily:"'DM Sans', sans-serif", background:"rgba(255,255,255,0.03)", border:"1px solid rgba(91,143,168,0.12)", borderRadius:12, color:"#c0d0e0", resize:"vertical", lineHeight:1.7 }} />
                 </div>
               )}
@@ -269,18 +269,18 @@ export default function ThreeAMSpiral() {
           <div key={fk} style={{ animation:"fadeUp 0.8s ease", paddingTop:"6vh" }}>
             <p style={{ fontSize:11, color:"#5b8fa8", letterSpacing:3, textTransform:"uppercase", marginBottom:6 }}>Step 5 of 6</p>
             <h2 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:28, fontWeight:300, marginBottom:12, color:"#dde4ee" }}>Cognitive shuffle</h2>
-            <p style={{ fontSize:14, lineHeight:1.8, color:"rgba(180,200,220,0.5)", marginBottom:6 }}>Your brain spirals by pattern-matching — each thought triggers the next. Cognitive shuffling (Dr. Luc Beaudoin, Simon Fraser University) breaks the chain with random, unrelated imagery. Like jamming a radio signal.</p>
+            <p style={{ fontSize:14, lineHeight:1.8, color:"rgba(200,215,230,0.75)", marginBottom:6 }}>Your brain spirals by pattern-matching — each thought triggers the next. Cognitive shuffling (Dr. Luc Beaudoin, Simon Fraser University) breaks the chain with random, unrelated imagery. Like jamming a radio signal.</p>
             <p style={{ fontSize:14, lineHeight:1.8, color:"#5b8fa8", opacity:0.8, marginBottom:20 }}>Picture each word vividly. Color, shape, texture, weight. Fill your mind with it. When the next appears, let the old one dissolve.</p>
             {!shuffleDone ? (
               <div style={{ textAlign:"center", padding:"28px 0", minHeight:180 }}>
                 <p style={{ fontSize:11, color:"#5b8fa8", letterSpacing:4, textTransform:"uppercase", marginBottom:12 }}>Visualize</p>
                 <p style={{ fontSize:42, fontFamily:"'Cormorant Garamond', serif", fontWeight:300, color:"#dde4ee", opacity:shuffleFade?0:1, transition:"opacity 0.7s ease", margin:"16px 0" }}>{shuffleWords[shuffleIdx]}</p>
-                <p style={{ fontSize:11, color:"rgba(180,200,220,0.25)" }}>{shuffleIdx+1} / {shuffleWords.length}</p>
+                <p style={{ fontSize:11, color:"rgba(200,215,230,0.45)" }}>{shuffleIdx+1} / {shuffleWords.length}</p>
               </div>
             ) : (
               <div style={{ animation:"fadeUp 0.6s ease", textAlign:"center", padding:"20px 0" }}>
                 <p style={{ fontSize:20, fontFamily:"'Cormorant Garamond', serif", color:"#5b8fa8", marginBottom:8 }}>The chain is broken.</p>
-                <p style={{ fontSize:14, color:"rgba(180,200,220,0.4)", marginBottom:24 }}>Your thought loop was interrupted. Even if it tries to restart, the pattern has been weakened.</p>
+                <p style={{ fontSize:14, color:"rgba(200,215,230,0.6)", marginBottom:24 }}>Your thought loop was interrupted. Even if it tries to restart, the pattern has been weakened.</p>
                 <Btn onClick={() => go("body")}>Next: Release the body</Btn>
               </div>
             )}
@@ -291,7 +291,7 @@ export default function ThreeAMSpiral() {
           <div key={fk} style={{ animation:"fadeUp 0.8s ease", paddingTop:"6vh" }}>
             <p style={{ fontSize:11, color:"#5b8fa8", letterSpacing:3, textTransform:"uppercase", marginBottom:6 }}>Step 6 of 6</p>
             <h2 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:28, fontWeight:300, marginBottom:12, color:"#dde4ee" }}>Progressive release</h2>
-            <p style={{ fontSize:14, lineHeight:1.8, color:"rgba(180,200,220,0.5)", marginBottom:20 }}>Jacobson's Progressive Muscle Relaxation — tense then release — teaches your body the contrast between tension and relaxation. Used in clinical insomnia treatment. Do this lying down. Five regions.</p>
+            <p style={{ fontSize:14, lineHeight:1.8, color:"rgba(200,215,230,0.75)", marginBottom:20 }}>Jacobson's Progressive Muscle Relaxation — tense then release — teaches your body the contrast between tension and relaxation. Used in clinical insomnia treatment. Do this lying down. Five regions.</p>
             <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
               {bodyRegions.map((region, i) => (
                 <div key={i} style={{ padding:18, borderRadius:14, background:bodyStep===i ? "rgba(91,143,168,0.08)" : bodyStep>i ? "rgba(90,140,107,0.05)" : "rgba(255,255,255,0.02)", border:bodyStep===i ? "1px solid rgba(91,143,168,0.2)" : "1px solid rgba(91,143,168,0.05)", opacity:bodyStep<i ? 0.35 : 1, transition:"all 0.5s" }}>
@@ -323,7 +323,7 @@ export default function ThreeAMSpiral() {
           <div key={fk} style={{ animation:"fadeUp 0.8s ease", paddingTop:"6vh" }}>
             <p style={{ fontSize:11, color:"#5b8fa8", letterSpacing:3, textTransform:"uppercase", marginBottom:6 }}>Final step</p>
             <h2 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:28, fontWeight:300, marginBottom:12, color:"#dde4ee" }}>Give tomorrow-you a gift</h2>
-            <p style={{ fontSize:14, lineHeight:1.8, color:"rgba(180,200,220,0.5)", marginBottom:20 }}>3am spirals persist because you fear forgetting something important. Let's capture it so your brain can let go.</p>
+            <p style={{ fontSize:14, lineHeight:1.8, color:"rgba(200,215,230,0.75)", marginBottom:20 }}>3am spirals persist because you fear forgetting something important. Let's capture it so your brain can let go.</p>
             <div style={{ display:"flex", flexDirection:"column", gap:20 }}>
               <div>
                 <label style={{ fontSize:11, color:"#5b8fa8", letterSpacing:2, textTransform:"uppercase", display:"block", marginBottom:6, fontWeight:600 }}>Tomorrow-me will handle this first</label>
@@ -331,7 +331,7 @@ export default function ThreeAMSpiral() {
               </div>
               <div>
                 <label style={{ fontSize:11, color:"#5b8fa8", letterSpacing:2, textTransform:"uppercase", display:"block", marginBottom:6, fontWeight:600 }}>What I need to hear right now</label>
-                <p style={{ fontSize:12, color:"rgba(180,200,220,0.35)", marginBottom:8 }}>What would you tell a friend lying awake feeling this way?</p>
+                <p style={{ fontSize:12, color:"rgba(200,215,230,0.55)", marginBottom:8 }}>What would you tell a friend lying awake feeling this way?</p>
                 <input type="text" value={morningKindness} onChange={e => setMorningKindness(e.target.value)} placeholder="e.g., 'You're not failing. You're just tired. Tomorrow is a new start.'" style={{ width:"100%", padding:16, fontSize:14, fontFamily:"'DM Sans', sans-serif", background:"rgba(255,255,255,0.03)", border:"1px solid rgba(91,143,168,0.12)", borderRadius:12, color:"#c0d0e0" }} />
               </div>
               <div>
@@ -351,7 +351,7 @@ export default function ThreeAMSpiral() {
         {step === "close" && (
           <div key={fk} style={{ animation:"fadeUp 1s ease", paddingTop:"6vh" }}>
             <h2 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:34, fontWeight:300, marginBottom:8, color:"#dde4ee", lineHeight:1.3 }}>You did something<br/>most people don't.</h2>
-            <p style={{ fontSize:15, lineHeight:1.8, color:"rgba(180,200,220,0.5)", marginBottom:24 }}>Instead of fighting your brain in the dark, you used a clinical protocol: regulated your nervous system, externalized thoughts, challenged the loudest one, broke the spiral, released body tension, and anchored for tomorrow.</p>
+            <p style={{ fontSize:15, lineHeight:1.8, color:"rgba(200,215,230,0.75)", marginBottom:24 }}>Instead of fighting your brain in the dark, you used a clinical protocol: regulated your nervous system, externalized thoughts, challenged the loudest one, broke the spiral, released body tension, and anchored for tomorrow.</p>
 
             {stressLevel > postStress && (
               <div style={{ padding:20, background:"rgba(90,140,107,0.06)", borderRadius:14, border:"1px solid rgba(90,140,107,0.12)", marginBottom:20, textAlign:"center" }}>
@@ -363,12 +363,12 @@ export default function ThreeAMSpiral() {
             <div style={{ padding:22, background:"rgba(91,143,168,0.04)", borderRadius:16, border:"1px solid rgba(91,143,168,0.08)", marginBottom:20 }}>
               <p style={{ fontSize:11, color:"#5b8fa8", letterSpacing:2, textTransform:"uppercase", marginBottom:14, fontWeight:600 }}>Session summary</p>
               <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
-                <div><p style={{ fontSize:10, color:"rgba(180,200,220,0.4)", textTransform:"uppercase", letterSpacing:1 }}>Techniques</p><p style={{ fontSize:13, color:"#c0d0e0", lineHeight:1.6 }}>4-7-8 Breathing (Weil) · Expressive Writing (Pennebaker) · CBT Thought Record · Cognitive Shuffle (Beaudoin) · Progressive Muscle Relaxation (Jacobson)</p></div>
-                <div><p style={{ fontSize:10, color:"rgba(180,200,220,0.4)", textTransform:"uppercase", letterSpacing:1 }}>Externalized</p><p style={{ fontSize:13, color:"#c0d0e0" }}>{wordCount} words, {lineCount} items</p></div>
-                {loudestThought && <div><p style={{ fontSize:10, color:"rgba(180,200,220,0.4)", textTransform:"uppercase", letterSpacing:1 }}>Loudest thought</p><p style={{ fontSize:13, color:"#c0d0e0", fontStyle:"italic" }}>"{loudestThought}"</p></div>}
-                {balancedThought && <div><p style={{ fontSize:10, color:"rgba(180,200,220,0.4)", textTransform:"uppercase", letterSpacing:1 }}>Morning-you says</p><p style={{ fontSize:13, color:"#5b8fa8" }}>"{balancedThought}"</p></div>}
-                {morningAction && <div><p style={{ fontSize:10, color:"rgba(180,200,220,0.4)", textTransform:"uppercase", letterSpacing:1 }}>Tomorrow's action</p><p style={{ fontSize:14, color:"#5b8fa8", fontWeight:600 }}>"{morningAction}"</p></div>}
-                {morningKindness && <div><p style={{ fontSize:10, color:"rgba(180,200,220,0.4)", textTransform:"uppercase", letterSpacing:1 }}>What you needed to hear</p><p style={{ fontSize:15, fontFamily:"'Cormorant Garamond', serif", color:"#dde4ee", fontStyle:"italic" }}>"{morningKindness}"</p></div>}
+                <div><p style={{ fontSize:10, color:"rgba(200,215,230,0.6)", textTransform:"uppercase", letterSpacing:1 }}>Techniques</p><p style={{ fontSize:13, color:"#c0d0e0", lineHeight:1.6 }}>4-7-8 Breathing (Weil) · Expressive Writing (Pennebaker) · CBT Thought Record · Cognitive Shuffle (Beaudoin) · Progressive Muscle Relaxation (Jacobson)</p></div>
+                <div><p style={{ fontSize:10, color:"rgba(200,215,230,0.6)", textTransform:"uppercase", letterSpacing:1 }}>Externalized</p><p style={{ fontSize:13, color:"#c0d0e0" }}>{wordCount} words, {lineCount} items</p></div>
+                {loudestThought && <div><p style={{ fontSize:10, color:"rgba(200,215,230,0.6)", textTransform:"uppercase", letterSpacing:1 }}>Loudest thought</p><p style={{ fontSize:13, color:"#c0d0e0", fontStyle:"italic" }}>"{loudestThought}"</p></div>}
+                {balancedThought && <div><p style={{ fontSize:10, color:"rgba(200,215,230,0.6)", textTransform:"uppercase", letterSpacing:1 }}>Morning-you says</p><p style={{ fontSize:13, color:"#5b8fa8" }}>"{balancedThought}"</p></div>}
+                {morningAction && <div><p style={{ fontSize:10, color:"rgba(200,215,230,0.6)", textTransform:"uppercase", letterSpacing:1 }}>Tomorrow's action</p><p style={{ fontSize:14, color:"#5b8fa8", fontWeight:600 }}>"{morningAction}"</p></div>}
+                {morningKindness && <div><p style={{ fontSize:10, color:"rgba(200,215,230,0.6)", textTransform:"uppercase", letterSpacing:1 }}>What you needed to hear</p><p style={{ fontSize:15, fontFamily:"'Cormorant Garamond', serif", color:"#dde4ee", fontStyle:"italic" }}>"{morningKindness}"</p></div>}
               </div>
             </div>
 
@@ -379,19 +379,24 @@ export default function ThreeAMSpiral() {
               <p style={{ fontSize:14, color:"rgba(180,200,220,0.6)", lineHeight:1.8 }}><strong style={{ color:"#c0d0e0" }}>Still awake in 20 min?</strong> Get up, do something boring in dim light for 10 min, then return. Stimulus control therapy — prevents your brain from linking bed with anxiety.</p>
             </div>
 
-            <div style={{ padding:18, background:"rgba(91,143,168,0.04)", borderRadius:14, border:"1px solid rgba(91,143,168,0.08)", marginBottom:20 }}>
-              <p style={{ fontSize:14, color:"rgba(180,200,220,0.6)", lineHeight:1.7 }}>Bookmark <strong style={{ color:"#5b8fa8" }}>aiforj.com/3am-spiral</strong> — free, private, always here. Know someone who spirals at night? Send them the link.</p>
+            <div style={{ padding:24, background:"rgba(91,143,168,0.06)", borderRadius:16, border:"1px solid rgba(91,143,168,0.12)", marginBottom:20, textAlign:"center" }}>
+              <p style={{ fontSize:16, color:"#dde4ee", fontFamily:"'DM Sans', sans-serif", fontWeight:500, marginBottom:8 }}>This helped? Share it with someone who might need it.</p>
+              <p style={{ fontSize:13, color:"rgba(200,215,230,0.6)", marginBottom:16, lineHeight:1.5 }}>"Can't sleep because your brain won't stop? This free 10-minute protocol actually works. No app needed."</p>
+              <div style={{ display:"flex", gap:10, justifyContent:"center", flexWrap:"wrap" }}>
+                <button onClick={() => { if(navigator.share){navigator.share({title:"3AM Spiral Protocol",text:"Can't sleep because your brain won't stop? This free 10-minute protocol actually works. No app needed.",url:"https://aiforj.com/3am-spiral"}).catch(()=>{});}else{navigator.clipboard.writeText("Can't sleep because your brain won't stop? This free 10-minute protocol actually works. No app needed → https://aiforj.com/3am-spiral");} }} style={{ padding:"10px 24px", fontSize:14, fontWeight:600, background:"#5b8fa8", color:"#060b12", border:"none", borderRadius:30, cursor:"pointer" }}>Share</button>
+                <button onClick={() => navigator.clipboard.writeText("https://aiforj.com/3am-spiral")} style={{ padding:"10px 24px", fontSize:14, fontWeight:500, background:"transparent", color:"#5b8fa8", border:"1px solid rgba(91,143,168,0.3)", borderRadius:30, cursor:"pointer" }}>Copy link</button>
+              </div>
             </div>
 
             <div style={{ textAlign:"center", marginBottom:24 }}>
-              <p style={{ fontSize:14, color:"rgba(180,200,220,0.4)", marginBottom:14, lineHeight:1.7 }}>Need more? Talk it through with Forj — voice or text, evidence-based, private.</p>
+              <p style={{ fontSize:14, color:"rgba(200,215,230,0.6)", marginBottom:14, lineHeight:1.7 }}>Need more? Talk it through with Forj — voice or text, evidence-based, private.</p>
               <a href="/" style={{ display:"inline-block", padding:"14px 36px", fontSize:15, background:"transparent", color:"#5b8fa8", border:"1px solid rgba(91,143,168,0.3)", borderRadius:40, textDecoration:"none", fontWeight:600 }}>Talk to Forj — Free</a>
             </div>
 
             <EmailCapture />
 
             <div style={{ padding:16, borderRadius:12, border:"1px solid rgba(91,143,168,0.06)", textAlign:"center" }}>
-              <p style={{ fontSize:11, color:"rgba(180,200,220,0.25)", lineHeight:1.8 }}>If you're in crisis: <strong>988 Lifeline</strong> — call or text 988 | <strong>Crisis Text Line</strong> — text HOME to 741741</p>
+              <p style={{ fontSize:11, color:"rgba(200,215,230,0.45)", lineHeight:1.8 }}>If you're in crisis: <strong>988 Lifeline</strong> — call or text 988 | <strong>Crisis Text Line</strong> — text HOME to 741741</p>
             </div>
             <p style={{ textAlign:"center", fontSize:10, color:"rgba(180,200,220,0.15)", marginTop:24 }}>Built by a Board Certified PMHNP-BC — Caring for the Whole Human<br/>© 2026 AIForj.com</p>
           </div>

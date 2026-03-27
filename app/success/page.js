@@ -6,8 +6,9 @@ export default function SuccessPage() {
   const [activated, setActivated] = useState(false);
 
   useEffect(() => {
-    // Activate premium in localStorage
+    // Activate premium in localStorage — both keys cover both app components
     localStorage.setItem('aiforj_premium', JSON.stringify(true));
+    localStorage.setItem('forj_tier', JSON.stringify('premium'));
     setActivated(true);
 
     // Redirect to main app after 3 seconds
