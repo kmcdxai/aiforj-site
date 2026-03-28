@@ -1,0 +1,26 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "aiforj-site (aiforj.com)",
+      "cwd": "/Users/kevincooke/Downloads/aiforj-site",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3000
+    },
+    {
+      "name": "AIF (Save/Earn/Find Tools)",
+      "cwd": "/Users/kevincooke/Desktop/AIF",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3001
+    },
+    {
+      "name": "PromptPilot (fervent-cerf)",
+      "cwd": "/Users/kevincooke/Downloads/untitled folder 2/.claude/worktrees/fervent-cerf",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3002
+    }
+  ]
+}

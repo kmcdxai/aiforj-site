@@ -1479,6 +1479,15 @@ export default function ForjVoiceCompanion() {
             </div>
           </div>
 
+          {/* Technique Library CTA */}
+          <div style={{ textAlign: "center", marginBottom: 32 }}>
+            <a href="/techniques" style={{ display: "inline-block", padding: "14px 28px", background: "rgba(91,191,176,0.06)", border: "1px solid rgba(91,191,176,0.15)", borderRadius: 16, textDecoration: "none", transition: "all 0.2s", backdropFilter: "blur(12px)" }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(91,191,176,0.35)"; e.currentTarget.style.background = "rgba(91,191,176,0.1)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(91,191,176,0.15)"; e.currentTarget.style.background = "rgba(91,191,176,0.06)"; }}>
+              <span style={{ fontSize: 15, color: "#D8E8F0", fontFamily: "'Sora', sans-serif", fontWeight: 500 }}>Browse 15 evidence-based techniques →</span>
+            </a>
+          </div>
+
           {/* Two Ways to Use AIForj */}
           <div style={{ marginBottom: 48 }}>
             <h3 style={{ fontFamily: "'Sora', sans-serif", fontSize: 20, fontWeight: 600, color: "#D8E8F0", textAlign: "center", marginBottom: 20 }}>Two Ways to Use AIForj</h3>
@@ -1565,6 +1574,8 @@ export default function ForjVoiceCompanion() {
             onMouseEnter={e => e.currentTarget.style.color = "#5BBFB0"} onMouseLeave={e => e.currentTarget.style.color = "#6090A8"}>📘 CBT Workbook</a>
           <a href="https://medium.com/@kcooke493/im-a-psych-np-and-i-built-a-free-ai-wellness-tool-8d46e01a6852" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", transition: "color 0.2s" }}
             onMouseEnter={e => e.currentTarget.style.color = "#5BBFB0"} onMouseLeave={e => e.currentTarget.style.color = "#6090A8"}>Read Our Story</a>
+          <a href="/techniques" style={{ fontSize: 12, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", transition: "color 0.2s" }}
+            onMouseEnter={e => e.currentTarget.style.color = "#5BBFB0"} onMouseLeave={e => e.currentTarget.style.color = "#6090A8"}>Technique Library</a>
           <a href="https://x.com/AIForj" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", transition: "color 0.2s" }}
             onMouseEnter={e => e.currentTarget.style.color = "#5BBFB0"} onMouseLeave={e => e.currentTarget.style.color = "#6090A8"}>𝕏 @AIForj</a>
         </div>

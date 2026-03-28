@@ -1,9 +1,15 @@
 {
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/",
       "has": [{ "type": "host", "value": "www.aiforj.com" }],
-      "destination": "https://aiforj.com/:path*",
+      "destination": "https://aiforj.com/",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [{ "type": "host", "value": "www.aiforj.com" }],
+      "destination": "https://aiforj.com/:path",
       "permanent": true
     }
   ]

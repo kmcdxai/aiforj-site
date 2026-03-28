@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 
-const BUTTONDOWN_URL = "https://buttondown.com/api/emails/embed-subscribe/aiforj";
-
 export default function EmailCapture() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -19,24 +17,22 @@ export default function EmailCapture() {
     setError("");
     setLoading(true);
 
-    // Try Buttondown form submission
     try {
-      const form = new FormData();
-      form.append("email", email);
-      await fetch(BUTTONDOWN_URL, { method: "POST", body: form, mode: "no-cors" });
-    } catch {}
-
-    // Also store locally as backup
-    try {
-      const existing = JSON.parse(localStorage.getItem("aiforj_subscribers") || "[]");
-      if (!existing.includes(email)) {
-        existing.push(email);
-        localStorage.setItem("aiforj_subscribers", JSON.stringify(existing));
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email_address: email }),
+      });
+      if (res.ok) {
+        setSubmitted(true);
+      } else {
+        setError("Something went wrong. Try again.");
       }
-    } catch {}
+    } catch {
+      setError("Something went wrong. Try again.");
+    }
 
     setLoading(false);
-    setSubmitted(true);
   };
 
   return (

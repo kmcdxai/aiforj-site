@@ -1,7 +1,32 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import EmailCapture from "./EmailCapture";
+
+function InlineEmailCapture({ accentColor = "#7b6b9a", textColor = "#2a2f35", bgColor = "rgba(123,107,154,0.06)", borderColor = "rgba(123,107,154,0.12)" }) {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState("idle");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
+    setStatus("loading");
+    try {
+      const res = await fetch("/api/subscribe", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email_address: email }) });
+      setStatus(res.ok ? "done" : "error");
+    } catch { setStatus("error"); }
+  };
+  if (status === "done") return <div style={{ textAlign: "center", padding: "32px 20px", marginTop: 40, background: bgColor, borderRadius: 16, border: `1px solid ${borderColor}` }}><p style={{ fontSize: 18, color: accentColor, fontWeight: 500 }}>You're in! Check your inbox.</p></div>;
+  if (status === "error") return <div style={{ textAlign: "center", padding: "32px 20px", marginTop: 40, background: bgColor, borderRadius: 16, border: `1px solid ${borderColor}` }}><p style={{ fontSize: 16, color: "#e07070", marginBottom: 12 }}>Something went wrong. Try again.</p><button onClick={() => setStatus("idle")} style={{ padding: "10px 24px", borderRadius: 10, background: accentColor, border: "none", color: "#fff", fontSize: 14, cursor: "pointer" }}>Retry</button></div>;
+  return (
+    <div style={{ textAlign: "center", padding: "32px 20px", marginTop: 40, background: bgColor, borderRadius: 16, border: `1px solid ${borderColor}` }}>
+      <h3 style={{ fontSize: 18, marginBottom: 8, color: textColor, fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>Get one 60-second technique every week</h3>
+      <p style={{ fontSize: 14, color: textColor, opacity: 0.5, marginBottom: 16 }}>Free. No spam. Unsubscribe anytime.</p>
+      <form onSubmit={handleSubmit} style={{ display: "flex", gap: 8, justifyContent: "center", maxWidth: 400, margin: "0 auto", flexWrap: "wrap" }}>
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.com" style={{ flex: "1 1 200px", padding: "12px 16px", borderRadius: 10, border: `1px solid ${borderColor}`, background: "rgba(255,255,255,0.5)", color: "#2a2f35", fontSize: 15, fontFamily: "'DM Sans', sans-serif", outline: "none" }} />
+        <button type="submit" disabled={status === "loading"} style={{ padding: "12px 24px", borderRadius: 10, background: accentColor, border: "none", color: "#fff", fontSize: 15, fontWeight: 600, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", opacity: status === "loading" ? 0.6 : 1 }}>{status === "loading" ? "..." : "Subscribe"}</button>
+      </form>
+    </div>
+  );
+}
 
 const STEPS = ["landing","breathe","dump","triage","mvd","accept","commit","close"];
 
@@ -122,6 +147,8 @@ export default function OverwhelmedPage() {
 
             <div style={{ textAlign:"center" }}><Btn onClick={() => go("breathe")}>Let's slow it down</Btn></div>
             <p style={{ fontSize:10, color:"#5a5a62", opacity:0.4, marginTop:32, lineHeight:1.7, textAlign:"center" }}>Built by a Board Certified PMHNP. Nothing stored or sent.</p>
+
+            <InlineEmailCapture />
           </div>
         )}
 
@@ -341,7 +368,7 @@ export default function OverwhelmedPage() {
               <a href="/" style={{ display:"inline-block", padding:"14px 36px", fontSize:15, background:"transparent", color:ac, border:`1px solid ${ac}`, borderRadius:40, textDecoration:"none", fontWeight:600 }}>Talk to Forj — Free</a>
             </div>
 
-            <EmailCapture />
+            <InlineEmailCapture />
 
             <div style={{ padding:16, borderRadius:12, border:"1px solid #e0dbd3", textAlign:"center" }}>
               <p style={{ fontSize:11, color:"#5a5a62", opacity:0.4, lineHeight:1.8 }}>If you're in crisis: <strong>988 Lifeline</strong> — call or text 988 | <strong>Crisis Text Line</strong> — text HOME to 741741</p>
