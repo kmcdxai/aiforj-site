@@ -45,25 +45,25 @@ export default function EmailCapture() {
     }}>
       <div style={{
         background: "rgba(255,255,255,0.08)",
-        border: "1px solid rgba(107,127,110,0.35)",
+        border: "1px solid rgba(125,155,130,0.35)",
         borderRadius: 20,
         padding: "40px 28px",
       }}>
         {submitted ? (
           <div>
-            <div style={{ fontSize: 28, marginBottom: 12, color: "#7FA882" }}>✓</div>
+            <div style={{ fontSize: 28, marginBottom: 12, color: "#7D9B82" }}>✓</div>
             <p style={{
-              fontFamily: "'Sora', sans-serif",
+              fontFamily: "'Fraunces', serif",
               fontSize: 18,
               fontWeight: 500,
-              color: "#D8E8F0",
+              color: "#2D2A26",
               margin: "0 0 6px",
             }}>
               You're in.
             </p>
             <p style={{
               fontSize: 15,
-              color: "rgba(232,240,245,0.78)",
+              color: "rgba(45,42,38,0.78)",
               margin: 0,
             }}>
               Check your inbox (and spam folder) for a confirmation.
@@ -72,10 +72,10 @@ export default function EmailCapture() {
         ) : (
           <>
             <h3 style={{
-              fontFamily: "'Playfair Display', serif",
+              fontFamily: "'Fraunces', serif",
               fontSize: "clamp(22px, 4vw, 28px)",
               fontWeight: 400,
-              color: "#FFFFFF",
+              color: "#2D2A26",
               margin: "0 0 10px",
               lineHeight: 1.3,
             }}>
@@ -83,7 +83,7 @@ export default function EmailCapture() {
             </h3>
             <p style={{
               fontSize: 16,
-              color: "rgba(232,240,245,0.88)",
+              color: "rgba(45,42,38,0.88)",
               margin: "0 0 28px",
               fontWeight: 400,
               lineHeight: 1.5,
@@ -109,23 +109,23 @@ export default function EmailCapture() {
                   flex: "1 1 220px",
                   padding: "14px 18px",
                   fontSize: 17,
-                  fontFamily: "'IBM Plex Sans', sans-serif",
+                  fontFamily: "'DM Sans', sans-serif",
                   background: "rgba(255,255,255,0.12)",
-                  border: "1px solid rgba(107,127,110,0.4)",
+                  border: "1px solid rgba(125,155,130,0.4)",
                   borderRadius: 12,
-                  color: "#FFFFFF",
+                  color: "#2D2A26",
                   outline: "none",
                   transition: "border-color 0.2s ease",
                 }}
-                onFocus={(e) => { e.target.style.borderColor = "#7FA882"; }}
-                onBlur={(e) => { e.target.style.borderColor = "rgba(107,127,110,0.35)"; }}
+                onFocus={(e) => { e.target.style.borderColor = "#7D9B82"; }}
+                onBlur={(e) => { e.target.style.borderColor = "rgba(125,155,130,0.35)"; }}
               />
               <button type="submit" disabled={loading} style={{
                 padding: "14px 32px",
                 fontSize: 16,
                 fontWeight: 600,
-                fontFamily: "'Sora', sans-serif",
-                background: "linear-gradient(135deg, #7FA882, #6B8C6B)",
+                fontFamily: "'Fraunces', serif",
+                background: "linear-gradient(135deg, #7D9B82, #6B8C6B)",
                 color: "#fff",
                 border: "none",
                 borderRadius: 12,
@@ -134,7 +134,7 @@ export default function EmailCapture() {
                 whiteSpace: "nowrap",
                 opacity: loading ? 0.7 : 1,
               }}
-              onMouseEnter={(e) => { if (!loading) { e.target.style.transform = "translateY(-1px)"; e.target.style.boxShadow = "0 4px 20px rgba(107,127,110,0.4)"; }}}
+              onMouseEnter={(e) => { if (!loading) { e.target.style.transform = "translateY(-1px)"; e.target.style.boxShadow = "0 4px 20px rgba(125,155,130,0.4)"; }}}
               onMouseLeave={(e) => { e.target.style.transform = "translateY(0)"; e.target.style.boxShadow = "none"; }}
               >
                 {loading ? "..." : "Subscribe"}

@@ -2,6 +2,9 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import EmailCapture from "./EmailCapture";
+import SoundToggle from "./SoundToggle";
+import DataManagement from "./DataManagement";
+import { useTheme } from "./ThemeProvider";
 
 // ═══════════════════════════════════════════════════════════════════════════
 //
@@ -417,121 +420,6 @@ function useTTS() {
 }
 
 // ─────────────────────────────────────────────────
-// THERAPY MODALITIES — expandable plain-English guide
-// ─────────────────────────────────────────────────
-const MODALITIES = [
-  {
-    name: "CBT",
-    full: "Cognitive Behavioral Therapy",
-    plain: "Your thoughts drive your feelings. CBT helps you catch distorted thinking patterns (like catastrophizing or all-or-nothing thinking) and replace them with accurate, realistic ones.",
-    best: "Anxiety, depression, OCD, phobias, negative self-talk",
-  },
-  {
-    name: "DBT",
-    full: "Dialectical Behavior Therapy",
-    plain: "Built for intense emotions. DBT gives you concrete skills to survive emotional crises, regulate overwhelming feelings, and improve relationships — all without making things worse.",
-    best: "Emotional dysregulation, self-harm urges, relationship conflict, borderline traits",
-  },
-  {
-    name: "ACT",
-    full: "Acceptance & Commitment Therapy",
-    plain: "Stop fighting your thoughts — learn to notice them without being controlled by them. ACT helps you accept discomfort and take action based on what truly matters to you.",
-    best: "Chronic anxiety, avoidance, feeling stuck, disconnection from purpose",
-  },
-  {
-    name: "IPT",
-    full: "Interpersonal Therapy",
-    plain: "Emotions and relationships are deeply connected. IPT focuses on grief, role changes (new job, breakup, parenthood), and improving how you communicate with the people in your life.",
-    best: "Depression, grief, loneliness, relationship difficulties, major life transitions",
-  },
-  {
-    name: "MBSR",
-    full: "Mindfulness-Based Stress Reduction",
-    plain: "Train your brain to stay in the present moment instead of replaying the past or worrying about the future. Simple awareness practices that reduce chronic stress over time.",
-    best: "Chronic stress, burnout, racing thoughts, physical tension, inability to relax",
-  },
-  {
-    name: "Polyvagal",
-    full: "Polyvagal Theory",
-    plain: "Your nervous system runs on a safety/threat dial. This approach helps you understand why you feel numb, frozen, or in fight-or-flight — and gives you tools to shift back to calm.",
-    best: "Freeze responses, numbness, shutdown, hypervigilance, trauma aftermath",
-  },
-  {
-    name: "Somatic",
-    full: "Somatic Experiencing",
-    plain: "The body keeps score. This approach works with physical sensations — tightness, heaviness, racing heart — to process emotions that are stuck in the body rather than just the mind.",
-    best: "Trauma, chronic tension, dissociation, emotions that feel stuck or unexplainable",
-  },
-  {
-    name: "EFT",
-    full: "Emotion-Focused Therapy",
-    plain: "Many people struggle to name or feel their emotions clearly. EFT helps you identify, understand, and process your feelings instead of suppressing or intellectualizing them.",
-    best: "Emotional numbness, difficulty expressing feelings, relationship distress, grief",
-  },
-  {
-    name: "Narrative",
-    full: "Narrative Therapy",
-    plain: "The stories we tell about ourselves shape who we think we are. Narrative therapy helps you separate yourself from the problem and rewrite the story — especially when it's one you inherited, not chose.",
-    best: "Shame, identity struggles, internalized criticism, 'I'm broken' beliefs",
-  },
-  {
-    name: "Schema",
-    full: "Schema Therapy",
-    plain: "Some beliefs about yourself formed in childhood and never updated. Schema therapy identifies these deep patterns — like 'I'm unlovable' or 'I must be perfect' — and heals them at the root.",
-    best: "Lifelong patterns, core beliefs about self-worth, childhood wounds, recurring relationship issues",
-  },
-  {
-    name: "IFS",
-    full: "Internal Family Systems",
-    plain: "You're not one thing — you're made of different 'parts': an inner critic, a scared child, a protector. IFS helps these parts coexist peacefully instead of fighting each other.",
-    best: "Self-sabotage, internal conflict, inner critic, trauma, feeling at war with yourself",
-  },
-  {
-    name: "Positive Psychology",
-    full: "Positive Psychology",
-    plain: "Mental health isn't just the absence of suffering — it's the presence of strength. This approach builds resilience, meaning, gratitude, and the things that make life genuinely good.",
-    best: "Optimization, resilience-building, purpose, recovering from difficult periods",
-  },
-];
-
-function TherapyModalities() {
-  const [open, setOpen] = useState(null);
-  return (
-    <div style={{ marginBottom: 32 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
-        <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 2, color: "#7DB0C8", fontWeight: 600, fontFamily: "'Sora', sans-serif" }}>Evidence-Based Approaches</span>
-        <span style={{ fontSize: 11, color: "#7DB0C8", opacity: 0.4, fontFamily: "'IBM Plex Sans', sans-serif" }}>— tap any to learn more</span>
-      </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-        {MODALITIES.map((m) => (
-          <div key={m.name}>
-            <button
-              onClick={() => setOpen(open === m.name ? null : m.name)}
-              style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", background: open === m.name ? "rgba(91,191,176,0.08)" : "rgba(91,191,176,0.04)", border: `1px solid ${open === m.name ? "rgba(91,191,176,0.2)" : "rgba(91,191,176,0.08)"}`, borderRadius: open === m.name ? "12px 12px 0 0" : 12, cursor: "pointer", transition: "all 0.2s", textAlign: "left" }}
-            >
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <span style={{ fontSize: 12, fontWeight: 700, color: open === m.name ? "#5BBFB0" : "#6090A8", fontFamily: "'Sora', sans-serif", minWidth: 52 }}>{m.name}</span>
-                <span style={{ fontSize: 12, color: "#7DB0C8", fontFamily: "'IBM Plex Sans', sans-serif", opacity: 0.7 }}>{m.full}</span>
-              </div>
-              <span style={{ fontSize: 14, color: open === m.name ? "#5BBFB0" : "#6090A8", opacity: 0.5, flexShrink: 0, transform: open === m.name ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>▾</span>
-            </button>
-            {open === m.name && (
-              <div style={{ padding: "14px 16px 16px", background: "rgba(91,191,176,0.04)", border: "1px solid rgba(91,191,176,0.12)", borderTop: "none", borderRadius: "0 0 12px 12px", animation: "fadeIn 0.2s ease" }}>
-                <p style={{ fontSize: 13, color: "#D8E8F0", lineHeight: 1.7, margin: "0 0 10px", fontFamily: "'IBM Plex Sans', sans-serif" }}>{m.plain}</p>
-                <div style={{ display: "flex", alignItems: "flex-start", gap: 6 }}>
-                  <span style={{ fontSize: 11, color: "#5BBFB0", fontWeight: 600, fontFamily: "'Sora', sans-serif", flexShrink: 0, marginTop: 1 }}>Best for:</span>
-                  <span style={{ fontSize: 11, color: "#7DB0C8", fontFamily: "'IBM Plex Sans', sans-serif", lineHeight: 1.6 }}>{m.best}</span>
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// ─────────────────────────────────────────────────
 // BREATHING EXERCISE OVERLAY
 // ─────────────────────────────────────────────────
 function BreathingOverlay({ pattern, onClose }) {
@@ -567,14 +455,14 @@ function BreathingOverlay({ pattern, onClose }) {
   const label = phase === "inhale" ? "Breathe In" : phase === "hold" || phase === "hold2" ? "Hold" : "Release";
 
   return (
-    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.9)", backdropFilter: "blur(20px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", zIndex: 100, animation: "fadeIn 0.5s ease" }}>
-      <span style={{ fontSize: 12, color: "#7DB0C8", letterSpacing: 3, textTransform: "uppercase", marginBottom: 32, fontFamily: "'Sora', sans-serif" }}>{p.name}</span>
-      <div style={{ width: sz, height: sz, borderRadius: "50%", background: `radial-gradient(circle, rgba(91,191,176,0.3) 0%, rgba(91,191,176,0.05) 100%)`, transition: "all 1.8s ease-in-out", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", boxShadow: `0 0 ${sz/2}px rgba(91,191,176,0.15)`, border: "1px solid rgba(91,191,176,0.15)" }}>
-        <span style={{ fontSize: 13, textTransform: "uppercase", letterSpacing: 3, color: "#5BBFB0", fontWeight: 600, fontFamily: "'Sora', sans-serif" }}>{label}</span>
-        <span style={{ fontSize: 40, fontWeight: 300, color: "#D8E8F0", marginTop: 4, fontFamily: "'IBM Plex Sans', sans-serif" }}>{count}</span>
+    <div style={{ position: "fixed", inset: 0, background: "rgba(45,42,38,0.92)", backdropFilter: "blur(20px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", zIndex: 100, animation: "fadeIn 0.5s ease" }}>
+      <span style={{ fontSize: 12, color: "rgba(232,224,212,0.6)", letterSpacing: 3, textTransform: "uppercase", marginBottom: 32, fontFamily: "'Fraunces', serif" }}>{p.name}</span>
+      <div style={{ width: sz, height: sz, borderRadius: "50%", background: `radial-gradient(circle, rgba(125,155,130,0.3) 0%, rgba(125,155,130,0.05) 100%)`, transition: "all 1.8s ease-in-out", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", boxShadow: `0 0 ${sz/2}px rgba(125,155,130,0.15)`, border: "1px solid rgba(125,155,130,0.15)" }}>
+        <span style={{ fontSize: 13, textTransform: "uppercase", letterSpacing: 3, color: "#9BB89E", fontWeight: 600, fontFamily: "'Fraunces', serif" }}>{label}</span>
+        <span style={{ fontSize: 40, fontWeight: 300, color: "#E8E0D4", marginTop: 4, fontFamily: "'DM Sans', sans-serif" }}>{count}</span>
       </div>
-      <span style={{ fontSize: 12, color: "#7DB0C8", marginTop: 24, fontFamily: "'IBM Plex Sans', sans-serif", opacity: 0.6 }}>Cycle {Math.min(cycle + 1, totalCycles)} / {totalCycles}</span>
-      <button onClick={onClose} style={{ marginTop: 32, background: "none", border: "1px solid rgba(91,191,176,0.2)", padding: "8px 24px", borderRadius: 20, color: "#7DB0C8", fontSize: 12, cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif" }}>End Early</button>
+      <span style={{ fontSize: 12, color: "rgba(232,224,212,0.5)", marginTop: 24, fontFamily: "'DM Sans', sans-serif" }}>Cycle {Math.min(cycle + 1, totalCycles)} / {totalCycles}</span>
+      <button onClick={onClose} style={{ marginTop: 32, background: "none", border: "1px solid rgba(155,184,158,0.25)", padding: "8px 24px", borderRadius: 20, color: "rgba(232,224,212,0.6)", fontSize: 12, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", transition: "all 0.3s ease-out" }}>End Early</button>
     </div>
   );
 }
@@ -584,18 +472,38 @@ function BreathingOverlay({ pattern, onClose }) {
 // ─────────────────────────────────────────────────
 function Orb({ state, onClick }) {
   const cfg = {
-    idle:      { c: "79,255,176",  op: 0.22, sz: 160, speed: "4s",   label: "Tap to talk" },
-    listening: { c: "45,212,191",  op: 0.45, sz: 220, speed: "1.2s", label: "Listening..." },
-    thinking:  { c: "123,107,200", op: 0.35, sz: 175, speed: "2.2s", label: "Thinking..." },
-    speaking:  { c: "79,255,176",  op: 0.38, sz: 195, speed: "1.8s", label: "Speaking..." },
+    idle:      { c: "125,155,130", op: 0.22, sz: 160, speed: "4s",   label: "Tap to talk" },
+    listening: { c: "107,155,158", op: 0.35, sz: 180, speed: "1.2s", label: "Listening..." },
+    thinking:  { c: "107,155,158", op: 0.28, sz: 170, speed: "2.2s", label: "Thinking..." },
+    speaking:  { c: "125,155,130", op: 0.32, sz: 175, speed: "1.8s", label: "Speaking..." },
   };
   const s = cfg[state] || cfg.idle;
+  const isIdle = state === "idle";
   return (
-    <div onClick={onClick} style={{ cursor: state === "idle" || state === "speaking" ? "pointer" : "default", position: "relative", width: 300, height: 300, display: "flex", alignItems: "center", justifyContent: "center", userSelect: "none" }}>
-      <div style={{ position: "absolute", width: s.sz + 100, height: s.sz + 100, borderRadius: "50%", background: `radial-gradient(circle, rgba(${s.c},0.12) 0%, transparent 70%)`, animation: `orbPulse ${s.speed} ease-in-out infinite`, transition: "all 0.8s" }} />
-      <div style={{ position: "absolute", width: s.sz + 40, height: s.sz + 40, borderRadius: "50%", background: `rgba(${s.c},0.06)`, border: `1px solid rgba(${s.c},0.1)`, transition: "all 0.6s", animation: `orbPulse ${s.speed} ease-in-out infinite 0.3s` }} />
-      <div style={{ position: "relative", width: s.sz, height: s.sz, borderRadius: "50%", background: `radial-gradient(circle at 40% 35%, rgba(${s.c},${s.op}), rgba(20,38,58,0.05))`, transition: "all 0.5s", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 0 ${s.sz * 0.6}px rgba(${s.c},0.18), 0 0 ${s.sz * 0.25}px rgba(${s.c},0.1)`, border: `1px solid rgba(${s.c},0.15)` }}>
-        <span style={{ fontSize: 14, textTransform: "uppercase", letterSpacing: 3, color: `rgba(${s.c},0.9)`, fontWeight: 600, fontFamily: "'Sora', sans-serif" }}>{s.label}</span>
+    <div
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      aria-label={s.label}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onClick(); } }}
+      style={{
+        cursor: state === "idle" || state === "speaking" ? "pointer" : "default",
+        position: "relative", width: 200, height: 200, margin: "0 auto",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        userSelect: "none", outline: "none",
+      }}
+    >
+      <div style={{ position: "absolute", width: s.sz + 40, height: s.sz + 40, borderRadius: "50%", background: `radial-gradient(circle, rgba(${s.c},0.1) 0%, transparent 70%)`, animation: `orbPulse ${s.speed} ease-in-out infinite`, transition: "all 0.8s ease-out" }} />
+      <div style={{
+        position: "relative", width: s.sz, height: s.sz, borderRadius: "50%",
+        background: `radial-gradient(circle at 40% 35%, rgba(${s.c},${s.op}), rgba(${s.c},0.05))`,
+        transition: "all 0.5s ease-out",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        boxShadow: `0 0 ${s.sz * 0.4}px rgba(${s.c},0.15)`,
+        border: `1px solid rgba(${s.c},0.18)`,
+        animation: isIdle ? "heroBreath 8s ease-in-out infinite" : "none",
+      }}>
+        <span style={{ fontSize: 13, textTransform: "uppercase", letterSpacing: 3, color: "var(--text-primary)", fontWeight: 600, fontFamily: "'Fraunces', serif", opacity: 0.75 }}>{s.label}</span>
       </div>
     </div>
   );
@@ -625,35 +533,35 @@ function SessionInsights({ messages, onClose, theme }) {
   if (techniques.length === 0) techniques.push({ name: "Supportive", desc: "Active listening & validation" });
 
   return (
-    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.92)", backdropFilter: "blur(20px)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: 24, animation: "fadeIn 0.4s ease" }}>
-      <div style={{ background: "#1C3248", borderRadius: 24, padding: "36px 32px", maxWidth: 460, width: "100%", maxHeight: "85vh", overflowY: "auto", border: "1px solid rgba(91,191,176,0.1)" }}>
+    <div style={{ position: "fixed", inset: 0, background: "rgba(45,42,38,0.85)", backdropFilter: "blur(20px)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: 24, animation: "fadeIn 0.4s ease" }}>
+      <div style={{ background: "var(--surface-elevated)", borderRadius: 24, padding: "36px 32px", maxWidth: 460, width: "100%", maxHeight: "85vh", overflowY: "auto", border: "1px solid rgba(45,42,38,0.08)", boxShadow: "var(--shadow-xl)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
-          <span style={{ fontFamily: "'Sora', sans-serif", fontSize: 20, fontWeight: 600, color: "#D8E8F0" }}>Session Insights</span>
-          <button onClick={onClose} style={{ background: "none", border: "none", color: "#7DB0C8", fontSize: 20, cursor: "pointer" }}>×</button>
+          <span style={{ fontFamily: "'Fraunces', serif", fontSize: 20, fontWeight: 600, color: "var(--text-primary)" }}>Session Insights</span>
+          <button onClick={onClose} style={{ background: "none", border: "none", color: "var(--text-muted)", fontSize: 20, cursor: "pointer" }}>×</button>
         </div>
 
         {/* Stats */}
         <div style={{ display: "flex", gap: 12, marginBottom: 20 }}>
           {[{ val: userMsgs.length, label: "Messages" }, { val: techniques.length, label: "Techniques" }, { val: `${Math.round(messages.length * 0.4)}m`, label: "Duration" }].map(s => (
-            <div key={s.label} style={{ flex: 1, background: "rgba(91,191,176,0.05)", borderRadius: 12, padding: "12px 8px", textAlign: "center", border: "1px solid rgba(91,191,176,0.08)" }}>
-              <span style={{ fontSize: 22, fontWeight: 300, color: "#5BBFB0", display: "block", fontFamily: "'Sora', sans-serif" }}>{s.val}</span>
-              <span style={{ fontSize: 10, color: "#7DB0C8", textTransform: "uppercase", letterSpacing: 1, fontFamily: "'IBM Plex Sans', sans-serif" }}>{s.label}</span>
+            <div key={s.label} style={{ flex: 1, background: "var(--accent-sage-light)", borderRadius: 12, padding: "12px 8px", textAlign: "center", border: "1px solid rgba(125,155,130,0.12)" }}>
+              <span style={{ fontSize: 22, fontWeight: 300, color: "var(--interactive)", display: "block", fontFamily: "'Fraunces', serif" }}>{s.val}</span>
+              <span style={{ fontSize: 10, color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: 1, fontFamily: "'DM Sans', sans-serif" }}>{s.label}</span>
             </div>
           ))}
         </div>
 
         {/* Techniques used */}
-        <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "#7DB0C8", fontWeight: 600, display: "block", marginBottom: 10, fontFamily: "'Sora', sans-serif" }}>Techniques Applied</span>
+        <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--text-secondary)", fontWeight: 600, display: "block", marginBottom: 10, fontFamily: "'Fraunces', serif" }}>Techniques Applied</span>
         {techniques.map(t => (
-          <div key={t.name} style={{ display: "flex", gap: 10, alignItems: "center", padding: "8px 12px", background: "rgba(91,191,176,0.03)", borderRadius: 10, marginBottom: 6, borderLeft: "2px solid rgba(91,191,176,0.2)" }}>
-            <span style={{ fontSize: 12, fontWeight: 600, color: "#5BBFB0", minWidth: 60, fontFamily: "'Sora', sans-serif" }}>{t.name}</span>
-            <span style={{ fontSize: 11, color: "#7DB0C8", fontFamily: "'IBM Plex Sans', sans-serif" }}>{t.desc}</span>
+          <div key={t.name} style={{ display: "flex", gap: 10, alignItems: "center", padding: "8px 12px", background: "var(--accent-sage-light)", borderRadius: 10, marginBottom: 6, borderLeft: "2px solid rgba(125,155,130,0.3)" }}>
+            <span style={{ fontSize: 12, fontWeight: 600, color: "var(--interactive)", minWidth: 60, fontFamily: "'Fraunces', serif" }}>{t.name}</span>
+            <span style={{ fontSize: 11, color: "var(--text-secondary)", fontFamily: "'DM Sans', sans-serif" }}>{t.desc}</span>
           </div>
         ))}
 
-        <div style={{ marginTop: 20, padding: "14px 16px", background: "rgba(91,191,176,0.03)", borderRadius: 12, border: "1px solid rgba(91,191,176,0.08)" }}>
-          <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "#7DB0C8", fontWeight: 600, display: "block", marginBottom: 6, fontFamily: "'Sora', sans-serif" }}>Clinical Note</span>
-          <span style={{ fontSize: 13, color: "#7DB0C8", lineHeight: 1.7, fontFamily: "'IBM Plex Sans', sans-serif" }}>
+        <div style={{ marginTop: 20, padding: "14px 16px", background: "var(--surface)", borderRadius: 12, border: "1px solid rgba(45,42,38,0.06)" }}>
+          <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--text-secondary)", fontWeight: 600, display: "block", marginBottom: 6, fontFamily: "'Fraunces', serif" }}>Clinical Note</span>
+          <span style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.7, fontFamily: "'DM Sans', sans-serif" }}>
             This session used {techniques.map(t => t.name).join(", ")} techniques dynamically selected based on your needs.
             Forj adapted its approach {techniques.length > 1 ? "multiple times" : ""} during your conversation to provide the most relevant support.
             For deeper work on the patterns explored today, consider connecting with a licensed therapist.
@@ -661,7 +569,7 @@ function SessionInsights({ messages, onClose, theme }) {
         </div>
 
         <div style={{ marginTop: 16, textAlign: "center" }}>
-          <span style={{ fontSize: 10, color: "#7DB0C8", opacity: 0.4, fontFamily: "'IBM Plex Sans', sans-serif" }}>Session data stored locally on your device only.</span>
+          <span style={{ fontSize: 10, color: "var(--text-muted)", opacity: 0.5, fontFamily: "'DM Sans', sans-serif" }}>Session data stored locally on your device only.</span>
         </div>
       </div>
     </div>
@@ -673,12 +581,12 @@ function SessionInsights({ messages, onClose, theme }) {
 // ─────────────────────────────────────────────────
 function UpgradeModal({ onClose, onSubscribe }) {
   return (
-    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.9)", backdropFilter: "blur(12px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 200, padding: 24, animation: "fadeIn 0.3s ease" }} onClick={onClose}>
-      <div onClick={e => e.stopPropagation()} style={{ background: "#1C3248", borderRadius: 24, padding: "36px 28px", maxWidth: 420, width: "100%", border: "1px solid rgba(91,191,176,0.12)", maxHeight: "90vh", overflowY: "auto" }}>
+    <div style={{ position: "fixed", inset: 0, background: "rgba(45,42,38,0.85)", backdropFilter: "blur(12px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 200, padding: 24, animation: "fadeIn 0.3s ease" }} onClick={onClose}>
+      <div onClick={e => e.stopPropagation()} style={{ background: "var(--surface-elevated)", borderRadius: 24, padding: "36px 28px", maxWidth: 420, width: "100%", border: "1px solid rgba(45,42,38,0.08)", maxHeight: "90vh", overflowY: "auto", boxShadow: "var(--shadow-xl)" }}>
         <div style={{ textAlign: "center", marginBottom: 24 }}>
           <span style={{ fontSize: 36, display: "block", marginBottom: 10 }}>✦</span>
-          <span style={{ fontFamily: "'Sora', sans-serif", fontSize: 22, fontWeight: 600, color: "#D8E8F0", display: "block" }}>AIForj Premium</span>
-          <span style={{ fontSize: 13, color: "#7DB0C8", marginTop: 6, display: "block", fontFamily: "'IBM Plex Sans', sans-serif" }}>Unlock the full therapeutic experience</span>
+          <span style={{ fontFamily: "'Fraunces', serif", fontSize: 22, fontWeight: 600, color: "var(--text-primary)", display: "block" }}>AIForj Premium</span>
+          <span style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 6, display: "block", fontFamily: "'DM Sans', sans-serif" }}>Unlock the full therapeutic experience</span>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 24 }}>
           {[
@@ -691,19 +599,19 @@ function UpgradeModal({ onClose, onSubscribe }) {
             { i: "📄", t: "Export Session Notes", d: "Share summaries with your therapist or doctor" },
             { i: "🔒", t: "Complete Privacy", d: "Everything stays on your device — always" },
           ].map(f => (
-            <div key={f.t} style={{ display: "flex", gap: 10, padding: "10px 14px", background: "rgba(91,191,176,0.04)", borderRadius: 12, alignItems: "flex-start", border: "1px solid rgba(91,191,176,0.06)" }}>
+            <div key={f.t} style={{ display: "flex", gap: 10, padding: "10px 14px", background: "var(--accent-sage-light)", borderRadius: 12, alignItems: "flex-start", border: "1px solid rgba(125,155,130,0.1)" }}>
               <span style={{ fontSize: 16, flexShrink: 0 }}>{f.i}</span>
               <div>
-                <span style={{ fontSize: 13, fontWeight: 600, color: "#D8E8F0", display: "block", fontFamily: "'IBM Plex Sans', sans-serif" }}>{f.t}</span>
-                <span style={{ fontSize: 11, color: "#7DB0C8", fontFamily: "'IBM Plex Sans', sans-serif" }}>{f.d}</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)", display: "block", fontFamily: "'DM Sans', sans-serif" }}>{f.t}</span>
+                <span style={{ fontSize: 11, color: "var(--text-secondary)", fontFamily: "'DM Sans', sans-serif" }}>{f.d}</span>
               </div>
             </div>
           ))}
         </div>
-        <button onClick={onSubscribe} className="btn-glow" style={{ width: "100%", padding: "16px", fontSize: 15, fontFamily: "'Sora', sans-serif", background: "linear-gradient(90deg, #5BBFB0, #4AAAC8, #5BBFB0)", backgroundSize: "200% 100%", animation: "shimmer 3s ease infinite", color: "#14263A", border: "none", borderRadius: 50, cursor: "pointer", fontWeight: 700, letterSpacing: 0.5, transition: "all 0.2s" }}>
+        <button onClick={onSubscribe} className="btn-glow" style={{ width: "100%", padding: "16px", fontSize: 15, fontFamily: "'Fraunces', serif", background: "linear-gradient(135deg, var(--interactive), var(--accent-teal))", color: "#fff", border: "none", borderRadius: 50, cursor: "pointer", fontWeight: 700, letterSpacing: 0.5, transition: "all 0.3s cubic-bezier(0.16,1,0.3,1)" }}>
           Start 7-Day Free Trial
         </button>
-        <p style={{ textAlign: "center", fontSize: 12, color: "#7DB0C8", marginTop: 10, lineHeight: 1.6, fontFamily: "'IBM Plex Sans', sans-serif" }}>Then $9.99/mo — less than a single therapy copay.<br />Less than one coffee a week. Cancel anytime.</p>
+        <p style={{ textAlign: "center", fontSize: 12, color: "var(--text-muted)", marginTop: 10, lineHeight: 1.6, fontFamily: "'DM Sans', sans-serif" }}>Then $9.99/mo — less than a single therapy copay.<br />Less than one coffee a week. Cancel anytime.</p>
       </div>
     </div>
   );
@@ -1161,46 +1069,55 @@ export default function ForjVoiceCompanion() {
   const remainingMsgs = tier === "free" ? Math.max(0, TIERS.free.maxMessagesPerSession - msgCount) : null;
   const remainingSessions = tier === "free" ? Math.max(0, TIERS.free.sessionsPerDay - sessionCount) : null;
 
+  const emotionColors = {
+    anxious: "#6B9B9E", overwhelmed: "#8B7DA8", stressed: "#C4956A",
+    night: "#7B8FA8", burnout: "#A89070", sad: "#C49B9B",
+    angry: "#C47D7D", grief: "#9B9BB0", relationship: "#C49B9B",
+    socialanxiety: "#6B9B9E", imposter: "#8B7DA8", lonely: "#7B8FA8",
+    numb: "#9B9590", unmotivated: "#A89070", fine: "#8BAE8B",
+  };
+
+  const primaryPathways = [
+    { id: "anxious",     label: "Anxious",     icon: "⚡",  desc: "Racing thoughts, worry, tension" },
+    { id: "overwhelmed", label: "Overwhelmed", icon: "🌊",  desc: "Too much, can't process" },
+    { id: "stressed",    label: "Stressed",    icon: "⏰",  desc: "Pressure, deadline, tense" },
+    { id: "night",       label: "3AM Spiral",  icon: "🌙",  desc: "Can't sleep, mind racing" },
+    { id: "burnout",     label: "Burned Out",  icon: "🪨",  desc: "Depleted, running on empty" },
+    { id: "sad",         label: "Sad",         icon: "🌧",  desc: "Heavy, low, tearful" },
+  ];
+  const morePathways = [
+    { id: "angry",         label: "Angry",             icon: "🔥",  desc: "Frustrated, irritated, furious" },
+    { id: "grief",         label: "Grief / Loss",      icon: "🕊️",  desc: "Missing someone or something" },
+    { id: "relationship",  label: "Relationship Pain", icon: "💔",  desc: "Conflict, hurt, disconnected" },
+    { id: "socialanxiety", label: "Social Anxiety",    icon: "😰",  desc: "Nervous about people or situations" },
+    { id: "imposter",      label: "Imposter Syndrome", icon: "🎭",  desc: "Don't belong, will be found out" },
+    { id: "lonely",        label: "Lonely",            icon: "🌑",  desc: "Isolated, disconnected" },
+    { id: "numb",          label: "Numb",              icon: "🧊",  desc: "Disconnected, empty, flat" },
+    { id: "unmotivated",   label: "Unmotivated",       icon: "🪫",  desc: "No energy, can't start" },
+    { id: "fine",          label: "I'm Good",          icon: "☀️",  desc: "Optimize & grow" },
+  ];
+  const visiblePathways = showAllPathways ? [...primaryPathways, ...morePathways] : primaryPathways;
+
   return (
-    <div style={{ minHeight: "100vh", background: "#14263A", fontFamily: "'IBM Plex Sans', sans-serif", color: "#D8E8F0", display: "flex", flexDirection: "column", position: "relative", overflow: "hidden" }}>
+    <div style={{ minHeight: "100vh", background: "var(--bg-primary)", fontFamily: "'DM Sans', sans-serif", color: "var(--text-primary)", display: "flex", flexDirection: "column", position: "relative", overflow: "hidden" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap');
-        :root {
-          --bg: #14263A;
-          --accent: #5BBFB0;
-          --accent2: #4AAAC8;
-          --text: #D8E8F0;
-          --text2: #6090A8;
-          --card-bg: rgba(91,191,176,0.04);
-          --card-border: rgba(91,191,176,0.08);
-          --card-border-hover: rgba(91,191,176,0.18);
-        }
         @keyframes orbPulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.08); opacity: 0.7; } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
         @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes softPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        @keyframes dotFloat { 0%, 100% { opacity: 0.02; } 50% { opacity: 0.04; } }
-        ::selection { background: rgba(91,191,176,0.25); }
-        * { box-sizing: border-box; }
-        input:focus { outline: none; }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(91,191,176,0.15); border-radius: 4px; }
-        .card-hover { transition: all 0.25s ease; }
-        .card-hover:hover { background: rgba(91,191,176,0.07) !important; border-color: rgba(91,191,176,0.18) !important; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(91,191,176,0.06) !important; }
-        .btn-glow:hover { box-shadow: 0 0 18px rgba(91,191,176,0.25); }
-        .tag-item { transition: all 0.2s; }
-        .tag-item:hover { background: rgba(91,191,176,0.12) !important; border-color: rgba(91,191,176,0.3) !important; color: #5BBFB0 !important; }
-        .quicktool-hover { transition: all 0.2s; }
-        .quicktool-hover:hover { background: rgba(91,191,176,0.08) !important; border-color: rgba(91,191,176,0.2) !important; transform: translateY(-1px); }
+        @keyframes heroBreath { 0%, 100% { transform: scale(1); box-shadow: 0 0 60px rgba(125,155,130,0.15); } 50% { transform: scale(1.06); box-shadow: 0 0 100px rgba(125,155,130,0.25); } }
+        ::selection { background: rgba(125,155,130,0.25); }
+        .card-hover { transition: all 0.3s cubic-bezier(0.16,1,0.3,1); }
+        .card-hover:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 28px rgba(45,42,38,0.08); }
+        .emotion-tile { transition: all 0.3s cubic-bezier(0.16,1,0.3,1); }
+        .emotion-tile:hover { transform: translateY(-3px); }
+        .btn-glow { transition: all 0.3s cubic-bezier(0.16,1,0.3,1); }
+        .btn-glow:hover { box-shadow: 0 4px 20px rgba(125,155,130,0.2); transform: translateY(-1px); }
+        .quicktool-hover { transition: all 0.3s cubic-bezier(0.16,1,0.3,1); }
+        .quicktool-hover:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(45,42,38,0.06); }
       `}</style>
-
-      {/* Background dot grid texture */}
-      <div style={{ position: "fixed", inset: 0, pointerEvents: "none", backgroundImage: "radial-gradient(rgba(91,191,176,0.18) 1px, transparent 1px)", backgroundSize: "32px 32px", opacity: 0.025, animation: "dotFloat 8s ease-in-out infinite" }} />
-      {/* Radial glow */}
-      <div style={{ position: "fixed", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse at 50% 35%, rgba(91,191,176,0.06) 0%, transparent 65%)" }} />
 
       {showBreathing && <BreathingOverlay pattern={showBreathing} onClose={() => setShowBreathing(null)} />}
       {showUpgrade && <UpgradeModal onClose={() => setShowUpgrade(false)} onSubscribe={handleSubscribe} />}
@@ -1208,410 +1125,449 @@ export default function ForjVoiceCompanion() {
 
       {/* WebLLM loading indicator */}
       {(tier === "premium" || tier === "trial") && webllmStatus === "loading" && (
-        <div style={{ position: "fixed", bottom: 20, right: 20, background: "rgba(20,38,58,0.95)", backdropFilter: "blur(12px)", borderRadius: 16, padding: "10px 18px", zIndex: 50, border: "1px solid rgba(91,191,176,0.12)", display: "flex", alignItems: "center", gap: 10, animation: "fadeIn 0.3s" }}>
-          <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#5BBFB0", animation: "orbPulse 1s infinite" }} />
+        <div style={{ position: "fixed", bottom: 20, right: 20, background: "var(--surface-elevated)", boxShadow: "var(--shadow-lg)", borderRadius: 16, padding: "10px 18px", zIndex: 50, border: "1px solid rgba(125,155,130,0.12)", display: "flex", alignItems: "center", gap: 10, animation: "fadeIn 0.3s" }}>
+          <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#7D9B82" }} className="pulse-loading" />
           <div>
-            <span style={{ fontSize: 11, color: "#D8E8F0", fontWeight: 500, display: "block", fontFamily: "'IBM Plex Sans', sans-serif" }}>Loading AI Engine</span>
-            <span style={{ fontSize: 10, color: "#7DB0C8", fontFamily: "'IBM Plex Sans', sans-serif" }}>{webllmProgress}% — runs privately on your device</span>
+            <span style={{ fontSize: 11, color: "var(--text-primary)", fontWeight: 500, display: "block" }}>Loading AI Engine</span>
+            <span style={{ fontSize: 10, color: "var(--text-secondary)" }}>{webllmProgress}% — runs privately on your device</span>
           </div>
         </div>
       )}
 
-      {/* Header */}
-      <header style={{ padding: "20px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", zIndex: 10 }}>
+      {/* ═══════════ HEADER ═══════════ */}
+      <header style={{ padding: "16px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", zIndex: 10, maxWidth: 1080, width: "100%", margin: "0 auto" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <img src="/aif.jpeg" alt="AIForj" style={{ height: 36, width: "auto", borderRadius: 8, boxShadow: "0 2px 12px rgba(91,191,176,0.12)" }} />
-          <span style={{ fontFamily: "'Sora', sans-serif", fontSize: 20, fontWeight: 600, color: "#D8E8F0" }}>AI</span>
-          <span style={{ fontFamily: "'Sora', sans-serif", fontSize: 20, fontWeight: 600, color: "#5BBFB0", marginLeft: -4 }}>Forj</span>
-          {tier !== "free" && <span style={{ fontSize: 8, marginLeft: 6, padding: "2px 7px", background: "linear-gradient(90deg, #5BBFB0, #4AAAC8)", color: "#14263A", borderRadius: 8, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", fontFamily: "'Sora', sans-serif" }}>PRO</span>}
+          <img src="/aif.jpeg" alt="AIForj" style={{ height: 36, width: "auto", borderRadius: 10, boxShadow: "var(--shadow-sm)" }} />
+          <span style={{ fontFamily: "'Fraunces', serif", fontSize: 20, fontWeight: 600, color: "var(--text-primary)" }}>AI</span>
+          <span style={{ fontFamily: "'Fraunces', serif", fontSize: 20, fontWeight: 600, color: "var(--accent-sage)", marginLeft: -4 }}>Forj</span>
+          {tier !== "free" && <span style={{ fontSize: 8, marginLeft: 6, padding: "2px 7px", background: "linear-gradient(90deg, #7D9B82, #6B9B9E)", color: "#fff", borderRadius: 8, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>PRO</span>}
         </div>
         <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-          <button onClick={() => setShowBreathing("4-4-6")} className="btn-glow" style={{ background: "rgba(91,191,176,0.06)", border: "1px solid rgba(91,191,176,0.12)", padding: "5px 12px", borderRadius: 16, fontSize: 10, color: "#7DB0C8", cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif", letterSpacing: 1, transition: "all 0.2s" }}>
+          <button onClick={() => setShowBreathing("4-4-6")} className="btn-glow" style={{ background: "var(--surface)", border: "1px solid rgba(45,42,38,0.08)", padding: "6px 14px", borderRadius: 20, fontSize: 11, color: "var(--text-secondary)", cursor: "pointer", fontWeight: 500 }}>
             Breathe
           </button>
           {tierConfig.features.sessionInsights && messages.length > 4 && (
-            <button onClick={() => setShowInsights(true)} className="btn-glow" style={{ background: "rgba(91,191,176,0.06)", border: "1px solid rgba(91,191,176,0.12)", padding: "5px 12px", borderRadius: 16, fontSize: 10, color: "#7DB0C8", cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif", letterSpacing: 1, transition: "all 0.2s" }}>
+            <button onClick={() => setShowInsights(true)} className="btn-glow" style={{ background: "var(--surface)", border: "1px solid rgba(45,42,38,0.08)", padding: "6px 14px", borderRadius: 20, fontSize: 11, color: "var(--text-secondary)", cursor: "pointer", fontWeight: 500 }}>
               Insights
             </button>
           )}
           {messages.length > 2 && (
-            <button onClick={() => setShowHistory(!showHistory)} className="btn-glow" style={{ background: "rgba(91,191,176,0.06)", border: "1px solid rgba(91,191,176,0.12)", padding: "5px 12px", borderRadius: 16, fontSize: 10, color: "#7DB0C8", cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif", letterSpacing: 1, transition: "all 0.2s" }}>
+            <button onClick={() => setShowHistory(!showHistory)} className="btn-glow" style={{ background: "var(--surface)", border: "1px solid rgba(45,42,38,0.08)", padding: "6px 14px", borderRadius: 20, fontSize: 11, color: "var(--text-secondary)", cursor: "pointer", fontWeight: 500 }}>
               {showHistory ? "Hide" : "Chat"}
             </button>
           )}
           {streak > 1 && (
-            <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 10px", background: "rgba(91,191,176,0.06)", borderRadius: 12, border: "1px solid rgba(91,191,176,0.1)" }}>
-              <span style={{ fontSize: 10 }}>🔥</span>
-              <span style={{ fontSize: 9, color: "#7DB0C8", fontWeight: 600, letterSpacing: 1, fontFamily: "'IBM Plex Sans', sans-serif" }}>{streak}d</span>
+            <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "5px 12px", background: "var(--accent-sage-light)", borderRadius: 20 }}>
+              <span style={{ fontSize: 11 }}>🌱</span>
+              <span style={{ fontSize: 10, color: "var(--accent-sage)", fontWeight: 600 }}>{streak}d</span>
             </div>
           )}
           {tier === "free" && (
-            <button onClick={() => setShowUpgrade(true)} className="btn-glow" style={{ background: "linear-gradient(90deg, #5BBFB0, #4AAAC8, #5BBFB0)", backgroundSize: "200% 100%", animation: "shimmer 3s ease infinite", border: "none", padding: "5px 14px", borderRadius: 16, fontSize: 10, color: "#14263A", cursor: "pointer", fontFamily: "'Sora', sans-serif", letterSpacing: 1, fontWeight: 700, transition: "all 0.2s" }}>
+            <button onClick={() => setShowUpgrade(true)} className="btn-glow" style={{ background: "var(--interactive)", border: "none", padding: "6px 16px", borderRadius: 20, fontSize: 11, color: "#fff", cursor: "pointer", fontWeight: 600 }}>
               ✦ Premium
             </button>
           )}
         </div>
       </header>
 
-      {/* Main */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 24px", maxWidth: 560, width: "100%", margin: "0 auto", marginTop: -20 }}>
+      {/* ═══════════ HERO SECTION ═══════════ */}
+      <section style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 24px", position: "relative" }}>
+        <div style={{ maxWidth: 600, width: "100%", textAlign: "center" }}>
 
-        {/* Daily therapeutic insight */}
-        {dailyInsight && messages.length <= 1 && (
-          <div style={{ marginBottom: 28, padding: "18px 24px", background: "rgba(91,191,176,0.04)", borderRadius: 16, border: "1px solid rgba(91,191,176,0.08)", maxWidth: 420, textAlign: "center", animation: "fadeIn 1.2s ease", position: "relative", backdropFilter: "blur(8px)" }}>
-            <span style={{ fontFamily: "'IBM Plex Sans', sans-serif", fontSize: 16, color: "#D8E8F0", lineHeight: 1.6, fontStyle: "italic", display: "block", fontWeight: 300 }}>
-              "{dailyInsight.quote}"
-            </span>
-            <span style={{ fontSize: 10, color: "#7DB0C8", marginTop: 8, display: "block", letterSpacing: 1 }}>— {dailyInsight.source}</span>
-            <button onClick={() => {
-              if (navigator.share) navigator.share({ title: dailyInsight.quote, text: `"${dailyInsight.quote}" — ${dailyInsight.source}\n\naiforj.com — free AI wellness companion`, url: "https://aiforj.com" }).catch(() => {});
-              else { navigator.clipboard.writeText(`"${dailyInsight.quote}" — ${dailyInsight.source}\n\naiforj.com`).catch(() => {}); }
-            }} style={{ position: "absolute", top: 10, right: 12, background: "none", border: "none", fontSize: 12, color: "#7DB0C8", cursor: "pointer", padding: 4 }}>↗</button>
-          </div>
-        )}
-
-        {/* Value proposition */}
-        {messages.length <= 1 && (
-          <p style={{ textAlign: "center", fontFamily: "'Sora', sans-serif", fontSize: 17, color: "#7DB0C8", marginBottom: 20, animation: "fadeIn 1s ease", lineHeight: 1.6, fontWeight: 400 }}>
-            Talk or type how you're feeling. Get grounded in minutes. 100% private.
-          </p>
-        )}
-
-        {/* Privacy badge — prominent */}
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 28, animation: "fadeIn 1s ease", flexWrap: "wrap", justifyContent: "center" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 7, padding: "7px 16px", background: "rgba(91,191,176,0.06)", borderRadius: 20, border: "1px solid rgba(91,191,176,0.12)" }}>
-            <span style={{ fontSize: 13 }}>🔒</span>
-            <span style={{ fontSize: 11, color: "#7DB0C8", letterSpacing: 0.5, fontFamily: "'IBM Plex Sans', sans-serif", fontWeight: 500 }}>100% Private — nothing leaves your browser</span>
-          </div>
-        </div>
-
-        <Orb state={state} onClick={handleOrb} />
-
-        {/* Live transcript */}
-        {state === "listening" && liveText && (
-          <div style={{ marginTop: 20, padding: "10px 20px", background: "rgba(45,212,191,0.06)", borderRadius: 14, maxWidth: 400, textAlign: "center", animation: "fadeIn 0.3s", border: "1px solid rgba(45,212,191,0.1)" }}>
-            <span style={{ fontSize: 13, color: "#4AAAC8", fontStyle: "italic", fontFamily: "'IBM Plex Sans', sans-serif" }}>"{liveText}"</span>
-          </div>
-        )}
-
-        {/* AI response */}
-        {aiText && state !== "listening" && (
-          <div style={{ marginTop: 24, padding: "14px 20px", maxWidth: 440, textAlign: "center", animation: "fadeIn 0.5s" }}>
-            <p style={{ fontSize: 15, lineHeight: 1.8, color: "#D8E8F0", margin: 0, fontWeight: 300, fontFamily: "'IBM Plex Sans', sans-serif", opacity: 0.9 }}>{aiText}</p>
-          </div>
-        )}
-
-        {error && <div style={{ marginTop: 14, fontSize: 12, color: "#FF6B6B", animation: "fadeIn 0.3s", fontFamily: "'IBM Plex Sans', sans-serif" }}>{error}</div>}
-
-        {/* Free tier limits indicator */}
-        {tier === "free" && (
-          <div style={{ marginTop: 16, fontSize: 11, textAlign: "center", fontFamily: "'IBM Plex Sans', sans-serif" }}>
-            {remainingMsgs !== null && (
-              <span style={{ color: remainingMsgs <= 2 ? "#FF6B6B" : "#6090A8", animation: remainingMsgs <= 2 ? "softPulse 1.5s infinite" : "none", fontWeight: remainingMsgs <= 2 ? 600 : 400 }}>
-                {remainingMsgs} message{remainingMsgs !== 1 ? "s" : ""} left{remainingMsgs <= 1 ? " — your breakthrough might be one message away" : ""} ·{" "}
+          {/* Daily insight */}
+          {dailyInsight && messages.length <= 1 && (
+            <div style={{ marginBottom: 32, padding: "16px 24px", background: "var(--surface)", borderRadius: 16, border: "1px solid rgba(45,42,38,0.06)", maxWidth: 440, margin: "0 auto 32px", animation: "fadeIn 1.2s ease", position: "relative", boxShadow: "var(--shadow-sm)" }}>
+              <span style={{ fontSize: 15, color: "var(--text-primary)", lineHeight: 1.6, fontStyle: "italic", display: "block", fontWeight: 300 }}>
+                "{dailyInsight.quote}"
               </span>
-            )}
-            {remainingSessions !== null && <span style={{ color: "#7DB0C8" }}>{remainingSessions} session{remainingSessions !== 1 ? "s" : ""} left today</span>}
-          </div>
-        )}
+              <span style={{ fontSize: 10, color: "var(--text-muted)", marginTop: 8, display: "block", letterSpacing: 1 }}>— {dailyInsight.source}</span>
+              <button onClick={() => {
+                if (navigator.share) navigator.share({ title: dailyInsight.quote, text: `"${dailyInsight.quote}" — ${dailyInsight.source}\n\naiforj.com`, url: "https://aiforj.com" }).catch(() => {});
+                else navigator.clipboard.writeText(`"${dailyInsight.quote}" — ${dailyInsight.source}\n\naiforj.com`).catch(() => {});
+              }} style={{ position: "absolute", top: 10, right: 12, background: "none", border: "none", fontSize: 12, color: "var(--text-muted)", cursor: "pointer", padding: 4 }}>↗</button>
+            </div>
+          )}
 
-        {/* Share prompt + workbook recommendation after meaningful conversation */}
-        {showShare && messages.length >= 4 && (
-          <div style={{ marginTop: 14, animation: "slideUp 0.5s ease", textAlign: "center", display: "flex", flexDirection: "column", gap: 10, alignItems: "center" }}>
-            <button onClick={() => {
-              const shareText = `I just had a real conversation about my mental health — completely free and private.\n\n"${aiText.slice(0, 120)}..."\n\n— aiforj.com`;
-              if (navigator.share) navigator.share({ title: "This helped me", text: shareText, url: "https://aiforj.com" }).catch(() => {});
-              else { navigator.clipboard.writeText(shareText).catch(() => {}); }
-              setShowShare(false);
-            }} style={{ background: "rgba(91,191,176,0.05)", border: "1px solid rgba(91,191,176,0.1)", padding: "8px 18px", borderRadius: 20, fontSize: 11, color: "#7DB0C8", cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif" }}>
-              ↗ Know someone who needs this? Share
-            </button>
-            <a href="https://aiforj.gumroad.com/l/jmdqvd" target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, color: "#5BBFB0", textDecoration: "none", opacity: 0.85, fontFamily: "'IBM Plex Sans', sans-serif" }}>
-              📘 Want to practice these techniques daily? The CBT Workbook has 30 days of guided exercises →
-            </a>
+          {/* Breathing Orb */}
+          <div style={{ margin: "0 auto 28px" }}>
+            <Orb state={state} onClick={handleOrb} />
           </div>
-        )}
 
-        {/* Text input */}
-        <div style={{ marginTop: 24, width: "100%", maxWidth: 420, animation: "fadeIn 1s ease 0.5s both" }}>
-          <div style={{ display: "flex", gap: 8 }}>
-            <input type="text" value={textInput} onChange={e => setTextInput(e.target.value)}
-              onKeyDown={e => { if (e.key === "Enter") handleTextSend(); }}
-              placeholder="What's weighing on you right now?"
-              disabled={state !== "idle"}
-              style={{ flex: 1, padding: "13px 18px", fontSize: 14, fontFamily: "'IBM Plex Sans', sans-serif", background: "rgba(91,191,176,0.03)", border: "1px solid rgba(91,191,176,0.1)", borderRadius: 50, color: "#D8E8F0" }} />
-            <button onClick={handleTextSend} disabled={!textInput.trim() || state !== "idle"}
-              style={{ padding: "13px 20px", background: textInput.trim() && state === "idle" ? "rgba(91,191,176,0.15)" : "rgba(91,191,176,0.04)", border: "1px solid rgba(91,191,176,0.12)", borderRadius: 50, color: textInput.trim() && state === "idle" ? "#5BBFB0" : "#6090A8", cursor: textInput.trim() && state === "idle" ? "pointer" : "not-allowed", fontSize: 13, fontFamily: "'IBM Plex Sans', sans-serif", transition: "all 0.2s" }}>
-              Send
-            </button>
+          {/* Headline */}
+          <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: "var(--font-hero)", fontWeight: 600, color: "var(--text-primary)", margin: "0 0 16px", lineHeight: 1.15, animation: "fadeIn 0.8s ease" }}>
+            Your Private Mental Health Co-Pilot
+          </h1>
+
+          {/* Sub-headline */}
+          <p style={{ fontSize: "clamp(15px, 2.5vw, 18px)", color: "var(--text-secondary)", margin: "0 auto 24px", lineHeight: 1.7, maxWidth: 520, animation: "fadeIn 1s ease 0.2s both" }}>
+            Built by a Board Certified PMHNP. 16 evidence-based modalities. 100% on-device — nothing ever leaves your browser.
+          </p>
+
+          {/* Privacy badge */}
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 32, animation: "fadeIn 1s ease 0.4s both" }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 18px", background: "var(--accent-sage-light)", borderRadius: 24 }}>
+              <span style={{ fontSize: 14 }}>🔒</span>
+              <span style={{ fontSize: 12, color: "var(--accent-sage)", fontWeight: 500 }}>100% Private — nothing leaves your browser</span>
+            </div>
           </div>
+
+          {/* Live transcript */}
+          {state === "listening" && liveText && (
+            <div style={{ marginBottom: 20, padding: "12px 20px", background: "var(--surface)", borderRadius: 14, maxWidth: 400, margin: "0 auto 20px", animation: "fadeIn 0.3s", border: "1px solid rgba(107,155,158,0.15)" }}>
+              <span style={{ fontSize: 14, color: "var(--accent-teal)", fontStyle: "italic" }}>"{liveText}"</span>
+            </div>
+          )}
+
+          {/* AI response */}
+          {aiText && state !== "listening" && (
+            <div style={{ marginBottom: 20, padding: "18px 24px", maxWidth: 480, margin: "0 auto 20px", animation: "fadeIn 0.5s", background: "var(--surface)", borderRadius: 16, boxShadow: "var(--shadow-sm)" }}>
+              <p style={{ fontSize: 15, lineHeight: 1.8, color: "var(--text-primary)", margin: 0, fontWeight: 300, opacity: 0.9 }}>{aiText}</p>
+            </div>
+          )}
+
+          {error && <div style={{ marginBottom: 14, fontSize: 12, color: "#B8860B", animation: "fadeIn 0.3s" }}>{error}</div>}
+
+          {/* Free tier limits */}
+          {tier === "free" && (
+            <div style={{ marginBottom: 16, fontSize: 11, textAlign: "center" }}>
+              {remainingMsgs !== null && (
+                <span style={{ color: remainingMsgs <= 2 ? "var(--crisis)" : "var(--text-muted)", fontWeight: remainingMsgs <= 2 ? 600 : 400 }}>
+                  {remainingMsgs} message{remainingMsgs !== 1 ? "s" : ""} left{remainingMsgs <= 1 ? " — your breakthrough might be one message away" : ""} ·{" "}
+                </span>
+              )}
+              {remainingSessions !== null && <span style={{ color: "var(--text-secondary)" }}>{remainingSessions} session{remainingSessions !== 1 ? "s" : ""} left today</span>}
+            </div>
+          )}
+
+          {/* Share prompt */}
+          {showShare && messages.length >= 4 && (
+            <div style={{ marginBottom: 14, animation: "slideUp 0.5s ease", display: "flex", flexDirection: "column", gap: 10, alignItems: "center" }}>
+              <button onClick={() => {
+                const shareText = `I just had a real conversation about my mental health — completely free and private.\n\n"${aiText.slice(0, 120)}..."\n\n— aiforj.com`;
+                if (navigator.share) navigator.share({ title: "This helped me", text: shareText, url: "https://aiforj.com" }).catch(() => {});
+                else navigator.clipboard.writeText(shareText).catch(() => {});
+                setShowShare(false);
+              }} style={{ background: "var(--surface)", border: "1px solid rgba(45,42,38,0.08)", padding: "8px 18px", borderRadius: 20, fontSize: 11, color: "var(--text-secondary)", cursor: "pointer" }}>
+                ↗ Know someone who needs this? Share
+              </button>
+            </div>
+          )}
+
+          {/* Text input */}
+          <div style={{ width: "100%", maxWidth: 460, margin: "0 auto", animation: "fadeIn 1s ease 0.6s both" }}>
+            <div style={{ display: "flex", gap: 8 }}>
+              <input type="text" value={textInput} onChange={e => setTextInput(e.target.value)}
+                onKeyDown={e => { if (e.key === "Enter") handleTextSend(); }}
+                placeholder="What's weighing on you right now?"
+                disabled={state !== "idle"}
+                style={{ flex: 1, padding: "14px 20px", fontSize: 15, background: "var(--surface)", border: "1.5px solid rgba(45,42,38,0.1)", borderRadius: 50, color: "var(--text-primary)", transition: "border-color 0.3s ease" }} />
+              <button onClick={handleTextSend} disabled={!textInput.trim() || state !== "idle"}
+                style={{ padding: "14px 24px", background: textInput.trim() && state === "idle" ? "var(--interactive)" : "var(--surface)", border: textInput.trim() && state === "idle" ? "none" : "1.5px solid rgba(45,42,38,0.1)", borderRadius: 50, color: textInput.trim() && state === "idle" ? "#fff" : "var(--text-muted)", cursor: textInput.trim() && state === "idle" ? "pointer" : "not-allowed", fontSize: 14, fontWeight: 500, transition: "all 0.3s ease" }}>
+                Send
+              </button>
+            </div>
+          </div>
+
+          {/* "How are you feeling?" prompt */}
+          <p style={{ marginTop: 48, fontFamily: "'Fraunces', serif", fontSize: "var(--font-h3)", fontWeight: 400, color: "var(--text-secondary)", animation: "fadeIn 1s ease 0.8s both" }}>
+            How are you feeling right now?
+          </p>
         </div>
-      </div>
+      </section>
 
       {/* Chat history panel */}
       {showHistory && (
-        <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, maxHeight: "45vh", overflowY: "auto", background: "rgba(20,38,58,0.97)", backdropFilter: "blur(20px)", borderTop: "1px solid rgba(91,191,176,0.08)", padding: "16px 20px", animation: "fadeIn 0.3s", zIndex: 50 }}>
+        <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, maxHeight: "45vh", overflowY: "auto", background: "var(--surface-elevated)", boxShadow: "0 -4px 24px rgba(45,42,38,0.1)", borderTop: "1px solid rgba(45,42,38,0.06)", padding: "16px 20px", animation: "fadeIn 0.3s", zIndex: 50 }}>
           <div style={{ maxWidth: 480, margin: "0 auto" }}>
-            <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "#7DB0C8", fontWeight: 600, display: "block", marginBottom: 12, fontFamily: "'Sora', sans-serif" }}>Session</span>
+            <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--text-muted)", fontWeight: 600, display: "block", marginBottom: 12, fontFamily: "'Fraunces', serif" }}>Session</span>
             {messages.map((m, i) => (
-              <div key={i} style={{ marginBottom: 8, padding: "8px 14px", background: m.role === "user" ? "rgba(45,212,191,0.04)" : "rgba(91,191,176,0.04)", borderRadius: 10, borderLeft: `2px solid ${m.role === "user" ? "rgba(45,212,191,0.2)" : "rgba(91,191,176,0.15)"}` }}>
-                <span style={{ fontSize: 9, color: "#7DB0C8", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 3, fontFamily: "'Sora', sans-serif" }}>{m.role === "user" ? "You" : "Forj"}</span>
-                <span style={{ fontSize: 13, color: "#D8E8F0", lineHeight: 1.6, fontFamily: "'IBM Plex Sans', sans-serif", opacity: 0.8 }}>{m.text}</span>
+              <div key={i} style={{ marginBottom: 8, padding: "10px 14px", background: m.role === "user" ? "rgba(107,155,158,0.06)" : "rgba(125,155,130,0.06)", borderRadius: 12, borderLeft: `3px solid ${m.role === "user" ? "var(--accent-teal)" : "var(--accent-sage)"}` }}>
+                <span style={{ fontSize: 9, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 3, fontFamily: "'Fraunces', serif" }}>{m.role === "user" ? "You" : "Forj"}</span>
+                <span style={{ fontSize: 13, color: "var(--text-primary)", lineHeight: 1.6, opacity: 0.85 }}>{m.text}</span>
               </div>
             ))}
           </div>
         </div>
       )}
 
-      {/* Scroll indicator */}
-      <div style={{ textAlign: "center", padding: "24px 0 12px", animation: "float 3s ease-in-out infinite" }}>
-        <span style={{ fontSize: 11, color: "#7DB0C8", letterSpacing: 2, textTransform: "uppercase", display: "block", marginBottom: 6, fontFamily: "'Sora', sans-serif", opacity: 0.5 }}>Explore guided tools</span>
-        <span style={{ fontSize: 18, color: "#5BBFB0", opacity: 0.4 }}>↓</span>
-      </div>
-
-      {/* ═══════════════════════════════════════════════════════════ */}
-      {/*  GUIDED TOOLS SECTION — Structured emotion sessions       */}
-      {/* ═══════════════════════════════════════════════════════════ */}
-      <div id="guided-tools" style={{ background: "#14263A", borderTop: "1px solid rgba(91,191,176,0.06)", padding: "80px 24px 60px", position: "relative" }}>
-        <div style={{ maxWidth: 700, margin: "0 auto" }}>
-
-          {/* Section header */}
-          <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 18px", background: "rgba(91,191,176,0.06)", borderRadius: 30, marginBottom: 18, border: "1px solid rgba(91,191,176,0.1)" }}>
-              <span style={{ fontSize: 12 }}>🩺</span>
-              <span style={{ fontSize: 12, color: "#5BBFB0", fontWeight: 500, fontFamily: "'IBM Plex Sans', sans-serif" }}>The first AI wellness companion built by a Board Certified PMHNP</span>
-            </div>
-            <h2 style={{ fontFamily: "'Sora', sans-serif", fontSize: "clamp(26px, 4vw, 38px)", fontWeight: 600, color: "#D8E8F0", margin: "0 0 14px", lineHeight: 1.2 }}>
-              How do you feel<br />right now?
-            </h2>
-            <p style={{ fontSize: 15, color: "#7DB0C8", fontWeight: 300, margin: "0 0 20px", lineHeight: 1.7, fontFamily: "'IBM Plex Sans', sans-serif" }}>
-              Evidence-based guided sessions. 3–5 minutes.<br />No login. No data stored. Completely private.
-            </p>
-
-            {/* Send to a friend CTA */}
-            <div style={{ marginTop: 20 }}>
-              <button onClick={() => {
-                const text = "Someone I care about might need this — free, private AI wellness companion.\n\naiforj.com";
-                if (navigator.share) navigator.share({ title: "AIForj — Free AI Wellness Companion", text, url: "https://aiforj.com" }).catch(() => {});
-                else { navigator.clipboard.writeText(text).catch(() => {}); }
-              }} className="btn-glow" style={{ background: "none", border: "1px solid rgba(91,191,176,0.15)", padding: "8px 20px", borderRadius: 20, fontSize: 12, color: "#7DB0C8", cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif", transition: "all 0.2s" }}>
-                ↗ Know someone who's struggling? Send them this page
-              </button>
-            </div>
-          </div>
-
-          {/* Emotion grid — 6 default, expandable */}
-          {(() => {
-            const primaryPathways = [
-              { id: "anxious",     label: "Anxious",     icon: "⚡",  desc: "Racing thoughts, worry, tension" },
-              { id: "overwhelmed", label: "Overwhelmed", icon: "🌊",  desc: "Too much, can't process" },
-              { id: "stressed",    label: "Stressed",    icon: "⏰",  desc: "Pressure, deadline, tense" },
-              { id: "night",       label: "3AM Spiral",  icon: "🌙",  desc: "Can't sleep, mind racing" },
-              { id: "burnout",     label: "Burned Out",  icon: "🪨",  desc: "Depleted, running on empty" },
-              { id: "sad",         label: "Sad",         icon: "🌧",  desc: "Heavy, low, tearful" },
-            ];
-            const morePathways = [
-              { id: "angry",         label: "Angry",             icon: "🔥",  desc: "Frustrated, irritated, furious" },
-              { id: "grief",         label: "Grief / Loss",      icon: "🕊️",  desc: "Missing someone or something" },
-              { id: "relationship",  label: "Relationship Pain", icon: "💔",  desc: "Conflict, hurt, disconnected" },
-              { id: "socialanxiety", label: "Social Anxiety",    icon: "😰",  desc: "Nervous about people or situations" },
-              { id: "imposter",      label: "Imposter Syndrome", icon: "🎭",  desc: "Don't belong, will be found out" },
-              { id: "lonely",        label: "Lonely",            icon: "🌑",  desc: "Isolated, disconnected" },
-              { id: "numb",          label: "Numb",              icon: "🧊",  desc: "Disconnected, empty, flat" },
-              { id: "unmotivated",   label: "Unmotivated",       icon: "🪫",  desc: "No energy, can't start" },
-              { id: "fine",          label: "I'm Good",          icon: "☀️",  desc: "Optimize & grow" },
-            ];
-            const visiblePathways = showAllPathways ? [...primaryPathways, ...morePathways] : primaryPathways;
+      {/* ═══════════ EMOTION TILES ═══════════ */}
+      <section style={{ padding: "40px 24px 80px", maxWidth: 1080, width: "100%", margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 12, marginBottom: showAllPathways ? 12 : 24 }}>
+          {visiblePathways.map((e) => {
+            const accentColor = emotionColors[e.id] || "#7D9B82";
             return (
-              <>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(155px, 1fr))", gap: 10, marginBottom: showAllPathways ? 10 : 16 }}>
-                  {visiblePathways.map((e) => (
-                    <a key={e.id} href={`/tools?start=${e.id}`} className="card-hover" style={{
-                      display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
-                      padding: "20px 12px", background: "rgba(91,191,176,0.04)", border: "1px solid rgba(91,191,176,0.08)",
-                      borderRadius: 16, cursor: "pointer",
-                      backdropFilter: "blur(12px)", textDecoration: "none",
-                    }}>
-                      <span style={{ fontSize: 26 }}>{e.icon}</span>
-                      <span style={{ fontSize: 14, fontWeight: 500, color: "#D8E8F0", fontFamily: "'IBM Plex Sans', sans-serif" }}>{e.label}</span>
-                      <span style={{ fontSize: 11, color: "#7DB0C8", opacity: 0.7, fontFamily: "'IBM Plex Sans', sans-serif" }}>{e.desc}</span>
-                    </a>
-                  ))}
+              <a key={e.id} href={`/tools?start=${e.id}`} className="emotion-tile" style={{
+                display: "flex", alignItems: "center", gap: 16,
+                padding: "18px 20px", background: "var(--surface-elevated)", border: "1px solid rgba(45,42,38,0.06)",
+                borderRadius: 16, cursor: "pointer", textDecoration: "none",
+                borderLeft: `4px solid ${accentColor}`, boxShadow: "var(--shadow-sm)",
+              }}
+              onMouseEnter={ev => { ev.currentTarget.style.background = `${accentColor}08`; ev.currentTarget.style.boxShadow = "var(--shadow-md)"; }}
+              onMouseLeave={ev => { ev.currentTarget.style.background = "var(--surface-elevated)"; ev.currentTarget.style.boxShadow = "var(--shadow-sm)"; }}>
+                <span style={{ fontSize: 28, flexShrink: 0 }}>{e.icon}</span>
+                <div>
+                  <span style={{ fontSize: 15, fontWeight: 500, color: "var(--text-primary)", display: "block", marginBottom: 2 }}>{e.label}</span>
+                  <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>{e.desc}</span>
                 </div>
-                {!showAllPathways && (
-                  <div style={{ textAlign: "center", marginBottom: 36 }}>
-                    <button onClick={() => setShowAllPathways(true)} className="btn-glow" style={{ background: "none", border: "1px solid rgba(91,191,176,0.12)", padding: "8px 22px", borderRadius: 20, fontSize: 12, color: "#7DB0C8", cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif", transition: "all 0.2s" }}>
-                      See all pathways →
-                    </button>
-                  </div>
-                )}
-                {showAllPathways && <div style={{ marginBottom: 36 }} />}
-              </>
+              </a>
             );
-          })()}
+          })}
+        </div>
+        {!showAllPathways && (
+          <div style={{ textAlign: "center" }}>
+            <button onClick={() => setShowAllPathways(true)} className="btn-glow" style={{ background: "none", border: "1.5px solid var(--interactive)", padding: "10px 28px", borderRadius: 24, fontSize: 13, color: "var(--interactive)", cursor: "pointer", fontWeight: 500 }}>
+              See all 15 pathways →
+            </button>
+          </div>
+        )}
+      </section>
 
-          {/* Quick Tools */}
-          <div style={{ marginBottom: 40 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-              <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 2, color: "#7DB0C8", fontWeight: 600, fontFamily: "'Sora', sans-serif" }}>Quick Tools</span>
-              <span style={{ fontSize: 11, color: "#7DB0C8", opacity: 0.4, fontFamily: "'IBM Plex Sans', sans-serif" }}>— instant interventions, no session needed</span>
+      {/* ═══════════ EMOTIONAL BLUEPRINT (Viral Engine) ═══════════ */}
+      <section style={{ padding: "80px 24px", background: "var(--bg-secondary)" }}>
+        <div style={{ maxWidth: 680, margin: "0 auto", textAlign: "center" }}>
+          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "var(--font-h2)", fontWeight: 500, color: "var(--text-primary)", margin: "0 0 16px" }}>
+            Discover Your Emotional Blueprint
+          </h2>
+          <p style={{ fontSize: 16, color: "var(--text-secondary)", lineHeight: 1.7, margin: "0 auto 32px", maxWidth: 540 }}>
+            A 2-minute assessment designed by a Board Certified PMHNP. Learn your stress response pattern, your dominant thinking style, and which techniques match your brain.
+          </p>
+
+          {/* Preview Card */}
+          <div style={{ background: "var(--surface-elevated)", borderRadius: 20, padding: "28px 24px", margin: "0 auto 28px", maxWidth: 380, boxShadow: "var(--shadow-lg)", border: "1px solid rgba(45,42,38,0.06)", textAlign: "left" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+              <div style={{ width: 40, height: 40, borderRadius: 12, background: "linear-gradient(135deg, var(--accent-sage), var(--accent-teal))", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <span style={{ fontSize: 20 }}>🛡️</span>
+              </div>
+              <div>
+                <span style={{ fontFamily: "'Fraunces', serif", fontSize: 17, fontWeight: 500, color: "var(--text-primary)", display: "block" }}>The Sentinel</span>
+                <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Hypervigilant Protector Pattern</span>
+              </div>
             </div>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              {[
-                { id: "box",    icon: "▣",  label: "Box Breathing",       time: "2 min", free: true },
-                { id: "sigh",   icon: "🌬️", label: "Physiological Sigh",  time: "1 min", free: true },
-                { id: "ground", icon: "🌿", label: "5-4-3-2-1 Grounding", time: "3 min", free: true },
-                { id: "defuse", icon: "🧠", label: "Thought Defusion",    time: "2 min", free: false },
-                { id: "tipp",   icon: "❄️", label: "TIPP Crisis Skill",   time: "3 min", free: false },
-              ].map((tool) => (
-                <a key={tool.id} href={`/tools?tool=${tool.id}`} className="quicktool-hover" style={{
-                  display: "flex", alignItems: "center", gap: 8, padding: "10px 16px",
-                  background: "rgba(91,191,176,0.04)", border: "1px solid rgba(91,191,176,0.08)",
-                  borderRadius: 30, cursor: "pointer",
-                  fontFamily: "'IBM Plex Sans', sans-serif", textDecoration: "none",
-                }}>
-                  <span style={{ fontSize: 16 }}>{tool.icon}</span>
-                  <span style={{ fontSize: 13, fontWeight: 500, color: "#D8E8F0" }}>{tool.label}</span>
-                  <span style={{ fontSize: 11, color: "#7DB0C8", opacity: 0.6 }}>{tool.time}</span>
-                  {!tool.free && <span style={{ fontSize: 10, padding: "2px 6px", background: "linear-gradient(90deg, #5BBFB0, #4AAAC8)", color: "#14263A", borderRadius: 8, fontWeight: 700 }}>PRO</span>}
-                </a>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 12 }}>
+              {["High threat scanning", "Somatic tension", "Cognitive rumination"].map(t => (
+                <span key={t} style={{ fontSize: 10, padding: "3px 10px", background: "var(--accent-sage-light)", color: "var(--accent-sage)", borderRadius: 12, fontWeight: 500 }}>{t}</span>
               ))}
             </div>
+            <p style={{ fontSize: 12, color: "var(--text-muted)", margin: 0, fontStyle: "italic" }}>Best techniques: Box Breathing, Progressive Muscle Relaxation, Cognitive Restructuring</p>
           </div>
 
-          {/* Technique Library CTA */}
-          <div style={{ textAlign: "center", marginBottom: 32 }}>
-            <a href="/techniques" style={{ display: "inline-block", padding: "14px 28px", background: "rgba(91,191,176,0.06)", border: "1px solid rgba(91,191,176,0.15)", borderRadius: 16, textDecoration: "none", transition: "all 0.2s", backdropFilter: "blur(12px)" }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(91,191,176,0.35)"; e.currentTarget.style.background = "rgba(91,191,176,0.1)"; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(91,191,176,0.15)"; e.currentTarget.style.background = "rgba(91,191,176,0.06)"; }}>
-              <span style={{ fontSize: 15, color: "#D8E8F0", fontFamily: "'Sora', sans-serif", fontWeight: 500 }}>Browse 15 evidence-based techniques →</span>
+          <a href="/blueprint" className="btn-glow" style={{ display: "inline-block", padding: "16px 40px", fontSize: 16, fontFamily: "'Fraunces', serif", fontWeight: 600, background: "var(--interactive)", color: "#fff", borderRadius: 50, textDecoration: "none", marginBottom: 16 }}>
+            Take the Assessment — Free, 2 Minutes
+          </a>
+          <p style={{ fontSize: 12, color: "var(--text-muted)", margin: 0 }}>Nothing is stored. Nothing leaves your browser.</p>
+        </div>
+      </section>
+
+      {/* ═══════════ QUICK TOOLS ═══════════ */}
+      <section style={{ padding: "80px 24px", maxWidth: 1080, width: "100%", margin: "0 auto" }}>
+        <div style={{ textAlign: "center", marginBottom: 32 }}>
+          <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 3, color: "var(--text-muted)", fontWeight: 600, display: "block", marginBottom: 8 }}>Quick Tools</span>
+          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "var(--font-h3)", fontWeight: 400, color: "var(--text-primary)", margin: 0 }}>Instant interventions — no session needed</h2>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12, maxWidth: 680, margin: "0 auto 28px" }}>
+          {[
+            { id: "box",    icon: "▣",  label: "Box Breathing",       time: "2 min", free: true },
+            { id: "sigh",   icon: "🌬️", label: "Physiological Sigh",  time: "1 min", free: true },
+            { id: "ground", icon: "🌿", label: "5-4-3-2-1 Grounding", time: "3 min", free: true },
+            { id: "defuse", icon: "🧠", label: "Thought Defusion",    time: "2 min", free: false },
+            { id: "tipp",   icon: "❄️", label: "TIPP Crisis Skill",   time: "3 min", free: false },
+          ].map((tool) => (
+            <a key={tool.id} href={`/tools?tool=${tool.id}`} className="quicktool-hover card-hover" style={{
+              display: "flex", alignItems: "center", gap: 12, padding: "16px 18px",
+              background: "var(--surface-elevated)", border: "1px solid rgba(45,42,38,0.06)",
+              borderRadius: 14, textDecoration: "none", boxShadow: "var(--shadow-sm)",
+            }}>
+              <span style={{ fontSize: 22 }}>{tool.icon}</span>
+              <div style={{ flex: 1 }}>
+                <span style={{ fontSize: 14, fontWeight: 500, color: "var(--text-primary)", display: "block" }}>{tool.label}</span>
+                <span style={{ fontSize: 12, color: "var(--text-muted)" }}>{tool.time}</span>
+              </div>
+              {!tool.free && <span style={{ fontSize: 9, padding: "2px 8px", background: "var(--interactive)", color: "#fff", borderRadius: 8, fontWeight: 700 }}>PRO</span>}
             </a>
-          </div>
+          ))}
+        </div>
+        <div style={{ textAlign: "center" }}>
+          <a href="/techniques" style={{ fontSize: 14, color: "var(--interactive)", fontWeight: 500, textDecoration: "none" }}
+            onMouseEnter={e => e.currentTarget.style.color = "var(--interactive-hover)"}
+            onMouseLeave={e => e.currentTarget.style.color = "var(--interactive)"}>
+            Browse 15 evidence-based techniques →
+          </a>
+        </div>
+      </section>
 
-          {/* Two Ways to Use AIForj */}
-          <div style={{ marginBottom: 48 }}>
-            <h3 style={{ fontFamily: "'Sora', sans-serif", fontSize: 20, fontWeight: 600, color: "#D8E8F0", textAlign: "center", marginBottom: 20 }}>Two Ways to Use AIForj</h3>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 14 }}>
-              <div style={{ padding: "24px 22px", background: "rgba(91,191,176,0.04)", border: "1px solid rgba(91,191,176,0.1)", borderRadius: 20, backdropFilter: "blur(12px)" }}>
-                <span style={{ fontSize: 24, display: "block", marginBottom: 10 }}>🗣️</span>
-                <h4 style={{ fontFamily: "'Sora', sans-serif", fontSize: 16, fontWeight: 600, color: "#D8E8F0", margin: "0 0 8px" }}>Talk or Type</h4>
-                <p style={{ fontSize: 13, color: "#7DB0C8", lineHeight: 1.7, margin: 0, fontFamily: "'IBM Plex Sans', sans-serif" }}>Personalized support in the moment. The AI adapts to what you say using 16 therapeutic techniques.</p>
+      {/* ═══════════ PROGRESS GARDEN PREVIEW ═══════════ */}
+      <section style={{ padding: "80px 24px", background: "var(--bg-secondary)" }}>
+        <div style={{ maxWidth: 680, margin: "0 auto", textAlign: "center" }}>
+          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "var(--font-h2)", fontWeight: 500, color: "var(--text-primary)", margin: "0 0 16px" }}>
+            Watch Yourself Grow
+          </h2>
+          <p style={{ fontSize: 16, color: "var(--text-secondary)", lineHeight: 1.7, margin: "0 auto 32px", maxWidth: 520 }}>
+            Every session plants a seed. Track your emotional patterns, build streaks, and watch your garden bloom — all stored privately on your device. Only you can see it.
+          </p>
+          {/* Garden SVG illustration */}
+          <div style={{ display: "flex", justifyContent: "center", gap: 24, marginBottom: 32 }}>
+            {[
+              { h: 30, color: "var(--accent-sage)", label: "Day 1" },
+              { h: 50, color: "var(--garden-growth)", label: "Day 7" },
+              { h: 75, color: "var(--garden-bloom)", label: "Day 14" },
+              { h: 100, color: "var(--accent-warm)", label: "Day 30" },
+            ].map((plant, i) => (
+              <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+                <div style={{ width: 8, height: plant.h, background: `linear-gradient(to top, ${plant.color}, ${plant.color}88)`, borderRadius: 4, position: "relative" }}>
+                  <div style={{ position: "absolute", top: -8, left: -8, width: 24, height: 24, borderRadius: "50%", background: plant.color, opacity: 0.3 }} />
+                  <div style={{ position: "absolute", top: -4, left: -4, width: 16, height: 16, borderRadius: "50%", background: plant.color, opacity: 0.6 }} />
+                </div>
+                <span style={{ fontSize: 10, color: "var(--text-muted)" }}>{plant.label}</span>
               </div>
-              <div style={{ padding: "24px 22px", background: "rgba(91,191,176,0.04)", border: "1px solid rgba(91,191,176,0.1)", borderRadius: 20, backdropFilter: "blur(12px)" }}>
-                <span style={{ fontSize: 24, display: "block", marginBottom: 10 }}>🧭</span>
-                <h4 style={{ fontFamily: "'Sora', sans-serif", fontSize: 16, fontWeight: 600, color: "#D8E8F0", margin: "0 0 8px" }}>Guided Tools</h4>
-                <p style={{ fontSize: 13, color: "#7DB0C8", lineHeight: 1.7, margin: 0, fontFamily: "'IBM Plex Sans', sans-serif" }}>A structured reset in 2–5 minutes. Choose what you're feeling and follow the guided protocol.</p>
-              </div>
-            </div>
+            ))}
           </div>
+          <a href="/garden" className="btn-glow" style={{ display: "inline-block", padding: "14px 36px", fontSize: 15, fontFamily: "'Fraunces', serif", fontWeight: 500, background: "var(--interactive)", color: "#fff", borderRadius: 50, textDecoration: "none" }}>
+            Start Growing →
+          </a>
+        </div>
+      </section>
 
-          {/* Premium CTA — reframed */}
-          {tier === "free" && (
-            <div style={{ background: "linear-gradient(135deg, rgba(91,191,176,0.06), rgba(45,212,191,0.03))", borderRadius: 24, padding: "36px 28px", textAlign: "center", marginBottom: 32, border: "1px solid rgba(91,191,176,0.1)", backdropFilter: "blur(12px)" }}>
-              <span style={{ fontSize: 32, display: "block", marginBottom: 8 }}>✦</span>
-              <h3 style={{ fontFamily: "'Sora', sans-serif", fontSize: 22, fontWeight: 600, color: "#D8E8F0", margin: "0 0 10px", lineHeight: 1.3 }}>When the free reset helps — but you need more depth</h3>
-              <p style={{ fontSize: 14, color: "#7DB0C8", margin: "0 0 14px", lineHeight: 1.7, fontFamily: "'IBM Plex Sans', sans-serif" }}>Track patterns over time. Access advanced techniques. Understand why the same feelings keep returning.</p>
-              <p style={{ fontSize: 13, color: "#7DB0C8", margin: "0 0 6px", lineHeight: 1.7, fontFamily: "'IBM Plex Sans', sans-serif", opacity: 0.7 }}>AI insights, mood analytics, guided journal, advanced crisis tools, unlimited sessions</p>
-              <p style={{ fontSize: 12, color: "#7DB0C8", opacity: 0.5, margin: "0 0 20px", fontFamily: "'IBM Plex Sans', sans-serif" }}>7-day free trial · $9.99/month · Cancel anytime</p>
-              <button onClick={handleSubscribe} className="btn-glow" style={{
-                padding: "14px 44px", fontSize: 15, fontFamily: "'Sora', sans-serif",
-                background: "linear-gradient(135deg, #5BBFB0, #4AAAC8)", color: "#14263A",
-                border: "none", borderRadius: 50, cursor: "pointer", letterSpacing: 0.5, fontWeight: 700, transition: "all 0.2s",
-              }}>
-                Start Free Trial
+      {/* ═══════════ TWO WAYS ═══════════ */}
+      <section style={{ padding: "80px 24px", maxWidth: 1080, width: "100%", margin: "0 auto" }}>
+        <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "var(--font-h2)", fontWeight: 500, color: "var(--text-primary)", textAlign: "center", margin: "0 0 32px" }}>Two Ways to Use AIForj</h2>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20, maxWidth: 680, margin: "0 auto" }}>
+          <div className="card-hover" style={{ padding: "32px 28px", background: "var(--surface-elevated)", border: "1px solid rgba(45,42,38,0.06)", borderRadius: 20, boxShadow: "var(--shadow-md)" }}>
+            <span style={{ fontSize: 32, display: "block", marginBottom: 14 }}>🗣️</span>
+            <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 19, fontWeight: 500, color: "var(--text-primary)", margin: "0 0 10px" }}>Talk or Type</h3>
+            <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.7, margin: 0 }}>Personalized support in the moment. The AI adapts to what you say using 16 therapeutic techniques.</p>
+          </div>
+          <div className="card-hover" style={{ padding: "32px 28px", background: "var(--surface-elevated)", border: "1px solid rgba(45,42,38,0.06)", borderRadius: 20, boxShadow: "var(--shadow-md)" }}>
+            <span style={{ fontSize: 32, display: "block", marginBottom: 14 }}>🧭</span>
+            <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 19, fontWeight: 500, color: "var(--text-primary)", margin: "0 0 10px" }}>Guided Tools</h3>
+            <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.7, margin: 0 }}>A structured reset in 2–5 minutes. Choose what you're feeling and follow the guided protocol.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════ CLINICAL CREDENTIAL ═══════════ */}
+      <section style={{ padding: "80px 24px", background: "var(--bg-secondary)" }}>
+        <div style={{ maxWidth: 620, margin: "0 auto", textAlign: "center" }}>
+          <img src="/aif.jpeg" alt="AIForj" style={{ height: 64, width: "auto", borderRadius: 14, marginBottom: 20, boxShadow: "var(--shadow-md)" }} />
+          <p style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(16px, 2.5vw, 20px)", color: "var(--text-primary)", lineHeight: 1.8, margin: "0 0 24px", fontWeight: 400, fontStyle: "italic" }}>
+            "I built Forj because my patients needed something between sessions. Something private. Something that uses real techniques — not affirmations from an algorithm. As a psychiatric nurse practitioner, I designed every pathway, every protocol, every word. This is the tool I wished existed for the people I care for."
+          </p>
+          <p style={{ fontSize: 14, color: "var(--text-secondary)", fontWeight: 500, margin: "0 0 20px" }}>
+            — Board Certified Psychiatric Mental Health Nurse Practitioner
+          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8 }}>
+            {["Evidence-Based", "Zero Data Collection", "100% On-Device AI", "HIPAA-Grade Privacy"].map(b => (
+              <span key={b} style={{ padding: "5px 14px", background: "var(--surface-elevated)", border: "1px solid rgba(45,42,38,0.06)", borderRadius: 20, fontSize: 11, color: "var(--text-secondary)", fontWeight: 500, boxShadow: "var(--shadow-sm)" }}>{b}</span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════ PREMIUM ═══════════ */}
+      {tier === "free" && (
+        <section style={{ padding: "80px 24px", maxWidth: 680, width: "100%", margin: "0 auto" }}>
+          <div style={{ background: "var(--surface-elevated)", borderRadius: 24, padding: "48px 32px", textAlign: "center", boxShadow: "var(--shadow-lg)", border: "1px solid rgba(45,42,38,0.06)" }}>
+            <span style={{ fontSize: 36, display: "block", marginBottom: 12 }}>✦</span>
+            <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "var(--font-h3)", fontWeight: 500, color: "var(--text-primary)", margin: "0 0 12px", lineHeight: 1.3 }}>When the free reset helps — but you need more depth</h2>
+            <p style={{ fontSize: 15, color: "var(--text-secondary)", margin: "0 auto 24px", lineHeight: 1.7, maxWidth: 480 }}>
+              Unlimited sessions + Progress Garden + Advanced techniques + PDF session exports + Custom voice
+            </p>
+            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginBottom: 20 }}>
+              <button onClick={handleSubscribe} className="btn-glow" style={{ padding: "16px 40px", fontSize: 16, fontFamily: "'Fraunces', serif", background: "var(--interactive)", color: "#fff", border: "none", borderRadius: 50, cursor: "pointer", fontWeight: 600 }}>
+                Start 7-Day Free Trial
+              </button>
+              <button onClick={handleSubscribe} className="btn-glow" style={{ padding: "16px 32px", fontSize: 14, fontFamily: "'DM Sans', sans-serif", background: "transparent", color: "var(--interactive)", border: "1.5px solid var(--interactive)", borderRadius: 50, cursor: "pointer", fontWeight: 500 }}>
+                Lifetime Unlock — $79
               </button>
             </div>
-          )}
-
-          {/* CBT Workbook — reframed with context */}
-          <div style={{ marginBottom: 40, textAlign: "center" }}>
-            <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 2, color: "#7DB0C8", fontWeight: 600, fontFamily: "'Sora', sans-serif", display: "block", marginBottom: 6 }}>Practice between sessions</span>
-            <p style={{ fontSize: 14, color: "#7DB0C8", margin: "0 0 16px", lineHeight: 1.6, fontFamily: "'IBM Plex Sans', sans-serif" }}>The thoughts that keep coming back? This workbook teaches you how to rewire them.</p>
-            <a href="https://aiforj.gumroad.com/l/jmdqvd" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "block" }}>
-              <div className="card-hover" style={{ display: "flex", alignItems: "center", gap: 20, padding: "22px 24px", background: "rgba(91,191,176,0.05)", border: "1px solid rgba(91,191,176,0.15)", borderRadius: 20, backdropFilter: "blur(12px)", boxShadow: "0 4px 24px rgba(91,191,176,0.04)" }}>
-                <span style={{ fontSize: 36, flexShrink: 0 }}>📘</span>
-                <div style={{ flex: 1, textAlign: "left" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4, flexWrap: "wrap" }}>
-                    <span style={{ fontSize: 15, fontWeight: 600, color: "#D8E8F0", fontFamily: "'Sora', sans-serif" }}>CBT Thought Reframe Workbook</span>
-                    <span style={{ fontSize: 11, padding: "2px 9px", background: "linear-gradient(90deg, rgba(91,191,176,0.2), rgba(45,212,191,0.2))", border: "1px solid rgba(91,191,176,0.3)", color: "#5BBFB0", borderRadius: 20, fontWeight: 600, fontFamily: "'Sora', sans-serif", letterSpacing: 0.5 }}>$27</span>
-                  </div>
-                  <span style={{ fontSize: 13, color: "#7DB0C8", fontFamily: "'IBM Plex Sans', sans-serif" }}>84 pages · 30 days of exercises · 10 cognitive distortions</span>
-                </div>
-                <span style={{ fontSize: 18, color: "#5BBFB0", opacity: 0.6, flexShrink: 0 }}>→</span>
-              </div>
-            </a>
+            <p style={{ fontSize: 12, color: "var(--text-muted)", margin: 0 }}>7-day free trial · $9.99/month · Cancel anytime</p>
           </div>
+        </section>
+      )}
 
-          {/* Therapy modalities — moved to bottom for SEO/trust, before footer */}
-          <TherapyModalities />
+      {/* ═══════════ CBT WORKBOOK ═══════════ */}
+      <section style={{ padding: "40px 24px 80px", maxWidth: 680, width: "100%", margin: "0 auto" }}>
+        <a href="https://aiforj.gumroad.com/l/jmdqvd" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "block" }}>
+          <div className="card-hover" style={{ display: "flex", alignItems: "center", gap: 20, padding: "24px 28px", background: "var(--surface-elevated)", border: "1px solid rgba(45,42,38,0.06)", borderRadius: 20, boxShadow: "var(--shadow-md)" }}>
+            <span style={{ fontSize: 40, flexShrink: 0 }}>📘</span>
+            <div style={{ flex: 1, textAlign: "left" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4, flexWrap: "wrap" }}>
+                <span style={{ fontSize: 16, fontWeight: 600, color: "var(--text-primary)", fontFamily: "'Fraunces', serif" }}>CBT Thought Reframe Workbook</span>
+                <span style={{ fontSize: 12, padding: "3px 10px", background: "var(--accent-warm-light)", color: "var(--accent-warm)", borderRadius: 20, fontWeight: 600 }}>$27</span>
+              </div>
+              <span style={{ fontSize: 14, color: "var(--text-secondary)" }}>84 pages · 30 days of exercises · 10 cognitive distortions</span>
+            </div>
+            <span style={{ fontSize: 20, color: "var(--accent-sage)", opacity: 0.6, flexShrink: 0 }}>→</span>
+          </div>
+        </a>
+      </section>
 
+      {/* ═══════════ EMAIL CAPTURE ═══════════ */}
+      <section style={{ padding: "40px 24px 80px" }}>
+        <EmailCapture />
+      </section>
+
+      {/* ═══════════ FOOTER ═══════════ */}
+      <footer style={{ padding: "48px 24px 32px", textAlign: "center", background: "var(--bg-secondary)", borderTop: "1px solid rgba(45,42,38,0.06)" }}>
+        {/* Crisis resources — prominent */}
+        <div style={{ marginBottom: 28, padding: "18px 24px", background: "var(--surface-elevated)", borderRadius: 16, display: "inline-block", boxShadow: "var(--shadow-sm)" }}>
+          <p style={{ fontSize: 14, color: "var(--text-primary)", margin: "0 0 4px", fontWeight: 500 }}>
+            In crisis? You're not alone.
+          </p>
+          <p style={{ fontSize: 13, color: "var(--text-secondary)", margin: 0 }}>
+            Call or text <strong style={{ color: "var(--crisis)" }}>988</strong> · Text HOME to <strong style={{ color: "var(--crisis)" }}>741741</strong>
+          </p>
         </div>
-      </div>
 
-      {/* Footer */}
-      <footer style={{ padding: "48px 24px 32px", textAlign: "center", background: "#0D1E30", borderTop: "1px solid rgba(91,191,176,0.06)", zIndex: 5 }}>
-        <img src="/aif.jpeg" alt="AIForj" style={{ height: 52, width: "auto", borderRadius: 12, marginBottom: 16, boxShadow: "0 4px 16px rgba(91,191,176,0.1)" }} />
+        <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.7, margin: "0 0 24px", maxWidth: 480, marginLeft: "auto", marginRight: "auto" }}>
+          Forj is a wellness companion — not a therapist or substitute for professional care.
+        </p>
 
-        {/* Trust badges */}
-        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8, marginBottom: 20 }}>
-          {["PMHNP-BC Designed", "Evidence-Based", "Zero Data Collection", "100% On-Device AI", "HIPAA-Grade Privacy"].map(b => (
-            <span key={b} style={{ padding: "4px 12px", background: "rgba(91,191,176,0.05)", border: "1px solid rgba(91,191,176,0.1)", borderRadius: 20, fontSize: 10, color: "#7DB0C8", letterSpacing: 0.5, fontWeight: 500, fontFamily: "'IBM Plex Sans', sans-serif" }}>{b}</span>
+        {/* Footer nav */}
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 20, marginBottom: 24 }}>
+          {[
+            { href: "https://aiforj.com", label: "AIForj.com" },
+            { href: "/tools", label: "Guided Protocols" },
+            { href: "/techniques", label: "Technique Library" },
+            { href: "https://aiforj.gumroad.com/l/jmdqvd", label: "📘 CBT Workbook", ext: true },
+            { href: "https://medium.com/@kcooke493/im-a-psych-np-and-i-built-a-free-ai-wellness-tool-8d46e01a6852", label: "Read Our Story", ext: true },
+            { href: "https://x.com/AIForj", label: "𝕏 @AIForj", ext: true },
+          ].map(link => (
+            <a key={link.label} href={link.href} {...(link.ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              style={{ fontSize: 12, color: "var(--text-muted)", textDecoration: "none", transition: "color 0.3s" }}
+              onMouseEnter={e => e.currentTarget.style.color = "var(--interactive)"}
+              onMouseLeave={e => e.currentTarget.style.color = "var(--text-muted)"}>{link.label}</a>
           ))}
         </div>
 
-        <p style={{ fontSize: 14, color: "#D8E8F0", lineHeight: 1.6, margin: "0 0 4px", fontWeight: 500, fontFamily: "'IBM Plex Sans', sans-serif" }}>
-          Built by a Board Certified Psychiatric Mental Health Nurse Practitioner
-        </p>
-        <p style={{ fontSize: 12, color: "#7DB0C8", margin: "0 0 24px", fontFamily: "'IBM Plex Sans', sans-serif" }}>Caring for the Whole Human</p>
-
-        {/* Footer nav links */}
-        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 20, marginBottom: 24 }}>
-          <a href="https://aiforj.com" style={{ fontSize: 12, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", transition: "color 0.2s" }}
-            onMouseEnter={e => e.currentTarget.style.color = "#5BBFB0"} onMouseLeave={e => e.currentTarget.style.color = "#6090A8"}>AIForj.com</a>
-          <a href="/tools" style={{ fontSize: 12, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", transition: "color 0.2s" }}
-            onMouseEnter={e => e.currentTarget.style.color = "#5BBFB0"} onMouseLeave={e => e.currentTarget.style.color = "#6090A8"}>Guided Protocols</a>
-          <a href="https://aiforj.gumroad.com/l/jmdqvd" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", transition: "color 0.2s" }}
-            onMouseEnter={e => e.currentTarget.style.color = "#5BBFB0"} onMouseLeave={e => e.currentTarget.style.color = "#6090A8"}>📘 CBT Workbook</a>
-          <a href="https://medium.com/@kcooke493/im-a-psych-np-and-i-built-a-free-ai-wellness-tool-8d46e01a6852" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", transition: "color 0.2s" }}
-            onMouseEnter={e => e.currentTarget.style.color = "#5BBFB0"} onMouseLeave={e => e.currentTarget.style.color = "#6090A8"}>Read Our Story</a>
-          <a href="/techniques" style={{ fontSize: 12, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", transition: "color 0.2s" }}
-            onMouseEnter={e => e.currentTarget.style.color = "#5BBFB0"} onMouseLeave={e => e.currentTarget.style.color = "#6090A8"}>Technique Library</a>
-          <a href="https://x.com/AIForj" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", transition: "color 0.2s" }}
-            onMouseEnter={e => e.currentTarget.style.color = "#5BBFB0"} onMouseLeave={e => e.currentTarget.style.color = "#6090A8"}>𝕏 @AIForj</a>
+        {/* Help with... */}
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 10, marginBottom: 24 }}>
+          {[
+            { href: "/3am-spiral", icon: "🌙", label: "3AM Spiral" },
+            { href: "/overwhelmed", icon: "🌊", label: "Overwhelmed" },
+            { href: "/burned-out", icon: "🪨", label: "Burned Out" },
+            { href: "/find-help", icon: "🔍", label: "Find a Provider" },
+          ].map(link => (
+            <a key={link.label} href={link.href} style={{ fontSize: 11, color: "var(--text-muted)", textDecoration: "none", padding: "5px 14px", background: "var(--surface)", borderRadius: 20, transition: "all 0.3s" }}
+              onMouseEnter={e => { e.currentTarget.style.color = "var(--interactive)"; e.currentTarget.style.background = "var(--accent-sage-light)"; }}
+              onMouseLeave={e => { e.currentTarget.style.color = "var(--text-muted)"; e.currentTarget.style.background = "var(--surface)"; }}>
+              {link.icon} {link.label}
+            </a>
+          ))}
         </div>
 
-        {/* Landing page guides */}
-        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 16, marginBottom: 24 }}>
-          <span style={{ fontSize: 11, color: "#7DB0C8", opacity: 0.5, fontFamily: "'IBM Plex Sans', sans-serif", width: "100%", textAlign: "center", marginBottom: 4 }}>Help with...</span>
-          <a href="/3am-spiral" style={{ fontSize: 11, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", padding: "4px 14px", background: "rgba(91,191,176,0.04)", border: "1px solid rgba(91,191,176,0.08)", borderRadius: 16, transition: "all 0.2s" }}
-            onMouseEnter={e => { e.currentTarget.style.color = "#5BBFB0"; e.currentTarget.style.borderColor = "rgba(91,191,176,0.2)"; }} onMouseLeave={e => { e.currentTarget.style.color = "#6090A8"; e.currentTarget.style.borderColor = "rgba(91,191,176,0.08)"; }}>🌙 3AM Spiral</a>
-          <a href="/overwhelmed" style={{ fontSize: 11, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", padding: "4px 14px", background: "rgba(91,191,176,0.04)", border: "1px solid rgba(91,191,176,0.08)", borderRadius: 16, transition: "all 0.2s" }}
-            onMouseEnter={e => { e.currentTarget.style.color = "#5BBFB0"; e.currentTarget.style.borderColor = "rgba(91,191,176,0.2)"; }} onMouseLeave={e => { e.currentTarget.style.color = "#6090A8"; e.currentTarget.style.borderColor = "rgba(91,191,176,0.08)"; }}>🌊 Overwhelmed</a>
-          <a href="/burned-out" style={{ fontSize: 11, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", padding: "4px 14px", background: "rgba(91,191,176,0.04)", border: "1px solid rgba(91,191,176,0.08)", borderRadius: 16, transition: "all 0.2s" }}
-            onMouseEnter={e => { e.currentTarget.style.color = "#5BBFB0"; e.currentTarget.style.borderColor = "rgba(91,191,176,0.2)"; }} onMouseLeave={e => { e.currentTarget.style.color = "#6090A8"; e.currentTarget.style.borderColor = "rgba(91,191,176,0.08)"; }}>🪨 Burned Out</a>
-          <a href="/find-help" style={{ fontSize: 11, color: "#7DB0C8", textDecoration: "none", fontFamily: "'IBM Plex Sans', sans-serif", padding: "4px 14px", background: "rgba(91,191,176,0.04)", border: "1px solid rgba(91,191,176,0.08)", borderRadius: 16, transition: "all 0.2s" }}
-            onMouseEnter={e => { e.currentTarget.style.color = "#5BBFB0"; e.currentTarget.style.borderColor = "rgba(91,191,176,0.2)"; }} onMouseLeave={e => { e.currentTarget.style.color = "#6090A8"; e.currentTarget.style.borderColor = "rgba(91,191,176,0.08)"; }}>🔍 Find a Provider</a>
-        </div>
-
-        <div style={{ display: "flex", justifyContent: "center", gap: 16, marginBottom: 20 }}>
+        <div style={{ display: "flex", justifyContent: "center", gap: 12, marginBottom: 24, flexWrap: "wrap" }}>
           <button onClick={() => {
             const text = "Free AI therapeutic companion — clinician-built, completely private, evidence-based. This helped me.\n\naiforj.com";
             if (navigator.share) navigator.share({ title: "AIForj", text, url: "https://aiforj.com" }).catch(() => {});
             else navigator.clipboard.writeText(text).catch(() => {});
-          }} className="btn-glow" style={{ background: "none", border: "1px solid rgba(91,191,176,0.15)", padding: "8px 20px", borderRadius: 20, fontSize: 12, color: "#7DB0C8", cursor: "pointer", fontFamily: "'IBM Plex Sans', sans-serif", transition: "all 0.2s" }}>
-            ↗ Share AIForj
+          }} className="btn-glow" style={{ background: "none", border: "1px solid rgba(45,42,38,0.08)", padding: "8px 20px", borderRadius: 20, fontSize: 12, color: "var(--text-secondary)", cursor: "pointer" }}>
+            ↗ Share Forj
           </button>
+          <SoundToggle />
+          <DataManagement />
         </div>
 
-        <EmailCapture />
-
-        <p style={{ fontSize: 11, color: "#7DB0C8", opacity: 0.5, lineHeight: 1.7, margin: "0 0 8px", fontFamily: "'IBM Plex Sans', sans-serif" }}>
-          AIForj is a wellness companion — not a therapist or substitute for professional care.
-        </p>
-        <p style={{ fontSize: 11, color: "#7DB0C8", opacity: 0.5, lineHeight: 1.7, margin: "0 0 16px", fontFamily: "'IBM Plex Sans', sans-serif" }}>
-          In crisis? Call or text <strong style={{ color: "#5BBFB0", opacity: 0.8 }}>988</strong> · Text HOME to <strong style={{ color: "#5BBFB0", opacity: 0.8 }}>741741</strong>
-        </p>
-        <p style={{ fontSize: 11, color: "#7DB0C8", opacity: 0.3, margin: 0, fontFamily: "'IBM Plex Sans', sans-serif" }}>
+        <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.5, margin: 0 }}>
           © 2026 AIForj. All rights reserved.
         </p>
       </footer>

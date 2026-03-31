@@ -849,7 +849,7 @@ function QuickToolModal({ tool, theme, isPremium, onUpgrade, onClose }) {
       <div style={overlay} onClick={onClose}>
         <div onClick={e => e.stopPropagation()} style={{ ...box, textAlign: "center" }}>
           <span style={{ fontSize: 40, display: "block", marginBottom: 12 }}>{tool.icon}</span>
-          <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, fontWeight: 400, color: theme.text, margin: "0 0 8px" }}>{tool.label}</h3>
+          <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 22, fontWeight: 400, color: theme.text, margin: "0 0 8px" }}>{tool.label}</h3>
           <p style={{ fontSize: 14, color: theme.accent, margin: "0 0 24px", lineHeight: 1.6 }}>{tool.desc}</p>
           <button onClick={onUpgrade} style={{ padding: "14px 36px", background: `linear-gradient(135deg, ${theme.accent}, ${theme.text})`, color: theme.bg, border: "none", borderRadius: 50, cursor: "pointer", fontSize: 14, fontFamily: "'DM Sans', sans-serif", fontWeight: 500, width: "100%" }}>✦ Unlock with Premium</button>
           <button onClick={onClose} style={{ marginTop: 12, background: "none", border: "none", color: theme.accent, cursor: "pointer", fontSize: 13, fontFamily: "'DM Sans', sans-serif", opacity: 0.6 }}>Maybe later</button>
@@ -862,7 +862,7 @@ function QuickToolModal({ tool, theme, isPremium, onUpgrade, onClose }) {
     <div style={overlay}>
       <div style={box}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
-          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 20, fontWeight: 400, color: theme.text }}>{tool.icon} {tool.label}</span>
+          <span style={{ fontFamily: "'Fraunces', serif", fontSize: 20, fontWeight: 400, color: theme.text }}>{tool.icon} {tool.label}</span>
           <button onClick={onClose} style={{ background: "none", border: "none", fontSize: 22, color: theme.accent, cursor: "pointer", opacity: 0.5 }}>×</button>
         </div>
 
@@ -883,7 +883,7 @@ function QuickToolModal({ tool, theme, isPremium, onUpgrade, onClose }) {
             <>
               <div style={{ textAlign: "center", marginBottom: 24 }}>
                 <span style={{ fontSize: 42, display: "block", marginBottom: 10 }}>{GROUNDING[gtStep].icon}</span>
-                <p style={{ fontSize: 16, color: theme.text, fontFamily: "'Playfair Display', serif", fontStyle: "italic", margin: 0 }}>{GROUNDING[gtStep].prompt}</p>
+                <p style={{ fontSize: 16, color: theme.text, fontFamily: "'Fraunces', serif", fontStyle: "italic", margin: 0 }}>{GROUNDING[gtStep].prompt}</p>
                 <div style={{ display: "flex", gap: 6, justifyContent: "center", marginTop: 12 }}>
                   {GROUNDING.map((_, i) => <div key={i} style={{ width: 7, height: 7, borderRadius: "50%", background: i <= gtStep ? theme.accent : `rgba(${theme.breathe},0.2)`, transition: "all 0.3s" }} />)}
                 </div>
@@ -1045,13 +1045,13 @@ function JournalEntry({ theme, onClose }) {
   return (
     <div style={{ animation: "fadeIn 0.6s ease", maxWidth: 560, margin: "0 auto", padding: "0 24px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 32 }}>
-        <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 26, fontWeight: 400, color: theme.text, margin: 0 }}>Daily Journal</h2>
+        <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 26, fontWeight: 400, color: theme.text, margin: 0 }}>Daily Journal</h2>
         <button onClick={onClose} style={{ background: "none", border: "none", fontSize: 14, color: theme.accent, cursor: "pointer", fontFamily: "'DM Sans', sans-serif" }}>← Back</button>
       </div>
 
       <div style={{ background: theme.subtle, borderRadius: 16, padding: 24, marginBottom: 24 }}>
         <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 2, color: theme.accent, fontWeight: 600, display: "block", marginBottom: 8 }}>Today's Prompt</span>
-        <p style={{ fontSize: 17, color: theme.text, lineHeight: 1.6, margin: 0, fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}>{prompt}</p>
+        <p style={{ fontSize: 17, color: theme.text, lineHeight: 1.6, margin: 0, fontFamily: "'Fraunces', serif", fontStyle: "italic" }}>{prompt}</p>
       </div>
 
       {saved ? (
@@ -1107,7 +1107,7 @@ function MoodDashboard({ sessions, theme, onClose }) {
   return (
     <div style={{ animation: "fadeIn 0.6s ease", maxWidth: 600, margin: "0 auto", padding: "0 24px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 32 }}>
-        <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 26, fontWeight: 400, color: theme.text, margin: 0 }}>Your Journey</h2>
+        <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 26, fontWeight: 400, color: theme.text, margin: 0 }}>Your Journey</h2>
         <button onClick={onClose} style={{ background: "none", border: "none", fontSize: 14, color: theme.accent, cursor: "pointer", fontFamily: "'DM Sans', sans-serif" }}>← Back</button>
       </div>
 
@@ -1338,7 +1338,7 @@ export default function AIForj() {
 
         <div style={{ textAlign: "center", marginBottom: 20 }}>
           <span style={{ fontSize: 36, display: "block", marginBottom: 8 }}>✦</span>
-          <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 400, color: theme.text, margin: "0 0 6px" }}>
+          <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 24, fontWeight: 400, color: theme.text, margin: "0 0 6px" }}>
             AIForj Premium
           </h3>
           <p style={{ fontSize: 13, color: theme.accent, opacity: 0.7, margin: "0 0 10px", lineHeight: 1.5 }}>
@@ -1472,7 +1472,7 @@ export default function AIForj() {
       {screen === "home" && (
         <div key={fadeKey} style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "calc(100vh - 80px)", padding: "0 24px 80px", animation: "fadeIn 0.8s ease" }}>
           <div style={{ textAlign: "center", maxWidth: 560, marginBottom: 40 }}>
-            <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(30px, 5vw, 44px)", fontWeight: 400, color: theme.text, margin: "0 0 14px", lineHeight: 1.2, letterSpacing: -0.5 }}>
+            <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(30px, 5vw, 44px)", fontWeight: 400, color: theme.text, margin: "0 0 14px", lineHeight: 1.2, letterSpacing: -0.5 }}>
               How do you feel<br />right now?
             </h1>
             <p style={{ fontSize: 15, color: theme.accent, fontWeight: 300, margin: 0, lineHeight: 1.6, opacity: 0.8 }}>
@@ -1554,7 +1554,7 @@ export default function AIForj() {
           </div>
 
           <div style={{ maxWidth: 500, width: "100%", textAlign: "center" }}>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 26, fontWeight: 400, color: theme.text, margin: "0 0 12px" }}>{currentStep.title}</h2>
+            <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 26, fontWeight: 400, color: theme.text, margin: "0 0 12px" }}>{currentStep.title}</h2>
             <p style={{ fontSize: 15, color: theme.accent, lineHeight: 1.7, marginBottom: 32, fontWeight: 300, opacity: 0.85 }}>{currentStep.instruction}</p>
 
             {currentStep.type === "breathing" && <BreathingExercise config={currentStep.breathe} onComplete={() => setBreathDone(true)} theme={theme} />}
@@ -1617,7 +1617,7 @@ export default function AIForj() {
           <div style={{ maxWidth: 560, margin: "0 auto" }}>
             <div style={{ textAlign: "center", marginBottom: 36 }}>
               <span style={{ fontSize: 44, display: "block", marginBottom: 8, animation: "float 3s ease-in-out infinite" }}>{protocol.icon}</span>
-              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 28, fontWeight: 400, color: theme.text, margin: "0 0 6px" }}>Session Complete</h2>
+              <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 28, fontWeight: 400, color: theme.text, margin: "0 0 6px" }}>Session Complete</h2>
               <p style={{ fontSize: 13, color: theme.accent, opacity: 0.7, letterSpacing: 1 }}>{protocol.title} · {protocol.basis}</p>
             </div>
 

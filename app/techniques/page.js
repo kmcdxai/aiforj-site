@@ -29,9 +29,9 @@ export default function TechniquesPage() {
     <main
       style={{
         minHeight: "100vh",
-        background: "#14263A",
-        color: "#D8E8F0",
-        fontFamily: "'IBM Plex Sans', sans-serif",
+        background: "#FDFAF6",
+        color: "#2D2A26",
+        fontFamily: "'DM Sans', sans-serif",
       }}
     >
       <div
@@ -61,10 +61,10 @@ export default function TechniquesPage() {
             />
             <span
               style={{
-                fontFamily: "'Sora', sans-serif",
+                fontFamily: "'Fraunces', serif",
                 fontSize: 18,
                 fontWeight: 600,
-                color: "#D8E8F0",
+                color: "#2D2A26",
                 letterSpacing: -0.5,
               }}
             >
@@ -76,7 +76,7 @@ export default function TechniquesPage() {
               fontFamily: "'Playfair Display', serif",
               fontSize: "clamp(28px, 5vw, 42px)",
               fontWeight: 400,
-              color: "#D8E8F0",
+              color: "#2D2A26",
               margin: "0 0 16px",
               lineHeight: 1.2,
             }}
@@ -154,10 +154,10 @@ export default function TechniquesPage() {
               </div>
               <h2
                 style={{
-                  fontFamily: "'Sora', sans-serif",
+                  fontFamily: "'Fraunces', serif",
                   fontSize: 17,
                   fontWeight: 500,
-                  color: "#D8E8F0",
+                  color: "#2D2A26",
                   margin: "0 0 8px",
                   lineHeight: 1.3,
                 }}

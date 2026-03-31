@@ -1,4 +1,6 @@
 import './globals.css';
+import ThemeProvider from './components/ThemeProvider';
+import BiophilicBackground from './components/BiophilicBackground';
 
 export const metadata = {
   title: 'AIForj — Talk to Forj | Voice AI Therapeutic Companion',
@@ -23,11 +25,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=Sora:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=DM+Sans:wght@300;400;500;600&family=Sora:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-2VSX5RJH0J"></script>
         <script dangerouslySetInnerHTML={{ __html: `
           window.dataLayer = window.dataLayer || [];
@@ -35,8 +37,30 @@ export default function RootLayout({ children }) {
           gtag('js', new Date());
           gtag('config', 'G-2VSX5RJH0J');
         `}} />
+        {/* Prevent flash of wrong theme */}
+        <script dangerouslySetInnerHTML={{ __html: `
+          (function() {
+            try {
+              var manual = localStorage.getItem('aiforj-theme-manual');
+              var saved = localStorage.getItem('aiforj-theme');
+              if (manual === 'true' && saved) {
+                document.documentElement.setAttribute('data-theme', saved);
+              } else {
+                var h = new Date().getHours();
+                document.documentElement.setAttribute('data-theme', (h >= 22 || h < 6) ? 'dark' : 'light');
+              }
+            } catch(e) {}
+          })();
+        `}} />
       </head>
-      <body>{children}</body>
+      <body className="grain">
+        <ThemeProvider>
+          <BiophilicBackground />
+          <div style={{ position: "relative", zIndex: 1 }}>
+            {children}
+          </div>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
