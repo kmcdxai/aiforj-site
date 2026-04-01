@@ -375,7 +375,17 @@ export default function ThreeAMSpiral() {
           </div>
         )}
 
-        {step === "close" && (
+        {step === "close" && (() => {
+          // Log completion
+          try {
+            const data = JSON.parse(localStorage.getItem("techniques_completed") || "[]");
+            if (!data.some(d => d.slug === "3am-spiral" && new Date(d.date).toDateString() === new Date().toDateString())) {
+              data.push({ slug: "3am-spiral", date: new Date().toISOString(), minutes: mins });
+              localStorage.setItem("techniques_completed", JSON.stringify(data.slice(-100)));
+            }
+          } catch {}
+          return true;
+        })() && (
           <div key={fk} style={{ animation:"fadeUp 1s ease", paddingTop:"6vh" }}>
             <h2 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:34, fontWeight:300, marginBottom:8, color:"#dde4ee", lineHeight:1.3 }}>You did something<br/>most people don't.</h2>
             <p style={{ fontSize:15, lineHeight:1.8, color:"rgba(200,215,230,0.75)", marginBottom:24 }}>Instead of fighting your brain in the dark, you used a clinical protocol: regulated your nervous system, externalized thoughts, challenged the loudest one, broke the spiral, released body tension, and anchored for tomorrow.</p>
@@ -413,6 +423,12 @@ export default function ThreeAMSpiral() {
                 <button onClick={() => { if(navigator.share){navigator.share({title:"3AM Spiral Protocol",text:"Can't sleep because your brain won't stop? This free 10-minute protocol actually works. No app needed.",url:"https://aiforj.com/3am-spiral"}).catch(()=>{});}else{navigator.clipboard.writeText("Can't sleep because your brain won't stop? This free 10-minute protocol actually works. No app needed → https://aiforj.com/3am-spiral");} }} style={{ padding:"10px 24px", fontSize:14, fontWeight:600, background:"#5b8fa8", color:"#060b12", border:"none", borderRadius:30, cursor:"pointer" }}>Share</button>
                 <button onClick={() => navigator.clipboard.writeText("https://aiforj.com/3am-spiral")} style={{ padding:"10px 24px", fontSize:14, fontWeight:500, background:"transparent", color:"#5b8fa8", border:"1px solid rgba(91,143,168,0.3)", borderRadius:30, cursor:"pointer" }}>Copy link</button>
               </div>
+            </div>
+
+            <div style={{ padding:22, background:"rgba(91,143,168,0.06)", borderRadius:16, border:"1px solid rgba(91,143,168,0.12)", marginBottom:20, textAlign:"center" }}>
+              <p style={{ fontSize:17, color:"#dde4ee", fontFamily:"'Cormorant Garamond', serif", fontWeight:400, marginBottom:8 }}>Discover Your Emotional Blueprint</p>
+              <p style={{ fontSize:13, color:"rgba(200,215,230,0.6)", marginBottom:16, lineHeight:1.6 }}>A 2-minute assessment that reveals your stress pattern and best-match techniques.</p>
+              <a href="/blueprint" style={{ display:"inline-block", padding:"12px 28px", fontSize:14, background:"#5b8fa8", color:"#060b12", border:"none", borderRadius:30, textDecoration:"none", fontWeight:600 }}>Take the Assessment — Free</a>
             </div>
 
             <div style={{ textAlign:"center", marginBottom:24 }}>

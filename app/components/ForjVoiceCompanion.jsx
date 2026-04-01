@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import EmailCapture from "./EmailCapture";
-import SoundToggle from "./SoundToggle";
 import DataManagement from "./DataManagement";
 import { useTheme } from "./ThemeProvider";
 
@@ -1134,41 +1133,34 @@ export default function ForjVoiceCompanion() {
         </div>
       )}
 
-      {/* ═══════════ HEADER ═══════════ */}
-      <header style={{ padding: "16px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", zIndex: 10, maxWidth: 1080, width: "100%", margin: "0 auto" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <img src="/aif.jpeg" alt="AIForj" style={{ height: 36, width: "auto", borderRadius: 10, boxShadow: "var(--shadow-sm)" }} />
-          <span style={{ fontFamily: "'Fraunces', serif", fontSize: 20, fontWeight: 600, color: "var(--text-primary)" }}>AI</span>
-          <span style={{ fontFamily: "'Fraunces', serif", fontSize: 20, fontWeight: 600, color: "var(--accent-sage)", marginLeft: -4 }}>Forj</span>
-          {tier !== "free" && <span style={{ fontSize: 8, marginLeft: 6, padding: "2px 7px", background: "linear-gradient(90deg, #7D9B82, #6B9B9E)", color: "#fff", borderRadius: 8, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>PRO</span>}
-        </div>
-        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-          <button onClick={() => setShowBreathing("4-4-6")} className="btn-glow" style={{ background: "var(--surface)", border: "1px solid rgba(45,42,38,0.08)", padding: "6px 14px", borderRadius: 20, fontSize: 11, color: "var(--text-secondary)", cursor: "pointer", fontWeight: 500 }}>
-            Breathe
+      {/* ═══════════ SESSION TOOLBAR ═══════════ */}
+      <div style={{ padding: "8px 24px", display: "flex", justifyContent: "center", alignItems: "center", gap: 8, flexWrap: "wrap", zIndex: 10, maxWidth: 1080, width: "100%", margin: "0 auto" }}>
+        <button onClick={() => setShowBreathing("4-4-6")} className="btn-glow" style={{ background: "var(--surface)", border: "1px solid rgba(45,42,38,0.08)", padding: "6px 14px", borderRadius: 20, fontSize: 11, color: "var(--text-secondary)", cursor: "pointer", fontWeight: 500 }}>
+          Breathe
+        </button>
+        {tierConfig.features.sessionInsights && messages.length > 4 && (
+          <button onClick={() => setShowInsights(true)} className="btn-glow" style={{ background: "var(--surface)", border: "1px solid rgba(45,42,38,0.08)", padding: "6px 14px", borderRadius: 20, fontSize: 11, color: "var(--text-secondary)", cursor: "pointer", fontWeight: 500 }}>
+            Insights
           </button>
-          {tierConfig.features.sessionInsights && messages.length > 4 && (
-            <button onClick={() => setShowInsights(true)} className="btn-glow" style={{ background: "var(--surface)", border: "1px solid rgba(45,42,38,0.08)", padding: "6px 14px", borderRadius: 20, fontSize: 11, color: "var(--text-secondary)", cursor: "pointer", fontWeight: 500 }}>
-              Insights
-            </button>
-          )}
-          {messages.length > 2 && (
-            <button onClick={() => setShowHistory(!showHistory)} className="btn-glow" style={{ background: "var(--surface)", border: "1px solid rgba(45,42,38,0.08)", padding: "6px 14px", borderRadius: 20, fontSize: 11, color: "var(--text-secondary)", cursor: "pointer", fontWeight: 500 }}>
-              {showHistory ? "Hide" : "Chat"}
-            </button>
-          )}
-          {streak > 1 && (
-            <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "5px 12px", background: "var(--accent-sage-light)", borderRadius: 20 }}>
-              <span style={{ fontSize: 11 }}>🌱</span>
-              <span style={{ fontSize: 10, color: "var(--accent-sage)", fontWeight: 600 }}>{streak}d</span>
-            </div>
-          )}
-          {tier === "free" && (
-            <button onClick={() => setShowUpgrade(true)} className="btn-glow" style={{ background: "var(--interactive)", border: "none", padding: "6px 16px", borderRadius: 20, fontSize: 11, color: "#fff", cursor: "pointer", fontWeight: 600 }}>
-              ✦ Premium
-            </button>
-          )}
-        </div>
-      </header>
+        )}
+        {messages.length > 2 && (
+          <button onClick={() => setShowHistory(!showHistory)} className="btn-glow" style={{ background: "var(--surface)", border: "1px solid rgba(45,42,38,0.08)", padding: "6px 14px", borderRadius: 20, fontSize: 11, color: "var(--text-secondary)", cursor: "pointer", fontWeight: 500 }}>
+            {showHistory ? "Hide" : "Chat"}
+          </button>
+        )}
+        {streak > 1 && (
+          <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "5px 12px", background: "var(--accent-sage-light)", borderRadius: 20 }}>
+            <span style={{ fontSize: 11 }}>🌱</span>
+            <span style={{ fontSize: 10, color: "var(--accent-sage)", fontWeight: 600 }}>{streak}d</span>
+          </div>
+        )}
+        {tier !== "free" && <span style={{ fontSize: 8, padding: "2px 7px", background: "linear-gradient(90deg, #7D9B82, #6B9B9E)", color: "#fff", borderRadius: 8, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>PRO</span>}
+        {tier === "free" && (
+          <button onClick={() => setShowUpgrade(true)} className="btn-glow" style={{ background: "var(--interactive)", border: "none", padding: "6px 16px", borderRadius: 20, fontSize: 11, color: "#fff", cursor: "pointer", fontWeight: 600 }}>
+            ✦ Premium
+          </button>
+        )}
+      </div>
 
       {/* ═══════════ HERO SECTION ═══════════ */}
       <section style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 24px", position: "relative" }}>
@@ -1563,7 +1555,6 @@ export default function ForjVoiceCompanion() {
           }} className="btn-glow" style={{ background: "none", border: "1px solid rgba(45,42,38,0.08)", padding: "8px 20px", borderRadius: 20, fontSize: 12, color: "var(--text-secondary)", cursor: "pointer" }}>
             ↗ Share Forj
           </button>
-          <SoundToggle />
           <DataManagement />
         </div>
 

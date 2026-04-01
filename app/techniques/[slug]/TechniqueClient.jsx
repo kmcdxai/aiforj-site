@@ -5,10 +5,10 @@ import Link from "next/link";
 import EmailCapture from "../../components/EmailCapture";
 import ShareResultCard from "../../components/ShareResultCard";
 
-const ACCENT = "#7D9B82";
-const BG = "#FDFAF6";
-const TEXT = "#2D2A26";
-const SUBTLE = "rgba(107,127,110,0.18)";
+const ACCENT = "var(--accent-sage)";
+const BG = "var(--bg-primary)";
+const TEXT = "var(--text-primary)";
+const SUBTLE = "rgba(125,155,130,0.15)";
 
 // ─── Breathing Animator ───
 function BreathingStep({ breathe, onComplete }) {
@@ -638,6 +638,13 @@ export default function TechniqueClient({ technique, related }) {
       const mins = exerciseStartTime ? Math.max(1, Math.round((Date.now() - exerciseStartTime) / 60000)) : 0;
       setElapsedMinutes(mins);
       setExerciseDone(true);
+      // Log completion to localStorage for tracking
+      try {
+        const key = "techniques_completed";
+        const data = JSON.parse(localStorage.getItem(key) || "[]");
+        data.push({ slug: technique.slug, date: new Date().toISOString(), minutes: mins });
+        localStorage.setItem(key, JSON.stringify(data.slice(-100)));
+      } catch {}
     }
   };
 
@@ -653,13 +660,6 @@ export default function TechniqueClient({ technique, related }) {
     <main style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "'DM Sans', sans-serif" }}>
       <StructuredData technique={technique} />
 
-      {/* Nav */}
-      <nav style={{ padding: "16px 24px", display: "flex", alignItems: "center", gap: 12 }}>
-        <Link href="/techniques" style={{ fontSize: 13, color: ACCENT, textDecoration: "none" }}>
-          ← All Techniques
-        </Link>
-      </nav>
-
       <article style={{ maxWidth: 680, margin: "0 auto", padding: "0 24px 80px" }}>
         {/* ─── Hero ─── */}
         <header style={{ marginBottom: 40 }}>
@@ -671,7 +671,7 @@ export default function TechniqueClient({ technique, related }) {
               {technique.time}
             </span>
           </div>
-          <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(26px, 5vw, 38px)", fontWeight: 400, color: TEXT, margin: "0 0 12px", lineHeight: 1.2 }}>
+          <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(26px, 5vw, 38px)", fontWeight: 500, color: TEXT, margin: "0 0 12px", lineHeight: 1.2 }}>
             {technique.title}
           </h1>
           <p style={{ fontSize: 16, color: `rgba(45,42,38,0.75)`, margin: "0 0 16px", lineHeight: 1.6, fontWeight: 300 }}>
@@ -798,12 +798,38 @@ export default function TechniqueClient({ technique, related }) {
           <ShareResultCard technique={technique} elapsedMinutes={elapsedMinutes} />
         </section>
 
+        {/* ─── Send Calm ─── */}
+        <section style={{ marginBottom: 36, padding: "24px 20px", background: "var(--accent-warm-light)", borderRadius: 16, border: "1px solid rgba(196,149,106,0.15)", textAlign: "center" }}>
+          <p style={{ fontFamily: "'Fraunces', serif", fontSize: 17, fontWeight: 500, color: "var(--text-primary)", margin: "0 0 8px" }}>
+            Know someone who needs this?
+          </p>
+          <p style={{ fontSize: 13, color: "var(--text-secondary)", margin: "0 0 16px", lineHeight: 1.6 }}>
+            Send this technique as a personal gift — with your name and a short message.
+          </p>
+          <Link href={`/send`} style={{ display: "inline-block", padding: "12px 28px", fontSize: 14, fontWeight: 600, fontFamily: "'Fraunces', serif", background: "var(--accent-warm)", color: "#fff", borderRadius: 24, textDecoration: "none" }}>
+            Send Calm to Someone
+          </Link>
+        </section>
+
+        {/* ─── Blueprint CTA ─── */}
+        <section style={{ marginBottom: 36, padding: "28px 24px", background: "var(--bg-secondary)", borderRadius: 16, border: "1px solid rgba(45,42,38,0.06)", textAlign: "center" }}>
+          <p style={{ fontFamily: "'Fraunces', serif", fontSize: 18, fontWeight: 500, color: "var(--text-primary)", margin: "0 0 8px" }}>
+            Discover Your Emotional Blueprint
+          </p>
+          <p style={{ fontSize: 13, color: "var(--text-secondary)", margin: "0 0 16px", lineHeight: 1.6 }}>
+            A 2-minute assessment that reveals your stress response pattern and best-match techniques.
+          </p>
+          <Link href="/blueprint" style={{ display: "inline-block", padding: "14px 32px", fontSize: 15, fontWeight: 600, fontFamily: "'Fraunces', serif", background: "var(--interactive)", color: "#fff", borderRadius: 24, textDecoration: "none" }}>
+            Take the Assessment — Free
+          </Link>
+        </section>
+
         {/* ─── CTAs ─── */}
         <section style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 36, textAlign: "center" }}>
-          <Link href="/tools" style={{ padding: "14px 24px", background: "rgba(255,255,255,0.04)", border: `1px solid ${SUBTLE}`, borderRadius: 14, textDecoration: "none", color: TEXT, fontSize: 14 }}>
+          <Link href="/tools" style={{ padding: "14px 24px", background: "var(--surface)", border: `1px solid ${SUBTLE}`, borderRadius: 14, textDecoration: "none", color: TEXT, fontSize: 14 }}>
             Track which techniques work best for you → <span style={{ color: ACCENT, fontWeight: 600 }}>Try the Full Toolkit</span>
           </Link>
-          <Link href="/" style={{ padding: "14px 24px", background: "rgba(255,255,255,0.04)", border: `1px solid ${SUBTLE}`, borderRadius: 14, textDecoration: "none", color: TEXT, fontSize: 14 }}>
+          <Link href="/" style={{ padding: "14px 24px", background: "var(--surface)", border: `1px solid ${SUBTLE}`, borderRadius: 14, textDecoration: "none", color: TEXT, fontSize: 14 }}>
             Go deeper with personalized guidance → <span style={{ color: ACCENT, fontWeight: 600 }}>Talk to Forj</span>
           </Link>
         </section>
@@ -838,7 +864,7 @@ const btnStyle = {
   fontSize: 15,
   fontWeight: 600,
   fontFamily: "'Fraunces', serif",
-  background: `linear-gradient(135deg, ${ACCENT}, #5A6E5D)`,
+  background: "linear-gradient(135deg, var(--interactive), var(--interactive-pressed))",
   color: "#fff",
   border: "none",
   borderRadius: 14,
@@ -879,7 +905,7 @@ const textareaStyle = {
   padding: "14px 16px",
   fontSize: 15,
   fontFamily: "'DM Sans', sans-serif",
-  background: "rgba(255,255,255,0.04)",
+  background: "var(--surface)",
   border: `1px solid ${SUBTLE}`,
   borderRadius: 12,
   color: TEXT,
@@ -894,7 +920,7 @@ const inputStyle = {
   padding: "12px 16px",
   fontSize: 15,
   fontFamily: "'DM Sans', sans-serif",
-  background: "rgba(255,255,255,0.04)",
+  background: "var(--surface)",
   border: `1px solid ${SUBTLE}`,
   borderRadius: 12,
   color: TEXT,

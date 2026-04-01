@@ -63,13 +63,6 @@ export default function SendClient() {
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg-primary)", fontFamily: "'DM Sans', sans-serif" }}>
-      {/* Header */}
-      <div style={{ padding: "20px 24px", maxWidth: 1080, margin: "0 auto" }}>
-        <a href="/" style={{ fontSize: 13, color: "var(--text-muted)", textDecoration: "none" }}>
-          ← Back to AIForj
-        </a>
-      </div>
-
       {/* Hero */}
       <section style={{ padding: "40px 24px 48px", maxWidth: 640, margin: "0 auto", textAlign: "center" }}>
         <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(1.75rem, 4.5vw, 2.5rem)", fontWeight: 600, color: "var(--text-primary)", margin: "0 0 16px", lineHeight: 1.2 }}>

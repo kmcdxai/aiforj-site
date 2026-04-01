@@ -1,10 +1,11 @@
 import './globals.css';
 import ThemeProvider from './components/ThemeProvider';
 import BiophilicBackground from './components/BiophilicBackground';
+import Navigation from './components/Navigation';
 
 export const metadata = {
   title: 'AIForj — Talk to Forj | Voice AI Therapeutic Companion',
-  description: 'The world\'s first voice-based, clinician-built, completely private AI therapeutic companion. 15+ evidence-based modalities including CBT, DBT, ACT, and more. Built by a Board Certified PMHNP. 100% browser-based — nothing leaves your device.',
+  description: 'Free AI therapeutic companion built by a Board Certified PMHNP. 16 evidence-based modalities (CBT, DBT, ACT). Voice or text. Emotional Blueprint assessment. Guided techniques. 100% private — nothing ever leaves your device.',
   keywords: 'voice AI therapy, mental health, CBT, DBT, ACT, therapeutic companion, anxiety, depression, wellness, AI counselor, private therapy, nurse practitioner',
   alternates: {
     canonical: 'https://aiforj.com',
@@ -57,7 +58,10 @@ export default function RootLayout({ children }) {
         <ThemeProvider>
           <BiophilicBackground />
           <div style={{ position: "relative", zIndex: 1 }}>
-            {children}
+            <Navigation />
+            <div className="page-enter">
+              {children}
+            </div>
           </div>
         </ThemeProvider>
       </body>
