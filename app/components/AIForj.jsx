@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { XAxis, YAxis, Tooltip, ResponsiveContainer, Area, AreaChart } from "recharts";
 import EmailCapture from "./EmailCapture";
+import SiteFooter from "./SiteFooter";
 
 // ═══════════════════════════════════════════════════════════════
 // PRODUCTION CONFIG
@@ -1382,8 +1383,8 @@ export default function AIForj() {
 
   return (
     <div style={{
-      minHeight: "100vh", fontFamily: "'DM Sans', sans-serif", color: theme.text,
-      background: theme.bg, transition: "background 0.8s ease, color 0.8s ease",
+      minHeight: "100vh", fontFamily: "'DM Sans', sans-serif", color: "var(--text-primary)",
+      background: "var(--bg-primary)", transition: "background 0.8s ease, color 0.8s ease",
       position: "relative",
     }}>
       <style>{`
@@ -1429,44 +1430,36 @@ export default function AIForj() {
         </div>
       )}
 
-      {/* Header */}
-      <header style={{ padding: "24px 28px", display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 10 }}>
-        <div onClick={reset} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}>
-          <img src="/aif.jpeg" alt="AIForj" style={{ height: 90, width: "auto", borderRadius: 12, boxShadow: "0 4px 18px rgba(0,0,0,0.12)", transition: "transform 0.2s ease", display: "block" }} onMouseEnter={e => e.currentTarget.style.transform="scale(1.04)"} onMouseLeave={e => e.currentTarget.style.transform="scale(1)"} />
-          {isPremium && <span style={{ fontSize: 9, marginLeft: 6, padding: "2px 8px", background: theme.accent, color: theme.bg, borderRadius: 10, fontWeight: 600, letterSpacing: 1, textTransform: "uppercase", fontFamily: "'DM Sans', sans-serif" }}>PRO</span>}
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-          {isPremium && (
-            <button onClick={() => { setScreen("journal"); setFadeKey((k) => k + 1); }} style={{
-              background: "none", border: `1px solid rgba(${theme.breathe},0.2)`, padding: "6px 14px",
-              borderRadius: 20, fontSize: 11, color: theme.accent, cursor: "pointer",
-              fontFamily: "'DM Sans', sans-serif", letterSpacing: 1,
-            }}>📓 Journal</button>
-          )}
-          {!isPremium && (
-            <button onClick={() => setShowUpgrade(true)} style={{
-              background: `linear-gradient(135deg, ${theme.accent}, ${theme.text})`, border: "none", padding: "6px 16px",
-              borderRadius: 20, fontSize: 11, color: theme.bg, cursor: "pointer",
-              fontFamily: "'DM Sans', sans-serif", letterSpacing: 1, fontWeight: 600,
-            }}>✦ Premium</button>
-          )}
-          {sessions.length > 0 && screen !== "dashboard" && (
-            <button onClick={() => {
-              if (isPremium) { setScreen("dashboard"); setFadeKey((k) => k + 1); }
-              else setShowUpgrade(true);
-            }} style={{
-              background: "none", border: `1px solid rgba(${theme.breathe},0.2)`, padding: "6px 14px",
-              borderRadius: 20, fontSize: 11, color: theme.accent, cursor: "pointer",
-              fontFamily: "'DM Sans', sans-serif", letterSpacing: 1,
-            }}>
-              {sessions.length} session{sessions.length > 1 ? "s" : ""} {!isPremium && "🔒"}
-            </button>
-          )}
-          <span style={{ fontSize: 10, letterSpacing: 3, textTransform: "uppercase", color: theme.accent, opacity: 0.6, fontWeight: 500 }}>
-            Forj your mind
-          </span>
-        </div>
-      </header>
+      {/* Session toolbar */}
+      <div style={{ padding: "8px 24px", display: "flex", justifyContent: "center", alignItems: "center", gap: 8, flexWrap: "wrap", position: "relative", zIndex: 10 }}>
+        {isPremium && (
+          <button onClick={() => { setScreen("journal"); setFadeKey((k) => k + 1); }} style={{
+            background: "var(--surface)", border: "1px solid rgba(45,42,38,0.08)", padding: "6px 14px",
+            borderRadius: 20, fontSize: 11, color: "var(--text-secondary)", cursor: "pointer",
+            fontFamily: "'DM Sans', sans-serif", fontWeight: 500,
+          }}>📓 Journal</button>
+        )}
+        {isPremium && <span style={{ fontSize: 8, padding: "2px 7px", background: "linear-gradient(90deg, var(--accent-sage), var(--accent-teal))", color: "#fff", borderRadius: 8, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>PRO</span>}
+        {!isPremium && (
+          <button onClick={() => setShowUpgrade(true)} style={{
+            background: "var(--interactive)", border: "none", padding: "6px 16px",
+            borderRadius: 20, fontSize: 11, color: "#fff", cursor: "pointer",
+            fontFamily: "'DM Sans', sans-serif", fontWeight: 600,
+          }}>✦ Premium</button>
+        )}
+        {sessions.length > 0 && screen !== "dashboard" && (
+          <button onClick={() => {
+            if (isPremium) { setScreen("dashboard"); setFadeKey((k) => k + 1); }
+            else setShowUpgrade(true);
+          }} style={{
+            background: "var(--surface)", border: "1px solid rgba(45,42,38,0.08)", padding: "6px 14px",
+            borderRadius: 20, fontSize: 11, color: "var(--text-secondary)", cursor: "pointer",
+            fontFamily: "'DM Sans', sans-serif", fontWeight: 500,
+          }}>
+            {sessions.length} session{sessions.length > 1 ? "s" : ""} {!isPremium && "🔒"}
+          </button>
+        )}
+      </div>
 
       {/* ─── HOME ─── */}
       {screen === "home" && (
@@ -1683,6 +1676,8 @@ export default function AIForj() {
           <JournalEntry theme={theme} onClose={reset} />
         </div>
       )}
+
+      {screen === "home" && <SiteFooter />}
     </div>
   );
 }

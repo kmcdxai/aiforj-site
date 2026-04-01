@@ -152,20 +152,14 @@ export default function ThreeAMSpiral() {
       </div>
 
       {step !== "landing" && (
-        <div style={{ position:"fixed", top:0, left:0, right:0, height:3, background:"rgba(91,143,168,0.1)", zIndex:50 }}>
+        <div style={{ position:"fixed", top:60, left:0, right:0, height:3, background:"rgba(91,143,168,0.1)", zIndex:50 }}>
           <div style={{ height:3, background:"#5b8fa8", width:`${progress}%`, transition:"width 0.8s ease" }} />
         </div>
       )}
 
-      <header style={{ padding:"16px 20px", display:"flex", justifyContent:"space-between", alignItems:"center", position:"relative", zIndex:10 }}>
-        <a href="/" style={{ textDecoration:"none", display:"flex", alignItems:"baseline", gap:2 }}>
-          <span style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:19, color:"rgba(200,215,230,0.6)" }}>AI</span>
-          <span style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:19, color:"#5b8fa8" }}>Forj</span>
-        </a>
-        {step !== "landing" && step !== "close" && (
-          <span style={{ fontSize:11, color:"rgba(200,215,230,0.45)", fontVariantNumeric:"tabular-nums" }}>{mins}:{secs.toString().padStart(2,"0")}</span>
-        )}
-      </header>
+      {step !== "landing" && step !== "close" && (
+        <div style={{ textAlign:"center", padding:"4px 0", fontSize:11, color:"rgba(200,215,230,0.45)", fontVariantNumeric:"tabular-nums" }}>{mins}:{secs.toString().padStart(2,"0")}</div>
+      )}
 
       <main style={{ maxWidth:520, margin:"0 auto", padding:"0 20px 80px", position:"relative", zIndex:5 }}>
 
@@ -438,10 +432,18 @@ export default function ThreeAMSpiral() {
 
             <InlineEmailCapture />
 
-            <div style={{ padding:16, borderRadius:12, border:"1px solid rgba(91,143,168,0.06)", textAlign:"center" }}>
-              <p style={{ fontSize:11, color:"rgba(200,215,230,0.45)", lineHeight:1.8 }}>If you're in crisis: <strong>988 Lifeline</strong> — call or text 988 | <strong>Crisis Text Line</strong> — text HOME to 741741</p>
+            <div style={{ padding:18, borderRadius:16, background:"rgba(91,143,168,0.04)", border:"1px solid rgba(91,143,168,0.08)", textAlign:"center", marginBottom:20 }}>
+              <p style={{ fontSize:14, color:"#dde4ee", margin:"0 0 4px", fontWeight:500 }}>In crisis? You're not alone.</p>
+              <p style={{ fontSize:13, color:"rgba(200,215,230,0.6)", margin:0 }}>Call or text <strong style={{ color:"#5b8fa8" }}>988</strong> · Text HOME to <strong style={{ color:"#5b8fa8" }}>741741</strong></p>
             </div>
-            <p style={{ textAlign:"center", fontSize:10, color:"rgba(180,200,220,0.15)", marginTop:24 }}>Built by a Board Certified PMHNP-BC — Caring for the Whole Human<br/>© 2026 AIForj.com</p>
+            <p style={{ textAlign:"center", fontSize:13, color:"rgba(200,215,230,0.5)", lineHeight:1.7, marginBottom:20 }}>Forj is a wellness companion — not a therapist or substitute for professional care.</p>
+            <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"center", gap:16, marginBottom:20 }}>
+              <a href="/" style={{ fontSize:12, color:"rgba(200,215,230,0.4)", textDecoration:"none" }}>Home</a>
+              <a href="/blueprint" style={{ fontSize:12, color:"rgba(200,215,230,0.4)", textDecoration:"none" }}>Blueprint</a>
+              <a href="/techniques" style={{ fontSize:12, color:"rgba(200,215,230,0.4)", textDecoration:"none" }}>Techniques</a>
+              <a href="/send" style={{ fontSize:12, color:"rgba(200,215,230,0.4)", textDecoration:"none" }}>Send Calm</a>
+            </div>
+            <p style={{ textAlign:"center", fontSize:10, color:"rgba(180,200,220,0.15)", margin:0 }}>Built by a Board Certified PMHNP-BC · © 2026 AIForj</p>
           </div>
         )}
       </main>

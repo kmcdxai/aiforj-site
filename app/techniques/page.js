@@ -1,5 +1,6 @@
 import { TECHNIQUES } from "./data";
 import Link from "next/link";
+import SiteFooter from "../components/SiteFooter";
 
 export const metadata = {
   title: "Evidence-Based Mental Health Techniques | AIForj",
@@ -29,8 +30,8 @@ export default function TechniquesPage() {
     <main
       style={{
         minHeight: "100vh",
-        background: "#FDFAF6",
-        color: "#2D2A26",
+        background: "var(--bg-primary)",
+        color: "var(--text-primary)",
         fontFamily: "'DM Sans', sans-serif",
       }}
     >
@@ -42,41 +43,12 @@ export default function TechniquesPage() {
         }}
       >
         <header style={{ textAlign: "center", marginBottom: 48 }}>
-          <Link
-            href="/"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 10,
-              textDecoration: "none",
-              marginBottom: 32,
-            }}
-          >
-            <img
-              src="/aif.jpeg"
-              alt="AIForj"
-              width={36}
-              height={36}
-              style={{ borderRadius: "50%" }}
-            />
-            <span
-              style={{
-                fontFamily: "'Fraunces', serif",
-                fontSize: 18,
-                fontWeight: 600,
-                color: "#2D2A26",
-                letterSpacing: -0.5,
-              }}
-            >
-              AIForj
-            </span>
-          </Link>
           <h1
             style={{
-              fontFamily: "'Playfair Display', serif",
+              fontFamily: "'Fraunces', serif",
               fontSize: "clamp(28px, 5vw, 42px)",
-              fontWeight: 400,
-              color: "#2D2A26",
+              fontWeight: 500,
+              color: "var(--text-primary)",
               margin: "0 0 16px",
               lineHeight: 1.2,
             }}
@@ -86,11 +58,11 @@ export default function TechniquesPage() {
           <p
             style={{
               fontSize: 16,
-              color: "rgba(216,232,240,0.6)",
+              color: "var(--text-secondary)",
               maxWidth: 560,
               margin: "0 auto",
               lineHeight: 1.6,
-              fontWeight: 300,
+              fontWeight: 400,
             }}
           >
             15 evidence-based techniques you can do right now. Each one is
@@ -114,12 +86,13 @@ export default function TechniquesPage() {
                 display: "flex",
                 flexDirection: "column",
                 padding: "24px 20px",
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(107,127,110,0.12)",
+                background: "var(--surface-elevated)",
+                border: "1px solid rgba(45,42,38,0.06)",
                 borderRadius: 16,
                 textDecoration: "none",
-                transition: "all 0.25s ease",
+                transition: "all 0.25s cubic-bezier(0.16,1,0.3,1)",
                 cursor: "pointer",
+                boxShadow: "var(--shadow-sm)",
               }}
             >
               <div
@@ -134,9 +107,9 @@ export default function TechniquesPage() {
                   style={{
                     fontSize: 11,
                     padding: "3px 10px",
-                    background: "rgba(107,127,110,0.15)",
+                    background: "var(--accent-sage-light)",
                     borderRadius: 8,
-                    color: "#6B7F6E",
+                    color: "var(--accent-sage)",
                     fontWeight: 600,
                     letterSpacing: 0.5,
                   }}
@@ -146,7 +119,7 @@ export default function TechniquesPage() {
                 <span
                   style={{
                     fontSize: 12,
-                    color: "rgba(216,232,240,0.4)",
+                    color: "var(--text-muted)",
                   }}
                 >
                   {t.time}
@@ -157,7 +130,7 @@ export default function TechniquesPage() {
                   fontFamily: "'Fraunces', serif",
                   fontSize: 17,
                   fontWeight: 500,
-                  color: "#2D2A26",
+                  color: "var(--text-primary)",
                   margin: "0 0 8px",
                   lineHeight: 1.3,
                 }}
@@ -167,10 +140,10 @@ export default function TechniquesPage() {
               <p
                 style={{
                   fontSize: 13,
-                  color: "rgba(216,232,240,0.5)",
+                  color: "var(--text-secondary)",
                   margin: 0,
                   lineHeight: 1.5,
-                  fontWeight: 300,
+                  fontWeight: 400,
                   flex: 1,
                 }}
               >
@@ -181,7 +154,7 @@ export default function TechniquesPage() {
                   display: "inline-block",
                   marginTop: 14,
                   fontSize: 13,
-                  color: "#6B7F6E",
+                  color: "var(--interactive)",
                   fontWeight: 500,
                 }}
               >
@@ -190,47 +163,9 @@ export default function TechniquesPage() {
             </Link>
           ))}
         </div>
-
-        <footer
-          style={{
-            textAlign: "center",
-            marginTop: 64,
-            paddingTop: 32,
-            borderTop: "1px solid rgba(107,127,110,0.1)",
-          }}
-        >
-          <p
-            style={{
-              fontSize: 12,
-              color: "rgba(216,232,240,0.35)",
-              lineHeight: 1.8,
-            }}
-          >
-            If you're in crisis:{" "}
-            <strong style={{ color: "rgba(216,232,240,0.5)" }}>
-              988 Lifeline
-            </strong>{" "}
-            — call or text 988 |{" "}
-            <strong style={{ color: "rgba(216,232,240,0.5)" }}>
-              Crisis Text Line
-            </strong>{" "}
-            — text HOME to 741741
-          </p>
-          <p
-            style={{
-              fontSize: 11,
-              color: "rgba(216,232,240,0.2)",
-              marginTop: 12,
-            }}
-          >
-            AIForj is a wellness companion — not a therapist or substitute for
-            professional care.
-            <br />
-            Built by a Board Certified PMHNP-BC — Caring for the Whole Human
-            <br />© 2026 AIForj.com
-          </p>
-        </footer>
       </div>
+
+      <SiteFooter />
     </main>
   );
 }

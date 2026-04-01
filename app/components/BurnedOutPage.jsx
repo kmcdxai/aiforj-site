@@ -88,7 +88,7 @@ export default function BurnedOutPage() {
   );
 
   return (
-    <div style={{ minHeight:"100vh", fontFamily:"'DM Sans', sans-serif", color:"#2d2a25", background:"#f7f3ee" }}>
+    <div style={{ minHeight:"100vh", fontFamily:"'DM Sans', sans-serif", color:"var(--text-primary)", background:"var(--bg-primary)" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,300;0,7..72,400;1,7..72,300&family=DM+Sans:wght@300;400;500;600&display=swap');
         @keyframes fadeUp { from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)} }
@@ -101,20 +101,14 @@ export default function BurnedOutPage() {
       <div style={{ position:"fixed", inset:0, pointerEvents:"none", background:"radial-gradient(ellipse at 70% 80%, rgba(184,147,90,0.04) 0%, transparent 50%)" }} />
 
       {step !== "landing" && (
-        <div style={{ position:"fixed", top:0, left:0, right:0, height:3, background:"rgba(184,147,90,0.1)", zIndex:50 }}>
+        <div style={{ position:"fixed", top:60, left:0, right:0, height:3, background:"rgba(184,147,90,0.1)", zIndex:50 }}>
           <div style={{ height:3, background:ac, width:`${progress}%`, transition:"width 0.8s ease" }} />
         </div>
       )}
 
-      <header style={{ padding:"16px 20px", display:"flex", justifyContent:"space-between", alignItems:"center", position:"relative", zIndex:10 }}>
-        <a href="/" style={{ textDecoration:"none", display:"flex", alignItems:"baseline", gap:2 }}>
-          <span style={{ fontFamily:"'Literata', serif", fontSize:19, color:"rgba(45,42,37,0.4)" }}>AI</span>
-          <span style={{ fontFamily:"'Literata', serif", fontSize:19, color:ac }}>Forj</span>
-        </a>
-        {step !== "landing" && step !== "close" && (
-          <span style={{ fontSize:11, color:"rgba(45,42,37,0.25)", fontVariantNumeric:"tabular-nums" }}>{mins}:{(elapsed%60).toString().padStart(2,"0")}</span>
-        )}
-      </header>
+      {step !== "landing" && step !== "close" && (
+        <div style={{ textAlign:"center", padding:"4px 0", fontSize:11, color:"var(--text-muted)", fontVariantNumeric:"tabular-nums" }}>{mins}:{(elapsed%60).toString().padStart(2,"0")}</div>
+      )}
 
       <main style={{ maxWidth:540, margin:"0 auto", padding:"0 20px 80px", position:"relative", zIndex:5 }}>
 
@@ -348,17 +342,18 @@ export default function BurnedOutPage() {
               </div>
             </div>
 
+            <div style={{ padding:22, background:"var(--bg-secondary)", borderRadius:16, border:"1px solid rgba(45,42,38,0.06)", marginBottom:20, textAlign:"center" }}>
+              <p style={{ fontSize:17, fontFamily:"'Fraunces', serif", fontWeight:500, color:"var(--text-primary)", marginBottom:8 }}>Now discover your Emotional Blueprint</p>
+              <p style={{ fontSize:13, color:"var(--text-secondary)", marginBottom:16, lineHeight:1.6 }}>A 2-minute assessment that reveals your stress response pattern and best-match techniques.</p>
+              <a href="/blueprint" style={{ display:"inline-block", padding:"12px 28px", fontSize:14, fontFamily:"'Fraunces', serif", fontWeight:600, background:"var(--interactive)", color:"#fff", borderRadius:24, textDecoration:"none" }}>Take the Assessment — Free</a>
+            </div>
+
             <div style={{ textAlign:"center", marginBottom:24 }}>
-              <p style={{ fontSize:14, color:"#5d5850", marginBottom:14 }}>Forj can help build daily recovery practices and guide you through evidence-based techniques.</p>
+              <p style={{ fontSize:14, color:"var(--text-secondary)", marginBottom:14 }}>Forj can help build daily recovery practices and guide you through evidence-based techniques.</p>
               <a href="/" style={{ display:"inline-block", padding:"14px 36px", fontSize:15, background:"transparent", color:ac, border:`1px solid ${ac}`, borderRadius:40, textDecoration:"none", fontWeight:600 }}>Talk to Forj — Free</a>
             </div>
 
             <InlineEmailCapture />
-
-            <div style={{ padding:16, borderRadius:12, border:"1px solid #e0dbd3", textAlign:"center" }}>
-              <p style={{ fontSize:11, color:"#5d5850", opacity:0.4, lineHeight:1.8 }}>If you're in crisis: <strong>988 Lifeline</strong> — call or text 988 | <strong>Crisis Text Line</strong> — text HOME to 741741</p>
-            </div>
-            <p style={{ textAlign:"center", fontSize:10, color:"#5d5850", opacity:0.25, marginTop:24 }}>Built by a Board Certified PMHNP-BC — Caring for the Whole Human<br/>© 2026 AIForj.com</p>
           </div>
         )}
       </main>

@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { TECHNIQUES } from "../techniques/data";
+import SiteFooter from "../components/SiteFooter";
 
 // Compact technique info for the grid
 const TECHNIQUE_CARDS = TECHNIQUES.map((t) => ({
@@ -333,12 +334,14 @@ export default function SendClient() {
         </div>
       )}
 
-      {/* Footer */}
-      <footer style={{ padding: "32px 24px", textAlign: "center", background: "var(--bg-secondary)", borderTop: "1px solid rgba(45,42,38,0.06)" }}>
+      {/* Privacy notice */}
+      <div style={{ padding: "20px 24px", textAlign: "center" }}>
         <p style={{ fontSize: 12, color: "var(--text-muted)", margin: 0, lineHeight: 1.6 }}>
           No data is stored. Links contain only the technique, name, and message — no tracking.
         </p>
-      </footer>
+      </div>
+
+      <SiteFooter />
     </div>
   );
 }

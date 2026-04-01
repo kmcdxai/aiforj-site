@@ -134,7 +134,7 @@ export default function FindHelpPage() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", fontFamily: "'Instrument Sans', sans-serif", color: C.text, background: C.bg }}>
+    <div style={{ minHeight: "100vh", fontFamily: "'DM Sans', sans-serif", color: "var(--text-primary)", background: "var(--bg-primary)" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Instrument+Sans:wght@400;500;600&display=swap');
         @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
@@ -146,13 +146,10 @@ export default function FindHelpPage() {
 
       <div style={{ position: "fixed", inset: 0, pointerEvents: "none", background: `radial-gradient(ellipse at 30% 20%, rgba(${C.glow},0.04) 0%, transparent 55%)` }} />
 
-      <header style={{ padding: "20px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 10, borderBottom: `1px solid ${C.line}` }}>
-        <a href="/" style={{ textDecoration: "none", display: "flex", alignItems: "baseline", gap: 2 }}>
-          <span style={{ fontFamily: "'Newsreader', serif", fontSize: 20, fontWeight: 400, color: C.text, opacity: 0.5 }}>AI</span>
-          <span style={{ fontFamily: "'Newsreader', serif", fontSize: 20, fontWeight: 400, color: C.accent }}>Forj</span>
-        </a>
-        <span style={{ fontSize: 10, color: C.muted, opacity: 0.4, letterSpacing: 2, textTransform: "uppercase" }}>Find a Provider</span>
-      </header>
+      {/* Page subtitle */}
+      <div style={{ textAlign: "center", padding: "8px 24px" }}>
+        <span style={{ fontSize: 11, color: "var(--text-muted)", letterSpacing: 2, textTransform: "uppercase", fontWeight: 500 }}>Find a Provider</span>
+      </div>
 
       <main style={{ maxWidth: 640, margin: "0 auto", padding: "0 24px 100px", position: "relative", zIndex: 5 }}>
 
@@ -603,13 +600,22 @@ export default function FindHelpPage() {
         )}
       </main>
 
-      <footer style={{ borderTop: `1px solid ${C.line}`, padding: "40px 24px", textAlign: "center" }}>
-        <p style={{ fontSize: 11, color: C.muted, opacity: 0.5, lineHeight: 1.7, marginBottom: 8 }}>
+      <div style={{ padding: "20px 24px", textAlign: "center", borderTop: "1px solid rgba(45,42,38,0.06)" }}>
+        <p style={{ fontSize: 11, color: "var(--text-muted)", lineHeight: 1.7, margin: 0, maxWidth: 560, marginLeft: "auto", marginRight: "auto" }}>
           Provider data from the National Plan & Provider Enumeration System (NPPES/CMS.gov). AIForj does not verify, endorse, or guarantee any provider. Always confirm insurance acceptance and availability directly.
         </p>
-        <p style={{ fontSize: 11, color: C.muted, opacity: 0.4, margin: 0 }}>
-          Built by a Board Certified Psychiatric Mental Health NP · <a href="/" style={{ color: C.accent, textDecoration: "none", opacity: 0.7 }}>AIForj.com</a>
+      </div>
+
+      <footer style={{ padding: "48px 24px 32px", textAlign: "center", background: "var(--bg-secondary)", borderTop: "1px solid rgba(45,42,38,0.06)" }}>
+        <div style={{ marginBottom: 28, padding: "18px 24px", background: "var(--surface-elevated)", borderRadius: 16, display: "inline-block", boxShadow: "var(--shadow-sm)" }}>
+          <p style={{ fontSize: 14, color: "var(--text-primary)", margin: "0 0 4px", fontWeight: 500 }}>In crisis? You're not alone.</p>
+          <p style={{ fontSize: 13, color: "var(--text-secondary)", margin: 0 }}>Call or text <strong style={{ color: "var(--crisis)" }}>988</strong> · Text HOME to <strong style={{ color: "var(--crisis)" }}>741741</strong></p>
+        </div>
+        <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.7, margin: "0 0 24px", maxWidth: 480, marginLeft: "auto", marginRight: "auto" }}>
+          Forj is a wellness companion — not a therapist or substitute for professional care.
         </p>
+        <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "0 0 8px", lineHeight: 1.8 }}>Built by a Board Certified PMHNP-BC — Caring for the Whole Human</p>
+        <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.5, margin: 0 }}>© 2026 AIForj. All rights reserved.</p>
       </footer>
     </div>
   );

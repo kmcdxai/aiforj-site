@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import EmailCapture from "../../components/EmailCapture";
 import ShareResultCard from "../../components/ShareResultCard";
+import SiteFooter from "../../components/SiteFooter";
 
 const ACCENT = "var(--accent-sage)";
 const BG = "var(--bg-primary)";
@@ -837,23 +838,9 @@ export default function TechniqueClient({ technique, related }) {
         {/* ─── Email Capture ─── */}
         <EmailCapture />
 
-        {/* ─── Footer ─── */}
-        <footer style={{ textAlign: "center", marginTop: 48, paddingTop: 28, borderTop: `1px solid rgba(107,127,110,0.08)` }}>
-          <p style={{ fontSize: 12, color: `rgba(45,42,38,0.5)`, lineHeight: 1.8 }}>
-            If you're in crisis: <strong style={{ color: `rgba(45,42,38,0.65)` }}>988 Lifeline</strong> — call or text 988 | <strong style={{ color: `rgba(45,42,38,0.65)` }}>Crisis Text Line</strong> — text HOME to 741741
-          </p>
-          <p style={{ fontSize: 11, color: `rgba(45,42,38,0.4)`, marginTop: 12, lineHeight: 1.8 }}>
-            AIForj is a wellness companion — not a therapist or substitute for professional care.<br />
-            Built by a Board Certified PMHNP-BC — Caring for the Whole Human<br />
-            © 2026 AIForj.com
-          </p>
-          <div style={{ marginTop: 16, display: "flex", justifyContent: "center", gap: 16 }}>
-            <Link href="/techniques" style={{ fontSize: 13, color: ACCENT, textDecoration: "none" }}>All Techniques</Link>
-            <Link href="/" style={{ fontSize: 13, color: ACCENT, textDecoration: "none" }}>Home</Link>
-            <Link href="/tools" style={{ fontSize: 13, color: ACCENT, textDecoration: "none" }}>Tools</Link>
-          </div>
-        </footer>
       </article>
+
+      <SiteFooter />
     </main>
   );
 }

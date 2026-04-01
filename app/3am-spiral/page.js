@@ -1,4 +1,5 @@
 import ThreeAMSpiral from "../components/ThreeAMSpiral";
+import ForceDarkTheme from "./ForceDarkTheme";
 
 export const metadata = {
   title: "Can't Sleep? Mind Racing at 3AM? — Talk to Forj | Free AI Wellness",
@@ -21,5 +22,10 @@ export const metadata = {
 };
 
 export default function Page() {
-  return <ThreeAMSpiral />;
+  return (
+    <>
+      <ForceDarkTheme />
+      <ThreeAMSpiral />
+    </>
+  );
 }

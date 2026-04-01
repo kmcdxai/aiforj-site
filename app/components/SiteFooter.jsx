@@ -1,0 +1,89 @@
+"use client";
+
+import Link from "next/link";
+
+export default function SiteFooter() {
+  return (
+    <footer style={{
+      padding: "48px 24px 32px",
+      textAlign: "center",
+      background: "var(--bg-secondary)",
+      borderTop: "1px solid rgba(45,42,38,0.06)",
+      fontFamily: "'DM Sans', sans-serif",
+    }}>
+      {/* Crisis resources */}
+      <div style={{
+        marginBottom: 28,
+        padding: "18px 24px",
+        background: "var(--surface-elevated)",
+        borderRadius: 16,
+        display: "inline-block",
+        boxShadow: "var(--shadow-sm)",
+      }}>
+        <p style={{ fontSize: 14, color: "var(--text-primary)", margin: "0 0 4px", fontWeight: 500 }}>
+          In crisis? You're not alone.
+        </p>
+        <p style={{ fontSize: 13, color: "var(--text-secondary)", margin: 0 }}>
+          Call or text <strong style={{ color: "var(--crisis)" }}>988</strong> · Text HOME to <strong style={{ color: "var(--crisis)" }}>741741</strong>
+        </p>
+      </div>
+
+      <p style={{
+        fontSize: 13,
+        color: "var(--text-secondary)",
+        lineHeight: 1.7,
+        margin: "0 0 24px",
+        maxWidth: 480,
+        marginLeft: "auto",
+        marginRight: "auto",
+      }}>
+        Forj is a wellness companion — not a therapist or substitute for professional care.
+      </p>
+
+      {/* Footer nav */}
+      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 20, marginBottom: 24 }}>
+        {[
+          { href: "/", label: "Home" },
+          { href: "/blueprint", label: "Blueprint" },
+          { href: "/techniques", label: "Techniques" },
+          { href: "/tools", label: "Guided Tools" },
+          { href: "/send", label: "Send Calm" },
+          { href: "/find-help", label: "Find a Provider" },
+        ].map(link => (
+          <Link key={link.label} href={link.href}
+            style={{ fontSize: 12, color: "var(--text-muted)", textDecoration: "none" }}>
+            {link.label}
+          </Link>
+        ))}
+      </div>
+
+      {/* Landing pages */}
+      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 10, marginBottom: 24 }}>
+        {[
+          { href: "/3am-spiral", icon: "🌙", label: "3AM Spiral" },
+          { href: "/overwhelmed", icon: "🌊", label: "Overwhelmed" },
+          { href: "/burned-out", icon: "🪨", label: "Burned Out" },
+        ].map(link => (
+          <Link key={link.label} href={link.href}
+            style={{
+              fontSize: 11,
+              color: "var(--text-muted)",
+              textDecoration: "none",
+              padding: "5px 14px",
+              background: "var(--surface)",
+              borderRadius: 20,
+            }}>
+            {link.icon} {link.label}
+          </Link>
+        ))}
+      </div>
+
+      <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "0 0 8px", lineHeight: 1.8 }}>
+        Built by a Board Certified PMHNP-BC — Caring for the Whole Human
+      </p>
+      <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.5, margin: 0 }}>
+        © 2026 AIForj. All rights reserved.
+      </p>
+    </footer>
+  );
+}
