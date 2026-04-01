@@ -688,7 +688,7 @@ export default function BlueprintClient() {
 
           {/* Disclaimer */}
           <p style={{ fontSize: 11, color: "var(--text-muted)", textAlign: "center", marginTop: 40, lineHeight: 1.6 }}>
-            This assessment is for self-reflection only \u2014 not a clinical diagnosis.
+            This assessment is for self-reflection only — not a clinical diagnosis.
             {" "}Built by a Board Certified PMHNP. Nothing is stored or sent to any server.
           </p>
         </div>
