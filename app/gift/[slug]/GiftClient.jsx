@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import BiophilicBackground from "../../components/BiophilicBackground";
 
 // ─── Breathing Step ───
@@ -153,19 +154,21 @@ const btnStyle = {
 
 // ─── Main Gift Client ───
 export default function GiftClient({ technique }) {
+  return (
+    <Suspense fallback={<div style={{ minHeight: "100vh", background: "var(--bg-primary)" }} />}>
+      <GiftClientInner technique={technique} />
+    </Suspense>
+  );
+}
+
+function GiftClientInner({ technique }) {
+  const searchParams = useSearchParams();
   const [currentStep, setCurrentStep] = useState(-1); // -1 = welcome
   const [completed, setCompleted] = useState(false);
   const [feelingScore, setFeelingScore] = useState(null);
 
-  // Parse query params client-side
-  const [fromName, setFromName] = useState("");
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setFromName(params.get("from") || "");
-    setMessage(params.get("msg") || "");
-  }, []);
+  const fromName = searchParams.get("from") || "";
+  const message = searchParams.get("msg") || "";
 
   const shortName = technique.title.split(":")[0].replace(" Technique", "").replace("The ", "").trim();
   const steps = technique.steps || [];
