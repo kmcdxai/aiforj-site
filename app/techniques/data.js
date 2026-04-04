@@ -601,18 +601,18 @@ export const TECHNIQUES = [
     ],
   },
 
-  // ─── 7. BODY SCAN ──────────────────────────────────────────────────
+  // ─── 7. BODY SCAN (Updated) ──────────────────────────────────────────────────
   {
     slug: "body-scan",
-    title: "Body Scan Meditation: A Guided Practice for Stress and Sleep",
+    title: "Reconnecting With Your Body: A Guided Body Scan Practice",
     metaTitle:
-      "Body Scan Meditation: Guided Practice for Stress & Sleep",
+      "Body Scan Meditation: Reconnect With Your Body | Guided Practice",
     metaDescription:
-      "Practice this guided body scan meditation to reduce stress, improve sleep, and reconnect with your body. Based on Jon Kabat-Zinn's MBSR mindfulness program.",
+      "Feeling disconnected from your body? This guided body scan meditation helps you rebuild the mind-body connection, reduce stress, and process emotions stored in the body.",
     keywords:
-      "body scan meditation, body scan exercise, mindfulness body scan",
+      "body scan meditation, body scan exercise, mindfulness body scan, reconnect with body",
     subtitle:
-      "For stress, disconnection from body, undefined emotions, and sleep",
+      "For disconnection from body, stress, undefined emotions, and sleep",
     time: "10 minutes",
     modality: "MBSR/Mindfulness",
     origin:
@@ -1422,6 +1422,1224 @@ export const TECHNIQUES = [
         instruction:
           "You've just identified what matters most to you and where your life is out of alignment. That awareness alone is powerful. The one action you chose — put it in your calendar right now. Values don't mean anything until they become actions.",
         type: "reflection",
+      },
+    ],
+  },
+
+  // ─── 16. OVERWHELMED AT WORK ───────────────────────────────────────────────
+  {
+    slug: "overwhelmed-at-work",
+    title: "When Work Is Too Much: A 3-Minute Reset for Overwhelm",
+    metaTitle: "Overwhelmed at Work? A Clinician-Designed 3-Minute Reset",
+    metaDescription:
+      "Drowning in tasks and deadlines? This evidence-based protocol helps you regain focus and calm when work feels impossible. Built by a Board Certified PMHNP.",
+    keywords: "overwhelmed at work, work stress, how to deal with overwhelm, workplace anxiety",
+    subtitle: "For task paralysis, racing thoughts, and the feeling that you'll never catch up",
+    time: "5 minutes",
+    modality: "CBT/Somatic",
+    origin:
+      "Combines cognitive load management research with nervous system regulation techniques from somatic therapy.",
+    whatThisIs:
+      "You know that feeling when your to-do list is so long that you can't even start? When every notification feels like a demand and your brain is spinning through everything you should be doing while your body stays frozen? That's overwhelm — and it's not a personal failing. It's your nervous system in a threat response.\n\nOverwhelm happens when the cognitive demands on you exceed your perceived capacity to handle them. Your brain interprets this as danger and triggers a freeze response. You scroll, you avoid, you stare at the same email for 20 minutes. The irony is that the more overwhelmed you feel, the less able you are to do the things that would help.\n\nThis technique breaks that cycle by addressing both the cognitive overload (by radically narrowing your focus) and the nervous system activation (by signaling safety). It takes less than 5 minutes, and you can do it at your desk, in a bathroom stall, or even during a meeting with your camera off.",
+    neuroscience:
+      "Overwhelm triggers the amygdala's threat response, which floods the prefrontal cortex with norepinephrine and impairs executive function. This is why you literally can't think clearly when overwhelmed. The protocol works by first reducing sympathetic activation through breath, then by engaging the prefrontal cortex in a structured way that's simple enough to execute even when executive function is compromised. The 'single next action' technique reduces cognitive load from an abstract mountain of tasks to one concrete, achievable step.",
+    whenToUse: [
+      "When you have 47 browser tabs open and can't focus on any",
+      "When you've been staring at the same task for 20+ minutes without progress",
+      "When your heart races looking at your inbox",
+      "When you're procrastinating because everything feels equally urgent",
+      "Before diving into a complex project",
+    ],
+    relatedSlugs: ["box-breathing", "behavioral-activation"],
+    faqs: [
+      {
+        q: "Why do I freeze when I'm overwhelmed instead of getting things done?",
+        a: "Freezing is your nervous system's protective response to perceived threat. When your brain detects more demands than it thinks you can handle, it defaults to immobilization as a survival strategy. It's not laziness — it's biology.",
+      },
+      {
+        q: "What if I can't even identify one next action?",
+        a: "That's a sign your executive function is deeply impaired. Pick something absurdly small: open one document, send one email, or even just write down the first task. Action restarts cognition.",
+      },
+      {
+        q: "How often should I use this technique?",
+        a: "Use it whenever you notice the overwhelm spiral starting. Some people use it multiple times daily during stressful periods. Preventative use (before you hit 10/10 overwhelm) is most effective.",
+      },
+    ],
+    steps: [
+      {
+        title: "Stop and Breathe",
+        instruction:
+          "Pause everything. Close your eyes or soften your gaze. Take three slow breaths — in for 4, out for 6. Longer exhales signal safety to your nervous system.",
+        type: "breathing",
+        breathe: { inhale: 4, hold: 2, exhale: 6 },
+        duration: 36,
+      },
+      {
+        title: "Name the Overwhelm",
+        instruction:
+          "Say to yourself (silently or out loud): 'I am overwhelmed. This is a normal response to having too many cognitive demands. It's not a personal failure.'",
+        type: "reflection",
+      },
+      {
+        title: "Brain Dump",
+        instruction:
+          "Write down everything on your mental plate right now — every task, worry, obligation. Don't organize, don't prioritize. Just dump it all onto paper (or screen). Empty your working memory.",
+        type: "text-input",
+        placeholder: "Everything on my mind right now...",
+      },
+      {
+        title: "Choose ONE Thing",
+        instruction:
+          "From your list, pick the ONE thing that feels most doable right now — not most important, most doable. Circle it. That's your only job for the next 20 minutes.",
+        type: "text-input",
+        placeholder: "My single next action is...",
+      },
+      {
+        title: "Set a Timer",
+        instruction:
+          "Set a timer for 20 minutes. Work only on your chosen task. When the timer ends, reassess. You can do anything for 20 minutes.",
+        type: "timer",
+        duration: 20,
+      },
+      {
+        title: "Check In",
+        instruction:
+          "How do you feel now compared to when you started?",
+        type: "rating",
+        min: 1,
+        max: 10,
+      },
+    ],
+  },
+
+  // ─── 17. GRIEF WAVE ────────────────────────────────────────────────────
+  {
+    slug: "grief-wave",
+    title: "Riding a Wave of Grief: A Compassionate Guide Through the Pain",
+    metaTitle: "Grief Waves: How to Cope When Grief Hits Hard",
+    metaDescription:
+      "When grief crashes over you unexpectedly, this gentle protocol helps you stay present with the pain without drowning in it. Evidence-based, trauma-informed support.",
+    keywords: "grief waves, coping with grief, grief comes in waves, how to handle grief",
+    subtitle: "For the moments when grief hits you out of nowhere",
+    time: "6 minutes",
+    modality: "Compassion-Focused/DBT",
+    origin:
+      "Draws from Dual Process Model of Grief (Stroebe & Schut) and Compassion-Focused Therapy techniques.",
+    whatThisIs:
+      "Grief doesn't follow a straight line. It comes in waves — sometimes predictable, sometimes not. You might be having a fine day and then a song, a smell, or a random memory hits you, and suddenly you're doubled over. That's not you failing to cope. That's grief processing.\n\nThe wave metaphor matters. Waves build, crest, and break. They don't stay at peak intensity forever. But when we fight the wave — when we try to suppress it, distract from it, or judge ourselves for feeling it — we exhaust ourselves and prolong the suffering. Riding the wave means allowing it to move through you while staying anchored enough that you don't drown.\n\nThis technique is for those moments when grief ambushes you. It won't make the grief go away (nothing can do that, and trying to is its own problem). But it will help you move through the wave with more steadiness, self-compassion, and trust that it will pass.",
+    neuroscience:
+      "Grief activates the same brain regions as physical pain (anterior cingulate cortex). The wave-like nature of grief reflects how the brain processes loss — moving between 'loss-oriented' and 'restoration-oriented' states. Fighting grief triggers additional suffering through secondary stress, while allowing and naming emotions reduces limbic activation. The practice of self-compassion during grief activates the caregiving system (releasing oxytocin), which provides genuine physiological soothing.",
+    whenToUse: [
+      "When grief hits you unexpectedly",
+      "On anniversaries, birthdays, or other trigger days",
+      "When a wave hits at work or in public",
+      "When you've been avoiding grief and it's breaking through",
+      "When you need to feel it but stay functional",
+    ],
+    relatedSlugs: ["self-compassion-break", "radical-acceptance"],
+    faqs: [
+      {
+        q: "How long do grief waves last?",
+        a: "Individual waves typically last 20-90 minutes at peak intensity. The overall experience of grief changes over months and years, but waves become less frequent and less devastating over time. Riding them, rather than fighting them, helps them pass more quickly.",
+      },
+      {
+        q: "Is it normal for grief to hit me months or years later?",
+        a: "Absolutely. Grief has no timeline. Anniversary reactions, new triggers, and delayed processing are all normal. Having a wave years later doesn't mean you're 'not over it' — it means you're still processing a significant loss.",
+      },
+      {
+        q: "What if I can't afford to feel this right now?",
+        a: "If you're in a situation where you can't safely process the wave, it's okay to set it aside temporarily. Say to yourself: 'I will feel this fully when I'm safe and private.' Then choose a specific time later to return to it.",
+      },
+    ],
+    steps: [
+      {
+        title: "Recognize the Wave",
+        instruction:
+          "Notice what's happening. 'A grief wave is here.' Naming it creates a tiny bit of space between you and the pain.",
+        type: "reflection",
+      },
+      {
+        title: "Find Your Anchor",
+        instruction:
+          "Place your feet on the floor. Feel the ground beneath you. Put one hand on your heart, one on your belly. You are here, in this body, in this moment. The wave is moving through you, but you are not the wave.",
+        type: "reflection",
+      },
+      {
+        title: "Breathe With the Pain",
+        instruction:
+          "Don't try to breathe around the grief. Breathe through it. Imagine breathing into the place in your body where the grief is strongest. Let your breath create space around the pain.",
+        type: "breathing",
+        breathe: { inhale: 5, hold: 2, exhale: 7 },
+        duration: 28,
+      },
+      {
+        title: "Allow the Feelings",
+        instruction:
+          "What emotion is present? Name it: sadness, anger, longing, guilt, loneliness, or something else. Let yourself feel it without judging it or trying to fix it. This is grief doing its work.",
+        type: "text-input",
+        placeholder: "Right now, I'm feeling...",
+      },
+      {
+        title: "Offer Yourself Kindness",
+        instruction:
+          "What would you say to a friend who just told you they were feeling this exact grief? Say those words to yourself now. Put your hand on your heart and offer yourself that same kindness.",
+        type: "text-input",
+        placeholder: "What I would say to a friend in this pain...",
+      },
+      {
+        title: "Trust the Wave",
+        instruction:
+          "The wave will crest and it will break. It always does. You don't have to know when. You just have to stay present with yourself until it does. Take one more breath.",
+        type: "reflection",
+      },
+    ],
+  },
+
+  // ─── 18. SUNDAY SCARIES ────────────────────────────────────────────────
+  {
+    slug: "sunday-scaries",
+    title: "The Sunday Night Dread: How to End the Weekend Anxiety Spiral",
+    metaTitle: "Sunday Scaries? How to Stop Weekend Anxiety Tonight",
+    metaDescription:
+      "Dreading Monday before it even arrives? This evidence-based protocol helps you break the Sunday anxiety cycle and reclaim your Sunday nights.",
+    keywords: "Sunday scaries, Sunday anxiety, Sunday night dread, weekend anxiety",
+    subtitle: "For the anticipatory anxiety that steals your Sunday evening",
+    time: "7 minutes",
+    modality: "CBT/Mindfulness",
+    origin:
+      "Based on anticipatory anxiety treatment protocols and research on work-related rumination.",
+    whatThisIs:
+      "It's Sunday evening. You should be relaxing, but instead your mind is already racing through tomorrow's to-do list, dreading the alarm, replaying last week's stresses. The weekend never feels long enough, and Monday is coming faster than you can handle. You're not alone — this is so common it has a name: the Sunday Scaries.\n\nSunday anxiety is a form of anticipatory anxiety — your nervous system ramps up in preparation for a perceived threat (work/school). The irony is that the more you dread Monday, the more you spoil Sunday, and the more exhausted you are when Monday actually arrives. It's a self-fulfilling prophecy.\n\nThis technique interrupts that cycle. You'll address both the cognitive patterns (catastrophizing, mind-reading about tomorrow) and the physiological arousal (racing heart, tension) that make Sunday evenings miserable. By the end, Monday won't be your favorite day, but Sunday night can be yours again.",
+    neuroscience:
+      "Anticipatory anxiety activates the amygdala and HPA axis before any actual threat is present, flooding the body with cortisol and adrenaline on Sunday for a Monday event. This 'temporal anxiety loop' is reinforced by rumination in the default mode network. The protocol works by: 1) grounding in present-moment sensation to interrupt future-oriented rumination, 2) challenging catastrophic predictions with evidence, and 3) creating a healthy boundary between rest and preparation.",
+    whenToUse: [
+      "Sunday afternoon when dread starts building",
+      "When you can't enjoy your weekend thinking about work",
+      "When Sunday night insomnia hits",
+      "When you catch yourself mentally reviewing tomorrow's tasks",
+      "For anyone who gets \"the ick\" on Sunday evenings",
+    ],
+    relatedSlugs: ["worry-time", "cognitive-restructuring"],
+    faqs: [
+      {
+        q: "Why do I get anxious on Sundays specifically?",
+        a: "It's anticipatory anxiety combined with the transition from unstructured to structured time. Your body starts the stress response early, and rumination reinforces it. For many, it's also about unprocessed work stress or a job that doesn't feel safe.",
+      },
+      {
+        q: "Should I prepare for Monday on Sunday to feel more in control?",
+        a: "Strategic preparation (laying out clothes, reviewing calendar briefly) can help if done early and briefly. But avoid using Sunday as a 'second workday' to try to get ahead — this steals your recovery time.",
+      },
+      {
+        q: "What if my Sunday scaries are about a job I hate?",
+        a: "If every Sunday is filled with dread, that's important information about your work situation. These techniques help in the short term, but the deeper solution may be addressing the job itself — whether that's boundaries, a conversation, or a change.",
+      },
+    ],
+    steps: [
+      {
+        title: "Ground in This Moment",
+        instruction:
+          "Right now, it's still Sunday. Monday is not here. Feel the surface beneath you, hear the sounds around you. Bring your attention to what's actually happening right now, not what will happen.",
+        type: "reflection",
+      },
+      {
+        title: "Name the Dread",
+        instruction:
+          "What specifically are you dreading? Not just 'Monday' — what exactly? Is it a specific meeting? A person? The commute? The feeling of being unprepared? Name it specifically.",
+        type: "text-input",
+        placeholder: "What I'm dreading specifically is...",
+      },
+      {
+        title: "Challenge the Catastrophe",
+        instruction:
+          "Now ask yourself: What's the worst that could realistically happen tomorrow? And what's most likely to happen? Let your brain see the difference between fear and reality.",
+        type: "multi-input",
+        fields: [
+          "Worst case scenario:",
+          "Most likely scenario:",
+        ],
+      },
+      {
+        title: "Draw the Line",
+        instruction:
+          "Say to yourself: 'Sunday is for rest. Work belongs to Monday. I am choosing to be here, now, and let Monday wait its turn.' Visualize a line between today and tomorrow.",
+        type: "reflection",
+      },
+      {
+        title: "Breathe Out the Dread",
+        instruction:
+          "Inhale slowly, and on the exhale, imagine releasing the tension and dread. Give your nervous system permission to downshift.",
+        type: "breathing",
+        breathe: { inhale: 4, hold: 4, exhale: 8 },
+        duration: 32,
+      },
+      {
+        title: "Choose Sunday",
+        instruction:
+          "What's one thing you can do right now that's purely for enjoyment or rest? Not productive, not preparing — just present. Go do that thing.",
+        type: "text-input",
+        placeholder: "My Sunday evening choice is...",
+      },
+    ],
+  },
+
+  // ─── 19. RAGE SPIRAL ────────────────────────────────────────────────────
+  {
+    slug: "rage-spiral",
+    title: "When Anger Takes Over: Stopping the Rage Spiral Before It Erupts",
+    metaTitle: "Anger Spirals: How to Stop Rage Taking Over | DBT-Based",
+    metaDescription:
+      "Feeling like you're about to explode? This DBT-based protocol helps you stop the anger spiral and respond instead of react. Evidence-based anger management.",
+    keywords: "rage spiral, anger spiral, how to control anger, anger management techniques",
+    subtitle: "For when anger is hijacking your brain and you need to stop it NOW",
+    time: "5 minutes",
+    modality: "DBT",
+    origin:
+      "Based on DBT's emotion regulation and distress tolerance modules, incorporating research on the physiology of rage.",
+    whatThisIs:
+      "There's a point where anger stops being information and starts taking over. Your heart pounds, your muscles tense, your vision narrows. Rational thought becomes nearly impossible because your prefrontal cortex has been effectively shut down by the storm of neurochemicals flooding your brain. This is the rage spiral — and trying to think your way out of it is useless.\n\nThe rage spiral starts with a trigger (an insult, an injustice, a frustration), then builds through rumination ('How dare they...', 'They always...'), physical escalation (heart rate, tension), and catastrophic thinking. By the time you're in full spiral, your body is in fight-or-flight mode and your words and actions will be driven by a brain that's evolutionarily designed for survival, not for making good decisions.\n\nThis technique is designed for the acute phase — when you're at a 7-10 on the anger scale and need to do something RIGHT NOW. It addresses the physiology first (because you can't think straight when rage chemicals are surging) and then the cognitive patterns that fuel the fire. The goal isn't to never feel anger — anger is useful information. The goal is to prevent anger from destroying your relationships, your reputation, and your peace of mind.",
+    neuroscience:
+      "Rage triggers massive sympathetic nervous system activation, flooding the brain with adrenaline and cortisol. The prefrontal cortex (responsible for rational thought, impulse control, and considering consequences) becomes inhibited, while the amygdala takes over. This 'emotional hijacking' is why people do things in rage they would never normally do. The 6-second rule works because the initial neurochemical surge peaks and begins to decline around 6 seconds — if you can pause through that peak, you regain access to your prefrontal cortex.",
+    whenToUse: [
+      "When you feel like you're about to yell, hit, or break something",
+      "When you're in an argument and can't think clearly",
+      "When anger has been building and you're about to snap",
+      "After being cut off in traffic, insulted, or treated unfairly",
+      "When you feel 'seeing red'",
+    ],
+    relatedSlugs: ["tipp-skill", "box-breathing"],
+    faqs: [
+      {
+        q: "What if I can't control my anger even when I try?",
+        a: "If rage spirals are frequent and intense despite using techniques, there may be underlying factors — trauma, chronic stress, certain medical conditions, or patterns that need professional support. This doesn't mean you're broken. It means you deserve more support.",
+      },
+      {
+        q: "Isn't expressing anger better than suppressing it?",
+        a: "Neither extreme works. Suppressing anger leads to resentment and physical health problems. Exploding in rage damages relationships and reinforces neural pathways for more rage. The middle path is feeling the anger, understanding its message, and responding intentionally rather than reacting.",
+      },
+      {
+        q: "How can I remember to use this when I'm in a rage?",
+        a: "Practice the technique when you're calm so the steps become automatic. Having a physical cue (like running cold water over your hands) can trigger the memory of the practice. Over time, the gap between trigger and response grows.",
+      },
+    ],
+    steps: [
+      {
+        title: "STOP",
+        instruction:
+          "Literally stop moving. Freeze. Don't speak, don't act, don't send that text. Put physical distance between you and the trigger if possible. Step away. Now.",
+        type: "reflection",
+      },
+      {
+        title: "Cold Water",
+        instruction:
+          "Splash cold water on your face or hold something cold against your cheeks. This triggers the dive reflex, which lowers your heart rate by up to 25%. It's the fastest way to physiologically downshift.",
+        type: "timer",
+        duration: 30,
+      },
+      {
+        title: "The 6-Second Rule",
+        instruction:
+          "The neurochemical surge of rage peaks at about 6 seconds. Count slowly: 1... 2... 3... 4... 5... 6... You're not calming down yet, but you're past the peak. Count again.",
+        type: "timer",
+        duration: 12,
+      },
+      {
+        title: "Rate Your Anger",
+        instruction:
+          "On a scale of 1-10, how angry are you right now? Just notice. Naming it begins to engage your prefrontal cortex.",
+        type: "rating",
+        min: 1,
+        max: 10,
+      },
+      {
+        title: "Breathe It Down",
+        instruction:
+          "Long slow exhales. In for 4, out for 8. Each long exhale signals 'safe' to your brain. Keep going until your rating drops by at least 2 points.",
+        type: "breathing",
+        breathe: { inhale: 4, hold: 2, exhale: 8 },
+        duration: 42,
+      },
+      {
+        title: "Choose Your Response",
+        instruction:
+          "Now — with your prefrontal cortex back online — what response aligns with your values? Not what your anger wants to do, but what YOU want to do. This might mean setting a boundary, speaking up later, or simply choosing not to give this more of your energy.",
+        type: "text-input",
+        placeholder: "My intentional response will be...",
+      },
+    ],
+  },
+
+  // ─── 20. IMPOSTER SYNDROME ─────────────────────────────────────────────
+  {
+    slug: "imposter-syndrome",
+    title: "Feeling Like a Fraud: Breaking Free from Imposter Syndrome",
+    metaTitle: "Imposter Syndrome: How to Stop Feeling Like a Fraud | CBT-Based",
+    metaDescription:
+      "Convinced you're a fraud about to be exposed? This evidence-based protocol helps you recognize and challenge imposter syndrome thoughts so you can own your achievements.",
+    keywords: "imposter syndrome, feeling like a fraud, imposter syndrome help, imposter syndrome CBT",
+    subtitle: "For when you believe you've fooled everyone and you're about to be found out",
+    time: "6 minutes",
+    modality: "CBT",
+    origin:
+      "Based on CBT protocols for cognitive distortions, with specific application to imposter phenomenon research.",
+    whatThisIs:
+      "You got the promotion, the acceptance letter, the positive feedback — and all you can think is 'They made a mistake' or 'I got lucky' or 'If they knew the real me, they'd take it back.' Imposter syndrome is the persistent inability to internalize accomplishments, combined with a deep fear of being exposed as a fraud.\n\nIt's incredibly common, especially among high achievers. Studies suggest 70% of people experience imposter syndrome at some point. It's especially prevalent in marginalized groups, first-generation professionals, and perfectionists. You're not broken for feeling this way — but you also don't have to keep living under its shadow.\n\nThis technique targets the cognitive distortions that fuel imposter syndrome: attributing success to luck, dismissing evidence of competence, mind-reading others' opinions, and holding yourself to impossible standards. By the end, you won't suddenly believe you're amazing (that's not the goal), but you'll have a clearer, fairer view of what you've actually earned.",
+    neuroscience:
+      "Imposter syndrome involves a persistent mismatch between internal self-assessment and external evidence. The brain's negativity bias causes you to weight failures and criticism more heavily than successes and praise. Additionally, the Dunning-Kruger effect creates a paradox where competence makes you more aware of what you don't know, while true expertise brings self-doubt. The practice of actively collecting evidence of competence retrains the brain's weighting mechanism and strengthens neural pathways for accurate self-assessment.",
+    whenToUse: [
+      "After receiving praise that you want to dismiss",
+      "Before presentations or performance reviews",
+      "When comparing yourself to others",
+      "When 'you don't belong here' thoughts are loud",
+      "After a success that doesn't feel earned",
+    ],
+    relatedSlugs: ["cognitive-distortions", "self-compassion-break"],
+    faqs: [
+      {
+        q: "Is imposter syndrome a mental illness?",
+        a: "No — imposter syndrome isn't a diagnosis. It's a phenomenon, a pattern of thinking that's extremely common, especially in certain contexts. However, persistent imposter thoughts can contribute to or be exacerbated by anxiety and depression.",
+      },
+      {
+        q: "Does imposter syndrome ever go away?",
+        a: "For many people, it becomes more manageable with awareness and practice. The thoughts might still appear, but they lose their power. Some people report that imposter feelings decrease as they accumulate evidence of competence and connect with others who share similar doubts.",
+      },
+      {
+        q: "What if I actually AM underqualified?",
+        a: "It's good to have an accurate assessment of your skills — that's healthy. Imposter syndrome is when you have evidence of competence but can't internalize it. If you genuinely have gaps, you can acknowledge those AND acknowledge what you legitimately know.",
+      },
+    ],
+    steps: [
+      {
+        title: "Name the Imposter Thought",
+        instruction:
+          "What's the specific thought telling you you're a fraud? Write it exactly as your mind says it.",
+        type: "text-input",
+        placeholder: "The thought in my head is...",
+      },
+      {
+        title: "Identify the Distortion",
+        instruction:
+          "Which cognitive distortion is at work? Common imposter distortions include: discounting positives ('That doesn't count'), attributing success to luck ('I got lucky'), mind-reading ('They'd think less of me if they knew'), and all-or-nothing thinking ('If I'm not perfect, I'm a fraud').",
+        type: "choice",
+        options: [
+          "Discounting the positive",
+          "Attributing success to luck/chance",
+          "Mind-reading what others think",
+          "All-or-nothing thinking",
+          "Comparing myself to others",
+        ],
+      },
+      {
+        title: "The Evidence Review",
+        instruction:
+          "List 3 pieces of evidence that contradict the imposter thought. These can be achievements you earned, positive feedback you received, challenges you overcame, or skills you genuinely possess. Don't minimize — state facts.",
+        type: "multi-input",
+        fields: [
+          "Evidence 1:",
+          "Evidence 2:",
+          "Evidence 3:",
+        ],
+      },
+      {
+        title: "The Fair Assessment",
+        instruction:
+          "Now write a balanced, accurate statement that includes BOTH what you genuinely need to learn AND what you legitimately know. Not false modesty, not narcissism — accuracy.",
+        type: "text-input",
+        placeholder: "An accurate statement about my abilities...",
+      },
+      {
+        title: "What Would You Say to a Friend?",
+        instruction:
+          "If a friend told you they had this exact imposter thought, what would you say to them? Write that message now.",
+        type: "text-input",
+        placeholder: "If my friend felt this way, I would tell them...",
+      },
+      {
+        title: "Own One Thing",
+        instruction:
+          "Name one accomplishment — big or small — that you're willing to fully own. Not 'it was nothing' or 'anyone could do it.' Just: 'I did this. I earned this.'",
+        type: "text-input",
+        placeholder: "One thing I earned and own...",
+      },
+    ],
+  },
+
+  // ─── 21. DECISION PARALYSIS ─────────────────────────────────────────────
+  {
+    slug: "decision-paralysis",
+    title: "When You Can't Choose: Breaking Through Decision Paralysis",
+    metaTitle: "Decision Paralysis: How to Make a Choice When You're Stuck",
+    metaDescription:
+      "Stuck between options and can't decide? This evidence-based protocol helps you move from paralysis to decision. Based on decision science and CBT.",
+    keywords: "decision paralysis, analysis paralysis, how to make hard decisions, decision anxiety",
+    subtitle: "For when every option feels wrong and you can't move forward",
+    time: "7 minutes",
+    modality: "CBT/Behavioral",
+    origin:
+      "Integrates decision science research, CBT for anxiety, and ACT principles for values-aligned decision-making.",
+    whatThisIs:
+      "You've been staring at the options for too long. Every choice has pros and cons, and no path seems clearly right. The more you think, the more stuck you feel. This is decision paralysis — and it's often not actually about the decision.\n\nDecision paralysis typically stems from three sources: perfectionism (wanting the 'right' answer), fear of regret (worrying about making the wrong choice), and loss aversion (focusing on what you'll give up rather than what you'll gain). Your brain, trying to protect you, runs endless simulations of possible outcomes until you're frozen.\n\nThe ironic truth is that most decisions are reversible or less consequential than they feel. Even 'big' decisions rarely have a single point of no return. This technique helps you identify what's actually blocking you, reduce the decision to its essential components, and move forward — even when uncertainty remains. The goal isn't to guarantee the 'right' choice; the goal is to choose.",
+    neuroscience:
+      "Decision-making involves the prefrontal cortex weighing options against values and goals. Overthinking floods this system, creating 'analysis paralysis' — the more data processed, the worse the decision quality. This is called the decision-fatigue effect. Additionally, the fear of regret activates the same brain regions as physical pain, making the prospect of a wrong choice feel genuinely painful. The technique works by limiting options, setting decision deadlines, and reconnecting with values (which engages the ventromedial prefrontal cortex for values-based rather than fear-based decisions).",
+    whenToUse: [
+      "When you've been stuck on a decision for days or weeks",
+      "When you're researching endlessly without progress",
+      "When you fear making the wrong choice so much you won't choose",
+      "For both big decisions (jobs, relationships) and small (what to eat)",
+      "When others are waiting on your decision",
+    ],
+    relatedSlugs: ["values-clarification", "cognitive-restructuring"],
+    faqs: [
+      {
+        q: "What if I make the wrong decision?",
+        a: "Here's the truth: you probably will make some decisions that don't work out. Everyone does. That's not failure — that's learning what you don't want, which is valuable information. Most decisions can be adjusted or reversed.",
+      },
+      {
+        q: "How do I know when I've researched enough?",
+        a: "Research shows that after gathering about 70% of available information, additional information rarely improves decision quality but significantly increases decision time. If you find yourself re-researching the same points, you've hit diminishing returns.",
+      },
+      {
+        q: "What if all options genuinely seem equally good or bad?",
+        a: "When options are truly equally weighted, the decision matters less — flip a coin. The anxiety isn't about the difference between options; it's about your relationship with choosing itself.",
+      },
+    ],
+    steps: [
+      {
+        title: "Name the Decision",
+        instruction:
+          "What decision are you facing? Write it clearly as a question.",
+        type: "text-input",
+        placeholder: "The decision I'm facing is...",
+      },
+      {
+        title: "List Your Options",
+        instruction:
+          "What are your actual options? Not every possible variation — the main choices. Limit to 3-5 maximum.",
+        type: "multi-input",
+        fields: [
+          "Option A:",
+          "Option B:",
+          "Option C (if any):",
+        ],
+      },
+      {
+        title: "What's Blocking You?",
+        instruction:
+          "Which fear is most keeping you stuck? Naming it reduces its power.",
+        type: "choice",
+        options: [
+          "Fear of making the wrong choice (regret)",
+          "Fear of missing out on the other option (FOMO)",
+          "Fear of others' judgment",
+          "Perfectionism — wanting the 'perfect' answer",
+          "Not having enough information",
+        ],
+      },
+      {
+        title: "The 10-10-10 Test",
+        instruction:
+          "If you make this decision, how will you feel about it in 10 minutes? In 10 months? In 10 years? Often our immediate fear is much bigger than the long-term reality.",
+        type: "multi-input",
+        fields: [
+          "In 10 minutes...",
+          "In 10 months...",
+          "In 10 years...",
+        ],
+      },
+      {
+        title: "What Does Your Gut Say?",
+        instruction:
+          "If you didn't have to justify it to anyone, which option would you choose? Sometimes your intuition has already processed information your conscious mind hasn't.",
+        type: "choice",
+        options: [
+          "Option A",
+          "Option B",
+          "Option C",
+          "I genuinely don't know yet",
+        ],
+      },
+      {
+        title: "Set a Decision Deadline",
+        instruction:
+          "Decisions become harder, not easier, with more time. Set a deadline. Write it down. When the deadline arrives, you will choose.",
+        type: "text-input",
+        placeholder: "My decision deadline is...",
+      },
+    ],
+  },
+
+  // ─── 22. SOCIAL EXHAUSTION ──────────────────────────────────────────────
+  {
+    slug: "social-exhaustion",
+    title: "Drained After Being Around People: Recovering from Social Exhaustion",
+    metaTitle: "Social Exhaustion: How to Recover When People Drain You",
+    metaDescription:
+      "Feeling drained and depleted after social interactions? This protocol helps you understand and recover from social exhaustion — whether you're introverted, highly sensitive, or just burned out.",
+    keywords: "social exhaustion, social battery drained, introvert burnout, social hangover",
+    subtitle: "For the crash that follows being around people",
+    time: "5 minutes",
+    modality: "Energy Management/Somatic",
+    origin:
+      "Integrates research on introversion and high sensitivity with energy management and nervous system regulation.",
+    whatThisIs:
+      "You got through the event, the meeting, the family gathering — barely. And now you're on the couch, drained, with nothing left. Even your phone feels like too much effort. This is social exhaustion, and it's real.\n\nSome people recharge around others; others recharge alone. Introverts and highly sensitive people have nervous systems that process social stimulation more intensely, which means it takes more energy to be around people — even people you like. Add mismatched communication styles, the effort of masking ('acting normal'), or high-stakes social situations, and the drain compounds.\n\nSocial exhaustion isn't a flaw. It's information about how your nervous system works. This protocol helps you recover from the exhaustion AND understand your social energy patterns so you can build a life that honors them instead of fighting them.",
+    neuroscience:
+      "Introverts and highly sensitive people show stronger activation in reward pathways for solitude and stronger alerting responses to social stimulation. This means social interaction genuinely costs more energy for some nervous systems. 'Social hangover' involves depleted dopamine from sustained social interaction combined with accumulated cortisol. The recovery process requires parasympathetic activation — true rest, not just zoning out on screens which maintains cognitive activation.",
+    whenToUse: [
+      "After social events that drained you",
+      "When you need to recharge before the next thing",
+      "When 'people time' has completely depleted you",
+      "On days filled with meetings or interactions",
+      "When you're craving solitude and it's not available yet",
+    ],
+    relatedSlugs: ["body-scan", "progressive-muscle-relaxation"],
+    faqs: [
+      {
+        q: "Is social exhaustion the same as social anxiety?",
+        a: "No. Social anxiety is fear of judgment or embarrassment in social situations. Social exhaustion is depletion from social interaction, regardless of anxiety. You can be socially exhausted without being socially anxious, and vice versa.",
+      },
+      {
+        q: "Does social exhaustion mean I don't like people?",
+        a: "Not at all. Many socially exhausted people have meaningful relationships and enjoy connecting. The exhaustion is about energy capacity, not preference. You can love someone and still need to recover after being with them.",
+      },
+      {
+        q: "How long does it take to recover from social exhaustion?",
+        a: "It varies widely. For some, 30 minutes of alone time is enough. For others, especially after intense or extended social demand, full recovery can take 24-48 hours. Learning your own recovery needs is key.",
+      },
+    ],
+    steps: [
+      {
+        title: "Acknowledge the Exhaustion",
+        instruction:
+          "Say to yourself: 'I am socially exhausted. This is valid. My nervous system needs to recover.'",
+        type: "reflection",
+      },
+      {
+        title: "Rate Your Battery",
+        instruction:
+          "On a scale of 1-10, how much social energy do you have left?",
+        type: "rating",
+        min: 1,
+        max: 10,
+      },
+      {
+        title: "Remove the Stimulation",
+        instruction:
+          "If possible, go somewhere quiet and alone. Put your phone on silent or away. Let your nervous system have a break from processing any social input.",
+        type: "timer",
+        duration: 60,
+      },
+      {
+        title: "Release the Mask",
+        instruction:
+          "Let your face relax. Let your body take any posture it wants. You don't have to be 'on' right now. No one is watching. Let the face you show the world relax.",
+        type: "reflection",
+      },
+      {
+        title: "Breathe Into Recovery",
+        instruction:
+          "Long slow exhales activate your recovery system. In for 4, out for 6. Let your nervous system switch from alert to rest.",
+        type: "breathing",
+        breathe: { inhale: 4, hold: 2, exhale: 6 },
+        duration: 36,
+      },
+      {
+        title: "Plan Your Restoration",
+        instruction:
+          "What do you genuinely need now to recover? It might be: alone time, a nap, comfort food, a walk, watching something familiar. Don't 'should' yourself — what do you actually need?",
+        type: "text-input",
+        placeholder: "What I need for recovery is...",
+      },
+    ],
+  },
+
+  // ─── 23. MORNING DREAD ─────────────────────────────────────────────────
+  {
+    slug: "morning-dread",
+    title: "Waking Up With Anxiety: How to Handle Morning Dread",
+    metaTitle: "Morning Anxiety: How to Handle Waking Up With Dread",
+    metaDescription:
+      "Waking up with a pit in your stomach? This protocol helps you handle morning anxiety and start your day without being hijacked by dread. Evidence-based.",
+    keywords: "morning dread, morning anxiety, waking up anxious, cortisol awakening response",
+    subtitle: "For that pit-in-your-stomach feeling when you first wake up",
+    time: "6 minutes",
+    modality: "CBT/Somatic",
+    origin:
+      "Addresses cortisol awakening response research combined with CBT anxiety management techniques.",
+    whatThisIs:
+      "You wake up and before you've even opened your eyes fully, there it is — the dread. A knot in your stomach, racing thoughts, a vague sense that something is wrong. Morning anxiety is real, and it's miserable.\n\nThere's a biological reason: cortisol, your body's main stress hormone, naturally peaks about 30-45 minutes after waking. It's called the Cortisol Awakening Response, and it's meant to help you mobilize for the day. But when your baseline anxiety is elevated, this natural cortisol spike can feel like emergency alarm bells.\n\nThe good news: morning anxiety doesn't predict how the rest of your day will go. In fact, it often decreases significantly once you're up and moving. This protocol helps you get through those first vulnerable moments of the day without spiraling, and retrain your nervous system to start from a calmer baseline.",
+    neuroscience:
+      "The Cortisol Awakening Response (CAR) causes a natural 50-75% spike in cortisol within 30-45 minutes of waking. For those with anxiety disorders, this spike is often larger and the return to baseline is slower. Additionally, blood sugar is lowest upon waking, which can cause physical anxiety symptoms. The brain also transitions from sleep's default mode network processing directly into conscious worry, making morning rumination common. The protocol addresses each element: blood sugar, cortisol regulation, and thought patterns.",
+    whenToUse: [
+      "Right when you wake up feeling anxious",
+      "When you dread starting your day",
+      "When morning worry spirals begin immediately",
+      "When you wake up with physical anxiety symptoms",
+      "When the thought of facing the day feels impossible",
+    ],
+    relatedSlugs: ["physiological-sigh", "cognitive-restructuring"],
+    faqs: [
+      {
+        q: "Why is anxiety worse in the morning?",
+        a: "Multiple factors: the Cortisol Awakening Response naturally spikes stress hormones upon waking, blood sugar is at its lowest, and the brain transitions from sleep directly into conscious thought patterns. If those patterns are anxious, you'll wake anxious.",
+      },
+      {
+        q: "Does morning anxiety mean something is wrong with my day?",
+        a: "Not necessarily. Morning anxiety often feels predictive ('something bad will happen') but it's usually residual — your nervous system processing yesterday's stress or waking up in a heightened state. Most people find it decreases significantly within an hour.",
+      },
+      {
+        q: "Should I stay in bed until the anxiety passes?",
+        a: "Generally, gentle movement helps more than staying still. Lying in bed with anxious thoughts tends to fuel the spiral. Getting up, moving, and especially eating something signals safety to your system.",
+      },
+    ],
+    steps: [
+      {
+        title: "Don't Reach for Your Phone",
+        instruction:
+          "Before you check notifications, emails, or social media — pause. Your brain is vulnerable right now. Don't add more input.",
+        type: "reflection",
+      },
+      {
+        title: "Physiological Sigh",
+        instruction:
+          "In bed, do 3 physiological sighs: double inhale through your nose, long exhale through your mouth. This directly activates your calming nervous system.",
+        type: "breathing",
+        breathe: { inhale: 3, hold: 1, exhale: 6 },
+        duration: 30,
+      },
+      {
+        title: "Name What You're Feeling",
+        instruction:
+          "Say it: 'I'm waking up with anxiety. This is uncomfortable, but it's just a feeling. It doesn't mean something is wrong with today.'",
+        type: "reflection",
+      },
+      {
+        title: "Get Something in Your Body",
+        instruction:
+          "Low blood sugar amplifies morning anxiety. Drink water and eat something — even something small. This signals safety to your nervous system.",
+        type: "reflection",
+      },
+      {
+        title: "Move Your Body",
+        instruction:
+          "Gentle movement shifts your nervous system. Stretch, walk to another room, do 10 jumping jacks — something to get your body moving energy through.",
+        type: "timer",
+        duration: 60,
+      },
+      {
+        title: "Set Today's Intention",
+        instruction:
+          "What's one thing you want to carry into today? Not a to-do list — a state of mind. A feeling. Write one word or phrase.",
+        type: "text-input",
+        placeholder: "My intention for today is...",
+      },
+    ],
+  },
+
+  // ─── 24. COMPARISON TRAP ───────────────────────────────────────────────
+  {
+    slug: "comparison-trap",
+    title: "The Social Media Comparison Spiral: Breaking Free from the Trap",
+    metaTitle: "Comparison Trap: How to Stop Comparing Yourself on Social Media",
+    metaDescription:
+      "Comparing your life to what you see online? This evidence-based protocol helps you break the comparison cycle and relate to yourself with more compassion.",
+    keywords: "comparison trap, social media comparison, comparing yourself to others, social media envy",
+    subtitle: "For when your life looks small compared to everyone else's online",
+    time: "5 minutes",
+    modality: "CBT/Mindfulness",
+    origin:
+      "Based on research on upward social comparison, CBT protocols for cognitive distortions, and mindfulness-based approaches.",
+    whatThisIs:
+      "You're scrolling, and suddenly you feel it — that twist in your stomach. Someone's success, someone's vacation, someone's relationship, someone's body. Your brain instantly compares: their best to your average, their public face to your private struggle. The comparison trap doesn't make you feel worse about them — it makes you feel worse about you.\n\nSocial media has supercharged comparison. Previous generations compared themselves to neighbors and coworkers. Now you compare yourself to millions of curated highlights. Studies show that time on social media correlates with decreased wellbeing, and the mechanism is largely upward comparison — seeing others as better off than you.\n\nThe comparison trap is fueled by cognitive distortions: you see others' highlight reels and compare them to your unedited footage. You don't see their struggles, their insecurities, their bad days. This protocol helps you interrupt the comparison spiral, see the distortion for what it is, and shift into a mindset that serves you.",
+    neuroscience:
+      "Upward social comparison activates brain regions associated with negative self-evaluation and envy, while decreasing activity in reward circuits. The prefrontal cortex makes the comparison, and the emotional consequence shows up as shame, envy, or inadequacy. Repeated comparison creates stronger neural pathways for self-criticism. The technique disrupts this by activating metacognition (thinking about thinking), which engages lateral prefrontal cortex and reduces the emotional grip of the comparison.",
+    whenToUse: [
+      "After scrolling and feeling worse about yourself",
+      "When you're comparing your chapter 3 to someone's chapter 20",
+      "When someone else's success feels like your failure",
+      "When you can't stop checking a specific person's profile",
+      "When envy becomes resentment",
+    ],
+    relatedSlugs: ["cognitive-distortions", "self-compassion-break"],
+    faqs: [
+      {
+        q: "Is comparison normal?",
+        a: "Yes — it's an evolved human behavior. Comparison helped our ancestors assess their standing in groups. The problem isn't comparison itself; it's comparison to unrealistic, curated images that don't reflect reality.",
+      },
+      {
+        q: "Should I just quit social media?",
+        a: "For some people, reducing or quitting social media helps significantly. For others, changing how they engage (following accounts that make them feel good, limiting time, curating feeds) is more sustainable. Either can be valid.",
+      },
+      {
+        q: "What if the person I'm comparing to actually IS doing better?",
+        a: "First, define 'better.' You're probably comparing one dimension (their success, their travel) while ignoring others (their struggles, their sacrifices). Second, someone else's success doesn't cause your failure. Both can be true.",
+      },
+    ],
+    steps: [
+      {
+        title: "Put the Phone Down",
+        instruction:
+          "Physically set your device aside. The comparison feed stops here.",
+        type: "reflection",
+      },
+      {
+        title: "Name the Comparison",
+        instruction:
+          "What specifically are you comparing? 'Their success, my failure.' 'Their body, my body.' 'Their relationship, my singleness.' Name it precisely.",
+        type: "text-input",
+        placeholder: "I'm comparing...",
+      },
+      {
+        title: "See the Distortion",
+        instruction:
+          "What are you NOT seeing about their life? Their doubts, their struggles, their bad days, their sacrifices, what it cost them. You're comparing your blooper reel to their highlight reel.",
+        type: "reflection",
+      },
+      {
+        title: "What Do You Actually Want?",
+        instruction:
+          "Underneath the comparison, what do you genuinely desire? Is it the thing they have, or is it a feeling? (Security, love, success, peace, freedom?)",
+        type: "text-input",
+        placeholder: "What I actually want is...",
+      },
+      {
+        title: "One Step Toward YOUR Life",
+        instruction:
+          "What's one small thing you can do today that moves you toward what YOU want, not what they have? Claim your own path.",
+        type: "text-input",
+        placeholder: "One step toward my own life...",
+      },
+      {
+        title: "Comparison Detox",
+        instruction:
+          "Consider: unfollowing, muting, or limiting time with accounts that trigger comparison. You don't have to see everything. Protect your peace.",
+        type: "reflection",
+      },
+    ],
+  },
+
+  // ─── 25. PEOPLE PLEASING ────────────────────────────────────────────────
+  {
+    slug: "people-pleasing",
+    title: "Can't Stop Saying Yes: Breaking the People-Pleasing Pattern",
+    metaTitle: "People Pleasing: How to Stop Saying Yes When You Mean No",
+    metaDescription:
+      "Trapped in people-pleasing? This evidence-based protocol helps you understand why you default to 'yes' and practice boundaries without guilt.",
+    keywords: "people pleasing, how to stop people pleasing, setting boundaries, saying no",
+    subtitle: "For when 'yes' comes out automatically and you don't know how to stop",
+    time: "6 minutes",
+    modality: "CBT/ACT",
+    origin:
+      "Combines CBT for cognitive distortions around rejection with ACT for values-aligned action and boundary setting.",
+    whatThisIs:
+      "They ask. You say yes — before you've even thought about it. Then you're committed, resentful, exhausted, and wondering why you can never make space for yourself. People-pleasing isn't a personality type; it's a survival strategy that outlived its usefulness.\n\nSomewhere along the way, you learned that saying no was dangerous. Maybe you grew up with a parent who couldn't handle boundaries. Maybe you learned that love was conditional on being convenient. Maybe trauma taught you that refusing meant harm. So you adapted — you became the person who always agreed, always helped, always said yes.\n\nThe problem is that chronic people-pleasing destroys your relationship with yourself. Your yes means nothing if you can't say no. Your choices aren't really choices if they're all designed to avoid others' disappointment. This protocol helps you understand your pattern, practice pausing before committing, and tolerate the discomfort of boundaries — because the discomfort of having none is worse.",
+    neuroscience:
+      "People-pleasing correlates with heightened amygdala response to perceived social rejection. The brain has learned that disappointing others equals danger, triggering a threat response when you consider saying no. This is reinforced by dopamine hits when others approve of you. Breaking the pattern requires tolerating temporary amygdala activation (the discomfort of disappointing someone) while building new neural pathways for values-aligned choices. Each boundary successfully set strengthens those pathways.",
+    whenToUse: [
+      "When you've agreed to something and immediately regretted it",
+      "Before committing to requests when your instinct is 'yes'",
+      "When resentment is building from over-giving",
+      "When you need to set a boundary but feel guilty",
+      "When you're exhausted from accommodating everyone",
+    ],
+    relatedSlugs: ["values-clarification", "self-compassion-break"],
+    faqs: [
+      {
+        q: "Is people-pleasing the same as being nice?",
+        a: "No. Kindness is a choice made freely. People-pleasing is a compulsion driven by fear of rejection or conflict. You can be genuinely kind while having boundaries — in fact, boundaries make your kindness genuine.",
+      },
+      {
+        q: "How do I handle the guilt when I say no?",
+        a: "Expect guilt — it doesn't mean you did something wrong. It means you're breaking a pattern. Sit with the guilt without acting on it. It peaks quickly and fades. Each time you tolerate it, it loses power.",
+      },
+      {
+        q: "What if people leave when I stop pleasing them?",
+        a: "Some might. Those people were relationships built on your compliance, not on who you actually are. It's painful, but it's also information: these weren't relationships that could hold your full self.",
+      },
+    ],
+    steps: [
+      {
+        title: "Catch the Automatic Yes",
+        instruction:
+          "What request are you facing right now — or what have you already agreed to that you want to revisit?",
+        type: "text-input",
+        placeholder: "The request or commitment I'm thinking about...",
+      },
+      {
+        title: "Pause",
+        instruction:
+          "Say: 'Let me check my schedule and get back to you.' You don't have to answer in the moment. Buying time is a complete sentence.",
+        type: "reflection",
+      },
+      {
+        title: "Check In With You",
+        instruction:
+          "If no one would be disappointed, what would you actually choose? Be honest — this is just between you and yourself.",
+        type: "text-input",
+        placeholder: "If no one would be upset, I would...",
+      },
+      {
+        title: "The Fear Underneath",
+        instruction:
+          "What are you afraid will happen if you say no? Name the specific fear.",
+        type: "choice",
+        options: [
+          "They'll be angry",
+          "They'll be disappointed",
+          "They'll think I'm selfish",
+          "They'll leave or reject me",
+          "I'll feel guilty",
+        ],
+      },
+      {
+        title: "Is This Fear True?",
+        instruction:
+          "Is it actually true that this person's reaction will be catastrophic? Or are you projecting past danger onto a present situation? What's most likely to happen?",
+        type: "reflection",
+      },
+      {
+        title: "Practice the Boundary",
+        instruction:
+          "Write out your no — direct, kind, guilt-free. 'No, I can't make that work.' 'I'm not able to help with that.' Keep it simple. You don't need to justify.",
+        type: "text-input",
+        placeholder: "My boundary statement...",
+      },
+    ],
+  },
+
+  // ─── 26. EMOTIONAL HANGOVER ─────────────────────────────────────────────
+  {
+    slug: "emotional-hangover",
+    title: "The Day After a Breakdown: What to Do When You're Emotionally Hungover",
+    metaTitle: "Emotional Hangover: How to Recover After a Breakdown",
+    metaDescription:
+      "Heavy, foggy, and fragile the day after an emotional breakdown? This protocol helps you recover with compassion, not self-judgment.",
+    keywords: "emotional hangover, after a breakdown, emotional crash recovery, emotional hangover symptoms",
+    subtitle: "For the heavy, fragile, foggy feeling after you've been through something",
+    time: "5 minutes",
+    modality: "Self-Compassion/Somatic",
+    origin:
+      "Combines self-compassion research with somatic nervous system recovery techniques.",
+    whatThisIs:
+      "You had a hard day. Maybe a panic attack, a crying spell, a rage episode, or just a day where everything was too much. Now it's the next day, and you feel like you've been hit by a truck — physically exhausted, emotionally raw, mentally foggy. This is an emotional hangover, and it's real.\n\nStrong emotions — anxiety, grief, rage — flood your body with stress hormones. Your muscles tense, your heart races, your nervous system mobilizes for threat. Afterward, your system needs to recover, and that recovery takes energy. It's not weakness; it's biology.\n\nThe problem is that most people respond to emotional hangovers with judgment ('Why can't I function?', 'I should be over this'), which just adds more stress. This protocol helps you treat yourself the way you'd treat a friend recovering from the flu — with patience, care, and realistic expectations.",
+    neuroscience:
+      "Intense emotional episodes flood the body with adrenaline and cortisol. These hormones break down into metabolites that must be cleared, which takes 24-48 hours. The 'hangover' feeling reflects this cleanup process plus depleted neurotransmitters. Self-criticism during recovery adds more cortisol, prolonging recovery. Self-compassion, on the other hand, releases oxytocin which counteracts stress hormones and speeds recovery.",
+    whenToUse: [
+      "The morning after a panic attack or breakdown",
+      "After an intensely emotional day",
+      "When you feel 'raw' and fragile",
+      "When your body feels heavy and tired",
+      "When your brain feels foggy after yesterday's emotions",
+    ],
+    relatedSlugs: ["self-compassion-break", "body-scan"],
+    faqs: [
+      {
+        q: "How long does an emotional hangover last?",
+        a: "Typically 24-48 hours, sometimes longer depending on the intensity of the emotional episode and individual factors. Pushing through it usually prolongs recovery.",
+      },
+      {
+        q: "Should I push through and function normally?",
+        a: "If you can take it easy, do. Your nervous system needs recovery time. If you have responsibilities, prioritize essentials and let go of non-essentials. Treating yourself like a sick person who must perform is rarely helpful.",
+      },
+      {
+        q: "What should I eat during an emotional hangover?",
+        a: "Your body needs replenishment: hydration, protein, and foods rich in B vitamins and magnesium. Avoid alcohol and excessive caffeine, which add stress to an already depleted system.",
+      },
+    ],
+    steps: [
+      {
+        title: "Name Where You Are",
+        instruction:
+          "Say: 'I'm in recovery. My nervous system is clearing yesterday's stress hormones. This takes time and that's okay.'",
+        type: "reflection",
+      },
+      {
+        title: "Lower Your Expectations",
+        instruction:
+          "Look at your to-do list. What can be postponed? What can be delegated? What can simply not happen today? Give yourself permission to run on low power mode.",
+        type: "text-input",
+        placeholder: "What I can let go of today...",
+      },
+      {
+        title: "Hydrate and Nourish",
+        instruction:
+          "Your body is clearing chemical byproducts. Drink water. Eat something. Give your system what it needs to do its cleanup work.",
+        type: "reflection",
+      },
+      {
+        title: "Gentle Movement Only",
+        instruction:
+          "Don't push. A short walk, gentle stretching, or just changing rooms. Movement helps process residual stress hormones without adding new stress.",
+        type: "timer",
+        duration: 60,
+      },
+      {
+        title: "Reframe Yesterday",
+        instruction:
+          "You had a hard day. You made it through. What would you say to a friend who went through what you went through? Say that to yourself.",
+        type: "text-input",
+        placeholder: "What I'd say to a friend...",
+      },
+      {
+        title: "Check In",
+        instruction:
+          "How are you feeling right now? Not how you 'should' be — how are you actually?",
+        type: "rating",
+        min: 1,
+        max: 10,
+      },
+    ],
+  },
+
+  // ─── 27. PERFECTIONISM ──────────────────────────────────────────────────
+  {
+    slug: "perfectionism",
+    title: "Nothing Is Ever Good Enough: Working Through Perfectionism",
+    metaTitle: "Perfectionism: How to Stop Setting Impossible Standards",
+    metaDescription:
+      "Trapped by impossible standards? This evidence-based protocol helps you understand perfectionism, challenge all-or-nothing thinking, and practice 'good enough.'",
+    keywords: "perfectionism, how to overcome perfectionism, perfectionist thinking, all or nothing thinking",
+    subtitle: "For when 99% right still feels like failure",
+    time: "6 minutes",
+    modality: "CBT",
+    origin:
+      "Based on CBT protocols for perfectionism, incorporating research on adaptive vs. maladaptive perfectionism.",
+    whatThisIs:
+      "It's never enough. No matter how well something goes, you see the flaw. The mistake. What you could have done better. Achievements don't register; failures echo. And so you procrastinate, because starting means the possibility of imperfection — and imperfection feels unbearable.\n\nPerfectionism isn't about high standards. High standards motivate. Perfectionism paralyzes. The difference is that perfectionism ties your worth to your output — if it's not perfect, you're not okay. This is exhausting and, ironically, makes you less effective because the fear of imperfection prevents the action that leads to competence.\n\nThis protocol helps you distinguish between healthy striving and toxic perfectionism, challenge the all-or-nothing thinking that makes everything feel like failure, and practice 'good enough' — which, it turns out, is often actually better than perfect because it gets done.",
+    neuroscience:
+      "Perfectionism correlates with heightened activity in error-monitoring brain circuits (anterior cingulate cortex) and reduced activity in reward circuits. The brain interprets 'not perfect' as 'error,' generating a continuous error signal. This creates chronic stress. All-or-nothing thinking is a cognitive distortion reinforced by neural pathways that don't recognize middle states. Practicing 'good enough' literally rewires these pathways, teaching the brain to recognize 'sufficient' as 'success.'",
+    whenToUse: [
+      "When you're procrastinating because you can't do it perfectly",
+      "When you can't enjoy achievements because you see only flaws",
+      "When 'good enough' feels like settling",
+      "When you're stuck tweaking something that's already fine",
+      "When comparison to an ideal makes you feel like a failure",
+    ],
+    relatedSlugs: ["cognitive-distortions", "self-compassion-break"],
+    faqs: [
+      {
+        q: "Is perfectionism the same as having high standards?",
+        a: "No. High standards are motivating and flexible. Perfectionism is rigid and paralyzing. You can want to do well without believing that anything less than perfect makes you worthless.",
+      },
+      {
+        q: "Will lowering my standards make me less successful?",
+        a: "Research shows the opposite. Perfectionism correlates with burnout, procrastination, and decreased performance over time. 'Good enough' allows for completion, iteration, and sustainable effort.",
+      },
+      {
+        q: "What if I'm in a field where perfection actually matters?",
+        a: "There's a difference between precision in high-stakes domains and perfectionism in all of life. A surgeon should be precise in surgery. That doesn't mean they need to send perfect emails or have a perfect home.",
+      },
+    ],
+    steps: [
+      {
+        title: "Name the Perfectionist Thought",
+        instruction:
+          "What's the situation? What's the perfect standard you're holding yourself to?",
+        type: "text-input",
+        placeholder: "I'm expecting myself to...",
+      },
+      {
+        title: "Is This Standard Realistic?",
+        instruction:
+          "Would you expect this from a friend? Would anyone reasonable expect this? Is this a standard that serves you or hurts you?",
+        type: "reflection",
+      },
+      {
+        title: "Find the Middle",
+        instruction:
+          "What would 'good enough' look like? Not perfect. Not terrible. A solid B+. Write it down.",
+        type: "text-input",
+        placeholder: "'Good enough' would be...",
+      },
+      {
+        title: "What's the Cost of Perfection?",
+        instruction:
+          "What are you losing while you aim for perfect? Time? Energy? The ability to finish? Your health? The cost is real.",
+        type: "reflection",
+      },
+      {
+        title: "Practice Good Enough",
+        instruction:
+          "Try this: set a timer for half the time you'd normally spend. Do it to 'good enough' standard. Let it be imperfect. Let it be done.",
+        type: "timer",
+        duration: 60,
+      },
+      {
+        title: "Notice",
+        instruction:
+          "Did the world end? Did you survive doing it imperfectly? Notice: good enough was enough.",
+        type: "rating",
+        min: 1,
+        max: 10,
+      },
+    ],
+  },
+
+  // ─── 28. REJECTION SENSITIVITY ───────────────────────────────────────────
+  {
+    slug: "rejection-sensitivity",
+    title: "When Rejection Hits Too Hard: Managing Rejection Sensitivity",
+    metaTitle: "Rejection Sensitivity: When No Feels Like Devastation",
+    metaDescription:
+      "Does rejection feel crushing? This evidence-based protocol helps you manage rejection sensitivity and respond to perceived rejection with resilience.",
+    keywords: "rejection sensitivity, RSD, fear of rejection, handling rejection",
+    subtitle: "For when 'no' feels like devastation and criticism feels like destruction",
+    time: "6 minutes",
+    modality: "CBT",
+    origin:
+      "Based on CBT protocols for rejection sensitivity, with relevance to Rejection Sensitive Dysphoria (RSD) often seen in ADHD.",
+    whatThisIs:
+      "Someone says 'no' — and it hits like a punch. A hint of criticism, and you're spiraling. Rejection hits you harder than it seems to hit others, and the pain is real, not dramatic. This is rejection sensitivity — and for some, it's called Rejection Sensitive Dysphoria (RSD).\n\nRejection sensitivity means your nervous system treats social rejection or perceived rejection as a genuine threat. A 'no' isn't just disappointment; it's a signal that you're wrong, unlovable, or in danger of being cast out. This can make you avoid relationships (too risky), over-perform to avoid rejection, or ruminate for days on the smallest interaction.\n\nThis protocol helps you distinguish between what was actually said (reality) and what your brain is interpreting (the rejection story). It won't make rejection pleasant, but it can reduce the devastation so you can recover faster and maintain your relationships and self-worth.",
+    neuroscience:
+      "Rejection sensitivity correlates with heightened amygdala response and stronger activation in pain-processing regions during social rejection. For people with RSD, the brain processes social rejection similarly to physical pain. This isn't weakness — it's neurology. Additionally, ADHD brains have less default dopamine, making rejection's dopamine drop more severe. CBT for rejection sensitivity works by retraining interpretation: catching the 'rejection story' your brain generates and checking it against evidence.",
+    whenToUse: [
+      "After getting a 'no' or perceived rejection",
+      "When you're replaying an interaction looking for rejection",
+      "When criticism feels like an attack on your character",
+      "When you're considering avoiding something to prevent possible rejection",
+      "When you're spiraling about what someone 'really meant'",
+    ],
+    relatedSlugs: ["cognitive-restructuring", "self-compassion-break"],
+    faqs: [
+      {
+        q: "Is rejection sensitivity the same as RSD?",
+        a: "RSD (Rejection Sensitive Dysphoria) is a term often used in the ADHD community to describe intense rejection pain. Rejection sensitivity is the broader concept. Not everyone with rejection sensitivity has ADHD, and not everyone with ADHD has RSD — but there's significant overlap.",
+      },
+      {
+        q: "Can rejection sensitivity be 'cured'?",
+        a: "It can be significantly reduced. CBT and awareness help you respond differently, which over time changes neural pathways. But many people with rejection sensitivity find that accepting their heightened sensitivity (and building skills around it) is more helpful than trying to eliminate it.",
+      },
+      {
+        q: "What if they actually ARE rejecting me?",
+        a: "Sometimes rejection is real. The technique doesn't deny that. It helps you see if rejection IS real, and if it is, respond with resilience rather than devastation. Real rejection hurts — but it doesn't have to mean you're worthless.",
+      },
+    ],
+    steps: [
+      {
+        title: "What Happened?",
+        instruction:
+          "What was the actual event? Not your interpretation — the facts. What was said or done?",
+        type: "text-input",
+        placeholder: "What actually happened was...",
+      },
+      {
+        title: "What's the Rejection Story?",
+        instruction:
+          "What is your brain telling you this means? 'They don't like me.' 'I'm annoying.' 'I messed up.' Write the story your mind generated.",
+        type: "text-input",
+        placeholder: "My brain is telling me...",
+      },
+      {
+        title: "Fact-Check the Story",
+        instruction:
+          "What evidence do you have FOR this rejection story? What evidence do you have AGAINST it? Be a scientist, not your own worst critic.",
+        type: "multi-input",
+        fields: [
+          "Evidence for rejection:",
+          "Evidence against rejection:",
+        ],
+      },
+      {
+        title: "The Most Likely Truth",
+        instruction:
+          "Setting aside both the worst interpretation and wishful thinking, what's most likely actually happening?",
+        type: "text-input",
+        placeholder: "What's most likely true is...",
+      },
+      {
+        title: "Even If...",
+        instruction:
+          "Even if there WAS rejection in this situation, what does it actually mean? Does one 'no' define you? Does this person's opinion determine your worth?",
+        type: "reflection",
+      },
+      {
+        title: "Self-Compassion Statement",
+        instruction:
+          "Say to yourself: 'It makes sense that this hurts. My sensitivity isn't weakness. I can feel this AND know I'm okay.'",
+        type: "reflection",
+      },
+    ],
+  },
+
+  // ─── 29. THOUGHT SPIRAL ──────────────────────────────────────────────────
+  {
+    slug: "thought-spiral",
+    title: "Breaking the Overthinking Loop: How to Stop a Thought Spiral",
+    metaTitle: "Thought Spirals: How to Stop Overthinking and Break the Loop",
+    metaDescription:
+      "Stuck in an overthinking loop? This evidence-based protocol helps you interrupt the spiral and redirect your mind. Based on CBT and mindfulness.",
+    keywords: "thought spiral, overthinking loop, how to stop overthinking, rumination",
+    subtitle: "For when your brain is spinning and won't stop",
+    time: "5 minutes",
+    modality: "CBT/Mindfulness",
+    origin:
+      "Combines CBT rumination protocols with mindfulness-based cognitive techniques for thought spirals.",
+    whatThisIs:
+      "It starts with one thought. Then another. Then another. Before you know it, you're 47 steps into a catastrophe that hasn't happened, replaying the same scenario, arguing with imaginary conversations, unable to find the exit. This is a thought spiral, and it feeds on itself.\n\nOverthinking isn't productive problem-solving. It's a loop. The more you think, the more problems you 'find,' and the more anxious you get, which makes thinking clearly harder, which feeds the spiral. It's exhausting, it's unproductive, and it feels impossible to stop.\n\nThis protocol interrupts the spiral using a combination of physical grounding (bringing you back to your body), cognitive anchoring (giving your mind something else to do), and evidence-checking (challenging the spiral's assumptions). You don't have to solve the problem to stop the spiral — sometimes you just need to get off the ride.",
+    neuroscience:
+      "Thought spirals happen when the default mode network (which generates rumination) gets stuck in repetitive loops, often triggered by the amygdala's threat signals. Each worry thought releases small amounts of cortisol, which keeps the spiral going. The prefrontal cortex becomes increasingly impaired by stress hormones, making rational thinking harder. The technique works by: activating sensory networks (which compete with default mode), giving the working memory a structured task (breaking the loop), and reducing sympathetic activation through breath.",
+    whenToUse: [
+      "When your mind is racing and won't stop",
+      "When you're catastrophizing future scenarios",
+      "When you've been thinking about the same thing for 30+ minutes",
+      "When you're stuck rehearsing conversations that haven't happened",
+      "When worry feels like it has momentum you can't halt",
+    ],
+    relatedSlugs: ["thought-defusion", "54321-grounding"],
+    faqs: [
+      {
+        q: "What's the difference between thinking and overthinking?",
+        a: "Productive thinking moves toward a decision or solution. Overthinking loops without resolution. If you've been thinking about the same thing for more than 20 minutes with no new insights, you're overthinking.",
+      },
+      {
+        q: "Is overthinking the same as anxiety?",
+        a: "Overthinking is often a symptom of anxiety, but they're not identical. You can overthink without an anxiety disorder, and anxiety can show up without spiraling thoughts. They often go together, though.",
+      },
+      {
+        q: "Why can't I just tell myself to stop?",
+        a: "Because 'don't think of a white bear' makes you think of white bears. Fighting the thought gives it more power. This technique redirects rather than suppresses — giving your brain something productive to do instead.",
+      },
+    ],
+    steps: [
+      {
+        title: "Catch It",
+        instruction:
+          "Notice: 'I'm in a thought spiral.' Naming it creates a tiny gap between you and the thoughts.",
+        type: "reflection",
+      },
+      {
+        title: "Physical Reset",
+        instruction:
+          "Stand up. Shake your body. Splash cold water on your face. Do something physical. The spiral lives in your head; get into your body.",
+        type: "timer",
+        duration: 30,
+      },
+      {
+        title: "5-4-3-2-1 Grounding",
+        instruction:
+          "Name 5 things you see, 4 things you touch, 3 things you hear. This forces your brain into sensory processing, which can't run the spiral at the same time.",
+        type: "reflection",
+      },
+      {
+        title: "Externalize It",
+        instruction:
+          "Write down the spiral. Don't edit — dump it out of your head and onto paper. Once it's external, it has less power.",
+        type: "text-input",
+        placeholder: "The spiral in my head is...",
+      },
+      {
+        title: "The One Thing",
+        instruction:
+          "Of everything your spiral is covering, what's the ONE actionable issue? Just one. Write it down. Everything else can wait.",
+        type: "text-input",
+        placeholder: "The ONE actionable issue is...",
+      },
+      {
+        title: "Breathe It Down",
+        instruction:
+          "Long slow exhales to signal safety to your nervous system. The spiral will try to start again. Let it pass and return to your breath.",
+        type: "breathing",
+        breathe: { inhale: 4, hold: 4, exhale: 8 },
+        duration: 32,
       },
     ],
   },

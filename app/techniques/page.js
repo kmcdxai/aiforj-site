@@ -5,14 +5,14 @@ import SiteFooter from "../components/SiteFooter";
 export const metadata = {
   title: "Evidence-Based Mental Health Techniques | AIForj",
   description:
-    "Explore 15 clinician-built, interactive mental health techniques. CBT, DBT, ACT, and more. Free guided exercises you can do right now. Built by a Board Certified PMHNP.",
+    "Explore 30 clinician-built, interactive mental health techniques. CBT, DBT, ACT, and more. Free guided exercises you can do right now. Built by a Board Certified PMHNP.",
   alternates: {
     canonical: "https://aiforj.com/techniques",
   },
   openGraph: {
     title: "Evidence-Based Mental Health Techniques | AIForj",
     description:
-      "15 interactive, clinician-built techniques for anxiety, stress, depression, and more. Free. Private. Science-backed.",
+      "30 interactive, clinician-built techniques for anxiety, stress, depression, and more. Free. Private. Science-backed.",
     url: "https://aiforj.com/techniques",
     siteName: "AIForj",
     type: "website",
@@ -21,7 +21,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Evidence-Based Mental Health Techniques | AIForj",
     description:
-      "15 interactive, clinician-built techniques for anxiety, stress, depression, and more. Free. Private.",
+      "30 interactive, clinician-built techniques for anxiety, stress, depression, and more. Free. Private.",
   },
 };
 
@@ -65,7 +65,7 @@ export default function TechniquesPage() {
               fontWeight: 400,
             }}
           >
-            15 evidence-based techniques you can do right now. Each one is
+            30 evidence-based techniques you can do right now. Each one is
             interactive — not just reading, but doing. Built by a Board
             Certified PMHNP.
           </p>
