@@ -8,6 +8,7 @@ const NAV_LINKS = [
   { href: "/blueprint", label: "Blueprint" },
   { href: "/techniques", label: "Techniques" },
   { href: "/garden", label: "Garden" },
+  { href: "/weather", label: "Weather" },
   { href: "/send", label: "Send Calm" },
   { href: "/tools", label: "Tools" },
 ];
