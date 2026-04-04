@@ -7,6 +7,7 @@ import SoundToggle from "./SoundToggle";
 const NAV_LINKS = [
   { href: "/blueprint", label: "Blueprint" },
   { href: "/techniques", label: "Techniques" },
+  { href: "/garden", label: "Garden" },
   { href: "/send", label: "Send Calm" },
   { href: "/tools", label: "Tools" },
 ];

@@ -765,19 +765,22 @@ export default function ForjVoiceCompanion() {
     // ── Emotional State Detection ──
     const detect = (terms) => terms.some(t => lower.includes(t));
 
-    const isAnxious = detect(["anxious", "anxiety", "worried", "worrying", "panic", "panicking", "nervous", "scared", "fear", "dread", "what if", "can't stop thinking", "racing thoughts", "overthinking", "overthink", "spiraling", "worst case"]);
-    const isSad = detect(["sad", "depressed", "depression", "crying", "hopeless", "empty", "grief", "grieving", "lost someone", "miss them", "heartbroken", "devastated", "pointless", "nothing matters"]);
-    const isAngry = detect(["angry", "furious", "rage", "pissed", "frustrated", "irritated", "mad at", "hate", "unfair", "resentment", "resentful", "livid"]);
-    const isLonely = detect(["lonely", "alone", "isolated", "no friends", "no one cares", "nobody", "disconnected", "don't belong", "left out", "abandoned"]);
-    const isNumb = detect(["numb", "nothing", "don't feel", "can't feel", "empty", "flat", "disconnected", "shutdown", "shut down", "dissociat", "checked out", "zombie"]);
-    const isOverwhelmed = detect(["overwhelmed", "too much", "can't handle", "drowning", "breaking", "falling apart", "can't cope", "everything at once", "so much to do", "can't keep up"]);
-    const isUnmotivated = detect(["unmotivated", "can't start", "no motivation", "no energy", "lazy", "procrastinat", "avoidin", "stuck", "can't do anything", "what's the point", "exhausted", "tired of trying", "burnt out", "burnout"]);
-    const isStressed = detect(["stressed", "stress", "pressure", "deadline", "tense", "tension", "tight", "clenching", "can't relax", "on edge"]);
+    const isAnxious = detect(["anxious", "anxiety", "worried", "worrying", "panic", "panicking", "nervous", "scared", "fear", "dread", "what if", "can't stop thinking", "racing thoughts", "overthinking", "overthink", "spiraling", "worst case", "freaking out", "on edge about", "terrified", "afraid", "uneasy", "restless", "mind won't stop", "keep thinking about", "can't get it out of my head"]);
+    const isSad = detect(["sad", "depressed", "depression", "crying", "hopeless", "empty", "grief", "grieving", "lost someone", "miss them", "heartbroken", "devastated", "pointless", "nothing matters", "so down", "feeling low", "blue", "miserable", "unhappy", "tearful", "heavy heart", "hurting inside", "in pain", "don't care anymore", "lost interest"]);
+    const isAngry = detect(["angry", "furious", "rage", "pissed", "frustrated", "irritated", "mad at", "hate", "unfair", "resentment", "resentful", "livid", "annoyed", "fed up", "sick of", "driving me crazy", "drives me crazy", "can't stand", "makes me so", "ticked off", "had enough", "losing my patience", "piss me off", "pisses me off"]);
+    const isLonely = detect(["lonely", "alone", "isolated", "no friends", "no one cares", "nobody", "disconnected", "don't belong", "left out", "abandoned", "no one to talk to", "no one understands", "by myself", "all alone", "miss having someone", "wish i had someone", "feel invisible"]);
+    const isNumb = detect(["numb", "don't feel anything", "can't feel", "feel nothing", "flat", "shutdown", "shut down", "dissociat", "checked out", "zombie", "going through the motions", "autopilot", "detached", "not here", "spaced out", "foggy"]);
+    const isOverwhelmed = detect(["overwhelmed", "too much", "can't handle", "drowning", "breaking", "falling apart", "can't cope", "everything at once", "so much to do", "can't keep up", "swamped", "buried", "in over my head", "everything is piling up", "about to snap", "can't do this", "how am i supposed to"]);
+    const isUnmotivated = detect(["unmotivated", "can't start", "no motivation", "no energy", "lazy", "procrastinat", "avoidin", "stuck", "can't do anything", "what's the point", "exhausted", "tired of trying", "burnt out", "burnout", "don't want to do anything", "don't want to get up", "can't be bothered", "nothing sounds good", "don't see the point", "going nowhere", "why bother", "dragging", "drained"]);
+    const isStressed = detect(["stressed", "stress", "pressure", "deadline", "tense", "tension", "tight", "clenching", "can't relax", "on edge", "work is killing me", "so much pressure", "pulled in every direction", "never enough time", "running out of time", "behind on everything", "too many things"]);
     const isTrauma = detect(["trauma", "ptsd", "flashback", "nightmare", "triggered", "abuse", "abused", "assault", "attacked", "accident", "haunted by"]);
-    const isRelationship = detect(["partner", "boyfriend", "girlfriend", "husband", "wife", "spouse", "relationship", "breakup", "broke up", "divorce", "cheated", "argument with", "fight with", "my ex"]);
-    const isSelfWorth = detect(["not good enough", "worthless", "failure", "loser", "hate myself", "ugly", "stupid", "imposter", "fraud", "don't deserve", "broken"]);
-    const isFine = detect(["i'm good", "i'm fine", "i'm okay", "doing well", "pretty good", "not bad", "great actually"]);
+    const isRelationship = detect(["partner", "boyfriend", "girlfriend", "husband", "wife", "spouse", "relationship", "breakup", "broke up", "divorce", "cheated", "argument with", "fight with", "my ex", "my mom", "my dad", "my parent", "my family", "my friend", "my boss", "coworker", "roommate", "they said", "they don't", "they never", "they always"]);
+    const isSelfWorth = detect(["not good enough", "worthless", "failure", "loser", "hate myself", "ugly", "stupid", "imposter", "fraud", "don't deserve", "broken", "piece of shit", "i suck", "i'm the worst", "no one likes me", "i'm a mess", "what's wrong with me", "i can't do anything right", "embarrassed", "ashamed", "shame"]);
+    const isSleep = detect(["can't sleep", "insomnia", "awake", "3am", "middle of the night", "tossing and turning", "mind racing at night", "lying awake", "sleep", "tired but wired", "keep waking up", "bad dreams"]);
+    const isWork = detect(["work", "job", "career", "boss", "coworker", "office", "meeting", "promotion", "fired", "laid off", "quit", "toxic workplace", "micromanag", "underpaid", "overwork"]);
+    const isFine = detect(["i'm good", "i'm fine", "i'm okay", "doing well", "pretty good", "not bad", "great actually", "i'm alright", "can't complain"]);
     const isGratitude = detect(["grateful", "thankful", "appreciate", "blessed", "fortunate"]);
+    const isGenerallyBad = detect(["bad day", "rough day", "terrible day", "hard day", "tough day", "not great", "not okay", "not doing well", "things suck", "everything sucks", "life sucks", "it sucks", "feel like crap", "feel like shit", "off today", "feel off", "just not right", "something's wrong", "don't feel good", "struggling", "having a hard time", "going through a lot", "it's been rough", "i'm not ok", "things aren't good", "messed up", "crappy", "awful", "horrible", "worst"]);
 
     // ── Check for questions directed at Forj ──
     const isAskingAdvice = detect(["what should i", "what do i do", "how do i", "can you help", "any advice", "what would you"]);
@@ -934,11 +937,42 @@ export default function ForjVoiceCompanion() {
       return swOpts[Math.floor(Math.random() * swOpts.length)];
     }
 
+    // SLEEP / INSOMNIA → MBSR + Polyvagal
+    if (isSleep && !isAnxious && !isSad) {
+      const sleepOpts = [
+        "When your mind won't let you rest, it's usually because your nervous system is still in 'alert mode.' Try this: breathe in for 4, out for 8. That extended exhale activates your vagus nerve and signals safety. What's the thought that keeps pulling you back awake?",
+        "Sleep problems are almost always a signal — not the problem itself. Something is keeping your brain on alert. What's the thing your mind goes to the moment it gets quiet?",
+        userQuote ? `"${userQuote}" — your body wants to rest, but your mind hasn't gotten the memo that it's safe to let go. Before we address what's keeping you up, try the 4-7-8 technique: breathe in for 4, hold for 7, exhale for 8. It activates your parasympathetic nervous system.` : "Night is when the mind replays everything we avoided during the day. What surfaces for you when the noise stops?",
+      ];
+      return sleepOpts[Math.floor(Math.random() * sleepOpts.length)];
+    }
+
+    // WORK STRESS → ACT + Boundaries
+    if (isWork && !isAngry && !isOverwhelmed) {
+      const workOpts = [
+        userQuote ? `"${userQuote}" — work has a way of becoming our whole identity if we let it. Let's separate you from the role for a moment. Outside of work, what matters to you? That's your anchor.` : "Work stress often comes from a gap between what you value and what's demanded of you. What feels most out of alignment right now?",
+        "Before we problem-solve, I want to check in: is this a situation you can change, a situation you need to accept, or a situation you need to leave? Being honest about which one it is changes everything.",
+        "Your job takes your time and energy — it doesn't get to take your peace. What boundary, if you could set it freely, would make the biggest difference?",
+      ];
+      return workOpts[Math.floor(Math.random() * workOpts.length)];
+    }
+
     // ASKING FOR ADVICE → Solution-Focused
     if (isAskingAdvice) {
       return userQuote
         ? `Here's what I notice: you already have more clarity than you think. You said "${userQuote}" — there's wisdom in that. If you woke up tomorrow and this problem was somehow resolved, what's the first thing you'd notice that was different about your day?`
         : "Before I offer anything, I want to hear your instinct. If you trusted yourself completely right now — what would you do? Sometimes the answer is already there; it just needs permission.";
+    }
+
+    // GENERALLY BAD / VAGUE DISTRESS → Warm validation + gentle exploration
+    if (isGenerallyBad) {
+      const badOpts = [
+        userQuote ? `"${userQuote}" — I hear you. You don't need to have the perfect words for it. Sometimes things just feel heavy, and naming it as 'hard' is enough. What's weighing on you the most right now?` : "That sounds like a rough stretch. You showed up here, and that matters. What's been the hardest part?",
+        "When things feel generally bad, it's often because several small things stacked up. Can you identify the one thing that, if it improved, would lighten the load the most?",
+        "I'm glad you said something instead of pushing through it. Not everything needs to be 'fine.' On a scale of 1-10, where are you right now — and where do you wish you were?",
+        userQuote ? `"${userQuote}" — your honesty right there takes more strength than pretending everything's okay. What happened? I'm here for all of it.` : "Bad days are real, and they're allowed. You don't have to power through this one. What would feel even a little bit supportive right now?",
+      ];
+      return badOpts[Math.floor(Math.random() * badOpts.length)];
     }
 
     // VENTING (long message, not asking for help) → Reflective Listening
@@ -948,12 +982,25 @@ export default function ForjVoiceCompanion() {
         : "That's a lot. I'm not going to rush to fix anything — sometimes you just need to be heard. What feels most important about what you just shared?";
     }
 
-    // GENERIC / UNDETECTED → Warm engagement + Socratic questioning
+    // CONVERSATIONAL FOLLOW-UP — user is responding to something Forj asked
+    const lastAiMsg = prevMsgs.length > 0 ? prevMsgs[prevMsgs.length - 1] : "";
+    const isFollowUp = lastAiMsg && (lastAiMsg.includes("?") || prevMsgs.length > 1);
+    if (isFollowUp && lower.length > 5 && lower.length < 200) {
+      const followOpts = [
+        userQuote ? `"${userQuote}" — thank you for sharing that. That tells me a lot about where you are right now. What does that feel like in your body — is there tension, heaviness, or something else?` : "Thank you for being honest about that. What you're describing sounds like it really matters to you. What would it look like if things shifted, even a little?",
+        userQuote ? `"${userQuote}" — I notice real emotion in that. In therapy, we'd say that's important data. Your feelings are pointing you toward something. What do you think they're trying to tell you?` : "I appreciate you going deeper there. The fact that you can name it means you're already processing it. What would the wisest version of you say about this?",
+        "That's a meaningful thing to share. Let's sit with it for a second — what comes up when you hear yourself say that out loud?",
+        userQuote ? `You said "${userQuote}" — and I want to reflect something back. The way you described that shows real self-awareness. That's not nothing. What feels like the most important part of what you just said?` : "I hear you. Based on everything you've shared, it sounds like there's a real need underneath this — maybe for safety, control, connection, or validation. Which of those resonates?",
+      ];
+      return followOpts[Math.floor(Math.random() * followOpts.length)];
+    }
+
+    // GENERIC / UNDETECTED → Substantive therapeutic engagement
     const genericOpts = [
-      "Tell me more about that. What's the feeling underneath the words?",
-      userQuote ? `"${userQuote}" — I want to understand that more deeply. What does that mean to you, specifically?` : "I'm here. Can you help me understand what's going on a little more? There's no wrong way to say it.",
-      "What you just shared matters. What comes up for you when you sit with that?",
+      userQuote ? `"${userQuote}" — I want to understand that more deeply. What does that mean to you, specifically?` : "I'm here. Whatever you're carrying right now — I'd like to understand it. What feels most present for you?",
+      "What you just shared matters. Something brought you here right now. What's the feeling underneath the surface, if you let yourself name it?",
       "I'm listening. What do you need most right now — to be heard, to get a different perspective, or to figure out a next step?",
+      userQuote ? `"${userQuote}" — there's something important in what you just said. Can you say more about what that means to you? I want to make sure I understand.` : "I want to make sure I really hear you. Can you paint me a picture of what's going on? Not just the facts, but how it's landing in you.",
     ];
     return genericOpts[Math.floor(Math.random() * genericOpts.length)];
   }
