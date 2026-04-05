@@ -228,4 +228,40 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://aiforj.com/archetypes/sentinel</loc>
+    <lastmod>2026-04-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://aiforj.com/archetypes/empath</loc>
+    <lastmod>2026-04-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://aiforj.com/archetypes/architect</loc>
+    <lastmod>2026-04-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://aiforj.com/archetypes/phoenix</loc>
+    <lastmod>2026-04-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://aiforj.com/archetypes/storm</loc>
+    <lastmod>2026-04-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://aiforj.com/archetypes/ghost</loc>
+    <lastmod>2026-04-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
 </urlset>
