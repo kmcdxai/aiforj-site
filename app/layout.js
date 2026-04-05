@@ -3,6 +3,7 @@ import ThemeProvider from './components/ThemeProvider';
 import BiophilicBackground from './components/BiophilicBackground';
 import Navigation from './components/Navigation';
 import SOS from './components/SOS';
+import SEO from './components/SEO';
 
 export const metadata = {
   title: 'AIForj — Talk to Forj | Voice AI Therapeutic Companion',
@@ -40,6 +41,7 @@ export default function RootLayout({ children }) {
           gtag('config', 'G-2VSX5RJH0J');
         `}} />
         {/* Prevent flash of wrong theme */}
+        <SEO />
         <script dangerouslySetInnerHTML={{ __html: `
           (function() {
             try {
