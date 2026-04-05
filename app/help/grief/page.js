@@ -1,4 +1,3 @@
-import Navigation from "../../components/Navigation";
 import BiophilicBackground from "../../components/BiophilicBackground";
 import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
@@ -20,7 +19,6 @@ export default function Page() {
   return (
     <>
       <BiophilicBackground />
-      <Navigation />
       <SOS />
 
       <main style={{ maxWidth: 780, margin: "84px auto 40px", padding: "0 20px" }}>
