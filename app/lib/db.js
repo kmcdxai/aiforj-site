@@ -7,7 +7,7 @@
 */
 
 const DB_NAME = "aiforj";
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 const STORES = {
   sessions: "sessions",         // { id, timestamp, emotion, pathway, duration, completedSteps, techniqueUsed }
@@ -15,6 +15,7 @@ const STORES = {
   blueprints: "blueprints",     // { id, timestamp, archetype, dimensionScores }
   streaks: "streaks",           // { key, lastSessionDate, currentStreak, longestStreak }
   preferences: "preferences",  // { key, value } — darkMode, soundEnabled, name
+  weeklyInsights: "weeklyInsights", // { id, timestamp, title, insight, meta }
 };
 
 function openDB() {
@@ -47,6 +48,11 @@ function openDB() {
       if (!db.objectStoreNames.contains(STORES.preferences)) {
         db.createObjectStore(STORES.preferences, { keyPath: "key" });
       }
+      
+          if (!db.objectStoreNames.contains(STORES.weeklyInsights)) {
+            const w = db.createObjectStore(STORES.weeklyInsights, { keyPath: "id" });
+            w.createIndex("timestamp", "timestamp");
+          }
     };
 
     request.onsuccess = () => resolve(request.result);
@@ -164,6 +170,28 @@ export async function saveBlueprint({ archetype, dimensionScores }) {
 export async function getBlueprints() {
   const blueprints = await getAll(STORES.blueprints);
   return blueprints.sort((a, b) => b.timestamp - a.timestamp);
+}
+
+// ── Weekly Insights ──
+export async function saveWeeklyInsight({ title, insight, meta }) {
+  const record = {
+    id: generateId(),
+    timestamp: Date.now(),
+    title: title || "Weekly Insight",
+    insight,
+    meta: meta || {},
+  };
+  return put(STORES.weeklyInsights, record);
+}
+
+export async function getWeeklyInsights() {
+  const items = await getAll(STORES.weeklyInsights);
+  return items.sort((a, b) => b.timestamp - a.timestamp);
+}
+
+export async function getLatestWeeklyInsight() {
+  const all = await getWeeklyInsights();
+  return all.length ? all[0] : null;
 }
 
 // ── Streaks ──
