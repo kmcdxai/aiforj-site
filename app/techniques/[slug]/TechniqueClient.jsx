@@ -5,7 +5,7 @@ import Link from "next/link";
 import EmailCapture from "../../components/EmailCapture";
 import ShareResultCard from "../../components/ShareResultCard";
 import SiteFooter from "../../components/SiteFooter";
-import { getArchetypeForTechnique } from "./archetypeMap";
+import { getArchetypeForTechnique } from "../archetypeMap";
 
 const ACCENT = "var(--accent-sage)";
 const BG = "var(--bg-primary)";
