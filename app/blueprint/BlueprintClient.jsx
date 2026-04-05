@@ -576,6 +576,9 @@ export default function BlueprintClient() {
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, lineHeight: 1.75, color: "var(--text-primary)", margin: "0 0 28px", textAlign: "center" }}>
               {arch.description}
             </p>
+            <div style={{ textAlign: 'center', marginBottom: 18 }}>
+              <a href={`/archetypes/${result.archetype}`} style={{ fontWeight: 600, color: arch.colors.primary, textDecoration: 'none' }}>Learn more about your archetype →</a>
+            </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 8 }}>
               {[
