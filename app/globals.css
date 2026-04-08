@@ -1,109 +1,205 @@
 /* ═══════════════════════════════════════════════════════════════
-   AIForj Design System
+   AIForj Comprehensive Design System
+   Color Psychology • Biophilic Design • Cognitive Load Research
    Research-grounded therapeutic UI — Manchester Color Wheel,
-   Goldstein 1942, Elliot 2015, Yin et al. 2018, Gapsy Studio 2026
+   Goldstein 1942, Elliot 2015, Yin et al. 2018
    ═══════════════════════════════════════════════════════════════ */
 
-/* ── 1. Color Palette ── */
+/* ── 1. COLOR PALETTE — Parchment-Based Foundation ── */
 :root {
-  /* Backgrounds */
-  --bg-primary: #FDFAF6;
-  --bg-secondary: #F5EFE7;
+  /* ── Parchment Base (Backgrounds) ── */
+  --parchment: #FAF6F0;
+  --parchment-deep: #F0E8DA;
+  --bg-primary: var(--parchment);
+  --bg-secondary: var(--parchment-deep);
   --surface: #FAF7F2;
   --surface-elevated: #FFFFFF;
 
-  /* Text */
-  --text-primary: #2D2A26;
-  --text-secondary: #6B6560;
-  --text-muted: #9B9590;
+  /* ── Ink (Typography) ── */
+  --ink: #2C2520;
+  --ink-soft: #5C534A;
+  --ink-muted: #8A8078;
+  --text-primary: var(--ink);
+  --text-secondary: var(--ink-soft);
+  --text-muted: var(--ink-muted);
 
-  /* Accent — therapeutic sage */
+  /* ── Primary Therapeutic Palette ── */
+  /* Sage — Growth, Calm, Nature */
+  --sage: #7A9E7E;
+  --sage-light: #E8F0E8;
+  --sage-deep: #4A7A50;
+
+  /* Clay — Warmth, Grounding, Body */
+  --clay: #C4856C;
+  --clay-light: #F5E0D8;
+  --clay-deep: #8B5F3D;
+
+  /* Lavender — Introspection, Depth */
+  --lavender: #9B8EC4;
+  --lavender-light: #EDE8F5;
+  --lavender-deep: #6B5C8F;
+
+  /* Ocean — Clarity, Thinking */
+  --ocean: #6B98B8;
+  --ocean-light: #E0EDF5;
+  --ocean-deep: #3D6A8F;
+
+  /* Amber — Energy, Action, Premium */
+  --amber: #D4A843;
+  --amber-light: #FBF3DC;
+  --amber-deep: #A68020;
+
+  /* Rose — Compassion, Heart */
+  --rose: #C47A8A;
+  --rose-light: #F5E0E5;
+  --rose-deep: #8F4A5C;
+
+  /* ── Accent Compatibility (Legacy) ── */
   --accent-sage: #7D9B82;
   --accent-sage-light: #E8F0E9;
   --accent-sage-rgb: 125, 155, 130;
-
-  /* Accent — warm amber */
   --accent-warm: #C4956A;
   --accent-warm-light: #F5EBE0;
-
-  /* Accent — depth & empathy */
   --accent-teal: #6B9B9E;
   --accent-rose: #C49B9B;
 
-  /* Interactive states */
-  --interactive: #7D9B82;
+  /* ── Interactive States ── */
+  --interactive: #7A9E7E;
   --interactive-hover: #6B8B72;
   --interactive-pressed: #5A7A62;
 
-  /* Crisis — urgent but NOT alarming */
+  /* ── Functional Colors ── */
+  --success: #5B9A65;
+  --warning: #D4A843;
+  --error: #C45B5B;
   --crisis: #B8860B;
 
-  /* Garden / progress */
-  --garden-growth: #8BAE8B;
-  --garden-bloom: #D4A98E;
+  /* ── Border & Dividers ── */
+  --border: rgba(44, 37, 32, 0.08);
 
-  /* Shadows — warm, never cold */
-  --shadow-sm: 0 1px 3px rgba(45, 42, 38, 0.04), 0 0 1px rgba(45, 42, 38, 0.08);
-  --shadow-md: 0 2px 8px rgba(45, 42, 38, 0.06), 0 0 1px rgba(45, 42, 38, 0.1);
-  --shadow-lg: 0 4px 16px rgba(45, 42, 38, 0.08), 0 0 1px rgba(45, 42, 38, 0.1);
-  --shadow-xl: 0 8px 32px rgba(45, 42, 38, 0.1), 0 0 1px rgba(45, 42, 38, 0.1);
+  /* ── Shadows — Warm, Never Cold ── */
+  --shadow-sm: 0 1px 3px rgba(44, 37, 32, 0.06);
+  --shadow-md: 0 4px 16px rgba(44, 37, 32, 0.08);
+  --shadow-lg: 0 8px 32px rgba(44, 37, 32, 0.10);
 
-  /* Spatial */
+  /* ── Spatial & Layout ── */
   --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-lg: 24px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* ── Spacing System (4px base) ── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 64px;
+  --space-11: 80px;
+  --space-12: 96px;
+
+  /* ── Layout Containers ── */
   --max-text: 680px;
   --max-layout: 1080px;
+  --container-wide: 1100px;
 
-  /* Motion */
+  /* ── Motion & Animation ── */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
   --duration-fast: 150ms;
   --duration-default: 300ms;
   --duration-slow: 500ms;
 
-  /* Typography sizes */
+  /* ── Typography Scale (with Fraunces & DM Sans) ── */
+  --font-h1: clamp(32px, 5vw, 48px);
+  --font-h2: clamp(24px, 3.5vw, 32px);
+  --font-h3: 20px;
+  --font-body: 16px;
+  --font-body-sm: 14px;
+  --font-caption: 12px;
+  --font-label: 12px;
+
+  /* ── Legacy Sizes (Compatibility) ── */
   --font-hero: clamp(2.5rem, 5vw, 4rem);
-  --font-h1: clamp(2rem, 4vw, 3rem);
-  --font-h2: clamp(1.5rem, 3vw, 2.25rem);
-  --font-h3: clamp(1.25rem, 2.5vw, 1.75rem);
-  --font-body: 1.0625rem;
+  --font-h1-legacy: clamp(2rem, 4vw, 3rem);
+  --font-h2-legacy: clamp(1.5rem, 3vw, 2.25rem);
+  --font-h3-legacy: clamp(1.25rem, 2.5vw, 1.75rem);
   --font-small: 0.875rem;
 }
 
 /* ── Dark / Night Mode (warm, blue-light-reduced) ── */
 [data-theme="dark"] {
-  --bg-primary: #1A1814;
-  --bg-secondary: #242018;
+  /* Backgrounds */
+  --parchment: #1A1816;
+  --parchment-deep: #242220;
+  --bg-primary: #1A1816;
+  --bg-secondary: #242220;
   --surface: #2A251E;
   --surface-elevated: #322C24;
 
-  --text-primary: #E8E0D4;
+  /* Text */
+  --ink: #E8E0D8;
+  --ink-soft: #B8AFA6;
+  --ink-muted: #8A8078;
+  --text-primary: #E8E0D8;
   --text-secondary: #B8AFA4;
   --text-muted: #8A8178;
 
+  /* Primary Therapeutic Palette (adjusted for dark) */
+  --sage: #9BB89E;
+  --sage-light: rgba(155, 184, 158, 0.12);
+  --sage-deep: #7A9A7F;
+
+  --clay: #D4A87A;
+  --clay-light: rgba(212, 168, 122, 0.12);
+  --clay-deep: #A68050;
+
+  --lavender: #B8A8D4;
+  --lavender-light: rgba(184, 168, 212, 0.12);
+  --lavender-deep: #8B7CAF;
+
+  --ocean: #8BB8D4;
+  --ocean-light: rgba(139, 184, 212, 0.12);
+  --ocean-deep: #5A8FB8;
+
+  --amber: #E8B857;
+  --amber-light: rgba(232, 184, 87, 0.12);
+  --amber-deep: #B89040;
+
+  --rose: #D4989C;
+  --rose-light: rgba(212, 152, 156, 0.12);
+  --rose-deep: #A8687F;
+
+  /* Legacy accent compatibility */
   --accent-sage: #9BB89E;
   --accent-sage-light: rgba(155, 184, 158, 0.12);
   --accent-sage-rgb: 155, 184, 158;
-
   --accent-warm: #D4A87A;
   --accent-warm-light: rgba(212, 168, 122, 0.1);
-
   --accent-teal: #8BB8BB;
   --accent-rose: #D4ABAB;
 
+  /* Interactive states */
   --interactive: #9BB89E;
   --interactive-hover: #AECAB0;
   --interactive-pressed: #8BAE8E;
 
+  /* Functional */
+  --success: #7AB87A;
+  --warning: #E8B857;
+  --error: #E87878;
   --crisis: #D4A020;
 
-  --garden-growth: #9BB89E;
-  --garden-bloom: #D4A98E;
-
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 1px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.25), 0 0 1px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 1px rgba(0, 0, 0, 0.3);
-  --shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.35), 0 0 1px rgba(0, 0, 0, 0.3);
+  /* Border & Shadows */
+  --border: rgba(232, 224, 216, 0.08);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 
@@ -134,39 +230,59 @@ body {
 }
 
 
-/* ── 3. Typography ── */
+/* ── 3. Typography System ── */
 h1, h2, h3, h4, .font-display {
   font-family: 'Fraunces', serif;
   font-optical-sizing: auto;
-  line-height: 1.25;
+  line-height: 1.2;
   color: var(--text-primary);
 }
 
 h1 {
   font-size: var(--font-h1);
-  font-weight: 500;
+  font-weight: 700;
+  line-height: 1.15;
 }
 
 h2 {
   font-size: var(--font-h2);
-  font-weight: 500;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
 h3 {
   font-size: var(--font-h3);
-  font-weight: 400;
+  font-weight: 500;
+  line-height: 1.3;
 }
 
-.text-hero {
+/* Display / Hero */
+.text-hero, .text-display {
   font-family: 'Fraunces', serif;
-  font-size: var(--font-hero);
-  font-weight: 600;
+  font-size: var(--font-h1);
+  font-weight: 700;
   line-height: 1.15;
 }
 
+/* Body text */
+body, p {
+  font-family: 'DM Sans', sans-serif;
+  font-size: var(--font-body);
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+.text-body { font-size: var(--font-body); }
+.text-body-sm { font-size: var(--font-body-sm); line-height: 1.6; }
+.text-caption { font-size: var(--font-caption); letter-spacing: 0.02em; }
+.text-label { font-size: var(--font-label); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+.text-mono { font-family: 'JetBrains Mono', monospace; }
+
+/* Color utilities */
 .text-secondary { color: var(--text-secondary); }
 .text-muted { color: var(--text-muted); }
-.text-accent { color: var(--accent-sage); }
+.text-accent { color: var(--sage); }
+.text-white { color: #FFFFFF; }
 
 p {
   max-width: var(--max-text);
@@ -183,7 +299,7 @@ a:hover {
 }
 
 small {
-  font-size: var(--font-small);
+  font-size: var(--font-body-sm);
 }
 
 
@@ -315,8 +431,8 @@ textarea {
 }
 
 input:focus, textarea:focus {
-  border-color: var(--accent-sage);
-  box-shadow: 0 0 0 3px rgba(var(--accent-sage-rgb), 0.12);
+  border-color: var(--sage);
+  box-shadow: 0 0 0 3px rgba(122, 158, 126, 0.12);
 }
 
 [data-theme="dark"] input,
@@ -324,8 +440,404 @@ input:focus, textarea:focus {
   border-color: rgba(232, 224, 212, 0.1);
 }
 
+/* ── 8. Input Component ── */
+.input {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  transition: border-color var(--duration-default) var(--ease-out),
+              box-shadow var(--duration-default) var(--ease-out);
+}
 
-/* ── 8. Motion & Animation ── */
+.input::placeholder {
+  color: var(--ink-muted);
+}
+
+.input:focus {
+  border-color: var(--sage);
+  box-shadow: 0 0 0 3px var(--sage-light);
+}
+
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── 9. Textarea Component ── */
+.textarea {
+  display: block;
+  width: 100%;
+  min-height: 120px;
+  padding: 12px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  resize: vertical;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  transition: border-color var(--duration-default) var(--ease-out),
+              box-shadow var(--duration-default) var(--ease-out);
+}
+
+.textarea::placeholder {
+  color: var(--ink-muted);
+}
+
+.textarea:focus {
+  border-color: var(--sage);
+  box-shadow: 0 0 0 3px var(--sage-light);
+}
+
+/* ── 10. Tags & Badges ── */
+.tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  transition: all var(--duration-default) var(--ease-out);
+}
+
+/* Modality tags */
+.tag-cbt { background: var(--ocean-light); color: var(--ocean-deep); }
+.tag-dbt { background: var(--lavender-light); color: var(--lavender-deep); }
+.tag-act { background: var(--sage-light); color: var(--sage-deep); }
+.tag-somatic { background: var(--clay-light); color: var(--clay-deep); }
+.tag-behavioral { background: var(--amber-light); color: var(--amber-deep); }
+.tag-psychoed { background: var(--rose-light); color: var(--rose-deep); }
+
+/* Tier tags */
+.tag-free { background: var(--sage-light); color: var(--sage-deep); }
+.tag-premium { background: var(--amber-light); color: var(--amber-deep); }
+.tag-viral { background: rgba(196, 91, 91, 0.12); color: #8F3F3F; }
+
+.tag:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── 11. Slider / Range Input ── */
+.slider {
+  width: 100%;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--parchment-deep);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  background: var(--sage-deep);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--duration-default) var(--ease-out);
+}
+
+.slider::-webkit-slider-thumb:hover {
+  background: var(--sage);
+  box-shadow: var(--shadow-md);
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  background: var(--sage-deep);
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--duration-default) var(--ease-out);
+}
+
+.slider::-moz-range-thumb:hover {
+  background: var(--sage);
+  box-shadow: var(--shadow-md);
+}
+
+.slider::-moz-range-track {
+  background: transparent;
+  border: none;
+}
+
+/* ── 12. Progress Bar ── */
+.progress {
+  width: 100%;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--parchment-deep);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--sage);
+  border-radius: var(--radius-full);
+  transition: width var(--duration-slow) var(--ease-out);
+}
+
+/* ── 13. Emotion Card ── */
+.emotion-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  height: 140px;
+  border: 2px solid transparent;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  padding: var(--space-4);
+  cursor: pointer;
+  text-align: center;
+  transition: all var(--duration-default) var(--ease-out);
+}
+
+.emotion-card__emoji {
+  font-size: 32px;
+  margin-bottom: var(--space-2);
+}
+
+.emotion-card__label {
+  font-size: 14px;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+
+.emotion-card:hover {
+  border-color: var(--sage-light);
+  box-shadow: var(--shadow-md);
+}
+
+.emotion-card.selected {
+  border-color: var(--sage);
+  background: var(--sage-light);
+}
+
+.emotion-card.selected .emotion-card__label {
+  color: var(--sage-deep);
+  font-weight: 600;
+}
+
+/* ── 14. Modal / Dialog ── */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  animation: fadeIn var(--duration-default) var(--ease-out);
+}
+
+.modal-content {
+  background: var(--surface-elevated);
+  border-radius: var(--radius-xl);
+  max-width: 520px;
+  width: 90%;
+  padding: 32px;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp var(--duration-default) var(--ease-out);
+}
+
+.modal-header {
+  font-size: var(--font-h2);
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+}
+
+.modal-body {
+  margin-bottom: var(--space-6);
+}
+
+.modal-footer {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: flex-end;
+}
+
+/* ── 15. Containers ── */
+.container {
+  width: 100%;
+  max-width: var(--max-layout);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.container-wide {
+  width: 100%;
+  max-width: var(--container-wide);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.container-text {
+  width: 100%;
+  max-width: var(--max-text);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+/* Spacing utilities */
+.section-gap { margin-bottom: 4rem; }
+.block-gap { margin-bottom: 2rem; }
+
+
+/* ── 16. Motion & Animation ── */
+
+/* Fade in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade in up */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scale in */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Slide in right */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Slide in left */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Slide up (for modals) */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Breathing animation — for ambient elements */
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+}
+
+/* Gentle pulse — for loading states  */
+@keyframes pulseGentle {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Page entry */
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Utility animation classes */
+.fade-in {
+  animation: fadeIn 400ms var(--ease-out) forwards;
+}
+
+.fade-in-up {
+  animation: fadeInUp 500ms var(--ease-out) forwards;
+}
+
+.scale-in {
+  animation: scaleIn 300ms var(--ease-out) forwards;
+}
+
+.slide-in-right {
+  animation: slideInRight 400ms var(--ease-out) forwards;
+}
+
+.breathe {
+  animation: breathe 4s var(--ease-in-out) infinite;
+}
+
+.pulse-gentle {
+  animation: pulseGentle 2s var(--ease-in-out) infinite;
+}
+
+.page-enter {
+  animation: pageEnter 200ms var(--ease-out) forwards;
+}
 
 /* Scroll reveal */
 .reveal {
@@ -357,52 +869,6 @@ input:focus, textarea:focus {
 .stagger.revealed > *:nth-child(7), .revealed .stagger > *:nth-child(7) { transition-delay: 360ms; opacity: 1; transform: translateY(0); }
 .stagger.revealed > *:nth-child(8), .revealed .stagger > *:nth-child(8) { transition-delay: 420ms; opacity: 1; transform: translateY(0); }
 
-/* Blueprint slide transitions */
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(40px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-@keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-40px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-/* Page enter */
-@keyframes pageEnter {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.page-enter {
-  animation: pageEnter 200ms var(--ease-out) forwards;
-}
-
-/* Breathing animation — matches box breathing 4s in / 4s out */
-@keyframes breathe {
-  0%, 100% { transform: scale(1); opacity: 0.7; }
-  50% { transform: scale(1.08); opacity: 1; }
-}
-
-.breathe {
-  animation: breathe 8s ease-in-out infinite;
-}
-
-/* Gentle pulse for loading states — NOT a spinner */
-@keyframes gentlePulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.8; }
-}
-
-.pulse-loading {
-  animation: gentlePulse 2s ease-in-out infinite;
-}
-
 /* Reduced motion: respect user preference */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -416,49 +882,38 @@ input:focus, textarea:focus {
 }
 
 
-/* ── Focus States — Accessibility ── */
-*:focus-visible {
-  outline: 2px solid var(--interactive);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-button:focus-visible, a:focus-visible, input:focus-visible {
-  outline: 2px solid var(--interactive);
-  outline-offset: 2px;
-}
-
-/* ── 9. Grain Texture Overlay ── */
-.grain::after {
+/* ── 17. Texture Overlay — Parchment Aesthetic ── */
+body::before {
   content: '';
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   pointer-events: none;
-  z-index: 9999;
-  opacity: 0.015;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 256px 256px;
+  z-index: -1;
+  opacity: 0.025;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(125, 155, 130, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(212, 168, 122, 0.1) 0%, transparent 50%);
+  background-size: 1000px 1000px, 1200px 1200px;
 }
 
-
-/* ── 10. Biophilic Background Shapes ── */
-@keyframes biophilicFloat1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(5%, 3%) scale(1.02); }
-  50% { transform: translate(-3%, 6%) scale(0.98); }
-  75% { transform: translate(4%, -2%) scale(1.01); }
-}
-
-@keyframes biophilicFloat2 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(-4%, 5%) scale(1.03); }
-  66% { transform: translate(6%, -3%) scale(0.97); }
-}
-
-@keyframes biophilicFloat3 {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  50% { transform: translate(3%, -4%) rotate(3deg); }
+/* Subtle noise pattern (CSS-only) */
+@supports (background-blend-mode: multiply) {
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: -1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' result='noise'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' fill='rgba(0,0,0,0.015)'/%3E%3C/svg%3E");
+    background-size: 100px 100px;
+    opacity: 0.015;
+  }
 }
 
 
@@ -521,3 +976,75 @@ button:focus-visible, a:focus-visible, input:focus-visible {
 [data-theme="dark"]::-webkit-scrollbar-thumb:hover {
   background: rgba(232, 224, 212, 0.25);
 }
+
+
+/* ── 18. Focus States — Accessibility ── */
+*:focus-visible {
+  outline: 2px solid var(--interactive);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+button:focus-visible, a:focus-visible, input:focus-visible {
+  outline: 2px solid var(--interactive);
+  outline-offset: 2px;
+}
+
+
+/* ── 19. Biophilic Background Animations ── */
+@keyframes biophilicFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(5%, 3%) scale(1.02); }
+  50% { transform: translate(-3%, 6%) scale(0.98); }
+  75% { transform: translate(4%, -2%) scale(1.01); }
+}
+
+@keyframes biophilicFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-4%, 5%) scale(1.03); }
+  66% { transform: translate(6%, -3%) scale(0.97); }
+}
+
+@keyframes biophilicFloat3 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(3%, -4%) rotate(3deg); }
+}
+
+
+/* ── 20. Color Utilities for Accent Palette ── */
+
+/* Sage utilities */
+.bg-sage { background-color: var(--sage); }
+.bg-sage-light { background-color: var(--sage-light); }
+.text-sage { color: var(--sage); }
+.border-sage { border-color: var(--sage); }
+
+/* Clay utilities */
+.bg-clay { background-color: var(--clay); }
+.bg-clay-light { background-color: var(--clay-light); }
+.text-clay { color: var(--clay); }
+.border-clay { border-color: var(--clay); }
+
+/* Lavender utilities */
+.bg-lavender { background-color: var(--lavender); }
+.bg-lavender-light { background-color: var(--lavender-light); }
+.text-lavender { color: var(--lavender); }
+.border-lavender { border-color: var(--lavender); }
+
+/* Ocean utilities */
+.bg-ocean { background-color: var(--ocean); }
+.bg-ocean-light { background-color: var(--ocean-light); }
+.text-ocean { color: var(--ocean); }
+.border-ocean { border-color: var(--ocean); }
+
+/* Amber utilities */
+.bg-amber { background-color: var(--amber); }
+.bg-amber-light { background-color: var(--amber-light); }
+.text-amber { color: var(--amber); }
+.border-amber { border-color: var(--amber); }
+
+/* Rose utilities */
+.bg-rose { background-color: var(--rose); }
+.bg-rose-light { background-color: var(--rose-light); }
+.text-rose { color: var(--rose); }
+.border-rose { border-color: var(--rose); }
