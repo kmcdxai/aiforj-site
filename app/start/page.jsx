@@ -208,7 +208,7 @@ export default function StartPage() {
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
                 <Button onClick={() => setStep(1)} variant="secondary">Start over</Button>
-                <a href={`/intervention/${selectedEmotion.interventionSlug}`} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '12px 22px', borderRadius: 18, background: 'var(--interactive)', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Try this technique →</a>
+                <a href={`/intervention/${selectedEmotion.interventionSlug}?emotion=${selectedEmotion.id}`} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '12px 22px', borderRadius: 18, background: 'var(--interactive)', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Try this technique \u2192</a>
               </div>
             </div>
           )}

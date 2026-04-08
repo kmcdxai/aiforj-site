@@ -1,24 +1,44 @@
 "use client";
 
-import { useRouter } from 'next/navigation';
+import { Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import InterventionWrapper from '../../../components/measurement/InterventionWrapper';
 import TechniqueClient from '../../techniques/[slug]/TechniqueClient';
 
-export default function InterventionClient({ technique }) {
-  const router = useRouter();
-
-  const handleSendCalm = () => {
-    // Navigate to send page with the technique context
-    router.push(`/send?technique=${technique.slug}`);
-  };
+function InterventionInner({ technique }) {
+  const searchParams = useSearchParams();
+  const emotion = searchParams.get('emotion') || 'general';
 
   return (
     <InterventionWrapper
-      emotion="anxiety" // This could be passed from the start flow
-      interventionName={technique.title}
-      onSendCalm={handleSendCalm}
+      emotion={emotion}
+      intervention={{
+        title: technique.title,
+        slug: technique.slug,
+        modality: technique.modality,
+        time: technique.time,
+      }}
     >
       <TechniqueClient technique={technique} related={[]} />
     </InterventionWrapper>
+  );
+}
+
+export default function InterventionClient({ technique }) {
+  return (
+    <div style={{
+      minHeight: '100vh',
+      background: 'var(--bg-primary)',
+      color: 'var(--text-primary)',
+      fontFamily: "'DM Sans', sans-serif",
+    }}>
+      <Suspense fallback={
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
+          <div style={{ textAlign: 'center', color: 'var(--text-muted)' }}>Loading...</div>
+        </div>
+      }>
+        <InterventionInner technique={technique} />
+      </Suspense>
+    </div>
   );
 }

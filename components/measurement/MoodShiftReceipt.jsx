@@ -4,10 +4,10 @@ import { useEffect, useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
 
 const SHIFT_MESSAGES = {
-  positiveLarge: "That's a meaningful shift. This technique works for you.",
+  positiveLarge: "That\u2019s a meaningful shift. This technique works for you.",
   positiveSmall: "Every point counts. You showed up for yourself.",
-  neutral: "Sometimes showing up is the win. This one might not be your match — try a different technique next time.",
-  negative: "It's okay — not every tool fits every moment. Your willingness to try still matters. Want to try a different approach?",
+  neutral: "Sometimes showing up is the win. This one might not be your match \u2014 try a different technique next time.",
+  negative: "It\u2019s okay \u2014 not every tool fits every moment. Your willingness to try still matters.",
 };
 
 function getShiftMessage(shift) {
@@ -17,64 +17,71 @@ function getShiftMessage(shift) {
   return SHIFT_MESSAGES.negative;
 }
 
-function getShiftEmoji(before, after) {
-  const beforeRating = EMOJI_RATINGS.find(r => r.range.includes(before));
-  const afterRating = EMOJI_RATINGS.find(r => r.range.includes(after));
-  return { before: beforeRating?.emoji, after: afterRating?.emoji };
-}
-
 const EMOJI_RATINGS = [
-  { emoji: '😣', label: 'Struggling', range: [1, 2] },
-  { emoji: '😔', label: 'Tough', range: [3, 4] },
-  { emoji: '😐', label: 'Okay', range: [5, 6] },
-  { emoji: '🙂', label: 'Good', range: [7, 8] },
-  { emoji: '😌', label: 'Great', range: [9, 10] },
+  { emoji: '\u{1F623}', label: 'Struggling', range: [1, 2] },
+  { emoji: '\u{1F614}', label: 'Tough', range: [3, 4] },
+  { emoji: '\u{1F610}', label: 'Okay', range: [5, 6] },
+  { emoji: '\u{1F642}', label: 'Good', range: [7, 8] },
+  { emoji: '\u{1F60C}', label: 'Great', range: [9, 10] },
 ];
+
+function getEmojiForRating(rating) {
+  const found = EMOJI_RATINGS.find(r => rating >= r.range[0] && rating <= r.range[1]);
+  return found || EMOJI_RATINGS[2];
+}
 
 export default function MoodShiftReceipt({
   preRating,
   postRating,
   emotion,
   interventionName,
+  interventionSlug,
   duration,
   onSendCalm,
+  onTryDifferent,
   className = '',
 }) {
+  const [copied, setCopied] = useState(false);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const receiptRef = useRef(null);
+  const downloadRef = useRef(null);
 
   const shift = postRating - preRating;
   const shiftMessage = getShiftMessage(shift);
-  const { before: beforeEmoji, after: afterEmoji } = getShiftEmoji(preRating, postRating);
-  const shiftColor = shift >= 3 ? 'var(--success)' : shift > 0 ? 'var(--interactive)' : 'var(--text-secondary)';
+  const beforeData = getEmojiForRating(preRating);
+  const afterData = getEmojiForRating(postRating);
+  const shiftColor = shift >= 3 ? 'var(--success)' : shift > 0 ? 'var(--interactive)' : shift === 0 ? 'var(--text-secondary)' : 'var(--warning)';
+  const durationMinutes = Math.max(1, Math.ceil((duration || 0) / 60000));
 
-  const shareText = `I went from ${beforeEmoji} to ${afterEmoji} in ${Math.ceil(duration / 60)} minutes using ${interventionName} on AIForj. Try it: aiforj.com/start`;
+  const shareText = `I went from ${beforeData.emoji} to ${afterData.emoji} in ${durationMinutes} minutes using ${interventionName} on AIForj. Try it: aiforj.com/start`;
+  const sendCalmText = `Hey, I just tried this and it actually helped. Thought of you: aiforj.com/start`;
 
   const handleCopyShare = async () => {
     try {
       await navigator.clipboard.writeText(shareText);
-      // Could add a toast notification here
-      alert('Copied to clipboard!');
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     } catch (error) {
       console.warn('Failed to copy:', error);
     }
   };
 
   const handleDownloadImage = async () => {
-    if (!receiptRef.current) return;
-
+    if (!downloadRef.current) return;
     setIsGeneratingImage(true);
     try {
-      const canvas = await html2canvas(receiptRef.current, {
+      // Temporarily show the download-optimized card
+      downloadRef.current.style.display = 'flex';
+      const canvas = await html2canvas(downloadRef.current, {
         backgroundColor: '#FAF6F0',
         scale: 2,
-        width: 1080,
-        height: 1920,
+        useCORS: true,
       });
+      downloadRef.current.style.display = 'none';
 
       const link = document.createElement('a');
       link.download = `mood-shift-${Date.now()}.png`;
-      link.href = canvas.toDataURL();
+      link.href = canvas.toDataURL('image/png');
       link.click();
     } catch (error) {
       console.warn('Failed to generate image:', error);
@@ -83,83 +90,110 @@ export default function MoodShiftReceipt({
     }
   };
 
-  // Add confetti animation for positive shifts
-  useEffect(() => {
-    if (shift >= 3) {
-      // Simple confetti effect with CSS
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes confetti {
-          0% { transform: translateY(-100vh) rotate(0deg); }
-          100% { transform: translateY(100vh) rotate(360deg); }
-        }
-        .confetti {
-          position: fixed;
-          top: -10px;
-          width: 10px;
-          height: 10px;
-          background: ${shiftColor};
-          border-radius: 50%;
-          animation: confetti 3s linear infinite;
-          z-index: 1000;
-        }
-      `;
-      document.head.appendChild(style);
-
-      const confetti = [];
-      for (let i = 0; i < 20; i++) {
-        const dot = document.createElement('div');
-        dot.className = 'confetti';
-        dot.style.left = Math.random() * 100 + 'vw';
-        dot.style.animationDelay = Math.random() * 3 + 's';
-        document.body.appendChild(dot);
-        confetti.push(dot);
-      }
-
-      setTimeout(() => {
-        confetti.forEach(dot => dot.remove());
-        style.remove();
-      }, 3000);
+  const handleSendCalm = () => {
+    if (onSendCalm) {
+      onSendCalm();
+    } else if (typeof navigator !== 'undefined' && navigator.share) {
+      navigator.share({
+        title: 'AIForj \u2014 Send Calm',
+        text: sendCalmText,
+        url: 'https://aiforj.com/start',
+      }).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(sendCalmText).catch(() => {});
     }
-  }, [shift, shiftColor]);
+  };
+
+  // Confetti for positive shifts >= 3
+  useEffect(() => {
+    if (shift < 3) return;
+
+    const dots = [];
+    const colors = ['var(--accent-sage)', 'var(--accent-lavender)', 'var(--accent-ocean)', 'var(--accent-amber)', 'var(--accent-rose)'];
+
+    for (let i = 0; i < 24; i++) {
+      const dot = document.createElement('div');
+      const size = 6 + Math.random() * 6;
+      dot.style.cssText = `
+        position: fixed;
+        top: -12px;
+        left: ${Math.random() * 100}vw;
+        width: ${size}px;
+        height: ${size}px;
+        background: ${colors[i % colors.length]};
+        border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+        opacity: 0.7;
+        z-index: 1000;
+        pointer-events: none;
+        animation: receiptConfetti ${2.5 + Math.random() * 2}s ease-out forwards;
+        animation-delay: ${Math.random() * 0.8}s;
+      `;
+      document.body.appendChild(dot);
+      dots.push(dot);
+    }
+
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes receiptConfetti {
+        0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+        100% { transform: translateY(100vh) rotate(${360 + Math.random() * 360}deg); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+
+    const cleanup = setTimeout(() => {
+      dots.forEach(d => d.remove());
+      style.remove();
+    }, 5000);
+
+    return () => {
+      clearTimeout(cleanup);
+      dots.forEach(d => d.remove());
+      style.remove();
+    };
+  }, [shift]);
 
   return (
-    <div style={{ maxWidth: 400, margin: '0 auto' }} className={className}>
-      {/* Shareable Receipt Card */}
+    <div style={{ maxWidth: 420, margin: '0 auto', padding: '24px 16px' }} className={className}>
+
+      {/* ── Visible Receipt Card ── */}
       <div
         ref={receiptRef}
         style={{
           background: 'var(--surface-elevated)',
-          borderRadius: 'var(--radius-xl)',
-          padding: '32px 24px',
-          boxShadow: 'var(--shadow-lg)',
-          border: '1px solid rgba(45,42,38,0.06)',
+          borderRadius: 24,
+          padding: '36px 28px 28px',
+          boxShadow: '0 8px 40px rgba(0,0,0,0.06)',
+          border: '1px solid rgba(45,42,38,0.05)',
           textAlign: 'center',
           position: 'relative',
           overflow: 'hidden',
+          animation: 'receiptSlideUp 0.5s cubic-bezier(0.16,1,0.3,1)',
         }}
       >
-        {/* Subtle AIForj branding */}
+        {/* AIForj watermark */}
         <div style={{
           position: 'absolute',
           top: 16,
-          right: 16,
-          fontSize: 10,
+          right: 18,
+          fontSize: 11,
+          fontWeight: 600,
           color: 'var(--text-muted)',
-          opacity: 0.6,
+          opacity: 0.5,
+          letterSpacing: '0.04em',
         }}>
           AIForj
         </div>
 
-        {/* Emotion emoji */}
-        <div style={{ fontSize: 48, marginBottom: 16 }}>
-          {afterEmoji}
+        {/* After emoji large */}
+        <div style={{ fontSize: 56, marginBottom: 12, lineHeight: 1 }}>
+          {afterData.emoji}
         </div>
 
         {/* Header */}
         <h2 style={{
           fontFamily: "'Fraunces', serif",
-          fontSize: '1.5rem',
+          fontSize: 'clamp(1.4rem, 3.5vw, 1.75rem)',
           fontWeight: 500,
           color: 'var(--text-primary)',
           margin: '0 0 24px',
@@ -167,79 +201,190 @@ export default function MoodShiftReceipt({
           Your Mood Shift
         </h2>
 
-        {/* Visual shift */}
+        {/* Visual shift: before → after */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: 16,
+          gap: 20,
           marginBottom: 16,
-          fontSize: 32,
         }}>
-          <span style={{ opacity: 0.6 }}>{beforeEmoji}</span>
-          <span style={{ color: 'var(--text-secondary)', fontSize: 24 }}>→</span>
-          <span>{afterEmoji}</span>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: 36, opacity: 0.5, marginBottom: 4 }}>{beforeData.emoji}</div>
+            <div style={{ fontSize: 13, color: 'var(--text-muted)', fontWeight: 500 }}>{preRating}/10</div>
+          </div>
+          <div style={{
+            fontSize: 28,
+            color: shiftColor,
+            fontWeight: 300,
+          }}>
+            \u2192
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: 44, marginBottom: 4 }}>{afterData.emoji}</div>
+            <div style={{ fontSize: 13, color: 'var(--text-primary)', fontWeight: 600 }}>{postRating}/10</div>
+          </div>
         </div>
 
         {/* Shift amount */}
         <div style={{
-          fontSize: '1.25rem',
-          fontWeight: 600,
+          fontSize: 'clamp(1.25rem, 3vw, 1.5rem)',
+          fontWeight: 700,
           color: shiftColor,
-          marginBottom: 8,
+          marginBottom: 12,
+          fontFamily: "'Fraunces', serif",
         }}>
-          {shift > 0 ? '+' : ''}{shift} points
+          {shift > 0 ? '+' : ''}{shift} {Math.abs(shift) === 1 ? 'point' : 'points'}
         </div>
 
         {/* Message */}
         <p style={{
-          fontSize: 16,
+          fontSize: 15,
           color: 'var(--text-secondary)',
-          lineHeight: 1.6,
+          lineHeight: 1.7,
           margin: '0 0 20px',
+          maxWidth: 320,
+          marginLeft: 'auto',
+          marginRight: 'auto',
         }}>
           {shiftMessage}
         </p>
 
-        {/* Technique info */}
+        {/* Technique + metadata */}
         <div style={{
-          fontSize: 14,
-          color: 'var(--text-muted)',
-          marginBottom: 8,
+          padding: '14px 16px',
+          background: 'var(--surface)',
+          borderRadius: 14,
+          marginBottom: 20,
         }}>
-          Using: {interventionName}
+          <div style={{
+            fontSize: 13,
+            color: 'var(--text-muted)',
+            marginBottom: 4,
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+          }}>
+            Technique used
+          </div>
+          <div style={{
+            fontSize: 15,
+            fontWeight: 600,
+            color: 'var(--text-primary)',
+          }}>
+            {interventionName}
+          </div>
+          <div style={{
+            fontSize: 13,
+            color: 'var(--text-muted)',
+            marginTop: 6,
+          }}>
+            {durationMinutes} {durationMinutes === 1 ? 'minute' : 'minutes'} \u00b7 {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+          </div>
         </div>
 
-        <div style={{
-          fontSize: 14,
-          color: 'var(--text-muted)',
-          marginBottom: 16,
-        }}>
-          {Math.ceil(duration / 60)} minutes • {new Date().toLocaleDateString()}
-        </div>
+        {/* Negative shift: suggest alternative */}
+        {shift < 0 && (
+          <div style={{
+            padding: '14px 16px',
+            background: 'rgba(212,168,67,0.08)',
+            borderRadius: 14,
+            marginBottom: 20,
+            border: '1px solid rgba(212,168,67,0.15)',
+          }}>
+            <p style={{ fontSize: 14, color: 'var(--text-secondary)', margin: '0 0 10px', lineHeight: 1.6 }}>
+              Want to try a different approach?
+            </p>
+            <button
+              onClick={onTryDifferent || (() => { window.location.href = '/start'; })}
+              style={{
+                padding: '10px 20px',
+                borderRadius: 50,
+                background: 'var(--interactive)',
+                border: 'none',
+                color: '#fff',
+                fontSize: 14,
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+              }}
+            >
+              Try another technique \u2192
+            </button>
+          </div>
+        )}
 
         {/* Credential */}
         <div style={{
-          fontSize: 12,
+          fontSize: 11,
           color: 'var(--text-muted)',
-          opacity: 0.7,
+          opacity: 0.6,
           borderTop: '1px solid rgba(45,42,38,0.06)',
           paddingTop: 16,
-          marginTop: 16,
         }}>
           Clinically-informed tool by Kevin Cooke, PMHNP-BC
         </div>
       </div>
 
-      {/* Share Section */}
-      <div style={{ marginTop: 24 }}>
+      {/* ── Hidden downloadable card (Instagram story aspect ratio) ── */}
+      <div
+        ref={downloadRef}
+        style={{
+          display: 'none',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: 540,
+          height: 960,
+          background: 'linear-gradient(180deg, #FAF6F0 0%, #F0E8DA 100%)',
+          padding: '60px 48px',
+          textAlign: 'center',
+          position: 'fixed',
+          left: '-9999px',
+          top: 0,
+          zIndex: -1,
+        }}
+      >
+        <div style={{ fontSize: 14, fontWeight: 600, color: '#7A9E7E', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 40 }}>
+          AIForj
+        </div>
+        <div style={{ fontSize: 72, marginBottom: 24 }}>{afterData.emoji}</div>
+        <div style={{ fontFamily: "'Fraunces', serif", fontSize: 32, fontWeight: 500, color: '#2C2520', marginBottom: 40 }}>
+          My Mood Shift
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 28, marginBottom: 24 }}>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: 48, opacity: 0.5 }}>{beforeData.emoji}</div>
+            <div style={{ fontSize: 18, color: '#8A8078', marginTop: 8 }}>{preRating}/10</div>
+          </div>
+          <div style={{ fontSize: 36, color: '#7A9E7E' }}>\u2192</div>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: 60 }}>{afterData.emoji}</div>
+            <div style={{ fontSize: 18, color: '#2C2520', fontWeight: 600, marginTop: 8 }}>{postRating}/10</div>
+          </div>
+        </div>
+        <div style={{ fontSize: 28, fontWeight: 700, color: shift >= 0 ? '#5A8B5E' : '#C4856C', marginBottom: 20, fontFamily: "'Fraunces', serif" }}>
+          {shift > 0 ? '+' : ''}{shift} {Math.abs(shift) === 1 ? 'point' : 'points'}
+        </div>
+        <div style={{ fontSize: 16, color: '#5C534A', lineHeight: 1.6, maxWidth: 380, marginBottom: 40 }}>
+          {shiftMessage}
+        </div>
+        <div style={{ padding: '16px 24px', background: 'rgba(122,158,126,0.08)', borderRadius: 16 }}>
+          <div style={{ fontSize: 14, color: '#8A8078', marginBottom: 4 }}>Using: {interventionName}</div>
+          <div style={{ fontSize: 14, color: '#8A8078' }}>{durationMinutes} min \u00b7 {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
+        </div>
+        <div style={{ marginTop: 'auto', paddingTop: 40, fontSize: 12, color: '#8A8078', opacity: 0.6 }}>
+          Clinically-informed tool by Kevin Cooke, PMHNP-BC \u00b7 aiforj.com
+        </div>
+      </div>
+
+      {/* ── Share Section ── */}
+      <div style={{ marginTop: 28, textAlign: 'center' }}>
         <h3 style={{
           fontFamily: "'Fraunces', serif",
-          fontSize: '1.25rem',
+          fontSize: '1.2rem',
           fontWeight: 500,
           color: 'var(--text-primary)',
           margin: '0 0 16px',
-          textAlign: 'center',
         }}>
           Share your shift
         </h3>
@@ -253,31 +398,26 @@ export default function MoodShiftReceipt({
           <button
             onClick={handleCopyShare}
             style={{
-              padding: '12px 20px',
+              padding: '12px 22px',
               borderRadius: 50,
-              background: 'var(--surface)',
+              background: copied ? 'var(--accent-sage-light)' : 'var(--surface)',
               border: '1px solid rgba(45,42,38,0.08)',
-              color: 'var(--text-primary)',
+              color: copied ? 'var(--sage-deep)' : 'var(--text-primary)',
               fontSize: 14,
               fontWeight: 500,
               cursor: 'pointer',
               transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'var(--accent-sage-light)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'var(--surface)';
+              minWidth: 140,
             }}
           >
-            Copy to clipboard
+            {copied ? '\u2713 Copied!' : 'Copy to clipboard'}
           </button>
 
           <button
             onClick={handleDownloadImage}
             disabled={isGeneratingImage}
             style={{
-              padding: '12px 20px',
+              padding: '12px 22px',
               borderRadius: 50,
               background: 'var(--interactive)',
               border: 'none',
@@ -287,11 +427,10 @@ export default function MoodShiftReceipt({
               cursor: isGeneratingImage ? 'not-allowed' : 'pointer',
               opacity: isGeneratingImage ? 0.6 : 1,
               transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
+              minWidth: 140,
             }}
             onMouseEnter={(e) => {
-              if (!isGeneratingImage) {
-                e.currentTarget.style.background = 'var(--interactive-hover)';
-              }
+              if (!isGeneratingImage) e.currentTarget.style.background = 'var(--interactive-hover)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = 'var(--interactive)';
@@ -302,15 +441,15 @@ export default function MoodShiftReceipt({
         </div>
       </div>
 
-      {/* Send Calm CTA */}
+      {/* ── Send Calm CTA ── */}
       <div style={{
         marginTop: 32,
         padding: '24px',
         background: 'var(--surface-elevated)',
-        borderRadius: 'var(--radius-lg)',
+        borderRadius: 20,
         textAlign: 'center',
-        boxShadow: 'var(--shadow-sm)',
-        border: '1px solid rgba(45,42,38,0.06)',
+        boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
+        border: '1px solid rgba(45,42,38,0.05)',
       }}>
         <p style={{
           fontSize: 16,
@@ -322,31 +461,56 @@ export default function MoodShiftReceipt({
         </p>
 
         <button
-          onClick={onSendCalm}
+          onClick={handleSendCalm}
           style={{
-            padding: '12px 24px',
+            padding: '14px 28px',
             borderRadius: 50,
             background: 'var(--interactive)',
             border: 'none',
             color: '#fff',
-            fontSize: 15,
+            fontSize: 16,
             fontWeight: 600,
             fontFamily: "'Fraunces', serif",
             cursor: 'pointer',
             transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
+            boxShadow: '0 4px 16px rgba(122,158,126,0.25)',
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.background = 'var(--interactive-hover)';
-            e.currentTarget.style.transform = 'translateY(-1px)';
+            e.currentTarget.style.transform = 'translateY(-2px)';
+            e.currentTarget.style.boxShadow = '0 6px 20px rgba(122,158,126,0.35)';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.background = 'var(--interactive)';
             e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 4px 16px rgba(122,158,126,0.25)';
           }}
         >
-          Send Calm →
+          Send Calm \u2192
         </button>
       </div>
+
+      {/* ── Back to start ── */}
+      <div style={{ textAlign: 'center', marginTop: 20 }}>
+        <a
+          href="/start"
+          style={{
+            fontSize: 14,
+            color: 'var(--text-muted)',
+            textDecoration: 'none',
+            transition: 'color 0.2s ease',
+          }}
+        >
+          \u2190 Start a new check-in
+        </a>
+      </div>
+
+      <style>{`
+        @keyframes receiptSlideUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }
