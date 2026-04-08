@@ -5,6 +5,7 @@ import { useTheme } from "./ThemeProvider";
 import SoundToggle from "./SoundToggle";
 
 const NAV_LINKS = [
+  { href: "/start", label: "Start" },
   { href: "/blueprint", label: "Blueprint" },
   { href: "/techniques", label: "Techniques" },
   { href: "/garden", label: "Garden" },

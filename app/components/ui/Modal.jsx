@@ -57,6 +57,77 @@ export default function Modal({
     animation: 'slideUp 300ms ease-out',
   };
 
-  const headerStyle = {\n    display: 'flex',\n    justifyContent: 'space-between',\n    alignItems: 'center',\n    marginBottom: '16px',\n  };\n\n  const titleStyle = {\n    fontSize: 'var(--font-h2)',\n    fontWeight: 600,\n    color: 'var(--text-primary)',\n  };\n\n  const closeButtonStyle = {\n    backgroundColor: 'transparent',\n    border: 'none',\n    fontSize: '24px',\n    lineHeight: 1,\n    color: 'var(--ink-muted)',\n    cursor: 'pointer',\n    padding: 0,\n  };\n\n  const bodyStyle = {\n    marginBottom: '24px',\n  };\n\n  const footerStyle = {\n    display: 'flex',\n    gap: '16px',\n    justifyContent: 'flex-end',\n  };
+  const headerStyle = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '16px',
+  };
 
-  return (\n    <div style={overlayStyle} onClick={onClose}>\n      <div\n        style={contentStyle}\n        className={className}\n        onClick={(e) => e.stopPropagation()}\n      >\n        {title && (\n          <div style={headerStyle}>\n            <h2 style={titleStyle}>\n              {title}\n            </h2>\n            <button\n              onClick={onClose}\n              style={closeButtonStyle}\n              onMouseEnter={(e) => {\n                e.currentTarget.style.color = 'var(--text-primary)';\n              }}\n              onMouseLeave={(e) => {\n                e.currentTarget.style.color = 'var(--ink-muted)';\n              }}\n              aria-label=\"Close modal\"\n            >\n              ✕\n            </button>\n          </div>\n        )}\n\n        <div style={bodyStyle}>\n          {children}\n        </div>\n\n        {footer && (\n          <div style={footerStyle}>\n            {footer}\n          </div>\n        )}\n      </div>\n    </div>\n  );\n}
+  const titleStyle = {
+    fontSize: 'var(--font-h2)',
+    fontWeight: 600,
+    color: 'var(--text-primary)',
+  };
+
+  const closeButtonStyle = {
+    backgroundColor: 'transparent',
+    border: 'none',
+    fontSize: '24px',
+    lineHeight: 1,
+    color: 'var(--ink-muted)',
+    cursor: 'pointer',
+    padding: 0,
+  };
+
+  const bodyStyle = {
+    marginBottom: '24px',
+  };
+
+  const footerStyle = {
+    display: 'flex',
+    gap: '16px',
+    justifyContent: 'flex-end',
+  };
+
+  return (
+    <div style={overlayStyle} onClick={onClose}>
+      <div
+        style={contentStyle}
+        className={className}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {title && (
+          <div style={headerStyle}>
+            <h2 style={titleStyle}>
+              {title}
+            </h2>
+            <button
+              onClick={onClose}
+              style={closeButtonStyle}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = 'var(--text-primary)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'var(--ink-muted)';
+              }}
+              aria-label="Close modal"
+            >
+              ✕
+            </button>
+          </div>
+        )}
+
+        <div style={bodyStyle}>
+          {children}
+        </div>
+
+        {footer && (
+          <div style={footerStyle}>
+            {footer}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

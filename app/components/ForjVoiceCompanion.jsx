@@ -1250,6 +1250,11 @@ export default function ForjVoiceCompanion() {
             </div>
           </div>
 
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 32, animation: 'fadeIn 1s ease 0.5s both' }}>
+            <a href="/start" className="btn-glow" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '14px 32px', borderRadius: 999, background: 'var(--interactive)', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Start reset</a>
+            <a href="/tools" className="btn-glow" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '14px 32px', borderRadius: 999, background: 'transparent', color: 'var(--interactive)', textDecoration: 'none', border: '1.5px solid var(--interactive)' }}>Explore tools</a>
+          </div>
+
           {/* Live transcript */}
           {state === "listening" && liveText && (
             <div style={{ marginBottom: 20, padding: "12px 20px", background: "var(--surface)", borderRadius: 14, maxWidth: 400, margin: "0 auto 20px", animation: "fadeIn 0.3s", border: "1px solid rgba(107,155,158,0.15)" }}>
