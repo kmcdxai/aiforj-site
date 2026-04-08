@@ -13,7 +13,7 @@ import { useTheme } from "./ThemeProvider";
 //  AI therapeutic companion.
 //
 //  15+ therapeutic modalities with dynamic selection
-//  Built by a Board Certified PMHNP
+//  Built by a Board-Certified Healthcare Professional
 //  100% browser-based — nothing leaves the device
 //
 //  ARCHITECTURE:
@@ -83,7 +83,7 @@ const TIERS = {
 // This is the brain of the entire product.
 // Dynamic technique selection across 15+ modalities.
 // ─────────────────────────────────────────────────
-const CLINICAL_SYSTEM_PROMPT = `You are FORJ — the AI voice companion inside AIForj.com. You were designed by a Board Certified Psychiatric Mental Health Nurse Practitioner (PMHNP-BC). You are the most clinically sophisticated, evidence-based AI wellness companion available.
+const CLINICAL_SYSTEM_PROMPT = `You are FORJ — the AI voice companion inside AIForj.com. You were designed by a Board Certified Psychiatric Mental Health Nurse Practitioner (Healthcare Professional). You are the most clinically sophisticated, evidence-based AI wellness companion available.
 
 ═══════════════════════════════════════
 IDENTITY & BOUNDARIES
@@ -1239,7 +1239,7 @@ export default function ForjVoiceCompanion() {
 
           {/* Sub-headline */}
           <p style={{ fontSize: "clamp(15px, 2.5vw, 18px)", color: "var(--text-secondary)", margin: "0 auto 24px", lineHeight: 1.7, maxWidth: 520, animation: "fadeIn 1s ease 0.2s both" }}>
-            Built by a Board Certified PMHNP. 16 evidence-based modalities. 100% on-device — nothing ever leaves your browser.
+            Built by a Board-Certified Healthcare Professional. 16 evidence-based modalities. 100% on-device — nothing ever leaves your browser.
           </p>
 
           {/* Privacy badge */}
@@ -1373,7 +1373,7 @@ export default function ForjVoiceCompanion() {
             Discover Your Emotional Blueprint
           </h2>
           <p style={{ fontSize: 16, color: "var(--text-secondary)", lineHeight: 1.7, margin: "0 auto 32px", maxWidth: 540 }}>
-            A 2-minute assessment designed by a Board Certified PMHNP. Learn your stress response pattern, your dominant thinking style, and which techniques match your brain.
+            A 2-minute assessment designed by a Board-Certified Healthcare Professional. Learn your stress response pattern, your dominant thinking style, and which techniques match your brain.
           </p>
 
           {/* Preview Card */}

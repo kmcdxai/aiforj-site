@@ -1,15 +1,15 @@
 // Proxies the NPPES NPI Registry API (free, no key needed)
 // Returns real provider data: name, credentials, address, phone, specialty
 // Filters out non-mental-health providers (e.g., neurologists)
-// Prioritizes PMHNPs, then exact zip, then proximity
+// Prioritizes Healthcare Professionals, then exact zip, then proximity
 
 // Taxonomy search terms validated against live NPPES API
-// "Psych/Mental Health" = PMHNPs, "Psychiatry" = psychiatrists,
+// "Psych/Mental Health" = Healthcare Professionals, "Psychiatry" = psychiatrists,
 // "Psychologist" = psychologists, "Social Worker" = LCSWs,
 // "Counselor" = counselors, "Addiction Medicine" = addiction docs
 const TAXONOMY_MAP = {
   medication: [
-    { search: "Psych/Mental Health", label: "Psychiatric NP (PMHNP)", priority: 1 },
+    { search: "Psych/Mental Health", label: "Psychiatric NP (Healthcare Professional)", priority: 1 },
     { search: "Psychiatry", label: "Psychiatrist", priority: 2 },
   ],
   therapy: [
@@ -18,7 +18,7 @@ const TAXONOMY_MAP = {
     { search: "Counselor", label: "Counselor", priority: 3 },
   ],
   both: [
-    { search: "Psych/Mental Health", label: "Psychiatric NP (PMHNP)", priority: 1 },
+    { search: "Psych/Mental Health", label: "Psychiatric NP (Healthcare Professional)", priority: 1 },
     { search: "Psychiatry", label: "Psychiatrist", priority: 2 },
     { search: "Psychologist", label: "Psychologist", priority: 3 },
     { search: "Social Worker", label: "Licensed Clinical Social Worker", priority: 4 },
@@ -26,12 +26,12 @@ const TAXONOMY_MAP = {
   ],
   substance: [
     { search: "Addiction Medicine", label: "Addiction Medicine", priority: 1 },
-    { search: "Psych/Mental Health", label: "Psychiatric NP (PMHNP)", priority: 2 },
+    { search: "Psych/Mental Health", label: "Psychiatric NP (Healthcare Professional)", priority: 2 },
     { search: "Psychiatry", label: "Psychiatrist", priority: 3 },
     { search: "Counselor", label: "Counselor", priority: 4 },
   ],
   any: [
-    { search: "Psych/Mental Health", label: "Psychiatric NP (PMHNP)", priority: 1 },
+    { search: "Psych/Mental Health", label: "Psychiatric NP (Healthcare Professional)", priority: 1 },
     { search: "Psychiatry", label: "Psychiatrist", priority: 2 },
     { search: "Psychologist", label: "Psychologist", priority: 3 },
     { search: "Social Worker", label: "Licensed Clinical Social Worker", priority: 4 },
@@ -71,7 +71,7 @@ function titleCase(str) {
     .replace(/\bMd\b/g, "MD").replace(/\bDo\b/g, "DO")
     .replace(/\bPhd\b/g, "PhD").replace(/\bPsyd\b/g, "PsyD")
     .replace(/\bLcsw\b/g, "LCSW").replace(/\bLpc\b/g, "LPC")
-    .replace(/\bNp\b/g, "NP").replace(/\bPmhnp\b/g, "PMHNP");
+    .replace(/\bNp\b/g, "NP").replace(/\bPmhnp\b/g, "Healthcare Professional");
 }
 
 function formatPhone(phone) {
@@ -181,7 +181,7 @@ export async function GET(request) {
       const a3 = a.address.zip.slice(0, 3) === zip.slice(0, 3) ? 0 : 1;
       const b3 = b.address.zip.slice(0, 3) === zip.slice(0, 3) ? 0 : 1;
       if (a3 !== b3) return a3 - b3;
-      // Then by provider type priority (PMHNP first)
+      // Then by provider type priority (Healthcare Professional first)
       if (a.priority !== b.priority) return a.priority - b.priority;
       // Then alphabetically
       return a.name.localeCompare(b.name);

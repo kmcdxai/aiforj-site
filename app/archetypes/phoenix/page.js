@@ -1,6 +1,6 @@
 const metadata = {
   title: 'The Phoenix Emotional Archetype — Clinical Guide | AIForj',
-  description: 'Discover what it means to be The Phoenix. Understand your stress response, thinking patterns, and evidence-based techniques matched to this archetype. Free guide by a Board Certified PMHNP.',
+  description: 'Discover what it means to be The Phoenix. Understand your stress response, thinking patterns, and evidence-based techniques matched to this archetype. Free guide by a Board-Certified Healthcare Professional.',
 };
 
 const faq = [
@@ -86,7 +86,7 @@ export default function Page() {
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "The Phoenix: Understanding the Resilient Rebuilder",
-        "author": { "@type": "Person", "name": "Kevin Cooke D'Alo, PMHNP-BC" },
+        "author": { "@type": "Person", "name": "a Board-Certified Healthcare Professional" },
         "datePublished": "2026-04-05",
         "publisher": { "@type": "Organization", "name": "AIForj", "logo": { "@type": "ImageObject", "url": "https://aiforj.com/aif.jpeg" } },
         "medicalSpecialty": "Psychiatry",

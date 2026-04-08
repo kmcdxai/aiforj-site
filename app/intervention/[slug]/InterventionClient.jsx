@@ -4,10 +4,14 @@ import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import InterventionWrapper from '../../../components/measurement/InterventionWrapper';
 import TechniqueClient from '../../techniques/[slug]/TechniqueClient';
+import { interventionComponents } from '../../../components/interventions/registry';
 
 function InterventionInner({ technique }) {
   const searchParams = useSearchParams();
   const emotion = searchParams.get('emotion') || 'general';
+
+  // Check if a custom interactive component exists for this technique
+  const CustomComponent = interventionComponents[technique.slug];
 
   return (
     <InterventionWrapper
@@ -19,7 +23,11 @@ function InterventionInner({ technique }) {
         time: technique.time,
       }}
     >
-      <TechniqueClient technique={technique} related={[]} />
+      {({ onComplete }) =>
+        CustomComponent
+          ? <CustomComponent onComplete={onComplete} emotion={emotion} />
+          : <TechniqueClient technique={technique} related={[]} />
+      }
     </InterventionWrapper>
   );
 }

@@ -5,7 +5,7 @@ import SiteFooter from "../../components/SiteFooter";
 import Link from "next/link";
 
 export const metadata = {
-  title: "After an Argument: Calm Down Techniques by a PMHNP",
+  title: "After an Argument: Calm Down Techniques by a Healthcare Professional",
   description: "Just had a big argument? Evidence-informed steps to calm your body and process emotions safely.",
   alternates: { canonical: "https://aiforj.com/help/after-argument" },
 };
