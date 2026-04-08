@@ -6,6 +6,7 @@ export const emotionOptions = [
     description: 'Racing thoughts, worry, tension.',
     interventionTitle: 'Ground your thoughts and slow your system.',
     interventionDetails: 'Try 4-4-6 breathing for two minutes. Label one worry as a thought, not a fact. Then choose one small step that feels manageable right now.',
+    interventionSlug: 'physiological-sigh',
     variant: 'act',
   },
   {
@@ -50,8 +51,7 @@ export const emotionOptions = [
     label: 'Lonely',
     description: 'Disconnected, unseen, isolated.',
     interventionTitle: 'Reach for connection in a small, safe way.',
-    interventionDetails: 'Name one person you trust, even if you don’t reach out yet. If you can, send a simple message or plan one small social step.',
-    variant: 'psychoed',
+    interventionDetails: 'Name one person you trust, even if you don’t reach out yet. If you can, send a simple message or plan one small social step.',    interventionSlug: 'body-scan',    variant: 'psychoed',
   },
   {
     id: 'numb',
@@ -60,6 +60,7 @@ export const emotionOptions = [
     description: 'Flat, disconnected, empty.',
     interventionTitle: 'Bring your senses back online.',
     interventionDetails: 'Try a grounding exercise: hold something textured, breathe deeply, and name five sensations in your body. The goal is to reconnect without forcing feeling.',
+    interventionSlug: '54321-grounding',
     variant: 'somatic',
   },
   {
