@@ -36,7 +36,7 @@ const blueprintStructuredData = {
   },
   author: {
     "@type": "Person",
-    name: "Kevin Cooke D'Alo, PMHNP-BC",
+    name: "a Board-Certified Healthcare Professional",
     jobTitle: "Board Certified Psychiatric Mental Health Nurse Practitioner",
   },
   publisher: {

@@ -2,7 +2,7 @@ import OverwhelmedPage from "../components/OverwhelmedPage";
 
 export const metadata = {
   title: "Feeling Overwhelmed? Too Much to Handle? — Talk to Forj | Free AI Wellness",
-  description: "When everything is too much, this 5-step protocol helps you slow down and find ground. Breathe, externalize, triage, accept, commit. Evidence-based. 100% private. Free. Built by a Board Certified PMHNP.",
+  description: "When everything is too much, this 5-step protocol helps you slow down and find ground. Breathe, externalize, triage, accept, commit. Evidence-based. 100% private. Free. Built by a Board-Certified Healthcare Professional.",
   alternates: {
     canonical: "https://aiforj.com/overwhelmed",
   },

@@ -321,7 +321,7 @@ export default function MoodShiftReceipt({
           borderTop: '1px solid rgba(45,42,38,0.06)',
           paddingTop: 16,
         }}>
-          Clinically-informed tool by Kevin Cooke, PMHNP-BC
+          Clinically-informed tool by a Board-Certified Healthcare Professional
         </div>
       </div>
 
@@ -373,7 +373,7 @@ export default function MoodShiftReceipt({
           <div style={{ fontSize: 14, color: '#8A8078' }}>{durationMinutes} min {'\u00b7'} {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
         </div>
         <div style={{ marginTop: 'auto', paddingTop: 40, fontSize: 12, color: '#8A8078', opacity: 0.6 }}>
-          Clinically-informed tool by Kevin Cooke, PMHNP-BC {'\u00b7'} aiforj.com
+          Clinically-informed tool by a Board-Certified Healthcare Professional {'\u00b7'} aiforj.com
         </div>
       </div>
 

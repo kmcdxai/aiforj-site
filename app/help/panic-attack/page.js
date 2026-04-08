@@ -5,7 +5,7 @@ import SiteFooter from "../../components/SiteFooter";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Panic Attack Help: Instant Free Techniques | PMHNP-Designed",
+  title: "Panic Attack Help: Instant Free Techniques | Healthcare Professional-Designed",
   description: "Having a panic attack right now? Quick, clinician-designed steps to calm your body and mind — free and private.",
   alternates: { canonical: "https://aiforj.com/help/panic-attack" },
 };

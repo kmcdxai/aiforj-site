@@ -106,7 +106,7 @@ export const emotionOptions = [
     description: 'Feeling unworthy, ashamed, not enough.',
     interventionTitle: 'Separate fact from the harsh story.',
     interventionDetails: 'Notice one thought that says you are not enough. Ask: is that always true? Evidence often shows a kinder, more balanced story.',
-    interventionSlug: 'cognitive-restructuring',
+    interventionSlug: 'thought-defusion',
     variant: 'cbt',
   },
   {

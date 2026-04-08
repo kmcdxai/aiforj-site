@@ -87,55 +87,60 @@ export default function InterventionWrapper({
     );
   }
 
+  const isCustomComponent = typeof children === 'function';
+
   if (phase === PHASES.INTERVENTION) {
     return (
       <div className={className}>
-        {typeof children === 'function'
+        {isCustomComponent
           ? children({ onComplete: handleInterventionComplete })
           : children
         }
-        <div style={{
-          position: 'fixed',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          padding: '16px 24px',
-          paddingBottom: 'max(16px, env(safe-area-inset-bottom))',
-          zIndex: 100,
-          background: 'linear-gradient(transparent, var(--bg-primary) 30%)',
-        }}>
-          <button
-            onClick={handleInterventionComplete}
-            style={{
-              width: '100%',
-              maxWidth: 440,
-              margin: '0 auto',
-              display: 'block',
-              padding: '16px',
-              borderRadius: 50,
-              background: 'var(--interactive)',
-              border: 'none',
-              color: '#fff',
-              fontSize: 16,
-              fontWeight: 600,
-              fontFamily: "'Fraunces', serif",
-              cursor: 'pointer',
-              boxShadow: '0 4px 20px rgba(122,158,126,0.35)',
-              transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'var(--interactive-hover)';
-              e.currentTarget.style.transform = 'translateY(-2px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'var(--interactive)';
-              e.currentTarget.style.transform = 'translateY(0)';
-            }}
-          >
-            I'm done with this technique {'\u2192'}
-          </button>
-        </div>
+        {!isCustomComponent && (
+          <div style={{
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            padding: '16px 24px',
+            paddingBottom: 'max(16px, env(safe-area-inset-bottom))',
+            zIndex: 100,
+            background: 'linear-gradient(transparent, var(--bg-primary) 30%)',
+          }}>
+            <button
+              onClick={handleInterventionComplete}
+              style={{
+                width: '100%',
+                maxWidth: 440,
+                margin: '0 auto',
+                display: 'block',
+                padding: '16px',
+                borderRadius: 50,
+                background: 'var(--interactive)',
+                border: 'none',
+                color: '#fff',
+                fontSize: 16,
+                fontWeight: 600,
+                fontFamily: "'Fraunces', serif",
+                cursor: 'pointer',
+                boxShadow: '0 4px 20px rgba(122,158,126,0.35)',
+                transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'var(--interactive-hover)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'var(--interactive)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              {"I\u2019m done with this technique \u2192"}
+            </button>
+          </div>
+        )}
       </div>
+
     );
   }
 

@@ -140,7 +140,7 @@ export default function OverwhelmedPage() {
             </div>
 
             <div style={{ textAlign:"center" }}><Btn onClick={() => go("breathe")}>Let's slow it down</Btn></div>
-            <p style={{ fontSize:10, color:"#5a5a62", opacity:0.4, marginTop:32, lineHeight:1.7, textAlign:"center" }}>Built by a Board Certified PMHNP. Nothing stored or sent.</p>
+            <p style={{ fontSize:10, color:"#5a5a62", opacity:0.4, marginTop:32, lineHeight:1.7, textAlign:"center" }}>Built by a Board-Certified Healthcare Professional. Nothing stored or sent.</p>
 
             <InlineEmailCapture />
           </div>

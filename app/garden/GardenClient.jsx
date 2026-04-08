@@ -381,7 +381,7 @@ export default function GardenClient() {
       ${blueprints.length > 0 ? `<div class="stat"><span class="stat-label">Blueprint Archetype</span><span class="stat-value">${blueprints[0].archetype}</span></div>` : ""}
       <h2>Emotions Explored</h2><p>${emotionsUsed || "No sessions yet."}</p>
       ${moods.length >= 2 ? `<h2>Mood Trend</h2><p>Last ${Math.min(moods.length, 30)} check-ins: ${moods[moods.length-1]?.moodScore}/5 → ${moods[0]?.moodScore}/5</p>` : ""}
-      <div class="footer"><p>Generated locally — this data never left your device.</p><p><strong>aiforj.com</strong> — Built by a Board Certified PMHNP</p></div>
+      <div class="footer"><p>Generated locally — this data never left your device.</p><p><strong>aiforj.com</strong> — Built by a Board-Certified Healthcare Professional</p></div>
     </body></html>`);
     pw.document.close();
     pw.print();
