@@ -10,6 +10,7 @@ import {
   exportAllData,
   deleteAllData,
 } from "../lib/db";
+import WeeklyInsightsClient from "./WeeklyInsightsClient";
 
 // ═══════════════════════════════════════════════════════════════
 // EMOTION → PLANT MAPPING
@@ -575,6 +576,9 @@ export default function GardenClient() {
             <MoodSparkline moods={moods.slice().reverse()} />
           </div>
         )}
+
+        {/* Weekly Insights */}
+        <WeeklyInsightsClient isPremium={isPremium} />
 
         {/* Premium upsell */}
         {!isPremium && (sessions.length > 5 || moods.length >= 2) && (

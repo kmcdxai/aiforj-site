@@ -81,6 +81,17 @@ export default function Page() {
           acceptedAnswer: { "@type": "Answer", text: f.a }
         }))
       }) }} />
+
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "The Storm: Understanding the Emotional Cyclone",
+        "author": { "@type": "Person", "name": "Kevin Cooke D'Alo, PMHNP-BC" },
+        "datePublished": "2026-04-05",
+        "publisher": { "@type": "Organization", "name": "AIForj", "logo": { "@type": "ImageObject", "url": "https://aiforj.com/aif.jpeg" } },
+        "medicalSpecialty": "Psychiatry",
+        "url": "https://aiforj.com/archetypes/storm"
+      }) }} />
     </main>
   );
 }

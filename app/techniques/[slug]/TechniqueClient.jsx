@@ -5,6 +5,7 @@ import Link from "next/link";
 import EmailCapture from "../../components/EmailCapture";
 import ShareResultCard from "../../components/ShareResultCard";
 import SiteFooter from "../../components/SiteFooter";
+import { getArchetypeForTechnique } from "../archetypeMap";
 
 const ACCENT = "var(--accent-sage)";
 const BG = "var(--bg-primary)";
@@ -824,6 +825,25 @@ export default function TechniqueClient({ technique, related }) {
             Take the Assessment — Free
           </Link>
         </section>
+
+        {/* ─── Archetype CTA (links technique -> archetype) ─── */}
+        {(() => {
+          const archetype = getArchetypeForTechnique(technique.slug);
+          const displayName = archetype.charAt(0).toUpperCase() + archetype.slice(1);
+          return (
+            <section style={{ marginBottom: 36, padding: "24px 20px", background: "rgba(255,255,255,0.02)", borderRadius: 16, border: `1px solid ${SUBTLE}`, textAlign: "center" }}>
+              <p style={{ fontFamily: "'Fraunces', serif", fontSize: 17, fontWeight: 500, color: "var(--text-primary)", margin: "0 0 8px" }}>
+                Recommended Archetype: {displayName}
+              </p>
+              <p style={{ fontSize: 13, color: "var(--text-secondary)", margin: "0 0 16px", lineHeight: 1.6 }}>
+                This technique maps to the {displayName} archetype — explore tailored guidance, example routines, and tips that fit this pattern.
+              </p>
+              <Link href={`/archetypes/${archetype}`} style={{ display: "inline-block", padding: "12px 28px", fontSize: 14, fontWeight: 600, fontFamily: "'Fraunces', serif", background: "var(--interactive)", color: "#fff", borderRadius: 24, textDecoration: "none" }}>
+                View the {displayName} Archetype
+              </Link>
+            </section>
+          );
+        })()}
 
         {/* ─── CTAs ─── */}
         <section style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 36, textAlign: "center" }}>

@@ -1,4 +1,5 @@
 import BlueprintClient from "./BlueprintClient";
+import ArchetypesList from "./ArchetypesList";
 
 export const metadata = {
   title: "Your Emotional Blueprint — AIForj",
@@ -55,6 +56,7 @@ export default function BlueprintPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blueprintStructuredData) }}
       />
       <BlueprintClient />
+      <ArchetypesList />
     </>
   );
 }
