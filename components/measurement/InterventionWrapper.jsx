@@ -132,7 +132,7 @@ export default function InterventionWrapper({
               e.currentTarget.style.transform = 'translateY(0)';
             }}
           >
-            I'm done with this technique \u2192
+            I'm done with this technique {'\u2192'}
           </button>
         </div>
       </div>

@@ -218,7 +218,7 @@ export default function MoodShiftReceipt({
             color: shiftColor,
             fontWeight: 300,
           }}>
-            \u2192
+            {'\u2192'}
           </div>
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: 44, marginBottom: 4 }}>{afterData.emoji}</div>
@@ -278,7 +278,7 @@ export default function MoodShiftReceipt({
             color: 'var(--text-muted)',
             marginTop: 6,
           }}>
-            {durationMinutes} {durationMinutes === 1 ? 'minute' : 'minutes'} \u00b7 {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+            {durationMinutes} {durationMinutes === 1 ? 'minute' : 'minutes'} {'\u00b7'} {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
           </div>
         </div>
 
@@ -308,7 +308,7 @@ export default function MoodShiftReceipt({
                 transition: 'all 0.2s ease',
               }}
             >
-              Try another technique \u2192
+              Try another technique {'\u2192'}
             </button>
           </div>
         )}
@@ -356,7 +356,7 @@ export default function MoodShiftReceipt({
             <div style={{ fontSize: 48, opacity: 0.5 }}>{beforeData.emoji}</div>
             <div style={{ fontSize: 18, color: '#8A8078', marginTop: 8 }}>{preRating}/10</div>
           </div>
-          <div style={{ fontSize: 36, color: '#7A9E7E' }}>\u2192</div>
+          <div style={{ fontSize: 36, color: '#7A9E7E' }}>{'\u2192'}</div>
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: 60 }}>{afterData.emoji}</div>
             <div style={{ fontSize: 18, color: '#2C2520', fontWeight: 600, marginTop: 8 }}>{postRating}/10</div>
@@ -370,10 +370,10 @@ export default function MoodShiftReceipt({
         </div>
         <div style={{ padding: '16px 24px', background: 'rgba(122,158,126,0.08)', borderRadius: 16 }}>
           <div style={{ fontSize: 14, color: '#8A8078', marginBottom: 4 }}>Using: {interventionName}</div>
-          <div style={{ fontSize: 14, color: '#8A8078' }}>{durationMinutes} min \u00b7 {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
+          <div style={{ fontSize: 14, color: '#8A8078' }}>{durationMinutes} min {'\u00b7'} {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
         </div>
         <div style={{ marginTop: 'auto', paddingTop: 40, fontSize: 12, color: '#8A8078', opacity: 0.6 }}>
-          Clinically-informed tool by Kevin Cooke, PMHNP-BC \u00b7 aiforj.com
+          Clinically-informed tool by Kevin Cooke, PMHNP-BC {'\u00b7'} aiforj.com
         </div>
       </div>
 
@@ -486,7 +486,7 @@ export default function MoodShiftReceipt({
             e.currentTarget.style.boxShadow = '0 4px 16px rgba(122,158,126,0.25)';
           }}
         >
-          Send Calm \u2192
+          Send Calm {'\u2192'}
         </button>
       </div>
 
@@ -501,7 +501,7 @@ export default function MoodShiftReceipt({
             transition: 'color 0.2s ease',
           }}
         >
-          \u2190 Start a new check-in
+          {'\u2190'} Start a new check-in
         </a>
       </div>
 
