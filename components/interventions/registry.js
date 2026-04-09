@@ -1,21 +1,19 @@
-/**
- * Intervention Component Registry
- * Maps component keys to lazy-loadable React components
- */
-import dynamic from "next/dynamic";
+"use client";
 
-const REGISTRY = {
-  PhysiologicalSigh: dynamic(() => import("./PhysiologicalSigh"), { ssr: false }),
-  SensoryGrounding: dynamic(() => import("./SensoryGrounding"), { ssr: false }),
-  NameTheStory: dynamic(() => import("./NameTheStory"), { ssr: false }),
+import dynamic from 'next/dynamic';
+
+const SensoryGrounding = dynamic(() => import('./SensoryGrounding'), { ssr: false });
+const PhysiologicalSigh = dynamic(() => import('./PhysiologicalSigh'), { ssr: false });
+const NameTheStory = dynamic(() => import('./NameTheStory'), { ssr: false });
+
+// Maps technique slugs to custom interactive intervention components.
+// If a slug is listed here, InterventionClient renders the custom component
+// instead of the generic TechniqueClient step-based renderer.
+export const interventionComponents = {
+  '54321-grounding': SensoryGrounding,
+  'physiological-sigh': PhysiologicalSigh,
+  'thought-defusion': NameTheStory,
+  // Aliases for direct linking
+  'grounding-54321': SensoryGrounding,
+  'name-the-story': NameTheStory,
 };
-
-/**
- * Get an interactive intervention component by key
- * Returns null if no interactive component exists for that key
- */
-export function getInterventionComponent(componentKey) {
-  return REGISTRY[componentKey] || null;
-}
-
-export default REGISTRY;

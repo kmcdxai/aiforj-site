@@ -1,234 +1,276 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from 'react';
 
 const SENSES = [
-  { count: 5, sense: "See", prompt: "Name 5 things you can see right now", emoji: "👁️", color: "var(--sage)" },
-  { count: 4, sense: "Touch", prompt: "Name 4 things you can physically feel", emoji: "✋", color: "var(--clay)" },
-  { count: 3, sense: "Hear", prompt: "Name 3 things you can hear", emoji: "👂", color: "var(--ocean)" },
-  { count: 2, sense: "Smell", prompt: "Name 2 things you can smell", emoji: "👃", color: "var(--lavender)" },
-  { count: 1, sense: "Taste", prompt: "Name 1 thing you can taste", emoji: "👅", color: "var(--rose)" },
+  { count: 5, emoji: '\u{1F441}\uFE0F', sense: 'SEE', prompt: 'Look around. Name 5 things you can see right now.', placeholder: 'something you see...', color: '#6B98B8' },
+  { count: 4, emoji: '\u{1F442}', sense: 'HEAR', prompt: 'Listen closely. Even silence has sounds.', placeholder: 'something you hear...', color: '#6B98B8' },
+  { count: 3, emoji: '\u270B', sense: 'TOUCH', prompt: 'Feel the texture of something near you.', placeholder: 'something you can touch...', color: '#6B98B8' },
+  { count: 2, emoji: '\u{1F443}', sense: 'SMELL', prompt: 'Breathe in. What\u2019s in the air?', placeholder: 'something you smell...', color: '#6B98B8' },
+  { count: 1, emoji: '\u{1F445}', sense: 'TASTE', prompt: 'Notice what\u2019s in your mouth right now.', placeholder: 'something you taste...', color: '#6B98B8' },
 ];
 
 export default function SensoryGrounding({ onComplete }) {
-  const [started, setStarted] = useState(false);
+  const [phase, setPhase] = useState('intro'); // intro, sense-0..4, complete
   const [senseIndex, setSenseIndex] = useState(0);
-  const [items, setItems] = useState([]);
-  const [currentInput, setCurrentInput] = useState("");
+  const [inputs, setInputs] = useState(SENSES.map(s => Array(s.count).fill('')));
+  const [allEntries, setAllEntries] = useState([]);
+  const inputRefs = useRef([]);
 
   const currentSense = SENSES[senseIndex];
-  const isLastSense = senseIndex >= SENSES.length - 1;
-  const itemsNeeded = currentSense?.count || 0;
-  const progress = ((senseIndex / SENSES.length) + (items.length / itemsNeeded / SENSES.length)) * 100;
+  const currentInputs = inputs[senseIndex] || [];
+  const filledCount = currentInputs.filter(v => v.trim().length > 0).length;
+  const allFilled = filledCount === currentSense?.count;
 
-  const handleAdd = () => {
-    const trimmed = currentInput.trim();
-    if (!trimmed) return;
-    const newItems = [...items, trimmed];
-    setItems(newItems);
-    setCurrentInput("");
+  useEffect(() => {
+    if (phase.startsWith('sense') && inputRefs.current[0]) {
+      inputRefs.current[0]?.focus();
+    }
+  }, [phase, senseIndex]);
 
-    if (newItems.length >= itemsNeeded) {
-      // Move to next sense or complete
-      if (isLastSense) {
-        setSenseIndex(senseIndex + 1); // triggers completion view
-      } else {
-        setSenseIndex(senseIndex + 1);
-        setItems([]);
-      }
+  const handleInputChange = (idx, value) => {
+    const updated = [...inputs];
+    updated[senseIndex] = [...updated[senseIndex]];
+    updated[senseIndex][idx] = value;
+    setInputs(updated);
+  };
+
+  const handleNextSense = () => {
+    if (senseIndex < SENSES.length - 1) {
+      setSenseIndex(senseIndex + 1);
+      setPhase(`sense-${senseIndex + 1}`);
+    } else {
+      // Collect all entries for completion screen
+      const all = SENSES.map((s, i) => ({
+        sense: s.sense,
+        emoji: s.emoji,
+        items: inputs[i].filter(v => v.trim()),
+      }));
+      setAllEntries(all);
+      setPhase('complete');
     }
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      handleAdd();
-    }
+  const handleStart = () => {
+    setPhase('sense-0');
+    setSenseIndex(0);
   };
 
-  if (!started) {
+  // --- INTRO ---
+  if (phase === 'intro') {
     return (
-      <div style={{ minHeight: "60vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 24, textAlign: "center" }}>
-        <div style={{ width: 120, height: 120, borderRadius: "50%", background: "linear-gradient(135deg, var(--sage-light), var(--lavender-light))", display: "grid", placeItems: "center", fontSize: 48, marginBottom: 32 }}>
-          🌿
-        </div>
-        <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(1.5rem, 3vw, 2rem)", margin: "0 0 12px", color: "var(--text-primary)" }}>
-          5-4-3-2-1 Grounding
-        </h2>
-        <p style={{ color: "var(--text-secondary)", maxWidth: 440, lineHeight: 1.7, margin: "0 0 8px" }}>
-          This evidence-based grounding technique anchors you to the present moment through your five senses. It interrupts anxious spirals by redirecting attention to what is real and immediate.
-        </p>
-        <p style={{ color: "var(--text-muted)", fontSize: 13, margin: "0 0 32px" }}>
-          5 steps &middot; ~2 minutes
-        </p>
-        <button
-          onClick={() => setStarted(true)}
-          style={{
-            padding: "14px 36px",
-            borderRadius: 24,
-            background: "var(--interactive)",
-            color: "#fff",
-            border: "none",
-            fontSize: 16,
-            fontWeight: 600,
-            fontFamily: "'Fraunces', serif",
-            cursor: "pointer",
-            boxShadow: "0 4px 16px rgba(122,158,126,0.3)",
-          }}
-        >
-          Begin grounding
-        </button>
-      </div>
-    );
-  }
-
-  // Completed all senses
-  if (senseIndex >= SENSES.length) {
-    return (
-      <div style={{ minHeight: "60vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 24, textAlign: "center" }}>
-        <div style={{ width: 100, height: 100, borderRadius: "50%", background: "linear-gradient(135deg, var(--sage-light), var(--sage))", display: "grid", placeItems: "center", fontSize: 40, marginBottom: 24 }}>
-          ✓
-        </div>
-        <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(1.4rem, 2.5vw, 1.8rem)", margin: "0 0 12px", color: "var(--text-primary)" }}>
-          You are here
-        </h2>
-        <p style={{ color: "var(--text-secondary)", maxWidth: 400, lineHeight: 1.7, margin: "0 0 32px" }}>
-          You just engaged all five senses and brought yourself fully into the present moment. Notice how your body feels right now compared to when you started.
-        </p>
-        {onComplete && (
-          <button
-            onClick={onComplete}
-            style={{
-              padding: "14px 36px",
-              borderRadius: 24,
-              background: "var(--interactive)",
-              color: "#fff",
-              border: "none",
-              fontSize: 16,
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
-          >
-            Continue
+      <div style={styles.container}>
+        <div style={{ ...styles.fadeIn, textAlign: 'center', padding: '60px 24px' }}>
+          <div style={{ fontSize: 48, marginBottom: 24 }}>{'\u{1F30A}'}</div>
+          <h2 style={styles.heading}>
+            Let's ground you in the present moment using your five senses.
+          </h2>
+          <p style={styles.subtext}>
+            This takes about 90 seconds. You'll name things you can see, hear, touch, smell, and taste.
+          </p>
+          <button onClick={handleStart} style={styles.primaryBtn}>
+            Begin grounding {'\u2192'}
           </button>
-        )}
+        </div>
       </div>
     );
   }
+
+  // --- COMPLETION ---
+  if (phase === 'complete') {
+    return (
+      <div style={styles.container}>
+        <div style={{ ...styles.fadeIn, padding: '40px 24px', maxWidth: 500, margin: '0 auto' }}>
+          <h2 style={{ ...styles.heading, marginBottom: 8 }}>
+            You're here. You're grounded. You're safe.
+          </h2>
+          <p style={{ ...styles.subtext, marginBottom: 32 }}>
+            Everything you named is real and present. You are too.
+          </p>
+
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 40 }}>
+            {allEntries.map((group) =>
+              group.items.map((item, j) => (
+                <div key={`${group.sense}-${j}`} style={{
+                  padding: '10px 18px',
+                  background: 'rgba(107,152,184,0.08)',
+                  borderRadius: 50,
+                  fontSize: 14,
+                  color: 'var(--text-primary)',
+                  border: '1px solid rgba(107,152,184,0.15)',
+                  animation: `groundedFadeIn 0.4s ease ${j * 0.08}s both`,
+                }}>
+                  {group.emoji} {item}
+                </div>
+              ))
+            )}
+          </div>
+
+          <button onClick={onComplete} style={styles.primaryBtn}>
+            Continue {'\u2192'}
+          </button>
+        </div>
+        <style>{`
+          @keyframes groundedFadeIn {
+            from { opacity: 0; transform: translateY(8px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  // --- SENSE INPUT PHASE ---
+  const remaining = currentSense.count - filledCount;
 
   return (
-    <div style={{ minHeight: "60vh", display: "flex", flexDirection: "column", padding: 24, maxWidth: 560, margin: "0 auto" }}>
-      {/* Progress */}
-      <div style={{ marginBottom: 32 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-          <span style={{ fontSize: 13, color: "var(--text-muted)" }}>
-            Step {senseIndex + 1} of {SENSES.length}
-          </span>
-          <span style={{ fontSize: 13, color: "var(--text-muted)" }}>
-            {items.length} / {itemsNeeded}
-          </span>
-        </div>
-        <div style={{ height: 6, borderRadius: 999, background: "var(--parchment-deep)", overflow: "hidden" }}>
-          <div style={{ width: `${progress}%`, height: "100%", borderRadius: 999, background: `linear-gradient(90deg, ${currentSense.color}, var(--sage))`, transition: "width 300ms ease" }} />
-        </div>
-      </div>
-
-      {/* Sense indicator */}
-      <div style={{ display: "flex", gap: 12, marginBottom: 24, justifyContent: "center" }}>
-        {SENSES.map((s, i) => (
-          <div
-            key={s.sense}
-            style={{
-              width: 44,
-              height: 44,
-              borderRadius: "50%",
-              background: i < senseIndex ? s.color : i === senseIndex ? s.color : "var(--surface)",
-              opacity: i < senseIndex ? 0.5 : i === senseIndex ? 1 : 0.3,
-              display: "grid",
-              placeItems: "center",
-              fontSize: 18,
-              transition: "all 300ms ease",
-              color: i <= senseIndex ? "#fff" : "var(--text-muted)",
-            }}
-          >
-            {i < senseIndex ? "✓" : s.emoji}
-          </div>
-        ))}
-      </div>
-
-      {/* Prompt */}
-      <div style={{ textAlign: "center", marginBottom: 28 }}>
-        <div style={{ fontSize: 48, marginBottom: 12 }}>{currentSense.emoji}</div>
-        <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(1.3rem, 2.5vw, 1.7rem)", margin: "0 0 8px", color: "var(--text-primary)" }}>
-          {currentSense.prompt}
-        </h3>
-        <p style={{ color: "var(--text-muted)", fontSize: 14, margin: 0 }}>
-          Type each one and press Enter
-        </p>
-      </div>
-
-      {/* Items entered */}
-      {items.length > 0 && (
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16, justifyContent: "center" }}>
-          {items.map((item, i) => (
-            <span
-              key={i}
-              style={{
-                padding: "6px 14px",
-                borderRadius: 20,
-                background: currentSense.color,
-                color: "#fff",
-                fontSize: 14,
-                fontWeight: 500,
-                animation: "fadeInUp 300ms ease-out",
-              }}
-            >
-              {item}
-            </span>
+    <div style={styles.container}>
+      <div style={{ ...styles.fadeIn, padding: '32px 24px', maxWidth: 480, margin: '0 auto' }}>
+        {/* Progress dots */}
+        <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginBottom: 32 }}>
+          {SENSES.map((_, i) => (
+            <div key={i} style={{
+              width: 10,
+              height: 10,
+              borderRadius: '50%',
+              background: i < senseIndex ? '#6B98B8' : i === senseIndex ? '#6B98B8' : 'rgba(107,152,184,0.2)',
+              transition: 'all 0.3s ease',
+              transform: i === senseIndex ? 'scale(1.3)' : 'scale(1)',
+            }} />
           ))}
         </div>
-      )}
 
-      {/* Input */}
-      <div style={{ display: "flex", gap: 10 }}>
-        <input
-          type="text"
-          value={currentInput}
-          onChange={(e) => setCurrentInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder={`${currentSense.sense} #${items.length + 1}...`}
-          autoFocus
-          style={{
-            flex: 1,
-            padding: "14px 18px",
-            borderRadius: 16,
-            border: `2px solid ${currentSense.color}40`,
-            background: "var(--surface)",
-            color: "var(--text-primary)",
-            fontSize: 16,
-            outline: "none",
-            fontFamily: "inherit",
-            transition: "border-color 200ms",
-          }}
-        />
-        <button
-          onClick={handleAdd}
-          disabled={!currentInput.trim()}
-          style={{
-            padding: "14px 20px",
-            borderRadius: 16,
-            background: currentInput.trim() ? currentSense.color : "var(--parchment-deep)",
-            color: currentInput.trim() ? "#fff" : "var(--text-muted)",
-            border: "none",
-            fontSize: 16,
+        {/* Sense header */}
+        <div style={{ textAlign: 'center', marginBottom: 28 }}>
+          <div style={{ fontSize: 40, marginBottom: 12 }}>{currentSense.emoji}</div>
+          <div style={{
+            fontSize: 12,
+            textTransform: 'uppercase',
+            letterSpacing: '0.15em',
+            color: '#6B98B8',
             fontWeight: 600,
-            cursor: currentInput.trim() ? "pointer" : "not-allowed",
-            transition: "all 200ms",
-          }}
-        >
-          +
-        </button>
+            marginBottom: 8,
+            fontFamily: "'JetBrains Mono', monospace",
+          }}>
+            {remaining > 0 ? `${remaining} thing${remaining !== 1 ? 's' : ''} you can ${currentSense.sense}` : `All ${currentSense.count} found`}
+          </div>
+          <p style={{ fontSize: 15, color: 'var(--text-secondary)', margin: 0, lineHeight: 1.6 }}>
+            {currentSense.prompt}
+          </p>
+        </div>
+
+        {/* Input fields */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 32 }}>
+          {currentInputs.map((val, idx) => (
+            <div key={idx} style={{
+              opacity: idx <= filledCount ? 1 : 0.4,
+              transition: 'opacity 0.3s ease',
+            }}>
+              <input
+                ref={el => inputRefs.current[idx] = el}
+                type="text"
+                value={val}
+                onChange={e => handleInputChange(idx, e.target.value)}
+                placeholder={currentSense.placeholder}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' && val.trim()) {
+                    const nextEmpty = currentInputs.findIndex((v, i) => i > idx && !v.trim());
+                    if (nextEmpty >= 0) inputRefs.current[nextEmpty]?.focus();
+                    else if (allFilled) handleNextSense();
+                  }
+                }}
+                style={{
+                  width: '100%',
+                  padding: '12px 4px',
+                  border: 'none',
+                  borderBottom: val.trim() ? '2px solid #6B98B8' : '1px solid rgba(45,42,38,0.12)',
+                  background: 'transparent',
+                  fontSize: 16,
+                  color: 'var(--text-primary)',
+                  fontFamily: "'DM Sans', sans-serif",
+                  outline: 'none',
+                  transition: 'border-color 0.2s ease',
+                  boxSizing: 'border-box',
+                }}
+                onFocus={e => { e.target.style.borderBottom = '2px solid #6B98B8'; }}
+                onBlur={e => { if (!val.trim()) e.target.style.borderBottom = '1px solid rgba(45,42,38,0.12)'; }}
+              />
+              {val.trim() && (
+                <div style={{
+                  fontSize: 11,
+                  color: '#6B98B8',
+                  marginTop: 4,
+                  fontFamily: "'JetBrains Mono', monospace",
+                  animation: 'groundedFadeIn 0.2s ease',
+                }}>
+                  {'\u2713'}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Next button */}
+        <div style={{ textAlign: 'center' }}>
+          <button
+            onClick={handleNextSense}
+            disabled={!allFilled}
+            style={{
+              ...styles.primaryBtn,
+              opacity: allFilled ? 1 : 0.4,
+              cursor: allFilled ? 'pointer' : 'not-allowed',
+            }}
+          >
+            {senseIndex < SENSES.length - 1 ? `Next sense ${'\u2192'}` : `See your grounding ${'\u2192'}`}
+          </button>
+        </div>
       </div>
+      <style>{`
+        @keyframes groundedFadeIn {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }
+
+const styles = {
+  container: {
+    minHeight: '60vh',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    padding: '20px 0 100px',
+  },
+  fadeIn: {
+    animation: 'groundedFadeIn 0.5s ease',
+  },
+  heading: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: 'clamp(1.5rem, 4vw, 2rem)',
+    fontWeight: 500,
+    color: 'var(--text-primary)',
+    lineHeight: 1.3,
+    margin: '0 0 16px',
+  },
+  subtext: {
+    fontSize: 16,
+    color: 'var(--text-secondary)',
+    lineHeight: 1.7,
+    margin: '0 0 28px',
+  },
+  primaryBtn: {
+    padding: '16px 36px',
+    borderRadius: 50,
+    background: '#6B98B8',
+    color: '#fff',
+    border: 'none',
+    fontSize: 16,
+    fontWeight: 600,
+    fontFamily: "'Fraunces', serif",
+    cursor: 'pointer',
+    transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
+    boxShadow: '0 4px 16px rgba(107,152,184,0.3)',
+  },
+};

@@ -5,7 +5,7 @@ import SiteFooter from "../../components/SiteFooter";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Stop Overthinking: Break the Loop in 3 Minutes | PMHNP Tool",
+  title: "Stop Overthinking: Break the Loop in 3 Minutes | Healthcare Professional Tool",
   description: "Stuck in an overthinking spiral? Practical steps to interrupt rumination and regain focus in minutes.",
   alternates: { canonical: "https://aiforj.com/help/overthinking" },
 };

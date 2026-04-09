@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import MoodRating from './MoodRating';
 import MoodShiftReceipt from './MoodShiftReceipt';
 import { saveSession } from '../../utils/sessionHistory';
@@ -15,7 +15,8 @@ const PHASES = {
 export default function InterventionWrapper({
   children,
   emotion,
-  interventionName,
+  intervention,
+  onComplete,
   onSendCalm,
   className = '',
 }) {
@@ -25,7 +26,9 @@ export default function InterventionWrapper({
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
 
-  // Start timing when intervention begins
+  const interventionName = intervention?.title || intervention?.name || 'Technique';
+  const interventionSlug = intervention?.slug || '';
+
   useEffect(() => {
     if (phase === PHASES.INTERVENTION) {
       setStartTime(Date.now());
@@ -37,21 +40,22 @@ export default function InterventionWrapper({
     setPhase(PHASES.INTERVENTION);
   };
 
-  const handleInterventionComplete = () => {
+  const handleInterventionComplete = useCallback(() => {
     setEndTime(Date.now());
     setPhase(PHASES.POST_RATING);
-  };
+  }, []);
 
   const handlePostRatingSubmit = (rating) => {
     setPostRating(rating);
     setPhase(PHASES.RECEIPT);
 
-    // Save session data
-    const duration = endTime - startTime;
+    const now = Date.now();
+    const duration = now - (startTime || now);
     const shift = rating - preRating;
 
     saveSession({
-      emotion,
+      emotion: emotion || 'unknown',
+      intervention: interventionSlug,
       interventionName,
       preRating,
       postRating: rating,
@@ -59,16 +63,21 @@ export default function InterventionWrapper({
       duration,
       timestamp: new Date().toISOString(),
     });
+
+    onComplete?.({ preRating, postRating: rating, shift, duration });
   };
 
   const handleSendCalm = () => {
-    // Navigate to send page or open modal
-    onSendCalm?.();
+    if (onSendCalm) {
+      onSendCalm();
+    } else {
+      window.location.href = `/send?technique=${interventionSlug}`;
+    }
   };
 
   if (phase === PHASES.PRE_RATING) {
     return (
-      <div className={className}>
+      <div className={className} style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <MoodRating
           context="pre"
           emotion={emotion}
@@ -78,52 +87,66 @@ export default function InterventionWrapper({
     );
   }
 
+  const isCustomComponent = typeof children === 'function';
+
   if (phase === PHASES.INTERVENTION) {
     return (
       <div className={className}>
-        {children}
-        <div style={{
-          position: 'fixed',
-          bottom: 24,
-          left: 24,
-          right: 24,
-          zIndex: 100,
-        }}>
-          <button
-            onClick={handleInterventionComplete}
-            style={{
-              width: '100%',
-              padding: '16px',
-              borderRadius: 'var(--radius-lg)',
-              background: 'var(--interactive)',
-              border: 'none',
-              color: '#fff',
-              fontSize: 16,
-              fontWeight: 600,
-              fontFamily: "'Fraunces', serif",
-              cursor: 'pointer',
-              boxShadow: 'var(--shadow-lg)',
-              transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'var(--interactive-hover)';
-              e.currentTarget.style.transform = 'translateY(-2px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'var(--interactive)';
-              e.currentTarget.style.transform = 'translateY(0)';
-            }}
-          >
-            I'm done with this technique →
-          </button>
-        </div>
+        {isCustomComponent
+          ? children({ onComplete: handleInterventionComplete })
+          : children
+        }
+        {!isCustomComponent && (
+          <div style={{
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            padding: '16px 24px',
+            paddingBottom: 'max(16px, env(safe-area-inset-bottom))',
+            zIndex: 100,
+            background: 'linear-gradient(transparent, var(--bg-primary) 30%)',
+          }}>
+            <button
+              onClick={handleInterventionComplete}
+              style={{
+                width: '100%',
+                maxWidth: 440,
+                margin: '0 auto',
+                display: 'block',
+                padding: '16px',
+                borderRadius: 50,
+                background: 'var(--interactive)',
+                border: 'none',
+                color: '#fff',
+                fontSize: 16,
+                fontWeight: 600,
+                fontFamily: "'Fraunces', serif",
+                cursor: 'pointer',
+                boxShadow: '0 4px 20px rgba(122,158,126,0.35)',
+                transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'var(--interactive-hover)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'var(--interactive)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              {"I\u2019m done with this technique \u2192"}
+            </button>
+          </div>
+        )}
       </div>
+
     );
   }
 
   if (phase === PHASES.POST_RATING) {
     return (
-      <div className={className}>
+      <div className={className} style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <MoodRating
           context="post"
           emotion={emotion}
@@ -134,7 +157,7 @@ export default function InterventionWrapper({
   }
 
   if (phase === PHASES.RECEIPT) {
-    const duration = endTime - startTime;
+    const duration = (endTime || Date.now()) - (startTime || Date.now());
     return (
       <div className={className}>
         <MoodShiftReceipt
@@ -142,8 +165,10 @@ export default function InterventionWrapper({
           postRating={postRating}
           emotion={emotion}
           interventionName={interventionName}
+          interventionSlug={interventionSlug}
           duration={duration}
           onSendCalm={handleSendCalm}
+          onTryDifferent={() => { window.location.href = '/start'; }}
         />
       </div>
     );

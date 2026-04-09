@@ -7,7 +7,7 @@ export default function SEO() {
     "logo": "https://aiforj.com/aif.jpeg",
     "founder": {
       "@type": "Person",
-      "name": "Kevin Cooke D'Alo, PMHNP-BC",
+      "name": "a Board-Certified Healthcare Professional",
       "jobTitle": "Board Certified Psychiatric Mental Health Nurse Practitioner"
     },
     "sameAs": ["https://x.com/AIForj"]

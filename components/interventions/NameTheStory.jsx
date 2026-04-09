@@ -1,274 +1,443 @@
 "use client";
 
-import { useState } from "react";
-
-const STEPS = [
-  {
-    title: "Notice the thought",
-    instruction: "What is the thought or worry that keeps looping? Write it down exactly as your mind says it.",
-    placeholder: "e.g., I'm going to fail at this...",
-  },
-  {
-    title: "Name the story",
-    instruction: 'Now add the prefix: "My mind is telling me the story that..." This creates distance between you and the thought.',
-    prefix: "My mind is telling me the story that",
-  },
-  {
-    title: "Thank the mind",
-    instruction: 'Acknowledge your mind is trying to protect you. Say: "Thanks, mind, for trying to help." Thoughts are not commands. You can notice them and choose not to follow.',
-  },
-];
+import { useState } from 'react';
 
 export default function NameTheStory({ onComplete }) {
-  const [started, setStarted] = useState(false);
-  const [stepIndex, setStepIndex] = useState(0);
-  const [thought, setThought] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [step, setStep] = useState(0); // 0=intro, 1=capture, 2=name, 3=poster, 4=defusion
+  const [thought, setThought] = useState('');
+  const [movieTitle, setMovieTitle] = useState('');
+  const [defusionLevel, setDefusionLevel] = useState(0);
 
-  const step = STEPS[stepIndex];
-  const progress = ((stepIndex + (submitted ? 1 : 0)) / STEPS.length) * 100;
-
-  const handleSubmitThought = () => {
-    if (!thought.trim()) return;
-    setSubmitted(true);
-    setStepIndex(1);
-  };
-
-  const handleNext = () => {
-    if (stepIndex < STEPS.length - 1) {
-      setStepIndex(stepIndex + 1);
-    }
-  };
-
-  if (!started) {
+  // --- INTRO ---
+  if (step === 0) {
     return (
-      <div style={{ minHeight: "60vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 24, textAlign: "center" }}>
-        <div style={{ width: 120, height: 120, borderRadius: "50%", background: "linear-gradient(135deg, var(--lavender-light), var(--ocean-light))", display: "grid", placeItems: "center", fontSize: 48, marginBottom: 32 }}>
-          📖
-        </div>
-        <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(1.5rem, 3vw, 2rem)", margin: "0 0 12px", color: "var(--text-primary)" }}>
-          Name the Story
-        </h2>
-        <p style={{ color: "var(--text-secondary)", maxWidth: 440, lineHeight: 1.7, margin: "0 0 8px" }}>
-          An ACT defusion technique. Instead of fighting anxious thoughts, you learn to notice them as stories your mind tells — not facts you must obey. This reduces their power over your behavior.
-        </p>
-        <p style={{ color: "var(--text-muted)", fontSize: 13, margin: "0 0 32px" }}>
-          3 steps &middot; ~2 minutes
-        </p>
-        <button
-          onClick={() => setStarted(true)}
-          style={{
-            padding: "14px 36px",
-            borderRadius: 24,
-            background: "var(--interactive)",
-            color: "#fff",
-            border: "none",
-            fontSize: 16,
-            fontWeight: 600,
-            fontFamily: "'Fraunces', serif",
-            cursor: "pointer",
-            boxShadow: "0 4px 16px rgba(122,158,126,0.3)",
-          }}
-        >
-          Begin exercise
-        </button>
-      </div>
-    );
-  }
-
-  // Completion
-  if (stepIndex >= STEPS.length - 1 && submitted) {
-    return (
-      <div style={{ minHeight: "60vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 24, textAlign: "center" }}>
-        <div style={{ width: 100, height: 100, borderRadius: "50%", background: "linear-gradient(135deg, var(--lavender-light), var(--lavender))", display: "grid", placeItems: "center", fontSize: 40, marginBottom: 24 }}>
-          ✓
-        </div>
-        <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(1.4rem, 2.5vw, 1.8rem)", margin: "0 0 12px", color: "var(--text-primary)" }}>
-          The story has a name now
-        </h2>
-        <p style={{ color: "var(--text-secondary)", maxWidth: 420, lineHeight: 1.7, margin: "0 0 16px" }}>
-          You noticed your thought, named it as a story, and thanked your mind for trying to help. The thought may still be there — but you are no longer fused with it.
-        </p>
-        <div style={{
-          padding: "16px 24px",
-          borderRadius: 16,
-          background: "var(--lavender-light)",
-          color: "var(--lavender-deep)",
-          fontSize: 15,
-          fontStyle: "italic",
-          maxWidth: 400,
-          lineHeight: 1.6,
-          marginBottom: 32,
-        }}>
-          "My mind is telling me the story that {thought}"
-        </div>
-        {onComplete && (
-          <button
-            onClick={onComplete}
-            style={{
-              padding: "14px 36px",
-              borderRadius: 24,
-              background: "var(--interactive)",
-              color: "#fff",
-              border: "none",
-              fontSize: 16,
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
-          >
-            Continue
+      <div style={styles.container}>
+        <div style={{ ...styles.fadeIn, textAlign: 'center', padding: '48px 24px', maxWidth: 520, margin: '0 auto' }}>
+          <div style={{ fontSize: 48, marginBottom: 24 }}>{'\u{1F3AC}'}</div>
+          <h2 style={styles.heading}>
+            Your mind is telling you a story right now {'\u2014'} and it feels absolutely real.
+          </h2>
+          <p style={styles.subtext}>
+            But thoughts are just thoughts. Let's create some distance.
+          </p>
+          <button onClick={() => setStep(1)} style={styles.primaryBtn}>
+            Let's start {'\u2192'}
           </button>
-        )}
+        </div>
       </div>
     );
   }
 
-  return (
-    <div style={{ minHeight: "60vh", display: "flex", flexDirection: "column", padding: 24, maxWidth: 560, margin: "0 auto" }}>
-      {/* Progress */}
-      <div style={{ marginBottom: 32 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
-          <span style={{ fontSize: 13, color: "var(--text-muted)" }}>Step {stepIndex + 1} of {STEPS.length}</span>
-        </div>
-        <div style={{ height: 6, borderRadius: 999, background: "var(--parchment-deep)", overflow: "hidden" }}>
-          <div style={{ width: `${progress}%`, height: "100%", borderRadius: 999, background: "linear-gradient(90deg, var(--lavender), var(--ocean))", transition: "width 300ms ease" }} />
-        </div>
-      </div>
-
-      {/* Step content */}
-      <div style={{ textAlign: "center", marginBottom: 28 }}>
-        <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(1.3rem, 2.5vw, 1.7rem)", margin: "0 0 12px", color: "var(--text-primary)" }}>
-          {step.title}
-        </h3>
-        <p style={{ color: "var(--text-secondary)", lineHeight: 1.7, margin: 0, maxWidth: 440, marginInline: "auto" }}>
-          {step.instruction}
-        </p>
-      </div>
-
-      {/* Step 1: Write the thought */}
-      {stepIndex === 0 && (
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+  // --- STEP 1: CAPTURE THOUGHT ---
+  if (step === 1) {
+    return (
+      <div style={styles.container}>
+        <div style={{ ...styles.fadeIn, padding: '40px 24px', maxWidth: 500, margin: '0 auto' }}>
+          <div style={styles.stepLabel}>Step 1 of 3</div>
+          <h2 style={{ ...styles.heading, textAlign: 'left' }}>
+            What's the anxious thought running through your mind?
+          </h2>
           <textarea
             value={thought}
-            onChange={(e) => setThought(e.target.value)}
-            placeholder={step.placeholder}
-            autoFocus
-            rows={3}
+            onChange={e => setThought(e.target.value)}
+            placeholder={'e.g., "Something terrible is going to happen" or "I can\'t handle this"'}
+            rows={4}
             style={{
-              padding: "16px 18px",
+              width: '100%',
+              padding: '16px 20px',
+              border: '1.5px solid rgba(155,142,196,0.2)',
               borderRadius: 16,
-              border: "2px solid var(--lavender)40",
-              background: "var(--surface)",
-              color: "var(--text-primary)",
+              background: 'rgba(155,142,196,0.04)',
               fontSize: 16,
-              fontFamily: "inherit",
-              outline: "none",
-              resize: "vertical",
+              color: 'var(--text-primary)',
+              fontFamily: "'DM Sans', sans-serif",
               lineHeight: 1.6,
+              resize: 'none',
+              outline: 'none',
+              boxSizing: 'border-box',
+              transition: 'border-color 0.2s ease',
             }}
+            onFocus={e => { e.target.style.borderColor = '#9B8EC4'; }}
+            onBlur={e => { e.target.style.borderColor = 'rgba(155,142,196,0.2)'; }}
           />
-          <button
-            onClick={handleSubmitThought}
-            disabled={!thought.trim()}
-            style={{
-              padding: "14px 28px",
-              borderRadius: 20,
-              background: thought.trim() ? "var(--interactive)" : "var(--parchment-deep)",
-              color: thought.trim() ? "#fff" : "var(--text-muted)",
-              border: "none",
-              fontSize: 16,
-              fontWeight: 600,
-              cursor: thought.trim() ? "pointer" : "not-allowed",
-              alignSelf: "center",
-            }}
-          >
-            I wrote it down
-          </button>
+          <div style={{ textAlign: 'center', marginTop: 24 }}>
+            <button
+              onClick={() => setStep(2)}
+              disabled={!thought.trim()}
+              style={{
+                ...styles.primaryBtn,
+                opacity: thought.trim() ? 1 : 0.4,
+                cursor: thought.trim() ? 'pointer' : 'not-allowed',
+              }}
+            >
+              Next {'\u2192'}
+            </button>
+          </div>
         </div>
-      )}
+      </div>
+    );
+  }
 
-      {/* Step 2: See it reframed */}
-      {stepIndex === 1 && (
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
+  // --- STEP 2: NAME THE MOVIE ---
+  if (step === 2) {
+    return (
+      <div style={styles.container}>
+        <div style={{ ...styles.fadeIn, padding: '40px 24px', maxWidth: 500, margin: '0 auto' }}>
+          <div style={styles.stepLabel}>Step 2 of 3</div>
+
+          {/* Display their thought */}
           <div style={{
-            padding: "20px 28px",
-            borderRadius: 20,
-            background: "var(--lavender-light)",
-            border: "1px solid var(--lavender)30",
-            maxWidth: 440,
-            textAlign: "center",
+            padding: '16px 20px',
+            background: 'rgba(155,142,196,0.06)',
+            borderRadius: 12,
+            marginBottom: 24,
+            borderLeft: '3px solid rgba(155,142,196,0.3)',
           }}>
-            <p style={{ fontSize: 14, color: "var(--lavender-deep)", fontWeight: 600, margin: "0 0 8px", textTransform: "uppercase", letterSpacing: "0.1em" }}>
-              Your mind says:
-            </p>
-            <p style={{ fontSize: 17, color: "var(--text-primary)", lineHeight: 1.6, margin: "0 0 16px", fontStyle: "italic" }}>
+            <p style={{ fontSize: 15, color: 'var(--text-muted)', margin: 0, fontStyle: 'italic', lineHeight: 1.6 }}>
               "{thought}"
             </p>
-            <div style={{ height: 1, background: "var(--lavender)30", margin: "16px 0" }} />
-            <p style={{ fontSize: 14, color: "var(--lavender-deep)", fontWeight: 600, margin: "0 0 8px", textTransform: "uppercase", letterSpacing: "0.1em" }}>
-              Reframed:
-            </p>
-            <p style={{ fontSize: 17, color: "var(--text-primary)", lineHeight: 1.6, margin: 0 }}>
-              "My mind is telling me the story that {thought.toLowerCase()}"
-            </p>
           </div>
-          <p style={{ fontSize: 14, color: "var(--text-muted)", textAlign: "center", maxWidth: 380, lineHeight: 1.6 }}>
-            Notice the shift? The thought is still there, but now it is something your mind <em>produces</em>, not something you <em>are</em>.
-          </p>
-          <button
-            onClick={handleNext}
-            style={{
-              padding: "14px 28px",
-              borderRadius: 20,
-              background: "var(--interactive)",
-              color: "#fff",
-              border: "none",
-              fontSize: 16,
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
-          >
-            I see the difference
-          </button>
-        </div>
-      )}
 
-      {/* Step 3: Thank the mind */}
-      {stepIndex === 2 && (
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
+          <h2 style={{ ...styles.heading, textAlign: 'left' }}>
+            If this thought were a movie, what would you call it?
+          </h2>
+          <p style={{ fontSize: 14, color: 'var(--text-muted)', margin: '0 0 16px' }}>
+            Be creative. Make it dramatic, funny, or absurd.
+          </p>
+
+          {/* Movie title input with poster frame */}
           <div style={{
-            padding: "24px",
-            borderRadius: 20,
-            background: "var(--surface)",
-            border: "1px solid var(--border)",
-            maxWidth: 440,
-            textAlign: "center",
+            padding: movieTitle.trim() ? '24px' : '0',
+            border: movieTitle.trim() ? '2px solid rgba(155,142,196,0.25)' : 'none',
+            borderRadius: 16,
+            background: movieTitle.trim() ? 'rgba(155,142,196,0.04)' : 'transparent',
+            transition: 'all 0.3s ease',
+            marginBottom: 24,
           }}>
-            <p style={{ fontSize: 28, margin: "0 0 12px" }}>🙏</p>
-            <p style={{ fontSize: 17, color: "var(--text-primary)", lineHeight: 1.7, margin: 0, fontFamily: "'Fraunces', serif" }}>
-              "Thanks, mind, for trying to help. I see the story, and I'm choosing what to do next."
+            {movieTitle.trim() && (
+              <div style={{
+                fontSize: 10,
+                textTransform: 'uppercase',
+                letterSpacing: '0.2em',
+                color: '#9B8EC4',
+                textAlign: 'center',
+                marginBottom: 8,
+              }}>
+                Now showing
+              </div>
+            )}
+            <input
+              type="text"
+              value={movieTitle}
+              onChange={e => setMovieTitle(e.target.value)}
+              placeholder={'e.g., "The Catastrophe Show" or "Everything Falls Apart: Part 47"'}
+              style={{
+                width: '100%',
+                padding: '14px 4px',
+                border: 'none',
+                borderBottom: '2px solid rgba(155,142,196,0.3)',
+                background: 'transparent',
+                fontSize: movieTitle.trim() ? 20 : 16,
+                fontFamily: movieTitle.trim() ? "'Fraunces', serif" : "'DM Sans', sans-serif",
+                fontWeight: movieTitle.trim() ? 600 : 400,
+                color: 'var(--text-primary)',
+                textAlign: movieTitle.trim() ? 'center' : 'left',
+                outline: 'none',
+                transition: 'all 0.3s ease',
+                boxSizing: 'border-box',
+              }}
+              onFocus={e => { e.target.style.borderBottomColor = '#9B8EC4'; }}
+              onBlur={e => { e.target.style.borderBottomColor = 'rgba(155,142,196,0.3)'; }}
+            />
+          </div>
+
+          <div style={{ textAlign: 'center' }}>
+            <button
+              onClick={() => setStep(3)}
+              disabled={!movieTitle.trim()}
+              style={{
+                ...styles.primaryBtn,
+                opacity: movieTitle.trim() ? 1 : 0.4,
+                cursor: movieTitle.trim() ? 'pointer' : 'not-allowed',
+              }}
+            >
+              See the poster {'\u2192'}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // --- STEP 3: MOVIE POSTER ---
+  if (step === 3) {
+    return (
+      <div style={styles.container}>
+        <div style={{ ...styles.fadeIn, padding: '32px 24px', maxWidth: 500, margin: '0 auto' }}>
+          {/* Movie poster */}
+          <div style={{
+            padding: '40px 32px',
+            background: 'linear-gradient(180deg, #2C2520 0%, #3D3530 50%, #2C2520 100%)',
+            borderRadius: 20,
+            textAlign: 'center',
+            position: 'relative',
+            overflow: 'hidden',
+            marginBottom: 28,
+            boxShadow: '0 12px 48px rgba(0,0,0,0.2)',
+            animation: 'posterReveal 0.6s cubic-bezier(0.16,1,0.3,1)',
+          }}>
+            {/* Film grain overlay */}
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")',
+              opacity: 0.04,
+              mixBlendMode: 'overlay',
+              pointerEvents: 'none',
+            }} />
+
+            {/* Decorative border */}
+            <div style={{
+              position: 'absolute',
+              inset: 12,
+              border: '1px solid rgba(155,142,196,0.2)',
+              borderRadius: 12,
+              pointerEvents: 'none',
+            }} />
+
+            {/* NOW SHOWING */}
+            <div style={{
+              fontSize: 10,
+              textTransform: 'uppercase',
+              letterSpacing: '0.35em',
+              color: '#9B8EC4',
+              marginBottom: 24,
+              fontFamily: "'JetBrains Mono', monospace",
+            }}>
+              Now showing
+            </div>
+
+            {/* Movie title */}
+            <h2 style={{
+              fontFamily: "'Fraunces', serif",
+              fontSize: 'clamp(1.5rem, 5vw, 2.2rem)',
+              fontWeight: 600,
+              color: '#FAF6F0',
+              lineHeight: 1.2,
+              margin: '0 0 28px',
+              padding: '0 8px',
+            }}>
+              {movieTitle}
+            </h2>
+
+            {/* Divider */}
+            <div style={{
+              width: 48,
+              height: 1,
+              background: 'rgba(155,142,196,0.3)',
+              margin: '0 auto 24px',
+            }} />
+
+            {/* Credits */}
+            <div style={{
+              fontSize: 12,
+              color: 'rgba(250,246,240,0.5)',
+              lineHeight: 2,
+              fontFamily: "'DM Sans', sans-serif",
+            }}>
+              <div>Directed by: <span style={{ color: '#9B8EC4' }}>Your Anxious Mind</span></div>
+              <div>Starring: <span style={{ color: 'rgba(250,246,240,0.7)' }}>You (but you don't have to watch)</span></div>
+            </div>
+          </div>
+
+          {/* Insight text */}
+          <div style={{ textAlign: 'center', marginBottom: 28 }}>
+            <p style={{
+              fontSize: 16,
+              color: 'var(--text-primary)',
+              lineHeight: 1.7,
+              fontWeight: 500,
+              margin: '0 0 12px',
+            }}>
+              Notice something?
+            </p>
+            <p style={{
+              fontSize: 15,
+              color: 'var(--text-secondary)',
+              lineHeight: 1.7,
+              margin: '0 0 12px',
+            }}>
+              You just stepped <strong style={{ color: 'var(--text-primary)' }}>outside</strong> the thought. You're no longer <em>in</em> the story {'\u2014'} you're looking <em>at</em> it.
+            </p>
+            <p style={{
+              fontSize: 14,
+              color: 'var(--text-muted)',
+              lineHeight: 1.6,
+              margin: 0,
+            }}>
+              This is cognitive defusion {'\u2014'} an ACT technique. The thought hasn't changed, but your relationship to it just did.
             </p>
           </div>
-          <p style={{ fontSize: 14, color: "var(--text-muted)", textAlign: "center", maxWidth: 380, lineHeight: 1.6 }}>
-            Your mind evolved to spot threats. Thanking it acknowledges that function without obeying every alarm it sounds.
-          </p>
-          <button
-            onClick={() => setSubmitted(true)}
-            style={{
-              padding: "14px 28px",
-              borderRadius: 20,
-              background: "var(--interactive)",
-              color: "#fff",
-              border: "none",
-              fontSize: 16,
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
-          >
-            Complete exercise
-          </button>
+
+          <div style={{ textAlign: 'center' }}>
+            <button onClick={() => { setStep(4); setDefusionLevel(0); }} style={styles.primaryBtn}>
+              Practice the distance {'\u2192'}
+            </button>
+          </div>
         </div>
-      )}
+        <style>{`
+          @keyframes posterReveal {
+            from { opacity: 0; transform: scale(0.92) translateY(16px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  // --- STEP 4: PROGRESSIVE DEFUSION ---
+  const defusionSteps = [
+    { text: thought, label: 'The raw thought:', style: { fontSize: 18, fontWeight: 500, color: 'var(--text-primary)', opacity: 1 } },
+    { text: `I'm having the thought that ${thought.charAt(0).toLowerCase()}${thought.slice(1)}`, label: 'Add distance:', style: { fontSize: 16, color: 'var(--text-secondary)', opacity: 0.85 } },
+    { text: `I notice my mind is playing "${movieTitle}" again`, label: 'Full distance:', style: { fontSize: 15, color: 'var(--text-muted)', opacity: 0.7 } },
+  ];
+
+  const currentDefusion = defusionSteps[defusionLevel];
+  const isLastDefusion = defusionLevel >= defusionSteps.length - 1;
+
+  return (
+    <div style={styles.container}>
+      <div style={{ padding: '40px 24px', maxWidth: 500, margin: '0 auto' }}>
+        <div style={styles.stepLabel}>Creating distance</div>
+
+        {/* Progress */}
+        <div style={{ display: 'flex', gap: 8, marginBottom: 32 }}>
+          {defusionSteps.map((_, i) => (
+            <div key={i} style={{
+              flex: 1,
+              height: 4,
+              borderRadius: 2,
+              background: i <= defusionLevel ? '#9B8EC4' : 'rgba(155,142,196,0.15)',
+              transition: 'background 0.3s ease',
+            }} />
+          ))}
+        </div>
+
+        {/* Defusion card */}
+        <div key={defusionLevel} style={{
+          padding: '28px 24px',
+          background: 'var(--surface-elevated)',
+          borderRadius: 20,
+          boxShadow: '0 4px 24px rgba(0,0,0,0.04)',
+          border: '1px solid rgba(155,142,196,0.1)',
+          marginBottom: 28,
+          animation: 'defusionFade 0.4s ease',
+        }}>
+          <div style={{
+            fontSize: 12,
+            textTransform: 'uppercase',
+            letterSpacing: '0.12em',
+            color: '#9B8EC4',
+            fontWeight: 600,
+            marginBottom: 12,
+            fontFamily: "'JetBrains Mono', monospace",
+          }}>
+            {currentDefusion.label}
+          </div>
+          <p style={{
+            ...currentDefusion.style,
+            lineHeight: 1.6,
+            margin: 0,
+            fontFamily: "'DM Sans', sans-serif",
+          }}>
+            "{currentDefusion.text}"
+          </p>
+        </div>
+
+        {/* Insight for last level */}
+        {isLastDefusion && (
+          <p style={{
+            fontSize: 15,
+            color: 'var(--text-secondary)',
+            lineHeight: 1.7,
+            textAlign: 'center',
+            marginBottom: 24,
+            animation: 'defusionFade 0.5s ease 0.2s both',
+          }}>
+            Next time this thought shows up, you can say: "Oh, there's <em>{movieTitle}</em> again." It loses power every time.
+          </p>
+        )}
+
+        <div style={{ textAlign: 'center' }}>
+          {!isLastDefusion ? (
+            <button
+              onClick={() => setDefusionLevel(defusionLevel + 1)}
+              style={styles.primaryBtn}
+            >
+              Add more distance {'\u2192'}
+            </button>
+          ) : (
+            <button onClick={onComplete} style={styles.primaryBtn}>
+              Continue {'\u2192'}
+            </button>
+          )}
+        </div>
+      </div>
+      <style>{`
+        @keyframes defusionFade {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }
+
+const styles = {
+  container: {
+    minHeight: '60vh',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    padding: '20px 0 100px',
+  },
+  fadeIn: {
+    animation: 'defusionFade 0.5s ease',
+  },
+  heading: {
+    fontFamily: "'Fraunces', serif",
+    fontSize: 'clamp(1.4rem, 4vw, 1.9rem)',
+    fontWeight: 500,
+    color: 'var(--text-primary)',
+    lineHeight: 1.3,
+    margin: '0 0 16px',
+  },
+  subtext: {
+    fontSize: 16,
+    color: 'var(--text-secondary)',
+    lineHeight: 1.7,
+    margin: '0 0 28px',
+  },
+  stepLabel: {
+    fontSize: 12,
+    textTransform: 'uppercase',
+    letterSpacing: '0.12em',
+    color: '#9B8EC4',
+    fontWeight: 600,
+    marginBottom: 12,
+    fontFamily: "'JetBrains Mono', monospace",
+  },
+  primaryBtn: {
+    padding: '16px 36px',
+    borderRadius: 50,
+    background: '#9B8EC4',
+    color: '#fff',
+    border: 'none',
+    fontSize: 16,
+    fontWeight: 600,
+    fontFamily: "'Fraunces', serif",
+    cursor: 'pointer',
+    transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
+    boxShadow: '0 4px 16px rgba(155,142,196,0.3)',
+  },
+};

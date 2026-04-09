@@ -16,6 +16,7 @@ export const emotionOptions = [
     description: 'Too much at once, minds feels flooded.',
     interventionTitle: 'Create a small, steady reset.',
     interventionDetails: 'Pause and name three things you can control in this moment. Break the next task into one tiny step and let the rest wait.',
+    interventionSlug: 'overwhelmed-at-work',
     variant: 'behavioral',
   },
   {
@@ -25,6 +26,7 @@ export const emotionOptions = [
     description: 'Pressure, deadlines, tension.',
     interventionTitle: 'Shift from overwhelm to action.',
     interventionDetails: 'Use a quick body scan and a breathing anchor. Ask yourself: what is one thing I can do in the next five minutes that eases this pressure?',
+    interventionSlug: 'box-breathing',
     variant: 'cbt',
   },
   {
@@ -34,6 +36,7 @@ export const emotionOptions = [
     description: 'Heavy, low, tearful, quiet.',
     interventionTitle: 'Hold the feeling with gentle care.',
     interventionDetails: 'Acknowledge that sadness is valid. Name one thing you can do that feels kind, even if it is small: a warm drink, a walk, or a quiet moment.',
+    interventionSlug: 'self-compassion-break',
     variant: 'somatic',
   },
   {
@@ -43,6 +46,7 @@ export const emotionOptions = [
     description: 'Frustrated, irritable, lashing out.',
     interventionTitle: 'Let the heat land without reacting.',
     interventionDetails: 'Pause and notice what your body is doing. Count to six, then choose whether you need space, a boundary, or a calm statement.',
+    interventionSlug: 'tipp-skill',
     variant: 'dbt',
   },
   {
@@ -51,7 +55,9 @@ export const emotionOptions = [
     label: 'Lonely',
     description: 'Disconnected, unseen, isolated.',
     interventionTitle: 'Reach for connection in a small, safe way.',
-    interventionDetails: 'Name one person you trust, even if you don’t reach out yet. If you can, send a simple message or plan one small social step.',    interventionSlug: 'body-scan',    variant: 'psychoed',
+    interventionDetails: "Name one person you trust, even if you don't reach out yet. If you can, send a simple message or plan one small social step.",
+    interventionSlug: 'body-scan',
+    variant: 'psychoed',
   },
   {
     id: 'numb',
@@ -70,6 +76,7 @@ export const emotionOptions = [
     description: 'Missing someone or something deeply.',
     interventionTitle: 'Allow the ache instead of fixing it.',
     interventionDetails: 'Spend a few moments naming what you miss. Offer yourself the kindness you would give a friend in pain. You do not have to make this go away.',
+    interventionSlug: 'grief-wave',
     variant: 'act',
   },
   {
@@ -79,6 +86,7 @@ export const emotionOptions = [
     description: 'Flat, stuck, unable to start.',
     interventionTitle: 'Start with one tiny, doable action.',
     interventionDetails: 'Pick the smallest possible next step — five minutes, one sentence, one short walk. Action often creates momentum, even when motivation is absent.',
+    interventionSlug: 'behavioral-activation',
     variant: 'behavioral',
   },
   {
@@ -88,6 +96,7 @@ export const emotionOptions = [
     description: 'Conflict, hurt, distance, disconnection.',
     interventionTitle: 'Hold compassion for yourself and the other person.',
     interventionDetails: 'Name what you need and what the other person might need. Then decide whether you need space, a boundary, or a calm conversation.',
+    interventionSlug: 'radical-acceptance',
     variant: 'cbt',
   },
   {
@@ -97,6 +106,7 @@ export const emotionOptions = [
     description: 'Feeling unworthy, ashamed, not enough.',
     interventionTitle: 'Separate fact from the harsh story.',
     interventionDetails: 'Notice one thought that says you are not enough. Ask: is that always true? Evidence often shows a kinder, more balanced story.',
+    interventionSlug: 'thought-defusion',
     variant: 'cbt',
   },
   {

@@ -79,7 +79,7 @@ export default function SiteFooter() {
       </div>
 
       <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "0 0 8px", lineHeight: 1.8 }}>
-        Built by a Board Certified PMHNP-BC — Caring for the Whole Human
+        Built by a Board-Certified Healthcare Professional — Caring for the Whole Human
       </p>
       <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.5, margin: 0 }}>
         © 2026 AIForj. All rights reserved.
