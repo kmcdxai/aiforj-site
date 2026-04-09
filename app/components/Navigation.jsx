@@ -175,7 +175,7 @@ export default function Navigation() {
           <SoundToggle />
 
           <a
-            href="/blueprint"
+            href="/start"
             style={{
               padding: "8px 18px",
               fontSize: 13,
@@ -188,6 +188,9 @@ export default function Navigation() {
               marginLeft: 4,
               transition: "all 200ms",
               boxShadow: "0 2px 8px rgba(125,155,130,0.2)",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 4,
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = "var(--interactive-hover)";
@@ -198,7 +201,7 @@ export default function Navigation() {
               e.currentTarget.style.transform = "translateY(0)";
             }}
           >
-            Take Blueprint
+            Get support <span style={{ fontSize: 14 }}>{"\u2192"}</span>
           </a>
         </div>
 
@@ -316,7 +319,7 @@ export default function Navigation() {
         <div style={{ height: 1, background: "rgba(45,42,38,0.08)", margin: "8px 0" }} />
 
         <a
-          href="/blueprint"
+          href="/start"
           onClick={handleLinkClick}
           style={{
             padding: "14px 20px",
@@ -331,7 +334,7 @@ export default function Navigation() {
             marginBottom: 8,
           }}
         >
-          Take Your Blueprint
+          Get support {"\u2192"}
         </a>
 
         <div style={{ display: "flex", gap: 10, alignItems: "center", padding: "8px 0" }}>

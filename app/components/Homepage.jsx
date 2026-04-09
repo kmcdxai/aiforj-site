@@ -158,8 +158,8 @@ export default function Homepage() {
             color: "var(--text-primary)",
             animation: "fadeInUp 600ms ease-out 100ms both",
           }}>
-            Feel better in<br />
-            <span style={{ fontStyle: "italic", color: "var(--sage-deep)" }}>90 seconds</span>
+            Emotional first aid<br />
+            <span style={{ fontStyle: "italic", color: "var(--sage-deep)" }}>that actually works</span>
           </h1>
 
           {/* Subtext */}
@@ -233,6 +233,51 @@ export default function Homepage() {
           }}>
             No sign-up required &middot; Works on any device &middot; Takes 90 seconds
           </p>
+        </div>
+      </section>
+
+      {/* ═══ STATS ROW ═══ */}
+      <section style={{
+        padding: "0 24px 60px",
+        maxWidth: 1080,
+        margin: "0 auto",
+      }}>
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+          gap: 16,
+          padding: "32px 24px",
+          borderRadius: 24,
+          background: "var(--surface-elevated)",
+          border: "1px solid var(--border)",
+        }}>
+          {[
+            { value: "100+", label: "Interventions", color: "var(--sage-deep)" },
+            { value: "12", label: "Emotional States", color: "var(--ocean)" },
+            { value: "15", label: "Therapeutic Modalities", color: "var(--lavender)" },
+            { value: "7", label: "Interaction Types", color: "var(--sage-deep)" },
+          ].map((stat) => (
+            <div key={stat.label} style={{ textAlign: "center", padding: "8px 0" }}>
+              <div style={{
+                fontFamily: "'Fraunces', serif",
+                fontSize: "clamp(1.8rem, 3vw, 2.4rem)",
+                fontWeight: 500,
+                color: stat.color,
+                lineHeight: 1,
+                marginBottom: 4,
+              }}>
+                {stat.value}
+              </div>
+              <div style={{
+                fontSize: 13,
+                color: "var(--text-muted)",
+                fontWeight: 500,
+                letterSpacing: "0.04em",
+              }}>
+                {stat.label}
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -322,6 +367,93 @@ export default function Homepage() {
               </p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ═══ 12 EMOTIONAL STATES ═══ */}
+      <section style={{
+        padding: "80px 24px",
+        background: "var(--surface)",
+      }}>
+        <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 52 }}>
+            <p style={{ fontSize: 13, fontWeight: 600, color: "var(--sage-deep)", letterSpacing: "0.15em", textTransform: "uppercase", margin: "0 0 10px" }}>
+              We meet you where you are
+            </p>
+            <h2 style={{
+              fontFamily: "'Fraunces', serif",
+              fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)",
+              fontWeight: 400,
+              margin: "0 0 12px",
+              color: "var(--text-primary)",
+            }}>
+              12 emotional states, each with tailored tools
+            </h2>
+            <p style={{ fontSize: 16, color: "var(--text-secondary)", maxWidth: 540, margin: "0 auto", lineHeight: 1.6 }}>
+              Tap the emotion that matches right now and get matched to evidence-based techniques for your specific experience.
+            </p>
+          </div>
+
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+            gap: 14,
+          }}>
+            {[
+              { emoji: "\u26A1", label: "Anxious", color: "var(--sage-light)" },
+              { emoji: "\u{1F30A}", label: "Overwhelmed", color: "var(--ocean-light)" },
+              { emoji: "\u23F0", label: "Stressed", color: "var(--sage-light)" },
+              { emoji: "\u{1F327}", label: "Sad", color: "var(--ocean-light)" },
+              { emoji: "\u{1F525}", label: "Angry", color: "rgba(196,157,157,0.12)" },
+              { emoji: "\u{1F311}", label: "Lonely", color: "var(--lavender-light)" },
+              { emoji: "\u{1F9CA}", label: "Numb", color: "var(--ocean-light)" },
+              { emoji: "\u{1F54A}\uFE0F", label: "Grief", color: "var(--lavender-light)" },
+              { emoji: "\u{1FAB4}", label: "Unmotivated", color: "var(--sage-light)" },
+              { emoji: "\u{1F494}", label: "Relationship", color: "rgba(196,157,157,0.12)" },
+              { emoji: "\u{1F3AD}", label: "Self-Worth", color: "var(--lavender-light)" },
+              { emoji: "\u{1FA79}", label: "Self-Destructive", color: "rgba(196,157,157,0.12)" },
+            ].map((emotion) => (
+              <a
+                key={emotion.label}
+                href="/start"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: 10,
+                  padding: "20px 12px",
+                  borderRadius: 20,
+                  background: emotion.color,
+                  textDecoration: "none",
+                  color: "var(--text-primary)",
+                  border: "1px solid var(--border)",
+                  transition: "all 200ms",
+                }}
+              >
+                <span style={{ fontSize: 28 }}>{emotion.emoji}</span>
+                <span style={{ fontSize: 14, fontWeight: 500, color: "var(--text-primary)" }}>{emotion.label}</span>
+              </a>
+            ))}
+          </div>
+
+          <div style={{ textAlign: "center", marginTop: 32 }}>
+            <a href="/start" style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "14px 28px",
+              borderRadius: 28,
+              background: "var(--interactive)",
+              color: "#fff",
+              textDecoration: "none",
+              fontSize: 15,
+              fontWeight: 600,
+              fontFamily: "'Fraunces', serif",
+              boxShadow: "0 4px 16px rgba(122,158,126,0.25)",
+            }}>
+              Start with how you feel <span style={{ fontSize: 18 }}>{"\u2192"}</span>
+            </a>
+          </div>
         </div>
       </section>
 
@@ -504,7 +636,7 @@ export default function Homepage() {
               <span style={{ fontFamily: "'Fraunces', serif", fontSize: 17, fontWeight: 600, color: "var(--text-primary)" }}>Forj</span>
             </div>
             <p style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.6, margin: 0 }}>
-              Free therapeutic tools built by a clinician. 100% private.
+              Free therapeutic tools designed by Kevin Cooke, PMHNP-BC. 100% private.
             </p>
           </div>
 
@@ -566,7 +698,7 @@ export default function Homepage() {
           borderTop: "1px solid var(--border)",
         }}>
           <p style={{ fontSize: 13, color: "var(--text-muted)", margin: 0 }}>
-            &copy; {new Date().getFullYear()} AIForj. Not a substitute for professional care.
+            &copy; {new Date().getFullYear()} AIForj &middot; Kevin Cooke, PMHNP-BC. Not a substitute for professional care.
           </p>
           <p style={{ fontSize: 13, color: "var(--text-muted)", margin: 0 }}>
             Built with care in the United States

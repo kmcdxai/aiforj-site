@@ -2,20 +2,21 @@
 
 import { useMemo, useState } from 'react';
 import { Button, Card, EmotionCard, Tag } from '../components/ui';
-import { emotionOptions, contextOptions } from './emotionData';
+import { emotionOptions, contextOptions, timePreferences } from './emotionData';
+import { getInterventions } from '../../data/interventions';
 
 const stepLabels = [
   'Choose your emotion',
   'Measure intensity',
-  'Pick what feels true',
-  'Get a tailored reset',
+  'How much time do you have?',
+  'Your tailored techniques',
 ];
 
 export default function StartPage() {
   const [step, setStep] = useState(1);
   const [selectedEmotionId, setSelectedEmotionId] = useState(null);
   const [intensity, setIntensity] = useState(6);
-  const [context, setContext] = useState(null);
+  const [timePref, setTimePref] = useState(null);
   const [showCrisis, setShowCrisis] = useState(false);
 
   const selectedEmotion = useMemo(
@@ -28,7 +29,7 @@ export default function StartPage() {
 
   const handleEmotionSelect = (id) => {
     setSelectedEmotionId(id);
-    setContext(null);
+    setTimePref(null);
     setIntensity(6);
     const emotion = emotionOptions.find((item) => item.id === id);
     if (emotion?.crisis) {
@@ -44,7 +45,7 @@ export default function StartPage() {
       setStep(2);
     } else if (step === 2) {
       setStep(3);
-    } else if (step === 3 && context) {
+    } else if (step === 3 && timePref) {
       setStep(4);
     }
   };
@@ -67,7 +68,7 @@ export default function StartPage() {
     if (step === 2) {
       setStep(1);
       setSelectedEmotionId(null);
-      setContext(null);
+      setTimePref(null);
     }
   };
 
@@ -157,61 +158,117 @@ export default function StartPage() {
           {step === 3 && selectedEmotion && (
             <div style={{ display: 'grid', gap: 22 }}>
               <div>
-                <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 6 }}>What feels most true right now?</div>
-                <div style={{ fontSize: 14, color: 'var(--text-muted)' }}>Pick the phrase that fits your experience best.</div>
+                <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 6 }}>How much time do you have?</div>
+                <div style={{ fontSize: 14, color: 'var(--text-muted)' }}>We'll match you to techniques that fit.</div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 14 }}>
-                {contextOptions.map((item) => (
+                {timePreferences.map((item) => (
                   <button
                     key={item.id}
                     type="button"
-                    onClick={() => setContext(item.id)}
+                    onClick={() => setTimePref(item.id)}
                     style={{
-                      padding: '18px 16px',
+                      padding: '22px 18px',
                       borderRadius: 18,
-                      border: item.id === context ? '2px solid var(--sage)' : '1px solid rgba(45,42,38,0.1)',
-                      background: item.id === context ? 'var(--sage-light)' : 'var(--surface)',
-                      color: item.id === context ? 'var(--sage-deep)' : 'var(--text-primary)',
-                      textAlign: 'left',
+                      border: item.id === timePref ? '2px solid var(--sage)' : '1px solid rgba(45,42,38,0.1)',
+                      background: item.id === timePref ? 'var(--sage-light)' : 'var(--surface)',
+                      color: item.id === timePref ? 'var(--sage-deep)' : 'var(--text-primary)',
+                      textAlign: 'center',
                       cursor: 'pointer',
-                      minHeight: 96,
-                      boxShadow: item.id === context ? 'var(--shadow-sm)' : 'none',
+                      minHeight: 110,
+                      boxShadow: item.id === timePref ? 'var(--shadow-sm)' : 'none',
+                      transition: 'all 200ms ease',
                     }}
                   >
-                    <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 6 }}>{item.label}</div>
-                    <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>This helps Forj tailor the first step.</div>
+                    <div style={{ fontSize: 28, marginBottom: 8 }}>{item.emoji}</div>
+                    <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 4 }}>{item.label}</div>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: item.id === timePref ? 'var(--sage-deep)' : 'var(--text-muted)', marginBottom: 4 }}>{item.duration}</div>
+                    <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>{item.description}</div>
                   </button>
                 ))}
               </div>
             </div>
           )}
 
-          {step === 4 && selectedEmotion && (
-            <div style={{ display: 'grid', gap: 24 }}>
-              <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
-                <div style={{ width: 72, height: 72, borderRadius: 24, background: 'var(--sage-light)', display: 'grid', placeItems: 'center', fontSize: 28 }}>{selectedEmotion.emoji}</div>
-                <div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>Your reset</div>
-                  <h3 style={{ margin: 0, fontSize: '1.35rem', color: 'var(--text-primary)' }}>{selectedEmotion.label} · {intensity}/10</h3>
+          {step === 4 && selectedEmotion && (() => {
+            const tier = timePref || 'quick';
+            const recommendations = getInterventions(selectedEmotion.id, tier);
+            return (
+              <div style={{ display: 'grid', gap: 24 }}>
+                <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
+                  <div style={{ width: 72, height: 72, borderRadius: 24, background: 'var(--sage-light)', display: 'grid', placeItems: 'center', fontSize: 28 }}>{selectedEmotion.emoji}</div>
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>Your techniques</div>
+                    <h3 style={{ margin: 0, fontSize: '1.35rem', color: 'var(--text-primary)' }}>{selectedEmotion.label} · {intensity}/10</h3>
+                  </div>
                 </div>
-              </div>
-              <div style={{ padding: 24, borderRadius: 24, background: 'var(--surface)', border: '1px solid rgba(45,42,38,0.08)', boxShadow: 'var(--shadow-sm)' }}>
-                <p style={{ margin: 0, color: 'var(--text-secondary)', lineHeight: 1.8 }}>{selectedEmotion.interventionDetails}</p>
-              </div>
-              <div style={{ display: 'grid', gap: 12 }}>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 4 }}>
                   <Tag variant={selectedEmotion.variant}>{selectedEmotion.label}</Tag>
                   <Tag variant="cbt">Intensity {intensity}</Tag>
-                  {context && <Tag variant="somatic">{contextOptions.find((item) => item.id === context)?.label}</Tag>}
+                  <Tag variant="somatic">{timePreferences.find(t => t.id === tier)?.label || 'Quick'}</Tag>
                 </div>
-                <p style={{ margin: 0, color: 'var(--text-secondary)', lineHeight: 1.75 }}>Use this as a first step. If you want a more structured reset, try the guided tools library or return to the homepage.</p>
+
+                {/* Intervention recommendation cards */}
+                <div style={{ display: 'grid', gap: 14 }}>
+                  {recommendations.map((intervention, idx) => (
+                    <a
+                      key={intervention.id}
+                      href={`/intervention/${intervention.id}?emotion=${selectedEmotion.id}`}
+                      style={{
+                        display: 'flex',
+                        gap: 16,
+                        padding: '20px 22px',
+                        borderRadius: 20,
+                        background: idx === 0 ? 'var(--sage-light)' : 'var(--surface)',
+                        border: idx === 0 ? '2px solid var(--sage)' : '1px solid rgba(45,42,38,0.1)',
+                        textDecoration: 'none',
+                        color: 'inherit',
+                        transition: 'all 200ms',
+                        position: 'relative',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      {idx === 0 && (
+                        <div style={{
+                          position: 'absolute',
+                          top: 10,
+                          right: 14,
+                          fontSize: 10,
+                          fontWeight: 700,
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.1em',
+                          color: 'var(--sage-deep)',
+                          background: 'rgba(122,158,126,0.15)',
+                          padding: '3px 8px',
+                          borderRadius: 6,
+                        }}>
+                          Best match
+                        </div>
+                      )}
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                          <h4 style={{ fontSize: 16, fontWeight: 600, margin: 0, color: 'var(--text-primary)' }}>{intervention.title}</h4>
+                        </div>
+                        <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.6, margin: '0 0 8px' }}>{intervention.description}</p>
+                        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                          <span style={{ fontSize: 12, fontWeight: 600, padding: '2px 8px', borderRadius: 6, background: 'rgba(122,158,126,0.1)', color: 'var(--sage-deep)' }}>{intervention.duration}</span>
+                          <span style={{ fontSize: 12, fontWeight: 600, padding: '2px 8px', borderRadius: 6, background: 'rgba(155,142,196,0.1)', color: '#9B8EC4' }}>{intervention.modality}</span>
+                        </div>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', fontSize: 18, color: 'var(--text-muted)', flexShrink: 0 }}>{'\u2192'}</div>
+                    </a>
+                  ))}
+                </div>
+
+                <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.75 }}>Pick the technique that feels right. Each one was selected for your specific emotion and time preference.</p>
+
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+                  <Button onClick={() => setStep(1)} variant="secondary">Start over</Button>
+                </div>
               </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-                <Button onClick={() => setStep(1)} variant="secondary">Start over</Button>
-                <a href={`/intervention/${selectedEmotion.interventionSlug}?emotion=${selectedEmotion.id}`} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '12px 22px', borderRadius: 18, background: 'var(--interactive)', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Try this technique \u2192</a>
-              </div>
-            </div>
-          )}
+            );
+          })()}
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginTop: 28 }}>
             <button
@@ -233,7 +290,7 @@ export default function StartPage() {
               <button
                 type="button"
                 onClick={handleNext}
-                disabled={step === 1 ? !selectedEmotionId : step === 3 ? !context : false}
+                disabled={step === 1 ? !selectedEmotionId : step === 3 ? !timePref : false}
                 style={{
                   background: 'var(--sage-deep)',
                   color: '#fff',

@@ -6,23 +6,23 @@ import SOS from './components/SOS';
 import SEO from './components/SEO';
 
 export const metadata = {
-  title: 'AIForj — Talk to Forj | Voice AI Therapeutic Companion',
-  description: 'Free AI therapeutic companion built by a Board-Certified Healthcare Professional. 16 evidence-based modalities (CBT, DBT, ACT). Voice or text. Emotional Blueprint assessment. Guided techniques. 100% private — nothing ever leaves your device.',
-  keywords: 'voice AI therapy, mental health, CBT, DBT, ACT, therapeutic companion, anxiety, depression, wellness, AI counselor, private therapy, nurse practitioner',
+  title: 'AIForj — Emotional First Aid That Actually Works',
+  description: 'Free evidence-based therapeutic tools designed by Kevin Cooke, PMHNP-BC. 12 emotional states, 100+ interventions across CBT, DBT, ACT, and somatic therapy. Mood measurement, guided techniques, and voice AI companion. 100% private — nothing ever leaves your device.',
+  keywords: 'emotional first aid, mental health tools, CBT, DBT, ACT, somatic therapy, therapeutic companion, anxiety, depression, wellness, PMHNP, private therapy, mood tracking, grounding techniques',
   alternates: {
     canonical: 'https://aiforj.com',
   },
   openGraph: {
-    title: 'AIForj — Talk to Forj',
-    description: 'Voice-based AI therapeutic companion with 15+ evidence-based modalities. Clinician-built. 100% private. Nothing leaves your device.',
+    title: 'AIForj — Emotional First Aid That Actually Works',
+    description: 'Free evidence-based therapeutic tools designed by a Board Certified PMHNP. 12 emotional states, 100+ interventions. 100% private.',
     url: 'https://aiforj.com',
     siteName: 'AIForj',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AIForj — Talk to Forj',
-    description: 'Voice-based AI therapeutic companion with 15+ evidence-based modalities. Clinician-built. 100% private.',
+    title: 'AIForj — Emotional First Aid That Actually Works',
+    description: 'Free evidence-based therapeutic tools designed by a Board Certified PMHNP. 12 emotional states, 100+ interventions. 100% private.',
   },
 };
 
