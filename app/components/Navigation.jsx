@@ -8,10 +8,9 @@ const NAV_LINKS = [
   { href: "/start", label: "Start" },
   { href: "/blueprint", label: "Blueprint" },
   { href: "/techniques", label: "Techniques" },
+  { href: "/companion", label: "Talk to Forj" },
   { href: "/garden", label: "Garden" },
-  { href: "/weather", label: "Weather" },
   { href: "/send", label: "Send Calm" },
-  { href: "/tools", label: "Tools" },
 ];
 
 export default function Navigation() {
