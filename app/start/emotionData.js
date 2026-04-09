@@ -127,3 +127,9 @@ export const contextOptions = [
   { id: 'avoidance', label: 'Avoiding something' },
   { id: 'alone', label: 'Feeling alone' },
 ];
+
+export const timePreferences = [
+  { id: 'quick', label: 'Quick', duration: '90 sec – 2 min', description: 'A fast reset for right now.', emoji: '\u26A1' },
+  { id: 'medium', label: 'Medium', duration: '5 min', description: 'A deeper practice with more structure.', emoji: '\u{1F32C}\uFE0F' },
+  { id: 'deep', label: 'Deep', duration: '10 – 12 min', description: 'Full session for sustained relief.', emoji: '\u{1F33F}' },
+];
