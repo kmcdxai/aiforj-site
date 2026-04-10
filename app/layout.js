@@ -7,14 +7,14 @@ import SEO from './components/SEO';
 
 export const metadata = {
   title: 'AIForj — Emotional First Aid That Actually Works',
-  description: 'Free evidence-based therapeutic tools designed by Kevin Cooke, PMHNP-BC. 12 emotional states, 100+ interventions across CBT, DBT, ACT, and somatic therapy. Mood measurement, guided techniques, and voice AI companion. 100% private — nothing ever leaves your device.',
-  keywords: 'emotional first aid, mental health tools, CBT, DBT, ACT, somatic therapy, therapeutic companion, anxiety, depression, wellness, PMHNP, private therapy, mood tracking, grounding techniques',
+  description: 'Free evidence-based therapeutic tools designed by AIForj team, “Licensed healthcare professional”-BC. 12 emotional states, 100+ interventions across CBT, DBT, ACT, and somatic therapy. Mood measurement, guided techniques, and voice AI companion. 100% private — nothing ever leaves your device.',
+  keywords: 'emotional first aid, mental health tools, CBT, DBT, ACT, somatic therapy, therapeutic companion, anxiety, depression, wellness, “Licensed healthcare professional”, private therapy, mood tracking, grounding techniques',
   alternates: {
     canonical: 'https://aiforj.com',
   },
   openGraph: {
     title: 'AIForj — Emotional First Aid That Actually Works',
-    description: 'Free evidence-based therapeutic tools designed by a Board Certified PMHNP. 12 emotional states, 100+ interventions. 100% private.',
+    description: 'Free evidence-based therapeutic tools designed by a Board Certified “Licensed healthcare professional”. 12 emotional states, 100+ interventions. 100% private.',
     url: 'https://aiforj.com',
     siteName: 'AIForj',
     type: 'website',
@@ -22,7 +22,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'AIForj — Emotional First Aid That Actually Works',
-    description: 'Free evidence-based therapeutic tools designed by a Board Certified PMHNP. 12 emotional states, 100+ interventions. 100% private.',
+    description: 'Free evidence-based therapeutic tools designed by a Board Certified “Licensed healthcare professional”. 12 emotional states, 100+ interventions. 100% private.',
   },
 };
 

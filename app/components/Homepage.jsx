@@ -79,7 +79,7 @@ const TRUST_SIGNALS = [
   {
     icon: "🩺",
     title: "Clinician-built",
-    description: "Designed by a Board Certified Psychiatric Mental Health Nurse Practitioner (PMHNP-BC) with real clinical experience.",
+    description: "Designed by a Board Certified Psychiatric Mental Health Nurse Practitioner (“Licensed healthcare professional”-BC) with real clinical experience.",
   },
   {
     icon: "🔒",
@@ -145,7 +145,7 @@ export default function Homepage() {
             animation: "fadeInUp 600ms ease-out",
           }}>
             <span>🩺</span>
-            Built by a Board Certified PMHNP
+            Built by a Board Certified “Licensed healthcare professional”
           </div>
 
           {/* Headline */}
@@ -636,7 +636,7 @@ export default function Homepage() {
               <span style={{ fontFamily: "'Fraunces', serif", fontSize: 17, fontWeight: 600, color: "var(--text-primary)" }}>Forj</span>
             </div>
             <p style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.6, margin: 0 }}>
-              Free therapeutic tools designed by Kevin Cooke, PMHNP-BC. 100% private.
+              Free therapeutic tools designed by AIForj team, “Licensed healthcare professional”-BC. 100% private.
             </p>
           </div>
 
@@ -698,7 +698,7 @@ export default function Homepage() {
           borderTop: "1px solid var(--border)",
         }}>
           <p style={{ fontSize: 13, color: "var(--text-muted)", margin: 0 }}>
-            &copy; {new Date().getFullYear()} AIForj &middot; Kevin Cooke, PMHNP-BC. Not a substitute for professional care.
+            &copy; {new Date().getFullYear()} AIForj &middot; AIForj team, “Licensed healthcare professional”-BC. Not a substitute for professional care.
           </p>
           <p style={{ fontSize: 13, color: "var(--text-muted)", margin: 0 }}>
             Built with care in the United States
