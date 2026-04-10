@@ -1,40 +1,62 @@
 import { TECHNIQUES } from "../../techniques/data";
+import { getAllInterventions, getInterventionById } from "../../../data/interventions";
 import { notFound } from "next/navigation";
 import InterventionClient from "./InterventionClient";
 
 export async function generateStaticParams() {
-  return TECHNIQUES.map((t) => ({ slug: t.slug }));
+  const techniqueParams = TECHNIQUES.map((t) => ({ slug: t.slug }));
+  const interventionParams = getAllInterventions().map((t) => ({ slug: t.id }));
+  return [...techniqueParams, ...interventionParams];
 }
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const t = TECHNIQUES.find((t) => t.slug === slug);
+  const t = TECHNIQUES.find((t) => t.slug === slug) || getInterventionById(slug);
   if (!t) return {};
+
+  const name = t.name || t.title;
+  const title = t.metaTitle || `${name} | AIForj`;
+  const description =
+    t.metaDescription ||
+    `${t.description} Use this guided AIForj tool to check in before and after, then save a shareable Mood Shift Receipt.`;
+  const canonicalSlug = t.slug || t.id;
+  const keywordList = Array.from(
+    new Set(
+      [
+        ...(typeof t.keywords === "string" ? t.keywords.split(",").map((item) => item.trim()) : []),
+        "emotional first aid",
+        "guided mental health tool",
+        "mood shift receipt",
+        name,
+      ].filter(Boolean)
+    )
+  );
+
   return {
-    title: `${t.metaTitle} | Mood Measurement`,
-    description: `Track your mood before and after using ${t.title}. See your progress and share your results.`,
-    keywords: `${t.keywords}, mood tracking, mental health measurement`,
+    title,
+    description,
+    keywords: keywordList,
     alternates: {
-      canonical: `https://aiforj.com/intervention/${t.slug}`,
+      canonical: `https://aiforj.com/intervention/${canonicalSlug}`,
     },
     openGraph: {
-      title: `${t.title} | Mood Measurement`,
-      description: `Track your mood before and after using ${t.title}. See your progress and share your results.`,
-      url: `https://aiforj.com/intervention/${t.slug}`,
+      title,
+      description,
+      url: `https://aiforj.com/intervention/${canonicalSlug}`,
       siteName: "AIForj",
       type: "article",
     },
     twitter: {
       card: "summary_large_image",
-      title: `${t.title} | Mood Measurement`,
-      description: `Track your mood before and after using ${t.title}. See your progress and share your results.`,
+      title,
+      description,
     },
   };
 }
 
 export default async function InterventionPage({ params }) {
   const { slug } = await params;
-  const technique = TECHNIQUES.find((t) => t.slug === slug);
+  const technique = TECHNIQUES.find((t) => t.slug === slug) || getInterventionById(slug);
   if (!technique) notFound();
 
   return <InterventionClient technique={technique} />;

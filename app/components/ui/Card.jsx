@@ -8,6 +8,7 @@ export default function Card({
   children,
   className = '',
   hoverable = true,
+  style: customStyle = {},
   ...props
 }) {
   const style = {
@@ -17,6 +18,7 @@ export default function Card({
     padding: '24px 28px',
     boxShadow: 'var(--shadow-md)',
     transition: 'transform var(--duration-default) var(--ease-out), box-shadow var(--duration-default) var(--ease-out)',
+    ...customStyle,
   };
 
   return (

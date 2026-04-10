@@ -1,22 +1,23 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import { useTheme } from "./ThemeProvider";
 import SoundToggle from "./SoundToggle";
 
 const NAV_LINKS = [
-  { href: "/start", label: "Start" },
-  { href: "/blueprint", label: "Blueprint" },
+  { href: "/#how-it-works", label: "How it works" },
   { href: "/techniques", label: "Techniques" },
   { href: "/companion", label: "Talk to Forj" },
-  { href: "/garden", label: "Garden" },
-  { href: "/send", label: "Send Calm" },
+  { href: "https://aiforj.gumroad.com/l/jmdqvd", label: "CBT Workbook", external: true },
 ];
 
 export default function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { theme, toggleTheme, isDark } = useTheme();
+  const pathname = usePathname();
+  const focusRoute = pathname?.startsWith("/start") || pathname?.startsWith("/intervention");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -46,6 +47,48 @@ export default function Navigation() {
     }
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
+
+  if (focusRoute) {
+    return (
+      <>
+        <nav
+          className="site-nav"
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 100,
+            height: 60,
+            padding: "0 24px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            background: "var(--surface-elevated)",
+            borderBottom: "1px solid var(--border)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+          }}
+        >
+          <a href="/" style={{ display: "inline-flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
+            <img src="/aif.jpeg" alt="AIForj" style={{ height: 30, width: 30, borderRadius: 8 }} />
+            <span style={{ fontFamily: "'Fraunces', serif", fontSize: 18, fontWeight: 700, color: "var(--text-primary)" }}>AIForj</span>
+          </a>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <a href="/" className="btn-ghost" style={{ textDecoration: "none" }}>← Home</a>
+            <button
+              onClick={toggleTheme}
+              aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+              className="btn-ghost"
+            >
+              {isDark ? "☀️" : "🌙"}
+            </button>
+          </div>
+        </nav>
+        <div style={{ height: 60 }} />
+      </>
+    );
+  }
 
   return (
     <>
@@ -128,6 +171,7 @@ export default function Navigation() {
             <a
               key={link.href}
               href={link.href}
+              {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               style={{
                 padding: "6px 14px",
                 fontSize: 13,
@@ -288,7 +332,7 @@ export default function Navigation() {
           width: "min(320px, 85vw)",
           zIndex: 101,
           background: "var(--surface-elevated)",
-          boxShadow: "var(--shadow-xl)",
+          boxShadow: "var(--shadow-lg)",
           padding: "80px 28px 32px",
           display: "flex",
           flexDirection: "column",
@@ -301,6 +345,7 @@ export default function Navigation() {
           <a
             key={link.href}
             href={link.href}
+            {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             onClick={handleLinkClick}
             style={{
               padding: "14px 16px",
@@ -358,12 +403,8 @@ export default function Navigation() {
 
         {/* Footer links */}
         <div style={{ marginTop: "auto", display: "flex", flexDirection: "column", gap: 8 }}>
-          <a href="/find-help" onClick={handleLinkClick} style={{ fontSize: 13, color: "var(--text-muted)", textDecoration: "none" }}>
-            Find a Provider
-          </a>
-          <a href="/3am-spiral" onClick={handleLinkClick} style={{ fontSize: 13, color: "var(--text-muted)", textDecoration: "none" }}>
-            3AM Spiral Tool
-          </a>
+          <a href="/find-help" onClick={handleLinkClick} style={{ fontSize: 13, color: "var(--text-muted)", textDecoration: "none" }}>Find a Provider</a>
+          <a href="/send" onClick={handleLinkClick} style={{ fontSize: 13, color: "var(--text-muted)", textDecoration: "none" }}>Send Calm</a>
           <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "8px 0 0", opacity: 0.6 }}>
             Crisis: Call or text 988
           </p>

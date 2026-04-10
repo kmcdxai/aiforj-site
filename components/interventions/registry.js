@@ -16,4 +16,7 @@ export const interventionComponents = {
   // Aliases for direct linking
   'grounding-54321': SensoryGrounding,
   'name-the-story': NameTheStory,
+  SensoryGrounding,
+  PhysiologicalSigh,
+  NameTheStory,
 };

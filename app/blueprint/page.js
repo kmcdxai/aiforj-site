@@ -36,7 +36,7 @@ const blueprintStructuredData = {
   },
   author: {
     "@type": "Person",
-    name: "a Board-Certified Healthcare Professional",
+    name: "Kevin Cooke",
     jobTitle: "Board Certified Psychiatric Mental Health Nurse Practitioner",
   },
   publisher: {

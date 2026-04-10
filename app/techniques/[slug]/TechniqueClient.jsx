@@ -590,7 +590,7 @@ function StructuredData({ technique }) {
     },
     author: {
       "@type": "Person",
-      name: "a Board-Certified Healthcare Professional",
+      name: "Kevin Cooke",
       jobTitle: "Board Certified Psychiatric Mental Health Nurse Practitioner",
     },
     publisher: {
@@ -680,7 +680,7 @@ export default function TechniqueClient({ technique, related }) {
             {technique.subtitle}
           </p>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px", background: "rgba(107,127,110,0.08)", borderRadius: 20, border: `1px solid ${SUBTLE}` }}>
-            <span style={{ fontSize: 12, color: ACCENT, fontWeight: 500 }}>Built by a Board-Certified Healthcare Professional</span>
+            <span style={{ fontSize: 12, color: ACCENT, fontWeight: 500 }}>Built by Kevin Cooke, PMHNP-BC</span>
           </div>
         </header>
 
@@ -850,7 +850,7 @@ export default function TechniqueClient({ technique, related }) {
           <Link href="/tools" style={{ padding: "14px 24px", background: "var(--surface)", border: `1px solid ${SUBTLE}`, borderRadius: 14, textDecoration: "none", color: TEXT, fontSize: 14 }}>
             Track which techniques work best for you → <span style={{ color: ACCENT, fontWeight: 600 }}>Try the Full Toolkit</span>
           </Link>
-          <Link href="/" style={{ padding: "14px 24px", background: "var(--surface)", border: `1px solid ${SUBTLE}`, borderRadius: 14, textDecoration: "none", color: TEXT, fontSize: 14 }}>
+          <Link href="/companion" style={{ padding: "14px 24px", background: "var(--surface)", border: `1px solid ${SUBTLE}`, borderRadius: 14, textDecoration: "none", color: TEXT, fontSize: 14 }}>
             Go deeper with personalized guidance → <span style={{ color: ACCENT, fontWeight: 600 }}>Talk to Forj</span>
           </Link>
         </section>

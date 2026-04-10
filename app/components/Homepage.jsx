@@ -1,710 +1,335 @@
 "use client";
 
-import { useState } from "react";
 import EmailCapture from "./EmailCapture";
+import { emotionOptions } from "../start/emotionData";
+import PremiumCheckoutButton from "../../components/monetization/PremiumCheckoutButton";
+
+const GUMROAD_WORKBOOK_URL = "https://aiforj.gumroad.com/l/jmdqvd";
 
 const HOW_IT_WORKS = [
   {
-    step: "01",
+    title: "Tell us how you feel",
+    description: "Choose from 12 emotional states. No judgment.",
     emoji: "⚡",
-    title: "Start with the feeling",
-    description: "Choose from 12 emotions. No login, no sign-up, no judgment. Just tap the one that matches right now.",
-    color: "var(--sage)",
-    bg: "var(--sage-light)",
   },
   {
-    step: "02",
-    emoji: "🌬️",
-    title: "Do a 90-second reset",
-    description: "Get matched to a clinician-designed technique — breathing, grounding, or defusion — tailored to your emotion and intensity.",
-    color: "var(--ocean)",
-    bg: "var(--ocean-light)",
+    title: "Get matched to the right tool",
+    description: "Not just breathing. Thinking exercises, writing tools, body practices, decision frameworks, and more.",
+    emoji: "🧭",
   },
   {
-    step: "03",
-    emoji: "📊",
     title: "See your shift",
-    description: "Rate how you feel before and after. See your mood shift in real time and share a receipt with someone you trust.",
-    color: "var(--lavender)",
-    bg: "var(--lavender-light)",
+    description: "Measure your mood before and after. See proof that it works.",
+    emoji: "📊",
   },
 ];
 
-const TOOLS = [
-  {
-    title: "Guided Techniques",
-    description: "Evidence-based exercises from CBT, DBT, ACT, and somatic therapy — each one under 5 minutes.",
-    href: "/techniques",
-    emoji: "🧘",
-    tag: "15+ techniques",
-  },
-  {
-    title: "Emotional Blueprint",
-    description: "A 5-minute assessment that maps your emotional patterns and suggests your most effective tools.",
-    href: "/blueprint",
-    emoji: "🧬",
-    tag: "Personalized",
-  },
-  {
-    title: "Talk to Forj",
-    description: "Voice-based AI companion with 15+ therapeutic modalities. Say what you feel, get a clinician-informed response.",
-    href: "/companion",
-    emoji: "🎙️",
-    tag: "Voice AI",
-  },
-  {
-    title: "Mood Garden",
-    description: "Track your emotional patterns over time. Watch your garden grow as you build resilience.",
-    href: "/garden",
-    emoji: "🌱",
-    tag: "Track progress",
-  },
-  {
-    title: "Send Calm",
-    description: "Send a friend a grounding technique when they need it most. No app required to receive.",
-    href: "/send",
-    emoji: "💌",
-    tag: "Share",
-  },
-  {
-    title: "3AM Spiral Tool",
-    description: "Can't sleep? Thoughts racing at 3AM? This tool meets you exactly there.",
-    href: "/3am-spiral",
-    emoji: "🌙",
-    tag: "Crisis-ready",
-  },
+const MODALITIES = ["CBT", "DBT", "ACT", "Somatic", "Polyvagal", "Behavioral", "Psychoed", "Mindfulness", "Self-Compassion", "Problem-Solving", "Exposure", "Values", "Grounding", "Breathwork", "Journaling"];
+const INTERACTIONS = ["Thinking", "Writing", "Body", "Decision", "Social", "Psychoeducation", "Planning"];
+
+const TECHNIQUE_LINKS = [
+  { href: "/techniques/physiological-sigh", label: "Physiological Sigh" },
+  { href: "/techniques/54321-grounding", label: "5-4-3-2-1 Grounding" },
+  { href: "/techniques/thought-defusion", label: "Thought Defusion" },
+  { href: "/techniques/cognitive-restructuring", label: "CBT Thought Record" },
+  { href: "/techniques/worry-time", label: "Scheduled Worry Time" },
+  { href: "/techniques/behavioral-activation", label: "Behavioral Activation" },
 ];
 
-const TRUST_SIGNALS = [
-  {
-    icon: "🩺",
-    title: "Clinician-built",
-    description: "Designed by a Board Certified Psychiatric Mental Health Nurse Practitioner (Licensed Healthcare Provider-BC) with real clinical experience.",
-  },
-  {
-    icon: "🔒",
-    title: "100% private",
-    description: "Nothing leaves your device. No accounts, no data collection, no third-party tracking. Your sessions stay yours.",
-  },
-  {
-    icon: "📚",
-    title: "Evidence-based",
-    description: "Every technique draws from peer-reviewed research across CBT, DBT, ACT, somatic therapy, and more.",
-  },
-  {
-    icon: "🆓",
-    title: "Free to use",
-    description: "Core tools are free forever. No paywall to calm down. No subscription to breathe.",
-  },
+const HELP_LINKS = [
+  { href: "/help/panic-attack", label: "Panic attack help" },
+  { href: "/help/cant-sleep", label: "Can't sleep" },
+  { href: "/help/anxiety-at-work", label: "Anxiety at work" },
+  { href: "/help/overthinking", label: "Overthinking" },
+  { href: "/help/burnout-recovery", label: "Burnout recovery" },
+  { href: "/help/self-worth", label: "Self-worth" },
 ];
+
+function SectionHeader({ eyebrow, title, children }) {
+  return (
+    <div style={{ textAlign: "center", marginBottom: 44 }}>
+      <p className="text-label" style={{ color: "var(--sage-deep)", margin: "0 0 10px" }}>{eyebrow}</p>
+      <h2 style={{ margin: "0 0 12px" }}>{title}</h2>
+      {children && (
+        <p style={{ color: "var(--text-secondary)", margin: "0 auto", maxWidth: 640 }}>{children}</p>
+      )}
+    </div>
+  );
+}
+
+function WorkbookCard({ compact = false }) {
+  return (
+    <a href={GUMROAD_WORKBOOK_URL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit", display: "block" }}>
+      <article className="card-hover" style={{
+        padding: compact ? "22px" : "30px",
+        borderRadius: 20,
+        border: "1px solid rgba(212,168,67,0.24)",
+        background: "linear-gradient(135deg, var(--amber-light), var(--surface-elevated))",
+        boxShadow: "var(--shadow-md)",
+        display: "grid",
+        gap: 14,
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <span style={{ fontSize: 34 }}>📘</span>
+          <div>
+            <h3 style={{ margin: "0 0 4px" }}>CBT Thought Reframe Workbook</h3>
+            <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 14 }}>84 pages · 30 days of exercises · 10 cognitive distortions · $27</p>
+          </div>
+        </div>
+        <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.65 }}>
+          A practical companion for people who want a structured CBT workbook outside the app.
+        </p>
+        <span style={{ color: "var(--amber-deep)", fontWeight: 700 }}>Get the workbook →</span>
+      </article>
+    </a>
+  );
+}
 
 export default function Homepage() {
-  const [hoveredTool, setHoveredTool] = useState(null);
-
   return (
-    <div style={{ color: "var(--text-primary)", fontFamily: "'DM Sans', sans-serif" }}>
-
-      {/* ═══ HERO ═══ */}
-      <section style={{
-        minHeight: "min(85vh, 720px)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
+    <main style={{ color: "var(--text-primary)", fontFamily: "'DM Sans', sans-serif" }}>
+      <section id="top" style={{
+        minHeight: "calc(100vh - 60px)",
+        display: "grid",
+        placeItems: "center",
         textAlign: "center",
-        padding: "40px 24px 60px",
+        padding: "56px 24px 72px",
         position: "relative",
+        overflow: "hidden",
+        background: "linear-gradient(180deg, var(--parchment-deep), var(--parchment))",
       }}>
-        {/* Soft decorative element */}
-        <div style={{
+        <div className="breathe" style={{
           position: "absolute",
-          top: "10%",
-          left: "50%",
+          inset: "10% auto auto 50%",
           transform: "translateX(-50%)",
-          width: "min(600px, 80vw)",
-          height: "min(600px, 80vw)",
-          borderRadius: "50%",
-          background: "radial-gradient(circle, var(--sage-light) 0%, transparent 70%)",
-          opacity: 0.4,
+          width: "min(680px, 86vw)",
+          height: "min(520px, 70vw)",
+          borderRadius: "42% 58% 55% 45% / 45% 45% 55% 55%",
+          background: "radial-gradient(circle at 40% 40%, rgba(122,158,126,0.18), transparent 68%)",
           pointerEvents: "none",
         }} />
-
-        <div style={{ position: "relative", zIndex: 1, maxWidth: 720 }}>
-          {/* Badge */}
+        <div className="fade-in-up" style={{ position: "relative", zIndex: 1, maxWidth: 820 }}>
           <div style={{
             display: "inline-flex",
             alignItems: "center",
             gap: 8,
-            padding: "6px 16px",
-            borderRadius: 20,
+            padding: "7px 14px",
+            borderRadius: 999,
             background: "var(--sage-light)",
             color: "var(--sage-deep)",
             fontSize: 13,
-            fontWeight: 600,
+            fontWeight: 700,
             marginBottom: 24,
-            animation: "fadeInUp 600ms ease-out",
           }}>
-            <span>🩺</span>
-            Built by a Board Certified Licensed Healthcare Provider
+            <img src="/aif.jpeg" alt="AIForj leaf mark" style={{ width: 24, height: 24, borderRadius: 6 }} />
+            Built by Kevin Cooke, PMHNP-BC
           </div>
-
-          {/* Headline */}
-          <h1 style={{
-            fontFamily: "'Fraunces', serif",
-            fontSize: "clamp(2.2rem, 5.5vw, 3.8rem)",
-            fontWeight: 400,
-            lineHeight: 1.1,
-            margin: "0 0 20px",
-            color: "var(--text-primary)",
-            animation: "fadeInUp 600ms ease-out 100ms both",
-          }}>
-            Emotional first aid<br />
-            <span style={{ fontStyle: "italic", color: "var(--sage-deep)" }}>that actually works</span>
+          <h1 style={{ fontSize: "clamp(36px, 6vw, 64px)", maxWidth: 760, margin: "0 auto 20px", letterSpacing: 0 }}>
+            Emotional first aid that actually works.
           </h1>
-
-          {/* Subtext */}
-          <p style={{
-            fontSize: "clamp(1rem, 2vw, 1.2rem)",
-            color: "var(--text-secondary)",
-            lineHeight: 1.7,
-            maxWidth: 540,
-            margin: "0 auto 36px",
-            animation: "fadeInUp 600ms ease-out 200ms both",
-          }}>
-            Free, evidence-based therapeutic tools — designed by a clinician, powered by research, and 100% private. No login. No data leaves your device.
+          <p style={{ fontSize: "clamp(17px, 2vw, 20px)", color: "var(--text-secondary)", maxWidth: 680, margin: "0 auto 34px", lineHeight: 1.75 }}>
+            Not another breathing app. 100+ clinically-matched tools for anxiety, sadness, anger, overwhelm, and everything in between — matched to how you actually feel right now.
           </p>
-
-          {/* CTAs */}
-          <div style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 14,
-            justifyContent: "center",
-            animation: "fadeInUp 600ms ease-out 300ms both",
-          }}>
-            <a
-              href="/start"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-                padding: "16px 32px",
-                borderRadius: 28,
-                background: "var(--interactive)",
-                color: "#fff",
-                textDecoration: "none",
-                fontSize: 16,
-                fontWeight: 600,
-                fontFamily: "'Fraunces', serif",
-                boxShadow: "0 4px 20px rgba(122,158,126,0.3)",
-                transition: "all 200ms",
-              }}
-            >
-              Start with how you feel
-              <span style={{ fontSize: 18 }}>→</span>
+          <div style={{ display: "flex", justifyContent: "center", gap: 14, flexWrap: "wrap" }}>
+            <a href="/start" className="btn-primary" style={{ textDecoration: "none", padding: "16px 30px", fontSize: 16 }}>
+              Get support now — it's free →
             </a>
-            <a
-              href="/blueprint"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-                padding: "16px 32px",
-                borderRadius: 28,
-                background: "transparent",
-                color: "var(--text-primary)",
-                textDecoration: "none",
-                fontSize: 16,
-                fontWeight: 500,
-                border: "1.5px solid var(--border)",
-                transition: "all 200ms",
-              }}
-            >
-              Take your Emotional Blueprint
+            <a href="#workbook" className="btn-secondary" style={{ textDecoration: "none", padding: "16px 26px", color: "var(--sage-deep)" }}>
+              See the CBT workbook
             </a>
           </div>
-
-          {/* Micro-trust */}
-          <p style={{
-            fontSize: 13,
-            color: "var(--text-muted)",
-            marginTop: 20,
-            animation: "fadeInUp 600ms ease-out 400ms both",
-          }}>
-            No sign-up required &middot; Works on any device &middot; Takes 90 seconds
+          <p className="text-caption" style={{ margin: "18px auto 0", color: "var(--text-muted)" }}>
+            No account needed. Your emotional data stays on this device. Takes 30 seconds.
           </p>
         </div>
       </section>
 
-      {/* ═══ STATS ROW ═══ */}
-      <section style={{
-        padding: "0 24px 60px",
-        maxWidth: 1080,
-        margin: "0 auto",
-      }}>
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-          gap: 16,
-          padding: "32px 24px",
-          borderRadius: 24,
-          background: "var(--surface-elevated)",
-          border: "1px solid var(--border)",
-        }}>
-          {[
-            { value: "100+", label: "Interventions", color: "var(--sage-deep)" },
-            { value: "12", label: "Emotional States", color: "var(--ocean)" },
-            { value: "15", label: "Therapeutic Modalities", color: "var(--lavender)" },
-            { value: "7", label: "Interaction Types", color: "var(--sage-deep)" },
-          ].map((stat) => (
-            <div key={stat.label} style={{ textAlign: "center", padding: "8px 0" }}>
-              <div style={{
-                fontFamily: "'Fraunces', serif",
-                fontSize: "clamp(1.8rem, 3vw, 2.4rem)",
-                fontWeight: 500,
-                color: stat.color,
-                lineHeight: 1,
-                marginBottom: 4,
-              }}>
-                {stat.value}
-              </div>
-              <div style={{
-                fontSize: 13,
-                color: "var(--text-muted)",
-                fontWeight: 500,
-                letterSpacing: "0.04em",
-              }}>
-                {stat.label}
-              </div>
-            </div>
+      <section id="how-it-works" style={{ padding: "84px 24px", maxWidth: 1100, margin: "0 auto" }}>
+        <SectionHeader eyebrow="How it works" title="Three steps to a calmer next minute" />
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 18 }}>
+          {HOW_IT_WORKS.map((item, index) => (
+            <article key={item.title} className="card" style={{ minHeight: 220 }}>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--text-muted)", fontSize: 12, marginBottom: 18 }}>0{index + 1}</div>
+              <div style={{ width: 56, height: 56, borderRadius: 16, background: "var(--sage-light)", display: "grid", placeItems: "center", fontSize: 26, marginBottom: 18 }}>{item.emoji}</div>
+              <h3 style={{ margin: "0 0 10px" }}>{item.title}</h3>
+              <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 15 }}>{item.description}</p>
+            </article>
           ))}
         </div>
       </section>
 
-      {/* ═══ HOW IT WORKS ═══ */}
-      <section style={{
-        padding: "80px 24px",
-        maxWidth: 1080,
-        margin: "0 auto",
-      }}>
-        <div style={{ textAlign: "center", marginBottom: 52 }}>
-          <p style={{ fontSize: 13, fontWeight: 600, color: "var(--sage-deep)", letterSpacing: "0.15em", textTransform: "uppercase", margin: "0 0 10px" }}>
-            How it works
-          </p>
-          <h2 style={{
-            fontFamily: "'Fraunces', serif",
-            fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)",
-            fontWeight: 400,
-            margin: 0,
-            color: "var(--text-primary)",
-          }}>
-            Three steps to a calmer you
-          </h2>
+      <section style={{ padding: "84px 24px", background: "var(--surface)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <SectionHeader eyebrow="Why AIForj" title="Clinical-grade support without clinical coldness">
+            Built for moments when you need something more specific than “just breathe.”
+          </SectionHeader>
+          <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1.1fr) minmax(0, 0.9fr)", gap: 28, alignItems: "start" }} className="home-value-grid">
+            <article style={{ display: "grid", gap: 18 }}>
+              {[
+                ["15 therapeutic modalities, not just meditation", MODALITIES],
+                ["7 types of interactions", INTERACTIONS],
+              ].map(([title, list]) => (
+                <div key={title} className="card" style={{ boxShadow: "var(--shadow-sm)" }}>
+                  <h3 style={{ margin: "0 0 14px" }}>{title}</h3>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                    {list.map((item) => <span key={item} className="tag tag-cbt">{item}</span>)}
+                  </div>
+                </div>
+              ))}
+            </article>
+            <article className="card" style={{ boxShadow: "var(--shadow-sm)" }}>
+              <h3 style={{ margin: "0 0 12px" }}>Built by Kevin Cooke, PMHNP-BC</h3>
+              <p style={{ margin: "0 0 16px", color: "var(--text-secondary)", lineHeight: 1.75 }}>
+                Kevin is a Board Certified Psychiatric Mental Health Nurse Practitioner who built AIForj because clinical-grade emotional support shouldn't require a waitlist or a copay.
+              </p>
+              <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.75 }}>
+                Your emotional check-ins are saved locally for your own history. They do not become a server-side profile.
+              </p>
+            </article>
+          </div>
         </div>
+      </section>
 
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          gap: 24,
-        }}>
-          {HOW_IT_WORKS.map((item) => (
-            <div
-              key={item.step}
-              style={{
-                padding: 32,
-                borderRadius: 24,
-                background: "var(--surface-elevated)",
-                border: "1px solid var(--border)",
-                position: "relative",
-                overflow: "hidden",
-                transition: "transform 200ms, box-shadow 200ms",
-              }}
-            >
-              <div style={{
-                position: "absolute",
-                top: -20,
-                right: -10,
-                fontSize: 80,
-                fontWeight: 700,
-                fontFamily: "'Fraunces', serif",
-                color: item.bg,
-                opacity: 0.6,
-                lineHeight: 1,
-              }}>
-                {item.step}
-              </div>
-              <div style={{
-                width: 56,
-                height: 56,
-                borderRadius: 18,
-                background: item.bg,
+      <section style={{ padding: "84px 24px" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <SectionHeader eyebrow="Emotional states" title="Whatever you're feeling, there's a tool for it." />
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 14 }}>
+            {emotionOptions.map((emotion) => (
+              <a key={emotion.id} href={`/start?emotion=${emotion.id}`} style={{
+                padding: "20px 12px",
+                minHeight: 126,
                 display: "grid",
                 placeItems: "center",
-                fontSize: 24,
-                marginBottom: 20,
-                position: "relative",
-              }}>
-                {item.emoji}
-              </div>
-              <h3 style={{
-                fontFamily: "'Fraunces', serif",
-                fontSize: 20,
-                fontWeight: 500,
-                margin: "0 0 10px",
+                textAlign: "center",
+                gap: 10,
+                borderRadius: 18,
+                background: emotion.accentLight,
+                border: "1px solid var(--border)",
+                textDecoration: "none",
                 color: "var(--text-primary)",
-                position: "relative",
               }}>
-                {item.title}
-              </h3>
-              <p style={{
-                color: "var(--text-secondary)",
-                lineHeight: 1.7,
-                margin: 0,
-                fontSize: 15,
-                position: "relative",
-              }}>
-                {item.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ═══ 12 EMOTIONAL STATES ═══ */}
-      <section style={{
-        padding: "80px 24px",
-        background: "var(--surface)",
-      }}>
-        <div style={{ maxWidth: 1080, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 52 }}>
-            <p style={{ fontSize: 13, fontWeight: 600, color: "var(--sage-deep)", letterSpacing: "0.15em", textTransform: "uppercase", margin: "0 0 10px" }}>
-              We meet you where you are
-            </p>
-            <h2 style={{
-              fontFamily: "'Fraunces', serif",
-              fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)",
-              fontWeight: 400,
-              margin: "0 0 12px",
-              color: "var(--text-primary)",
-            }}>
-              12 emotional states, each with tailored tools
-            </h2>
-            <p style={{ fontSize: 16, color: "var(--text-secondary)", maxWidth: 540, margin: "0 auto", lineHeight: 1.6 }}>
-              Tap the emotion that matches right now and get matched to evidence-based techniques for your specific experience.
-            </p>
-          </div>
-
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
-            gap: 14,
-          }}>
-            {[
-              { emoji: "\u26A1", label: "Anxious", color: "var(--sage-light)" },
-              { emoji: "\u{1F30A}", label: "Overwhelmed", color: "var(--ocean-light)" },
-              { emoji: "\u23F0", label: "Stressed", color: "var(--sage-light)" },
-              { emoji: "\u{1F327}", label: "Sad", color: "var(--ocean-light)" },
-              { emoji: "\u{1F525}", label: "Angry", color: "rgba(196,157,157,0.12)" },
-              { emoji: "\u{1F311}", label: "Lonely", color: "var(--lavender-light)" },
-              { emoji: "\u{1F9CA}", label: "Numb", color: "var(--ocean-light)" },
-              { emoji: "\u{1F54A}\uFE0F", label: "Grief", color: "var(--lavender-light)" },
-              { emoji: "\u{1FAB4}", label: "Unmotivated", color: "var(--sage-light)" },
-              { emoji: "\u{1F494}", label: "Relationship", color: "rgba(196,157,157,0.12)" },
-              { emoji: "\u{1F3AD}", label: "Self-Worth", color: "var(--lavender-light)" },
-              { emoji: "\u{1FA79}", label: "Self-Destructive", color: "rgba(196,157,157,0.12)" },
-            ].map((emotion) => (
-              <a
-                key={emotion.label}
-                href="/start"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: 10,
-                  padding: "20px 12px",
-                  borderRadius: 20,
-                  background: emotion.color,
-                  textDecoration: "none",
-                  color: "var(--text-primary)",
-                  border: "1px solid var(--border)",
-                  transition: "all 200ms",
-                }}
-              >
-                <span style={{ fontSize: 28 }}>{emotion.emoji}</span>
-                <span style={{ fontSize: 14, fontWeight: 500, color: "var(--text-primary)" }}>{emotion.label}</span>
+                <span style={{ fontSize: 30 }}>{emotion.emoji}</span>
+                <span style={{ fontWeight: 700, fontSize: 14 }}>{emotion.label}</span>
               </a>
             ))}
           </div>
-
-          <div style={{ textAlign: "center", marginTop: 32 }}>
-            <a href="/start" style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "14px 28px",
-              borderRadius: 28,
-              background: "var(--interactive)",
-              color: "#fff",
-              textDecoration: "none",
-              fontSize: 15,
-              fontWeight: 600,
-              fontFamily: "'Fraunces', serif",
-              boxShadow: "0 4px 16px rgba(122,158,126,0.25)",
-            }}>
-              Start with how you feel <span style={{ fontSize: 18 }}>{"\u2192"}</span>
-            </a>
+          <div style={{ textAlign: "center", marginTop: 34 }}>
+            <a href="/start" className="btn-primary" style={{ textDecoration: "none" }}>Get started →</a>
           </div>
         </div>
       </section>
 
-      {/* ═══ TOOL SHOWCASE ═══ */}
-      <section style={{
-        padding: "80px 24px",
-        maxWidth: 1080,
-        margin: "0 auto",
-      }}>
-        <div style={{ textAlign: "center", marginBottom: 52 }}>
-          <p style={{ fontSize: 13, fontWeight: 600, color: "var(--sage-deep)", letterSpacing: "0.15em", textTransform: "uppercase", margin: "0 0 10px" }}>
-            Your toolkit
-          </p>
-          <h2 style={{
-            fontFamily: "'Fraunces', serif",
-            fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)",
-            fontWeight: 400,
-            margin: "0 0 12px",
-            color: "var(--text-primary)",
-          }}>
-            Everything you need, nothing you don't
-          </h2>
-          <p style={{ fontSize: 16, color: "var(--text-secondary)", maxWidth: 520, margin: "0 auto", lineHeight: 1.6 }}>
-            Free tools built by a clinician for real moments — anxiety at 3AM, stress before a meeting, or just needing to breathe.
-          </p>
-        </div>
-
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-          gap: 16,
-        }}>
-          {TOOLS.map((tool, i) => (
-            <a
-              key={tool.title}
-              href={tool.href}
-              onMouseEnter={() => setHoveredTool(i)}
-              onMouseLeave={() => setHoveredTool(null)}
-              style={{
-                display: "flex",
-                gap: 16,
-                padding: 24,
-                borderRadius: 20,
-                background: hoveredTool === i ? "var(--surface-elevated)" : "var(--surface)",
-                border: "1px solid var(--border)",
-                textDecoration: "none",
-                color: "inherit",
-                transition: "all 200ms",
-                transform: hoveredTool === i ? "translateY(-2px)" : "none",
-                boxShadow: hoveredTool === i ? "var(--shadow-md)" : "none",
-              }}
-            >
-              <div style={{
-                width: 48,
-                height: 48,
-                borderRadius: 14,
-                background: "var(--sage-light)",
-                display: "grid",
-                placeItems: "center",
-                fontSize: 22,
-                flexShrink: 0,
-              }}>
-                {tool.emoji}
-              </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                  <h3 style={{ fontSize: 16, fontWeight: 600, margin: 0, color: "var(--text-primary)" }}>{tool.title}</h3>
-                  <span style={{
-                    fontSize: 11,
-                    fontWeight: 600,
-                    padding: "2px 8px",
-                    borderRadius: 6,
-                    background: "var(--sage-light)",
-                    color: "var(--sage-deep)",
-                    whiteSpace: "nowrap",
-                  }}>
-                    {tool.tag}
-                  </span>
-                </div>
-                <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.6, margin: 0 }}>{tool.description}</p>
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
-
-      {/* ═══ TRUST SIGNALS ═══ */}
-      <section style={{
-        padding: "80px 24px",
-        background: "var(--surface)",
-      }}>
-        <div style={{ maxWidth: 1080, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 52 }}>
-            <p style={{ fontSize: 13, fontWeight: 600, color: "var(--sage-deep)", letterSpacing: "0.15em", textTransform: "uppercase", margin: "0 0 10px" }}>
-              Why AIForj
-            </p>
-            <h2 style={{
-              fontFamily: "'Fraunces', serif",
-              fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)",
-              fontWeight: 400,
-              margin: 0,
-              color: "var(--text-primary)",
-            }}>
-              Built different, on purpose
-            </h2>
-          </div>
-
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-            gap: 24,
-          }}>
-            {TRUST_SIGNALS.map((item) => (
-              <div
-                key={item.title}
-                style={{
-                  padding: 28,
-                  borderRadius: 20,
-                  background: "var(--surface-elevated)",
-                  border: "1px solid var(--border)",
-                  textAlign: "center",
-                }}
-              >
-                <div style={{
-                  fontSize: 32,
-                  marginBottom: 14,
-                }}>
-                  {item.icon}
-                </div>
-                <h3 style={{
-                  fontFamily: "'Fraunces', serif",
-                  fontSize: 18,
-                  fontWeight: 500,
-                  margin: "0 0 8px",
-                  color: "var(--text-primary)",
-                }}>
-                  {item.title}
-                </h3>
-                <p style={{
-                  color: "var(--text-secondary)",
-                  lineHeight: 1.6,
-                  margin: 0,
-                  fontSize: 14,
-                }}>
-                  {item.description}
-                </p>
+      <section style={{ padding: "84px 24px", background: "var(--surface)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <SectionHeader eyebrow="Real numbers" title="The Phase 1 toolkit foundation">
+            These are product architecture counts, not user claims.
+          </SectionHeader>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 16 }}>
+            {[
+              ["100+", "interventions"],
+              ["12", "emotional states"],
+              ["15", "therapeutic modalities"],
+              ["7", "interaction types"],
+            ].map(([value, label]) => (
+              <div key={label} style={{ textAlign: "center", padding: "30px 18px", background: "var(--surface-elevated)", border: "1px solid var(--border)", borderRadius: 18 }}>
+                <div style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(32px, 4vw, 46px)", color: "var(--sage-deep)", lineHeight: 1 }}>{value}</div>
+                <div className="text-label" style={{ color: "var(--text-muted)", marginTop: 8 }}>{label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ═══ EMAIL CAPTURE ═══ */}
-      <section style={{
-        padding: "60px 24px 80px",
-        maxWidth: 1080,
-        margin: "0 auto",
-      }}>
-        <EmailCapture />
+      <section id="premium" style={{ padding: "84px 24px" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <SectionHeader eyebrow="Go deeper" title="Free first aid stays free. Premium adds depth." />
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20 }}>
+            <article className="card" style={{ background: "linear-gradient(135deg, var(--sage-light), var(--surface-elevated))" }}>
+              <h3 style={{ margin: "0 0 10px" }}>Talk to Forj Premium</h3>
+              <p style={{ color: "var(--text-secondary)", margin: "0 0 18px", lineHeight: 1.75 }}>
+                Unlimited deeper sessions, progress tools, and personalized therapeutic guidance through the existing AIForj Premium subscription.
+              </p>
+              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
+                <PremiumCheckoutButton>Start 7-day free trial →</PremiumCheckoutButton>
+                <a href="/companion" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>See Talk to Forj →</a>
+              </div>
+              <p className="text-caption" style={{ margin: "14px 0 0", color: "var(--text-muted)" }}>$9.99/month · Cancel anytime</p>
+            </article>
+            <div id="workbook">
+              <WorkbookCard />
+            </div>
+          </div>
+        </div>
       </section>
 
-      {/* ═══ FOOTER ═══ */}
-      <footer style={{
-        padding: "48px 24px 32px",
-        borderTop: "1px solid var(--border)",
-        background: "var(--surface)",
-      }}>
-        <div style={{
-          maxWidth: 1080,
-          margin: "0 auto",
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-          gap: 32,
-          marginBottom: 40,
-        }}>
-          {/* Brand */}
-          <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-              <img src="/aif.jpeg" alt="AIForj" style={{ height: 28, borderRadius: 6 }} />
-              <span style={{ fontFamily: "'Fraunces', serif", fontSize: 17, fontWeight: 600, color: "var(--text-primary)" }}>Forj</span>
+      <section style={{ padding: "84px 24px", background: "var(--surface)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <SectionHeader eyebrow="Technique library" title="Crawlable tools for real search intent">
+            The SEO technique pages remain accessible for people who arrive with a specific need.
+          </SectionHeader>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 14 }}>
+            {[...TECHNIQUE_LINKS, ...HELP_LINKS].map((link) => (
+              <a key={link.href} href={link.href} style={{ padding: "16px 18px", borderRadius: 14, background: "var(--surface-elevated)", border: "1px solid var(--border)", color: "var(--text-primary)", textDecoration: "none", fontWeight: 700 }}>
+                {link.label} →
+              </a>
+            ))}
+          </div>
+          <div style={{ textAlign: "center", marginTop: 28 }}>
+            <a href="/techniques" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>Browse all techniques →</a>
+          </div>
+        </div>
+      </section>
+
+      <section style={{ padding: "72px 24px" }}>
+        <div style={{ maxWidth: 880, margin: "0 auto" }}>
+          <EmailCapture />
+        </div>
+      </section>
+
+      <footer style={{ padding: "54px 24px 34px", background: "var(--parchment-deep)", borderTop: "1px solid var(--border)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gap: 34 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 28 }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+                <img src="/aif.jpeg" alt="AIForj" style={{ width: 34, height: 34, borderRadius: 8 }} />
+                <strong style={{ fontFamily: "'Fraunces', serif", fontSize: 20 }}>AIForj</strong>
+              </div>
+              <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 14, lineHeight: 1.7 }}>
+                Built by Kevin Cooke, PMHNP-BC. Your emotional data never leaves your device.
+              </p>
             </div>
-            <p style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.6, margin: 0 }}>
-              Free therapeutic tools designed by AIForj Team, Licensed Healthcare Provider-BC. 100% private.
-            </p>
-          </div>
-
-          {/* Tools */}
-          <div>
-            <h4 style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "var(--text-muted)", margin: "0 0 14px" }}>Tools</h4>
-            <nav style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <a href="/start" style={{ fontSize: 14, color: "var(--text-secondary)", textDecoration: "none" }}>Start Check-In</a>
-              <a href="/techniques" style={{ fontSize: 14, color: "var(--text-secondary)", textDecoration: "none" }}>Guided Techniques</a>
-              <a href="/blueprint" style={{ fontSize: 14, color: "var(--text-secondary)", textDecoration: "none" }}>Emotional Blueprint</a>
-              <a href="/companion" style={{ fontSize: 14, color: "var(--text-secondary)", textDecoration: "none" }}>Talk to Forj</a>
+            <nav style={{ display: "grid", gap: 8 }}>
+              <strong className="text-label">Product</strong>
+              <a href="/start">Start</a>
+              <a href="/companion">Talk to Forj</a>
+              <a href="/techniques">Techniques</a>
+              <a href="/garden">Mood Garden</a>
+            </nav>
+            <nav style={{ display: "grid", gap: 8 }}>
+              <strong className="text-label">Monetization</strong>
+              <a href={GUMROAD_WORKBOOK_URL} target="_blank" rel="noopener noreferrer">CBT Workbook</a>
+              <a href="/companion">Premium</a>
+              <a href="#premium">Pricing</a>
+            </nav>
+            <nav style={{ display: "grid", gap: 8 }}>
+              <strong className="text-label">Care</strong>
+              <a href="/find-help">Find a Provider</a>
+              <a href="https://988lifeline.org" target="_blank" rel="noopener noreferrer">988 Lifeline</a>
+              <a href="/send">Send Calm</a>
             </nav>
           </div>
-
-          {/* More */}
-          <div>
-            <h4 style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "var(--text-muted)", margin: "0 0 14px" }}>More</h4>
-            <nav style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <a href="/garden" style={{ fontSize: 14, color: "var(--text-secondary)", textDecoration: "none" }}>Mood Garden</a>
-              <a href="/weather" style={{ fontSize: 14, color: "var(--text-secondary)", textDecoration: "none" }}>Emotional Weather</a>
-              <a href="/send" style={{ fontSize: 14, color: "var(--text-secondary)", textDecoration: "none" }}>Send Calm</a>
-              <a href="/3am-spiral" style={{ fontSize: 14, color: "var(--text-secondary)", textDecoration: "none" }}>3AM Spiral Tool</a>
-            </nav>
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 16, flexWrap: "wrap", paddingTop: 20, borderTop: "1px solid var(--border)", color: "var(--text-muted)", fontSize: 13 }}>
+            <span>AIForj is a wellness companion, not a substitute for professional care.</span>
+            <span>© {new Date().getFullYear()} AIForj</span>
           </div>
-
-          {/* Help */}
-          <div>
-            <h4 style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "var(--text-muted)", margin: "0 0 14px" }}>Help</h4>
-            <nav style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <a href="/find-help" style={{ fontSize: 14, color: "var(--text-secondary)", textDecoration: "none" }}>Find a Provider</a>
-              <a href="/archetypes" style={{ fontSize: 14, color: "var(--text-secondary)", textDecoration: "none" }}>Emotional Archetypes</a>
-              <a href="/tools" style={{ fontSize: 14, color: "var(--text-secondary)", textDecoration: "none" }}>All Tools</a>
-            </nav>
-          </div>
-        </div>
-
-        {/* Crisis bar */}
-        <div style={{
-          padding: "16px 24px",
-          borderRadius: 14,
-          background: "var(--amber-light)",
-          border: "1px solid var(--amber)30",
-          textAlign: "center",
-          marginBottom: 24,
-        }}>
-          <p style={{ margin: 0, fontSize: 14, color: "var(--text-primary)" }}>
-            If you are in crisis, call or text <strong style={{ color: "var(--crisis)" }}>988</strong> &middot; <a href="tel:988" style={{ color: "var(--crisis)", fontWeight: 600 }}>Call now</a> &middot; <a href="sms:988" style={{ color: "var(--crisis)", fontWeight: 600 }}>Text now</a>
-          </p>
-        </div>
-
-        {/* Bottom bar */}
-        <div style={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap: 12,
-          paddingTop: 16,
-          borderTop: "1px solid var(--border)",
-        }}>
-          <p style={{ fontSize: 13, color: "var(--text-muted)", margin: 0 }}>
-            &copy; {new Date().getFullYear()} AIForj &middot; AIForj Team, Licensed Healthcare Provider-BC. Not a substitute for professional care.
-          </p>
-          <p style={{ fontSize: 13, color: "var(--text-muted)", margin: 0 }}>
-            Built with care in the United States
-          </p>
         </div>
       </footer>
-    </div>
+
+      <style>{`
+        @media (max-width: 820px) {
+          .home-value-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+    </main>
   );
 }

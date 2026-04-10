@@ -5,7 +5,7 @@ import SiteFooter from "../components/SiteFooter";
 export const metadata = {
   title: "Evidence-Based Mental Health Techniques | AIForj",
   description:
-    "Explore 30 clinician-built, interactive mental health techniques. CBT, DBT, ACT, and more. Free guided exercises you can do right now. Built by a Board-Certified Healthcare Professional.",
+    "Explore 30 clinician-built, interactive mental health techniques. CBT, DBT, ACT, and more. Free guided exercises you can do right now. Built by Kevin Cooke, PMHNP-BC.",
   alternates: {
     canonical: "https://aiforj.com/techniques",
   },

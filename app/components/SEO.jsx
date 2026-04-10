@@ -2,45 +2,50 @@ export default function SEO() {
   const org = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "AIForj",
-    "url": "https://aiforj.com",
-    "logo": "https://aiforj.com/aif.jpeg",
-    "founder": {
+    name: "AIForj",
+    url: "https://aiforj.com",
+    logo: "https://aiforj.com/aif.jpeg",
+    founder: {
       "@type": "Person",
-      "name": "a Board-Certified Healthcare Professional",
-      "jobTitle": "Board Certified Psychiatric Mental Health Nurse Practitioner"
+      name: "Kevin Cooke",
+      jobTitle: "Board Certified Psychiatric Mental Health Nurse Practitioner"
     },
-    "sameAs": ["https://x.com/AIForj"]
+    sameAs: ["https://x.com/AIForj"]
   };
 
   const site = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "AIForj",
-    "url": "https://aiforj.com",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://aiforj.com/?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
+    name: "AIForj",
+    url: "https://aiforj.com",
+    description: "Clinically-informed emotional first-aid tools for anxiety, sadness, anger, overwhelm, and more."
   };
 
-  const medical = {
+  const app = {
     "@context": "https://schema.org",
-    "@type": "MedicalWebPage",
-    "mainEntity": {
-      "@type": "MedicalCondition",
-      "name": "Mental Health"
+    "@type": "SoftwareApplication",
+    name: "AIForj",
+    applicationCategory: "HealthApplication",
+    operatingSystem: "Web",
+    url: "https://aiforj.com",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock"
     },
-    "medicalSpecialty": "Psychiatry",
-    "url": "https://aiforj.com"
+    creator: {
+      "@type": "Person",
+      name: "Kevin Cooke",
+      jobTitle: "Board Certified Psychiatric Mental Health Nurse Practitioner"
+    }
   };
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(org) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(site) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(medical) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(app) }} />
     </>
   );
 }

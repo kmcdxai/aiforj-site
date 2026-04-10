@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
+import PremiumCheckoutButton from '../monetization/PremiumCheckoutButton';
 
 const SHIFT_MESSAGES = {
   positiveLarge: "That\u2019s a meaningful shift. This technique works for you.",
@@ -109,7 +110,7 @@ export default function MoodShiftReceipt({
     if (shift < 3) return;
 
     const dots = [];
-    const colors = ['var(--accent-sage)', 'var(--accent-lavender)', 'var(--accent-ocean)', 'var(--accent-amber)', 'var(--accent-rose)'];
+    const colors = ['var(--sage)', 'var(--lavender)', 'var(--ocean)', 'var(--amber)', 'var(--rose)'];
 
     for (let i = 0; i < 24; i++) {
       const dot = document.createElement('div');
@@ -321,7 +322,7 @@ export default function MoodShiftReceipt({
           borderTop: '1px solid rgba(45,42,38,0.06)',
           paddingTop: 16,
         }}>
-          Clinically-informed tool by a Board-Certified Healthcare Professional
+          Clinically-informed tool by Kevin Cooke, PMHNP-BC
         </div>
       </div>
 
@@ -373,7 +374,7 @@ export default function MoodShiftReceipt({
           <div style={{ fontSize: 14, color: '#8A8078' }}>{durationMinutes} min {'\u00b7'} {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
         </div>
         <div style={{ marginTop: 'auto', paddingTop: 40, fontSize: 12, color: '#8A8078', opacity: 0.6 }}>
-          Clinically-informed tool by a Board-Certified Healthcare Professional {'\u00b7'} aiforj.com
+          Clinically-informed tool by Kevin Cooke, PMHNP-BC {'\u00b7'} aiforj.com
         </div>
       </div>
 
@@ -488,6 +489,30 @@ export default function MoodShiftReceipt({
         >
           Send Calm {'\u2192'}
         </button>
+      </div>
+
+      <div style={{
+        marginTop: 18,
+        padding: '22px',
+        background: 'var(--amber-light)',
+        borderRadius: 20,
+        textAlign: 'center',
+        border: '1px solid rgba(212,168,67,0.22)',
+      }}>
+        <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: '1.05rem', margin: '0 0 8px', color: 'var(--text-primary)' }}>
+          Want more guided support?
+        </h3>
+        <p style={{ margin: '0 auto 14px', color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.6 }}>
+          Talk to Forj Premium adds deeper personalized sessions without blocking the free tools.
+        </p>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
+          <PremiumCheckoutButton style={{ background: 'var(--amber-deep)' }}>
+            Start Premium trial →
+          </PremiumCheckoutButton>
+          <a href="https://aiforj.gumroad.com/l/jmdqvd" target="_blank" rel="noopener noreferrer" className="btn-secondary" style={{ textDecoration: 'none', color: 'var(--amber-deep)', borderColor: 'var(--amber)' }}>
+            Get the CBT Workbook →
+          </a>
+        </div>
       </div>
 
       {/* ── Back to start ── */}

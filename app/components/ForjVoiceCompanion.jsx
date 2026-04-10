@@ -13,7 +13,7 @@ import { useTheme } from "./ThemeProvider";
 //  AI therapeutic companion.
 //
 //  15+ therapeutic modalities with dynamic selection
-//  Built by a Board-Certified Healthcare Professional
+//  Built by Kevin Cooke, PMHNP-BC
 //  100% browser-based — nothing leaves the device
 //
 //  ARCHITECTURE:
@@ -83,7 +83,7 @@ const TIERS = {
 // This is the brain of the entire product.
 // Dynamic technique selection across 15+ modalities.
 // ─────────────────────────────────────────────────
-const CLINICAL_SYSTEM_PROMPT = `You are FORJ — the AI voice companion inside AIForj.com. You were designed by a Board Certified Psychiatric Mental Health Nurse Practitioner (Healthcare Professional). You are the most clinically sophisticated, evidence-based AI wellness companion available.
+const CLINICAL_SYSTEM_PROMPT = `You are FORJ — the AI voice companion inside AIForj.com. You were designed by Kevin Cooke, PMHNP-BC, a Board Certified Psychiatric Mental Health Nurse Practitioner. You are a clinically-informed, evidence-based AI wellness companion.
 
 ═══════════════════════════════════════
 IDENTITY & BOUNDARIES
@@ -1239,7 +1239,7 @@ export default function ForjVoiceCompanion() {
 
           {/* Sub-headline */}
           <p style={{ fontSize: "clamp(15px, 2.5vw, 18px)", color: "var(--text-secondary)", margin: "0 auto 24px", lineHeight: 1.7, maxWidth: 520, animation: "fadeIn 1s ease 0.2s both" }}>
-            Built by a Board-Certified Healthcare Professional. 16 evidence-based modalities. 100% on-device — nothing ever leaves your browser.
+            Built by Kevin Cooke, PMHNP-BC. 16 evidence-based modalities. Privacy-forward and local-first where supported by your browser.
           </p>
 
           {/* Privacy badge */}
@@ -1373,7 +1373,7 @@ export default function ForjVoiceCompanion() {
             Discover Your Emotional Blueprint
           </h2>
           <p style={{ fontSize: 16, color: "var(--text-secondary)", lineHeight: 1.7, margin: "0 auto 32px", maxWidth: 540 }}>
-            A 2-minute assessment designed by a Board-Certified Healthcare Professional. Learn your stress response pattern, your dominant thinking style, and which techniques match your brain.
+            A 2-minute assessment designed by Kevin Cooke, PMHNP-BC. Learn your stress response pattern, your dominant thinking style, and which techniques match your brain.
           </p>
 
           {/* Preview Card */}
@@ -1493,13 +1493,13 @@ export default function ForjVoiceCompanion() {
         <div style={{ maxWidth: 620, margin: "0 auto", textAlign: "center" }}>
           <img src="/aif.jpeg" alt="AIForj" style={{ height: 64, width: "auto", borderRadius: 14, marginBottom: 20, boxShadow: "var(--shadow-md)" }} />
           <p style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(16px, 2.5vw, 20px)", color: "var(--text-primary)", lineHeight: 1.8, margin: "0 0 24px", fontWeight: 400, fontStyle: "italic" }}>
-            "I built Forj because my patients needed something between sessions. Something private. Something that uses real techniques — not affirmations from an algorithm. As a psychiatric nurse practitioner, I designed every pathway, every protocol, every word. This is the tool I wished existed for the people I care for."
+            Forj was built for the space between moments of care: private, practical, and grounded in real therapeutic techniques rather than generic affirmations.
           </p>
           <p style={{ fontSize: 14, color: "var(--text-secondary)", fontWeight: 500, margin: "0 0 20px" }}>
-            — Board Certified Psychiatric Mental Health Nurse Practitioner
+            — Kevin Cooke, PMHNP-BC
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8 }}>
-            {["Evidence-Based", "Zero Data Collection", "100% On-Device AI", "HIPAA-Grade Privacy"].map(b => (
+            {["Evidence-Informed", "Local-First Sessions", "Browser-Based AI Mode", "Privacy-Forward Design"].map(b => (
               <span key={b} style={{ padding: "5px 14px", background: "var(--surface-elevated)", border: "1px solid rgba(45,42,38,0.06)", borderRadius: 20, fontSize: 11, color: "var(--text-secondary)", fontWeight: 500, boxShadow: "var(--shadow-sm)" }}>{b}</span>
             ))}
           </div>
@@ -1520,7 +1520,7 @@ export default function ForjVoiceCompanion() {
                 Start 7-Day Free Trial
               </button>
               <button onClick={handleSubscribe} className="btn-glow" style={{ padding: "16px 32px", fontSize: 14, fontFamily: "'DM Sans', sans-serif", background: "transparent", color: "var(--interactive)", border: "1.5px solid var(--interactive)", borderRadius: 50, cursor: "pointer", fontWeight: 500 }}>
-                Lifetime Unlock — $79
+                Start Premium — $9.99/mo
               </button>
             </div>
             <p style={{ fontSize: 12, color: "var(--text-muted)", margin: 0 }}>7-day free trial · $9.99/month · Cancel anytime</p>

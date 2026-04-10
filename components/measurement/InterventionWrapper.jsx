@@ -50,7 +50,7 @@ export default function InterventionWrapper({
     setPhase(PHASES.RECEIPT);
 
     const now = Date.now();
-    const duration = now - (startTime || now);
+    const durationMs = now - (startTime || now);
     const shift = rating - preRating;
 
     saveSession({
@@ -60,11 +60,11 @@ export default function InterventionWrapper({
       preRating,
       postRating: rating,
       shift,
-      duration,
+      duration: Math.max(1, Math.round(durationMs / 1000)),
       timestamp: new Date().toISOString(),
     });
 
-    onComplete?.({ preRating, postRating: rating, shift, duration });
+    onComplete?.({ preRating, postRating: rating, shift, duration: durationMs });
   };
 
   const handleSendCalm = () => {

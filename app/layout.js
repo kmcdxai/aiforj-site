@@ -6,23 +6,26 @@ import SOS from './components/SOS';
 import SEO from './components/SEO';
 
 export const metadata = {
+  metadataBase: new URL('https://aiforj.com'),
   title: 'AIForj — Emotional First Aid That Actually Works',
-  description: 'Free evidence-based therapeutic tools designed by AIForj Team, Licensed Healthcare Provider-BC. 12 emotional states, 100+ interventions across CBT, DBT, ACT, and somatic therapy. Mood measurement, guided techniques, and voice AI companion. 100% private — nothing ever leaves your device.',
-  keywords: 'emotional first aid, mental health tools, CBT, DBT, ACT, somatic therapy, therapeutic companion, anxiety, depression, wellness, Licensed Healthcare Provider, private therapy, mood tracking, grounding techniques',
+  description: '100+ clinically-matched tools for anxiety, sadness, anger, overwhelm, and more. Built by Kevin Cooke, PMHNP-BC. Free, private, evidence-based emotional first aid.',
+  keywords: 'emotional first aid, mental health tools, CBT tools, DBT skills, ACT defusion, somatic grounding, anxiety grounding, mood tracking, therapeutic techniques, AIForj',
   alternates: {
     canonical: 'https://aiforj.com',
   },
   openGraph: {
     title: 'AIForj — Emotional First Aid That Actually Works',
-    description: 'Free evidence-based therapeutic tools designed by a Board Certified Licensed Healthcare Provider. 12 emotional states, 100+ interventions. 100% private.',
+    description: '100+ clinically-matched tools for anxiety, sadness, anger, overwhelm, and more. Built by Kevin Cooke, PMHNP-BC.',
     url: 'https://aiforj.com',
     siteName: 'AIForj',
     type: 'website',
+    images: [{ url: '/aif.jpeg', width: 1200, height: 630, alt: 'AIForj' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'AIForj — Emotional First Aid That Actually Works',
-    description: 'Free evidence-based therapeutic tools designed by a Board Certified Licensed Healthcare Provider. 12 emotional states, 100+ interventions. 100% private.',
+    description: '100+ clinically-matched emotional first-aid tools. Built by Kevin Cooke, PMHNP-BC.',
+    images: ['/aif.jpeg'],
   },
 };
 
@@ -32,7 +35,7 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=DM+Sans:wght@300;400;500;600&family=Sora:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,400..700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-2VSX5RJH0J"></script>
         <script dangerouslySetInnerHTML={{ __html: `
           window.dataLayer = window.dataLayer || [];
@@ -50,8 +53,8 @@ export default function RootLayout({ children }) {
               if (manual === 'true' && saved) {
                 document.documentElement.setAttribute('data-theme', saved);
               } else {
-                var h = new Date().getHours();
-                document.documentElement.setAttribute('data-theme', (h >= 22 || h < 6) ? 'dark' : 'light');
+              var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+              document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
               }
             } catch(e) {}
           })();

@@ -1,217 +1,362 @@
 /**
- * AIForj Intervention Data
- * Maps all 12 emotions to tiered interventions (quick/medium/deep)
- * Each intervention references a component slug for the interactive version
+ * AIForj Phase 1 intervention data.
+ * The anxious/quick tier is fully interactive; the remaining emotion tiers
+ * carry transparent placeholder data for the later full intervention buildout.
  */
+
+const placeholder = (id, name, description, modalities, interactionType, interactionLabel, timeMinutes, tier = 'premium') => ({
+  id,
+  name,
+  title: name,
+  description,
+  modalities,
+  modality: modalities.join(' / '),
+  interactionType,
+  interactionLabel,
+  timeMinutes,
+  duration: `${timeMinutes} min`,
+  tier,
+  evidenceBase: 'Placeholder until Phase 2 intervention buildout',
+  placeholder: true,
+});
 
 export const INTERVENTIONS = {
   anxious: {
     label: 'Anxious',
     emoji: '⚡',
     quick: [
-      { id: 'physiological-sigh', title: 'Physiological Sigh', duration: '90 sec', modality: 'Somatic', description: 'Double-inhale through the nose, long exhale through the mouth. Resets your autonomic nervous system in real time.', component: 'PhysiologicalSigh' },
-      { id: '54321-grounding', title: '5-4-3-2-1 Grounding', duration: '2 min', modality: 'Somatic', description: 'Anchor your senses in the present moment. Name 5 things you see, 4 you hear, 3 you touch, 2 you smell, 1 you taste.', component: 'SensoryGrounding' },
-      { id: 'name-the-story', title: 'Name the Story', duration: '2 min', modality: 'ACT', description: 'Defuse from anxious thoughts by naming them as stories your mind tells, not facts you must obey.', component: 'NameTheStory' },
+      {
+        id: 'grounding-54321',
+        name: '5-4-3-2-1 Sensory Grounding',
+        title: '5-4-3-2-1 Sensory Grounding',
+        description: 'Use your five senses to anchor yourself in the present moment. Tap through what you see, hear, touch, smell, and taste.',
+        modalities: ['Somatic', 'Polyvagal'],
+        modality: 'Somatic / Polyvagal',
+        interactionType: 'body',
+        interactionLabel: 'Body Exercise',
+        timeMinutes: 2,
+        duration: '2 min',
+        tier: 'free',
+        evidenceBase: 'Polyvagal Theory (Porges, 2011)',
+        component: 'SensoryGrounding',
+        canonicalTechniqueSlug: '54321-grounding',
+      },
+      {
+        id: 'physiological-sigh',
+        name: 'Physiological Sigh',
+        title: 'Physiological Sigh',
+        description: 'The fastest evidence-backed way to reduce anxiety. Double inhale through nose, long exhale through mouth.',
+        modalities: ['Somatic'],
+        modality: 'Somatic',
+        interactionType: 'body',
+        interactionLabel: 'Body Exercise',
+        timeMinutes: 1,
+        duration: '1 min',
+        tier: 'free',
+        evidenceBase: 'Stanford/Huberman Lab, 2023',
+        component: 'PhysiologicalSigh',
+        canonicalTechniqueSlug: 'physiological-sigh',
+      },
+      {
+        id: 'name-the-story',
+        name: 'Name the Story',
+        title: 'Name the Story',
+        description: 'Give your anxious thought pattern a movie title. Creating distance from thoughts reduces their power over you.',
+        modalities: ['ACT'],
+        modality: 'ACT',
+        interactionType: 'thinking',
+        interactionLabel: 'Thinking Exercise',
+        timeMinutes: 2,
+        duration: '2 min',
+        tier: 'free',
+        evidenceBase: 'ACT Defusion (Hayes, 2004)',
+        component: 'NameTheStory',
+        canonicalTechniqueSlug: 'thought-defusion',
+      },
     ],
     medium: [
-      { id: 'body-scan', title: 'Body Scan', duration: '5 min', modality: 'Somatic', description: 'Progressive attention through each body region, noticing tension without trying to fix it.' },
-      { id: 'thought-record', title: 'Thought Record', duration: '5 min', modality: 'CBT', description: 'Capture the anxious thought, examine evidence for and against, and reframe with a balanced perspective.' },
-      { id: 'worry-time', title: 'Scheduled Worry', duration: '5 min', modality: 'CBT', description: 'Contain anxiety by giving it a dedicated window. Write worries down, then close the list until tomorrow.' },
+      {
+        id: 'worry-decision-tree',
+        name: 'Worry Decision Tree',
+        title: 'Worry Decision Tree',
+        description: 'An interactive flowchart that helps you decide: can I act on this worry, or do I need to accept it?',
+        modalities: ['CBT', 'ACT'],
+        modality: 'CBT / ACT',
+        interactionType: 'decision',
+        interactionLabel: 'Decision Tool',
+        timeMinutes: 7,
+        duration: '7 min',
+        tier: 'premium',
+        evidenceBase: 'CBT Problem-Solving + ACT Acceptance',
+        placeholder: true,
+      },
+      {
+        id: 'thought-record-lite',
+        name: 'Thought Record Lite',
+        title: 'Thought Record Lite',
+        description: 'Capture the anxious thought, spot the cognitive distortion, and build a balanced reframe. The gold standard of CBT.',
+        modalities: ['CBT'],
+        modality: 'CBT',
+        interactionType: 'thinking',
+        interactionLabel: 'Thinking Exercise',
+        timeMinutes: 8,
+        duration: '8 min',
+        tier: 'premium',
+        evidenceBase: 'CBT Thought Records (Beck, 1979)',
+        placeholder: true,
+      },
+      {
+        id: 'anxiety-body-map',
+        name: 'Anxiety Body Map',
+        title: 'Anxiety Body Map',
+        description: 'Tap where you feel anxiety in your body. Get targeted somatic release exercises for each area.',
+        modalities: ['Somatic', 'Polyvagal'],
+        modality: 'Somatic / Polyvagal',
+        interactionType: 'body',
+        interactionLabel: 'Body Exercise',
+        timeMinutes: 6,
+        duration: '6 min',
+        tier: 'premium',
+        evidenceBase: 'Somatic Experiencing (Levine, 1997)',
+        placeholder: true,
+      },
     ],
     deep: [
-      { id: 'values-compass', title: 'Values Compass', duration: '10 min', modality: 'ACT', description: 'Reconnect with what matters most to you. Anxiety often signals something you care about — follow that thread.' },
-      { id: 'progressive-relaxation', title: 'Progressive Muscle Relaxation', duration: '12 min', modality: 'Somatic', description: 'Systematic tension-and-release through major muscle groups to discharge stored anxiety.' },
-      { id: 'cognitive-restructuring', title: 'Cognitive Restructuring', duration: '10 min', modality: 'CBT', description: 'Identify cognitive distortions fueling anxiety and build alternative, evidence-based interpretations.' },
+      {
+        id: 'full-cognitive-restructuring',
+        name: 'Full Cognitive Restructuring',
+        title: 'Full Cognitive Restructuring',
+        description: 'The complete 7-column thought record with evidence weighing, distortion spotting, and reframe generation.',
+        modalities: ['CBT'],
+        modality: 'CBT',
+        interactionType: 'thinking',
+        interactionLabel: 'Thinking Exercise',
+        timeMinutes: 18,
+        duration: '18 min',
+        tier: 'premium',
+        evidenceBase: 'CBT (Beck, 1979)',
+        placeholder: true,
+      },
+      {
+        id: 'worry-postponement',
+        name: 'Worry Postponement Protocol',
+        title: 'Worry Postponement Protocol',
+        description: "Schedule your worries for a specific time. Train your brain that worry has a place — and it's not right now.",
+        modalities: ['CBT', 'Behavioral'],
+        modality: 'CBT / Behavioral',
+        interactionType: 'planning',
+        interactionLabel: 'Planning Tool',
+        timeMinutes: 15,
+        duration: '15 min',
+        tier: 'premium',
+        evidenceBase: 'Borkovec (1983)',
+        placeholder: true,
+      },
+      {
+        id: 'values-based-action',
+        name: 'Values-Based Action Plan',
+        title: 'Values-Based Action Plan',
+        description: "If anxiety weren't driving, what would you do? Identify the value being blocked and take one committed action.",
+        modalities: ['ACT'],
+        modality: 'ACT',
+        interactionType: 'decision',
+        interactionLabel: 'Decision Tool',
+        timeMinutes: 15,
+        duration: '15 min',
+        tier: 'premium',
+        evidenceBase: 'ACT (Hayes, 2004)',
+        placeholder: true,
+      },
     ],
   },
-  overwhelmed: {
-    label: 'Overwhelmed',
-    emoji: '🌊',
-    quick: [
-      { id: 'physiological-sigh', title: 'Physiological Sigh', duration: '90 sec', modality: 'Somatic', description: 'A quick nervous system reset when everything feels like too much.', component: 'PhysiologicalSigh' },
-      { id: '54321-grounding', title: '5-4-3-2-1 Grounding', duration: '2 min', modality: 'Somatic', description: 'Come back to the present and stop the spiral of overwhelm.', component: 'SensoryGrounding' },
-      { id: 'one-tiny-step', title: 'One Tiny Step', duration: '2 min', modality: 'Behavioral', description: 'Pick the single smallest action you can take right now. Momentum follows motion.' },
-    ],
-    medium: [
-      { id: 'brain-dump', title: 'Brain Dump', duration: '5 min', modality: 'CBT', description: 'Get everything out of your head and onto paper. Seeing it written reduces the felt volume.' },
-      { id: 'body-scan', title: 'Body Scan', duration: '5 min', modality: 'Somatic', description: 'Slow down and reconnect with your body when your mind is racing.' },
-      { id: 'priority-triage', title: 'Priority Triage', duration: '5 min', modality: 'Behavioral', description: 'Sort your list into must-do-today, can-wait, and not-mine. Permission to drop the rest.' },
-    ],
-    deep: [
-      { id: 'values-compass', title: 'Values Compass', duration: '10 min', modality: 'ACT', description: 'When everything demands attention, your values reveal what actually matters.' },
-      { id: 'progressive-relaxation', title: 'Progressive Muscle Relaxation', duration: '12 min', modality: 'Somatic', description: 'Release the physical tension that overwhelm deposits in your body.' },
-      { id: 'boundary-audit', title: 'Boundary Audit', duration: '10 min', modality: 'DBT', description: 'Examine where you are over-functioning. Identify one boundary you can set this week.' },
-    ],
-  },
-  stressed: {
-    label: 'Stressed',
-    emoji: '⏰',
-    quick: [
-      { id: 'physiological-sigh', title: 'Physiological Sigh', duration: '90 sec', modality: 'Somatic', description: 'Activate your parasympathetic nervous system in under two minutes.', component: 'PhysiologicalSigh' },
-      { id: '54321-grounding', title: '5-4-3-2-1 Grounding', duration: '2 min', modality: 'Somatic', description: 'Interrupt the stress loop by anchoring to your senses.', component: 'SensoryGrounding' },
-      { id: 'name-the-story', title: 'Name the Story', duration: '2 min', modality: 'ACT', description: 'Notice the pressure narrative your mind is running and step back from it.', component: 'NameTheStory' },
-    ],
-    medium: [
-      { id: 'thought-record', title: 'Thought Record', duration: '5 min', modality: 'CBT', description: 'Capture the stress thought, test it against evidence, and find a more balanced view.' },
-      { id: 'body-scan', title: 'Body Scan', duration: '5 min', modality: 'Somatic', description: 'Notice where stress lives in your body and breathe into those areas.' },
-      { id: 'priority-triage', title: 'Priority Triage', duration: '5 min', modality: 'Behavioral', description: 'Clarify what is urgent vs. important. Stress thrives on false urgency.' },
-    ],
-    deep: [
-      { id: 'progressive-relaxation', title: 'Progressive Muscle Relaxation', duration: '12 min', modality: 'Somatic', description: 'Systematically release physical tension from head to toe.' },
-      { id: 'cognitive-restructuring', title: 'Cognitive Restructuring', duration: '10 min', modality: 'CBT', description: 'Identify and reframe the cognitive distortions amplifying your stress.' },
-      { id: 'values-compass', title: 'Values Compass', duration: '10 min', modality: 'ACT', description: 'Reconnect with your deeper values to put stress in perspective.' },
-    ],
-  },
-  sad: {
-    label: 'Sad',
+  'sad-low': {
+    label: 'Sad / Low',
     emoji: '🌧',
     quick: [
-      { id: '54321-grounding', title: '5-4-3-2-1 Grounding', duration: '2 min', modality: 'Somatic', description: 'Gently bring yourself back to the present when sadness pulls you inward.', component: 'SensoryGrounding' },
-      { id: 'name-the-story', title: 'Name the Story', duration: '2 min', modality: 'ACT', description: 'Notice the sad narrative without merging with it. You are not your sadness.', component: 'NameTheStory' },
-      { id: 'physiological-sigh', title: 'Physiological Sigh', duration: '90 sec', modality: 'Somatic', description: 'A gentle breath pattern that soothes without forcing you to feel differently.', component: 'PhysiologicalSigh' },
+      placeholder('self-compassion-pause', 'Self-Compassion Pause', 'A brief phrase practice for meeting sadness with kindness instead of pressure.', ['ACT'], 'thinking', 'Thinking Exercise', 2, 'free'),
+      placeholder('tiny-pleasure-step', 'Tiny Pleasure Step', 'Choose one small sensory comfort that does not require you to feel better first.', ['Behavioral'], 'planning', 'Planning Tool', 2, 'free'),
+      placeholder('sadness-body-soften', 'Sadness Body Soften', 'Notice where heaviness lives and soften around it with one gentle breath cycle.', ['Somatic'], 'body', 'Body Exercise', 2, 'free'),
     ],
     medium: [
-      { id: 'self-compassion-letter', title: 'Self-Compassion Letter', duration: '5 min', modality: 'ACT', description: 'Write yourself the kind words you would offer a friend in pain.' },
-      { id: 'body-scan', title: 'Body Scan', duration: '5 min', modality: 'Somatic', description: 'Notice where sadness lives in your body and hold it with care.' },
-      { id: 'behavioral-activation', title: 'Behavioral Activation', duration: '5 min', modality: 'Behavioral', description: 'Choose one small, kind action — a walk, a warm drink, a song you love.' },
+      placeholder('behavioral-activation-map', 'Behavioral Activation Map', 'Pick one low-friction action that can create a little contact with life again.', ['CBT', 'Behavioral'], 'planning', 'Planning Tool', 8),
+      placeholder('kind-letter-lite', 'Kind Letter Lite', 'Write a short note to yourself in the tone you would use for a hurting friend.', ['ACT'], 'writing', 'Writing Exercise', 7),
+      placeholder('mood-evidence-check', 'Mood Evidence Check', 'Separate what sadness says from what the whole evidence picture says.', ['CBT'], 'thinking', 'Thinking Exercise', 8),
     ],
     deep: [
-      { id: 'values-compass', title: 'Values Compass', duration: '10 min', modality: 'ACT', description: 'Sadness often points to something you care about deeply. Explore that connection.' },
-      { id: 'progressive-relaxation', title: 'Progressive Muscle Relaxation', duration: '12 min', modality: 'Somatic', description: 'Release held tension and allow your body to soften.' },
-      { id: 'journaling-prompt', title: 'Guided Journaling', duration: '10 min', modality: 'Psychoed', description: 'Structured prompts to process and express your sadness safely.' },
+      placeholder('meaning-after-low-mood', 'Meaning After Low Mood', 'Explore what the sadness may be asking you to care for or reconnect with.', ['ACT'], 'writing', 'Writing Exercise', 18),
+      placeholder('activity-ladder', 'Activity Ladder', 'Build a graded action plan for low-energy days without shaming yourself.', ['Behavioral'], 'planning', 'Planning Tool', 15),
+      placeholder('balanced-thought-record', 'Balanced Thought Record', 'Work through a fuller CBT reframe for the thoughts that keep sadness looping.', ['CBT'], 'thinking', 'Thinking Exercise', 20),
     ],
   },
   angry: {
     label: 'Angry',
     emoji: '🔥',
     quick: [
-      { id: 'physiological-sigh', title: 'Physiological Sigh', duration: '90 sec', modality: 'Somatic', description: 'Cool the nervous system before the heat takes over.', component: 'PhysiologicalSigh' },
-      { id: '54321-grounding', title: '5-4-3-2-1 Grounding', duration: '2 min', modality: 'Somatic', description: 'Anchor to your senses and interrupt the anger escalation.', component: 'SensoryGrounding' },
-      { id: 'name-the-story', title: 'Name the Story', duration: '2 min', modality: 'ACT', description: 'Notice the anger story: "My mind is telling me the story that..."', component: 'NameTheStory' },
+      placeholder('heat-check', 'Heat Check', 'Name what anger is protecting before you choose what to do next.', ['DBT'], 'thinking', 'Thinking Exercise', 2, 'free'),
+      placeholder('six-count-space', 'Six-Count Space', 'Use a short body pause to stop anger from choosing your response for you.', ['Somatic'], 'body', 'Body Exercise', 2, 'free'),
+      placeholder('boundary-sentence', 'Boundary Sentence', 'Draft one clean sentence that protects the boundary without escalating the fight.', ['CBT', 'DBT'], 'writing', 'Writing Exercise', 2, 'free'),
     ],
     medium: [
-      { id: 'opposite-action', title: 'Opposite Action', duration: '5 min', modality: 'DBT', description: 'When anger says attack, choose the opposite. Speak softly, approach gently.' },
-      { id: 'body-scan', title: 'Body Scan', duration: '5 min', modality: 'Somatic', description: 'Locate the anger in your body and breathe into it without acting on it.' },
-      { id: 'thought-record', title: 'Thought Record', duration: '5 min', modality: 'CBT', description: 'Examine the thought behind the anger. Is it the full story?' },
+      placeholder('opposite-action-anger', 'Opposite Action for Anger', 'Practice a DBT response when anger is valid but acting hot will cost you.', ['DBT'], 'decision', 'Decision Tool', 7),
+      placeholder('anger-story-check', 'Anger Story Check', 'Find the assumption underneath the anger and test it before reacting.', ['CBT'], 'thinking', 'Thinking Exercise', 8),
+      placeholder('repair-or-space', 'Repair or Space', 'Decide whether this moment needs connection, a boundary, or a clean timeout.', ['DBT'], 'decision', 'Decision Tool', 6),
     ],
     deep: [
-      { id: 'progressive-relaxation', title: 'Progressive Muscle Relaxation', duration: '12 min', modality: 'Somatic', description: 'Discharge anger from your body through systematic tension and release.' },
-      { id: 'values-compass', title: 'Values Compass', duration: '10 min', modality: 'ACT', description: 'What value is being violated? Anger often protects something important.' },
-      { id: 'boundary-audit', title: 'Boundary Audit', duration: '10 min', modality: 'DBT', description: 'Anger signals a boundary was crossed. Identify it and plan a response.' },
+      placeholder('anger-boundary-audit', 'Anger Boundary Audit', 'Trace the crossed boundary and plan a grounded next conversation.', ['DBT', 'CBT'], 'planning', 'Planning Tool', 18),
+      placeholder('values-under-anger', 'Values Under Anger', 'Identify the value anger is defending and choose an action that honors it.', ['ACT'], 'decision', 'Decision Tool', 15),
+      placeholder('post-conflict-repair-plan', 'Post-Conflict Repair Plan', 'Build a repair script that owns your part without abandoning your needs.', ['CBT', 'DBT'], 'writing', 'Writing Exercise', 20),
+    ],
+  },
+  overwhelmed: {
+    label: 'Overwhelmed',
+    emoji: '🌊',
+    quick: [
+      placeholder('one-tiny-step', 'One Tiny Step', 'Reduce the whole pile into one next action your nervous system can tolerate.', ['Behavioral'], 'planning', 'Planning Tool', 2, 'free'),
+      placeholder('control-circle', 'Control Circle', 'Sort what is yours, what is not yours, and what can wait.', ['CBT'], 'decision', 'Decision Tool', 2, 'free'),
+      placeholder('overwhelm-exhale', 'Overwhelm Exhale', 'Use a short exhale-led breath pattern to lower the immediate flood response.', ['Somatic'], 'body', 'Body Exercise', 2, 'free'),
+    ],
+    medium: [
+      placeholder('brain-dump-triage', 'Brain Dump Triage', 'Get the clutter out of your head and sort it into a humane order.', ['CBT', 'Behavioral'], 'writing', 'Writing Exercise', 8),
+      placeholder('priority-sieve', 'Priority Sieve', 'Separate urgent, important, optional, and not-mine tasks.', ['Behavioral'], 'decision', 'Decision Tool', 7),
+      placeholder('capacity-check', 'Capacity Check', 'Check your real capacity before you promise more than your body can carry.', ['ACT'], 'planning', 'Planning Tool', 6),
+    ],
+    deep: [
+      placeholder('overwhelm-operating-plan', 'Overwhelm Operating Plan', 'Create a realistic plan for the next 24 hours with rest and boundaries included.', ['CBT', 'Behavioral'], 'planning', 'Planning Tool', 20),
+      placeholder('boundary-reset', 'Boundary Reset', 'Identify the yeses that created overload and choose one boundary to repair.', ['DBT'], 'decision', 'Decision Tool', 18),
+      placeholder('values-triage-session', 'Values Triage Session', 'Use values to decide what matters now and what can be released.', ['ACT'], 'decision', 'Decision Tool', 18),
+    ],
+  },
+  'shame-guilt': {
+    label: 'Shame / Guilt',
+    emoji: '🎭',
+    quick: [
+      placeholder('name-shame', 'Name Shame', 'Spot the difference between “I did something” and “I am bad.”', ['CBT'], 'thinking', 'Thinking Exercise', 2, 'free'),
+      placeholder('repair-or-release', 'Repair or Release', 'Decide whether this moment calls for repair, self-forgiveness, or both.', ['ACT'], 'decision', 'Decision Tool', 2, 'free'),
+      placeholder('hand-on-heart-reset', 'Hand-on-Heart Reset', 'Use a brief self-compassion cue to soften the body’s shame response.', ['Somatic'], 'body', 'Body Exercise', 2, 'free'),
+    ],
+    medium: [
+      placeholder('guilt-action-map', 'Guilt Action Map', 'Turn useful guilt into one repair action and release the rest.', ['CBT', 'ACT'], 'planning', 'Planning Tool', 8),
+      placeholder('self-judgment-reframe', 'Self-Judgment Reframe', 'Challenge the harsh conclusion and build a more accurate one.', ['CBT'], 'thinking', 'Thinking Exercise', 8),
+      placeholder('compassionate-accountability', 'Compassionate Accountability', 'Own what is yours without letting shame turn it into a life sentence.', ['ACT'], 'writing', 'Writing Exercise', 7),
+    ],
+    deep: [
+      placeholder('shame-story-record', 'Shame Story Record', 'Map the origin, evidence, and alternative view for a shame-based belief.', ['CBT'], 'thinking', 'Thinking Exercise', 20),
+      placeholder('repair-plan-session', 'Repair Plan Session', 'Create a specific, values-aligned repair plan if repair is actually needed.', ['ACT', 'DBT'], 'planning', 'Planning Tool', 18),
+      placeholder('self-forgiveness-letter', 'Self-Forgiveness Letter', 'Write a structured letter that includes accountability, context, and care.', ['ACT'], 'writing', 'Writing Exercise', 20),
+    ],
+  },
+  'grief-loss': {
+    label: 'Grief / Loss',
+    emoji: '🕊️',
+    quick: [
+      placeholder('grief-wave-anchor', 'Grief Wave Anchor', 'Let the wave move through without trying to make it disappear.', ['ACT'], 'body', 'Body Exercise', 2, 'free'),
+      placeholder('one-memory', 'One Memory', 'Hold one memory with tenderness for a moment, then return to now.', ['Psychoed'], 'writing', 'Writing Exercise', 2, 'free'),
+      placeholder('grief-breath', 'Grief Breath', 'Use a soft breath pattern for the moments when loss takes your breath away.', ['Somatic'], 'body', 'Body Exercise', 2, 'free'),
+    ],
+    medium: [
+      placeholder('continuing-bond-note', 'Continuing Bond Note', 'Write a few lines that honor what remains connected.', ['ACT'], 'writing', 'Writing Exercise', 8),
+      placeholder('what-i-miss', 'What I Miss', 'Name the specific ache so it feels less like an unnamed ocean.', ['Psychoed'], 'writing', 'Writing Exercise', 7),
+      placeholder('grief-body-map', 'Grief Body Map', 'Notice where grief is sitting in the body and offer gentle support.', ['Somatic'], 'body', 'Body Exercise', 6),
+    ],
+    deep: [
+      placeholder('carry-love-forward', 'Carry Love Forward', 'Explore how to carry what mattered without forcing closure.', ['ACT'], 'writing', 'Writing Exercise', 20),
+      placeholder('ritual-design', 'Small Ritual Design', 'Create a simple ritual that gives grief a place to go.', ['Psychoed'], 'planning', 'Planning Tool', 18),
+      placeholder('grief-meaning-session', 'Grief Meaning Session', 'Reflect on loss, love, and the next humane step in living with both.', ['ACT'], 'writing', 'Writing Exercise', 20),
+    ],
+  },
+  'numb-disconnected': {
+    label: 'Numb / Disconnected',
+    emoji: '🧊',
+    quick: [
+      placeholder('texture-anchor', 'Texture Anchor', 'Use one real texture to gently bring sensation back online.', ['Somatic'], 'body', 'Body Exercise', 2, 'free'),
+      placeholder('temperature-check-in', 'Temperature Check-In', 'Notice warmth, coolness, and contact points without forcing emotion.', ['Somatic'], 'body', 'Body Exercise', 2, 'free'),
+      placeholder('one-true-sentence', 'One True Sentence', 'Write one sentence about what is happening right now, even if it is “I feel blank.”', ['ACT'], 'writing', 'Writing Exercise', 2, 'free'),
+    ],
+    medium: [
+      placeholder('gentle-body-scan', 'Gentle Body Scan', 'Reconnect with the body in low-pressure passes from head to toe.', ['Somatic'], 'body', 'Body Exercise', 8),
+      placeholder('window-of-tolerance-check', 'Window of Tolerance Check', 'Understand numbness as shutdown and choose a gentle re-entry step.', ['Psychoed'], 'thinking', 'Thinking Exercise', 7),
+      placeholder('sensory-menu', 'Sensory Menu', 'Build a small list of sensory cues that help you feel present without flooding.', ['Somatic'], 'planning', 'Planning Tool', 6),
+    ],
+    deep: [
+      placeholder('shutdown-recovery-plan', 'Shutdown Recovery Plan', 'Create a staged plan for moving from freeze toward safe engagement.', ['Somatic', 'Polyvagal'], 'planning', 'Planning Tool', 18),
+      placeholder('parts-of-numbness', 'Parts of Numbness', 'Write to the part of you that disconnected and ask what it protected.', ['ACT'], 'writing', 'Writing Exercise', 20),
+      placeholder('values-reconnection', 'Values Reconnection', 'Use a values inventory to find one small sign of aliveness again.', ['ACT'], 'decision', 'Decision Tool', 18),
     ],
   },
   lonely: {
     label: 'Lonely',
     emoji: '🌑',
     quick: [
-      { id: '54321-grounding', title: '5-4-3-2-1 Grounding', duration: '2 min', modality: 'Somatic', description: 'Ground yourself in the present before the isolation spiral deepens.', component: 'SensoryGrounding' },
-      { id: 'name-the-story', title: 'Name the Story', duration: '2 min', modality: 'ACT', description: 'Notice if loneliness is telling you a story about being fundamentally alone.', component: 'NameTheStory' },
-      { id: 'physiological-sigh', title: 'Physiological Sigh', duration: '90 sec', modality: 'Somatic', description: 'Soothe your nervous system — isolation activates threat detection.', component: 'PhysiologicalSigh' },
+      placeholder('seen-by-self', 'Seen by Self', 'Name what you wish someone understood, then offer one honest response to yourself.', ['ACT'], 'writing', 'Writing Exercise', 2, 'free'),
+      placeholder('connection-micro-step', 'Connection Micro-Step', 'Choose a tiny, low-risk bid for connection.', ['Behavioral'], 'planning', 'Planning Tool', 2, 'free'),
+      placeholder('lonely-grounding', 'Lonely Grounding', 'Anchor in the room before the loneliness story expands.', ['Somatic'], 'body', 'Body Exercise', 2, 'free'),
     ],
     medium: [
-      { id: 'self-compassion-letter', title: 'Self-Compassion Letter', duration: '5 min', modality: 'ACT', description: 'Write to yourself as a friend who sees you and cares.' },
-      { id: 'behavioral-activation', title: 'Connection Step', duration: '5 min', modality: 'Behavioral', description: 'Identify one person and one micro-action: a text, a call, a plan to meet.' },
-      { id: 'body-scan', title: 'Body Scan', duration: '5 min', modality: 'Somatic', description: 'Reconnect with your own body as a first step toward reconnecting with others.' },
+      placeholder('text-someone-script', 'Text Someone Script', 'Draft a simple message that asks for connection without overexplaining.', ['Behavioral'], 'writing', 'Writing Exercise', 7),
+      placeholder('loneliness-story-check', 'Loneliness Story Check', 'Separate being alone right now from the story that you will always be alone.', ['CBT'], 'thinking', 'Thinking Exercise', 8),
+      placeholder('safe-people-map', 'Safe People Map', 'List who feels safe, who feels neutral, and who costs too much right now.', ['ACT'], 'planning', 'Planning Tool', 8),
     ],
     deep: [
-      { id: 'values-compass', title: 'Values Compass', duration: '10 min', modality: 'ACT', description: 'Explore what connection means to you and what small steps honor that value.' },
-      { id: 'journaling-prompt', title: 'Guided Journaling', duration: '10 min', modality: 'Psychoed', description: 'Process loneliness through structured writing prompts.' },
-      { id: 'progressive-relaxation', title: 'Progressive Muscle Relaxation', duration: '12 min', modality: 'Somatic', description: 'Release the tension that isolation builds in your body.' },
+      placeholder('connection-plan', 'Connection Plan', 'Build a values-aligned plan for regular connection that starts small.', ['ACT', 'Behavioral'], 'planning', 'Planning Tool', 20),
+      placeholder('belonging-letter', 'Belonging Letter', 'Write a compassionate letter to the part of you that feels outside the circle.', ['ACT'], 'writing', 'Writing Exercise', 18),
+      placeholder('social-energy-audit', 'Social Energy Audit', 'Identify which forms of connection nourish you and which drain you.', ['CBT'], 'decision', 'Decision Tool', 15),
     ],
   },
-  numb: {
-    label: 'Numb',
-    emoji: '🧊',
+  'stressed-burned-out': {
+    label: 'Stressed / Burned Out',
+    emoji: '⏰',
     quick: [
-      { id: '54321-grounding', title: '5-4-3-2-1 Grounding', duration: '2 min', modality: 'Somatic', description: 'Bring your senses back online gently. Numbness is your system on pause.', component: 'SensoryGrounding' },
-      { id: 'physiological-sigh', title: 'Physiological Sigh', duration: '90 sec', modality: 'Somatic', description: 'A gentle breath pattern to wake your nervous system without overwhelming it.', component: 'PhysiologicalSigh' },
-      { id: 'name-the-story', title: 'Name the Story', duration: '2 min', modality: 'ACT', description: 'Even numbness has a story. Notice what your mind says about feeling nothing.', component: 'NameTheStory' },
+      placeholder('pressure-release-breath', 'Pressure Release Breath', 'Use one minute of exhale-led breathing to downshift pressure.', ['Somatic'], 'body', 'Body Exercise', 2, 'free'),
+      placeholder('must-should-could', 'Must / Should / Could', 'Separate what truly must happen from the pile of shoulds.', ['CBT'], 'decision', 'Decision Tool', 2, 'free'),
+      placeholder('rest-permission-slip', 'Rest Permission Slip', 'Write one sentence that gives your body permission to be human.', ['ACT'], 'writing', 'Writing Exercise', 2, 'free'),
     ],
     medium: [
-      { id: 'body-scan', title: 'Body Scan', duration: '5 min', modality: 'Somatic', description: 'Slowly reconnect with physical sensation, area by area.' },
-      { id: 'behavioral-activation', title: 'Sensory Activation', duration: '5 min', modality: 'Behavioral', description: 'Hold ice, splash cold water, smell something strong — gentle sensory wake-ups.' },
-      { id: 'self-compassion-letter', title: 'Self-Compassion Letter', duration: '5 min', modality: 'ACT', description: 'Write to the part of you that shut down. It was protecting you.' },
+      placeholder('burnout-capacity-map', 'Burnout Capacity Map', 'Check the gap between demand and capacity, then choose one adjustment.', ['Behavioral'], 'planning', 'Planning Tool', 8),
+      placeholder('stress-thought-record', 'Stress Thought Record', 'Test the high-pressure thought that says everything is urgent.', ['CBT'], 'thinking', 'Thinking Exercise', 8),
+      placeholder('energy-leak-audit', 'Energy Leak Audit', 'Find one energy leak you can plug this week.', ['Behavioral'], 'decision', 'Decision Tool', 7),
     ],
     deep: [
-      { id: 'progressive-relaxation', title: 'Progressive Muscle Relaxation', duration: '12 min', modality: 'Somatic', description: 'Re-engage your body through deliberate tension and release.' },
-      { id: 'values-compass', title: 'Values Compass', duration: '10 min', modality: 'ACT', description: 'Reconnect with what matters. Numbness often follows caring too much.' },
-      { id: 'journaling-prompt', title: 'Guided Journaling', duration: '10 min', modality: 'Psychoed', description: 'Structured prompts to gently explore what lies beneath the numbness.' },
+      placeholder('burnout-recovery-plan', 'Burnout Recovery Plan', 'Create a 7-day recovery plan that includes load reduction and restoration.', ['Behavioral', 'ACT'], 'planning', 'Planning Tool', 20),
+      placeholder('values-boundary-session', 'Values Boundary Session', 'Choose one boundary that protects the work and life you actually value.', ['ACT'], 'decision', 'Decision Tool', 18),
+      placeholder('stress-cycle-completion', 'Stress Cycle Completion', 'Pair psychoeducation with a body-based plan to complete the stress response.', ['Somatic', 'Psychoed'], 'body', 'Body Exercise', 18),
     ],
   },
-  grief: {
-    label: 'Grief',
-    emoji: '🕊️',
+  'scared-fearful': {
+    label: 'Scared / Fearful',
+    emoji: '🫣',
     quick: [
-      { id: 'physiological-sigh', title: 'Physiological Sigh', duration: '90 sec', modality: 'Somatic', description: 'A gentle breath when grief takes your breath away.', component: 'PhysiologicalSigh' },
-      { id: '54321-grounding', title: '5-4-3-2-1 Grounding', duration: '2 min', modality: 'Somatic', description: 'Come back to the present moment when grief pulls you under.', component: 'SensoryGrounding' },
-      { id: 'name-the-story', title: 'Name the Story', duration: '2 min', modality: 'ACT', description: 'Honor the grief by naming it. "I am having the feeling of deep loss."', component: 'NameTheStory' },
+      placeholder('safety-or-alarm', 'Safety or Alarm?', 'Ask whether there is immediate danger or your alarm system is firing.', ['CBT'], 'decision', 'Decision Tool', 2, 'free'),
+      placeholder('orienting-reset', 'Orienting Reset', 'Look around slowly and let your body register cues of safety.', ['Somatic', 'Polyvagal'], 'body', 'Body Exercise', 2, 'free'),
+      placeholder('fear-fact-check', 'Fear Fact Check', 'Name the fear, then name one fact you can verify right now.', ['CBT'], 'thinking', 'Thinking Exercise', 2, 'free'),
     ],
     medium: [
-      { id: 'self-compassion-letter', title: 'Self-Compassion Letter', duration: '5 min', modality: 'ACT', description: 'Write to yourself with the tenderness grief deserves.' },
-      { id: 'body-scan', title: 'Body Scan', duration: '5 min', modality: 'Somatic', description: 'Notice where grief lives in your body and hold it gently.' },
-      { id: 'memorial-moment', title: 'Memorial Moment', duration: '5 min', modality: 'Psychoed', description: 'Dedicate a few minutes to what you are grieving. Allow it without fixing it.' },
+      placeholder('threat-likelihood-check', 'Threat Likelihood Check', 'Estimate the most likely outcome instead of the worst possible outcome.', ['CBT'], 'thinking', 'Thinking Exercise', 8),
+      placeholder('safety-plan-lite', 'Safety Plan Lite', 'If a real risk exists, choose the safest next step and one support person.', ['DBT'], 'planning', 'Planning Tool', 7),
+      placeholder('body-safety-cues', 'Body Safety Cues', 'Use posture, breath, and orienting to signal safety to the nervous system.', ['Somatic'], 'body', 'Body Exercise', 6),
     ],
     deep: [
-      { id: 'values-compass', title: 'Values Compass', duration: '10 min', modality: 'ACT', description: 'Grief reflects love. Explore how to carry that love forward.' },
-      { id: 'journaling-prompt', title: 'Guided Journaling', duration: '10 min', modality: 'Psychoed', description: 'Structured prompts for processing loss at your own pace.' },
-      { id: 'progressive-relaxation', title: 'Progressive Muscle Relaxation', duration: '12 min', modality: 'Somatic', description: 'Release the physical weight grief deposits in your body.' },
+      placeholder('fear-ladder', 'Fear Ladder', 'Build a graded plan for facing avoidant fear without flooding yourself.', ['CBT', 'Behavioral'], 'planning', 'Planning Tool', 20),
+      placeholder('values-through-fear', 'Values Through Fear', 'Identify what fear is blocking and choose one committed action.', ['ACT'], 'decision', 'Decision Tool', 18),
+      placeholder('full-fear-record', 'Full Fear Record', 'Use evidence, likelihood, coping capacity, and values to reframe fear.', ['CBT'], 'thinking', 'Thinking Exercise', 20),
     ],
   },
-  unmotivated: {
-    label: 'Unmotivated',
-    emoji: '🪫',
+  'stuck-lost': {
+    label: 'Stuck / Lost',
+    emoji: '🧭',
     quick: [
-      { id: 'physiological-sigh', title: 'Physiological Sigh', duration: '90 sec', modality: 'Somatic', description: 'A gentle activation to shift your nervous system from freeze to ready.', component: 'PhysiologicalSigh' },
-      { id: '54321-grounding', title: '5-4-3-2-1 Grounding', duration: '2 min', modality: 'Somatic', description: 'Wake up your senses and connect with the present moment.', component: 'SensoryGrounding' },
-      { id: 'name-the-story', title: 'Name the Story', duration: '2 min', modality: 'ACT', description: 'Notice if "I can\'t" is a story your mind tells, not a fact about you.', component: 'NameTheStory' },
+      placeholder('next-honest-step', 'Next Honest Step', 'Find the next step that is true, small, and available now.', ['ACT'], 'planning', 'Planning Tool', 2, 'free'),
+      placeholder('two-door-choice', 'Two-Door Choice', 'Reduce a foggy decision to two possible doors and one experiment.', ['Behavioral'], 'decision', 'Decision Tool', 2, 'free'),
+      placeholder('stuck-story-name', 'Stuck Story Name', 'Name the story that says nothing can move.', ['ACT'], 'thinking', 'Thinking Exercise', 2, 'free'),
     ],
     medium: [
-      { id: 'behavioral-activation', title: 'Behavioral Activation', duration: '5 min', modality: 'Behavioral', description: 'Pick the tiniest possible action. Motivation follows movement, not the other way around.' },
-      { id: 'values-compass-mini', title: 'Quick Values Check', duration: '5 min', modality: 'ACT', description: 'Reconnect with why this matters. Purpose is a stronger engine than willpower.' },
-      { id: 'body-scan', title: 'Body Scan', duration: '5 min', modality: 'Somatic', description: 'Check if exhaustion or tension is masquerading as lack of motivation.' },
+      placeholder('decision-paralysis-reset', 'Decision Paralysis Reset', 'Clarify the decision, the fear, and the smallest reversible next move.', ['CBT', 'Behavioral'], 'decision', 'Decision Tool', 8),
+      placeholder('values-compass-mini', 'Values Compass Mini', 'Use values to orient when certainty is unavailable.', ['ACT'], 'decision', 'Decision Tool', 7),
+      placeholder('blocker-map', 'Blocker Map', 'Separate practical blockers, emotional blockers, and imagined blockers.', ['CBT'], 'thinking', 'Thinking Exercise', 8),
     ],
     deep: [
-      { id: 'values-compass', title: 'Values Compass', duration: '10 min', modality: 'ACT', description: 'Deep dive into your values to find intrinsic reasons to act.' },
-      { id: 'progressive-relaxation', title: 'Progressive Muscle Relaxation', duration: '12 min', modality: 'Somatic', description: 'Sometimes the body needs rest before it can move again.' },
-      { id: 'journaling-prompt', title: 'Guided Journaling', duration: '10 min', modality: 'Psychoed', description: 'Explore what is underneath the lack of motivation.' },
-    ],
-  },
-  relationship: {
-    label: 'Relationship',
-    emoji: '💔',
-    quick: [
-      { id: 'physiological-sigh', title: 'Physiological Sigh', duration: '90 sec', modality: 'Somatic', description: 'Calm your system before engaging with relationship pain.', component: 'PhysiologicalSigh' },
-      { id: 'name-the-story', title: 'Name the Story', duration: '2 min', modality: 'ACT', description: 'Separate the narrative from the relationship reality. Stories escalate; facts clarify.', component: 'NameTheStory' },
-      { id: '54321-grounding', title: '5-4-3-2-1 Grounding', duration: '2 min', modality: 'Somatic', description: 'Ground yourself before making decisions from a reactive place.', component: 'SensoryGrounding' },
-    ],
-    medium: [
-      { id: 'thought-record', title: 'Thought Record', duration: '5 min', modality: 'CBT', description: 'Examine the thought driving the relationship pain. Is there another perspective?' },
-      { id: 'opposite-action', title: 'Opposite Action', duration: '5 min', modality: 'DBT', description: 'When hurt says withdraw, consider reaching out with honesty instead.' },
-      { id: 'self-compassion-letter', title: 'Self-Compassion Letter', duration: '5 min', modality: 'ACT', description: 'Hold compassion for yourself in the middle of relationship difficulty.' },
-    ],
-    deep: [
-      { id: 'boundary-audit', title: 'Boundary Audit', duration: '10 min', modality: 'DBT', description: 'Identify which boundaries need setting, restoring, or communicating.' },
-      { id: 'values-compass', title: 'Values Compass', duration: '10 min', modality: 'ACT', description: 'What do you value in relationships? Let that guide your response.' },
-      { id: 'journaling-prompt', title: 'Guided Journaling', duration: '10 min', modality: 'Psychoed', description: 'Process the relationship pain through structured reflection.' },
-    ],
-  },
-  'self-worth': {
-    label: 'Self-Worth',
-    emoji: '🎭',
-    quick: [
-      { id: 'name-the-story', title: 'Name the Story', duration: '2 min', modality: 'ACT', description: '"I\'m not enough" is a story, not a verdict. Name it and step back.', component: 'NameTheStory' },
-      { id: 'physiological-sigh', title: 'Physiological Sigh', duration: '90 sec', modality: 'Somatic', description: 'Calm the shame response in your nervous system.', component: 'PhysiologicalSigh' },
-      { id: '54321-grounding', title: '5-4-3-2-1 Grounding', duration: '2 min', modality: 'Somatic', description: 'Come back to the present instead of spiraling into self-judgment.', component: 'SensoryGrounding' },
-    ],
-    medium: [
-      { id: 'thought-record', title: 'Thought Record', duration: '5 min', modality: 'CBT', description: 'Capture the self-critical thought and test it against real evidence.' },
-      { id: 'self-compassion-letter', title: 'Self-Compassion Letter', duration: '5 min', modality: 'ACT', description: 'Write to yourself as you would to someone you deeply care about.' },
-      { id: 'body-scan', title: 'Body Scan', duration: '5 min', modality: 'Somatic', description: 'Notice where shame lives in your body and breathe into it.' },
-    ],
-    deep: [
-      { id: 'cognitive-restructuring', title: 'Cognitive Restructuring', duration: '10 min', modality: 'CBT', description: 'Dismantle the core beliefs driving low self-worth and build balanced alternatives.' },
-      { id: 'values-compass', title: 'Values Compass', duration: '10 min', modality: 'ACT', description: 'Your worth is not performance. Reconnect with what matters beyond achievement.' },
-      { id: 'journaling-prompt', title: 'Guided Journaling', duration: '10 min', modality: 'Psychoed', description: 'Explore the origins of your self-worth story and write a new chapter.' },
+      placeholder('values-based-route-map', 'Values-Based Route Map', 'Build a plan from values, constraints, and one testable next action.', ['ACT'], 'planning', 'Planning Tool', 20),
+      placeholder('lost-to-learning-plan', 'Lost-to-Learning Plan', 'Turn feeling lost into a low-risk learning experiment.', ['Behavioral'], 'planning', 'Planning Tool', 18),
+      placeholder('full-blocker-reframe', 'Full Blocker Reframe', 'Use CBT to examine the stuck belief and generate alternative paths.', ['CBT'], 'thinking', 'Thinking Exercise', 20),
     ],
   },
   'self-destructive': {
@@ -219,39 +364,54 @@ export const INTERVENTIONS = {
     emoji: '🩹',
     crisis: true,
     quick: [
-      { id: 'crisis-988', title: 'Call or Text 988', duration: 'Now', modality: 'Crisis', description: 'You deserve immediate help from a real person. Call or text 988 now.' },
+      placeholder('crisis-support-now', 'Crisis Support Now', 'Call or text 988, or text HOME to 741741, if you may hurt yourself or cannot stay safe.', ['Crisis Support'], 'social', 'Get Support', 1, 'free'),
+      placeholder('safe-person-now', 'Safe Person Now', 'Choose one person you can be near or contact while the urge is high.', ['DBT'], 'social', 'Social Support', 2, 'free'),
+      placeholder('means-distance-step', 'Means Distance Step', 'Create immediate distance from anything you could use to hurt yourself.', ['Behavioral'], 'planning', 'Planning Tool', 2, 'free'),
     ],
-    medium: [],
-    deep: [],
+    medium: [
+      placeholder('urge-surfing-crisis', 'Urge Surfing for Self-Harm Urges', 'Ride the urge minute by minute while you add support and reduce access to harm.', ['DBT'], 'body', 'Body Exercise', 8),
+      placeholder('distress-tolerance-plan', 'Distress Tolerance Plan', 'Use short DBT steps to get through the next 10 minutes safely.', ['DBT'], 'planning', 'Planning Tool', 8),
+      placeholder('reason-to-stay-list', 'Reason-to-Stay List', 'Name immediate anchors that help you stay through this moment.', ['ACT'], 'writing', 'Writing Exercise', 7),
+    ],
+    deep: [
+      placeholder('safety-plan-session', 'Safety Plan Session', 'Draft a fuller safety plan with warning signs, supports, and emergency options.', ['DBT', 'Behavioral'], 'planning', 'Planning Tool', 20),
+      placeholder('values-anchor-session', 'Values Anchor Session', 'Reconnect to one reason to stay and one action that protects it tonight.', ['ACT'], 'writing', 'Writing Exercise', 18),
+      placeholder('post-crisis-next-steps', 'Post-Crisis Next Steps', 'Plan follow-up care, support contact, and practical safety after the peak passes.', ['Psychoed', 'Behavioral'], 'planning', 'Planning Tool', 20),
+    ],
   },
 };
 
-/**
- * Get interventions for an emotion at a given tier
- */
+export const INTERVENTION_ALIASES = {
+  '54321-grounding': 'grounding-54321',
+  'thought-defusion': 'name-the-story',
+};
+
 export function getInterventions(emotionId, tier = 'quick') {
   const emotion = INTERVENTIONS[emotionId];
   if (!emotion) return [];
   return emotion[tier] || [];
 }
 
-/**
- * Get a specific intervention by its ID
- */
-export function getInterventionById(interventionId) {
-  for (const emotion of Object.values(INTERVENTIONS)) {
-    for (const tier of ['quick', 'medium', 'deep']) {
-      const found = (emotion[tier] || []).find((i) => i.id === interventionId);
-      if (found) return found;
-    }
-  }
-  return null;
+export function getAllInterventions() {
+  return Object.entries(INTERVENTIONS).flatMap(([emotionId, emotion]) =>
+    ['quick', 'medium', 'deep'].flatMap((tier) =>
+      (emotion[tier] || []).map((intervention) => ({
+        ...intervention,
+        emotionId,
+        emotionLabel: emotion.label,
+        emotionEmoji: emotion.emoji,
+        tier,
+      }))
+    )
+  );
 }
 
-/**
- * Check if an intervention has an interactive component
- */
+export function getInterventionById(interventionId) {
+  const canonicalId = INTERVENTION_ALIASES[interventionId] || interventionId;
+  return getAllInterventions().find((intervention) => intervention.id === canonicalId) || null;
+}
+
 export function hasInteractiveComponent(interventionId) {
   const intervention = getInterventionById(interventionId);
-  return intervention?.component != null;
+  return Boolean(intervention?.component);
 }

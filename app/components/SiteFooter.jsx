@@ -44,13 +44,17 @@ export default function SiteFooter() {
       <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 20, marginBottom: 24 }}>
         {[
           { href: "/", label: "Home" },
+          { href: "/start", label: "Start" },
+          { href: "/companion", label: "Talk to Forj" },
           { href: "/blueprint", label: "Blueprint" },
           { href: "/techniques", label: "Techniques" },
           { href: "/tools", label: "Guided Tools" },
           { href: "/send", label: "Send Calm" },
           { href: "/find-help", label: "Find a Provider" },
+          { href: "https://aiforj.gumroad.com/l/jmdqvd", label: "CBT Workbook", external: true },
         ].map(link => (
           <Link key={link.label} href={link.href}
+            {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             style={{ fontSize: 12, color: "var(--text-muted)", textDecoration: "none" }}>
             {link.label}
           </Link>
@@ -79,7 +83,7 @@ export default function SiteFooter() {
       </div>
 
       <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "0 0 8px", lineHeight: 1.8 }}>
-        Built by a Board-Certified Healthcare Professional — Caring for the Whole Human
+        Built by Kevin Cooke, PMHNP-BC — Caring for the Whole Human
       </p>
       <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.5, margin: 0 }}>
         © 2026 AIForj. All rights reserved.

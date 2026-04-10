@@ -9,6 +9,7 @@ export default function Button({
   variant = 'primary',
   disabled = false,
   className = '',
+  style: customStyle = {},
   ...props
 }) {
   const baseStyle = {
@@ -51,7 +52,7 @@ export default function Button({
     },
   };
 
-  const style = variantStyles[variant] || variantStyles.primary;
+  const style = { ...(variantStyles[variant] || variantStyles.primary), ...customStyle };
 
   return (
     <button
