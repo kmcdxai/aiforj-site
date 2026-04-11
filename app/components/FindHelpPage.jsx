@@ -5,7 +5,7 @@ import { useState, useCallback, useMemo } from "react";
 // ═══════════════════════════════════════════════════════════════
 // /find-help — Smart Provider Finder
 // Searches the NPI Registry (CMS.gov) for real, verified providers
-// Built by a Board-Certified Healthcare Professional — AIForj.com
+// Built by AIForj Team and clinically informed by a Licensed Healthcare Provider — AIForj.com
 // Flow: need → details → results (real provider data)
 // ═══════════════════════════════════════════════════════════════
 
@@ -24,9 +24,9 @@ const C = {
 };
 
 const NEEDS = [
-  { id: "medication", label: "Medication management", desc: "Psychiatric NP or psychiatrist who can prescribe and manage medications", icon: "💊" },
+  { id: "medication", label: "Medication management", desc: "Licensed Healthcare Provider or psychiatrist who can prescribe and manage medications", icon: "💊" },
   { id: "therapy", label: "Therapy / talk therapy", desc: "Psychologist, therapist, or licensed counselor for ongoing sessions", icon: "💬" },
-  { id: "both", label: "Both medication and therapy", desc: "Healthcare Professionals can do both — we'll also show psychiatrists, psychologists, and therapists", icon: "🩺" },
+  { id: "both", label: "Both medication and therapy", desc: "Licensed Healthcare Providers can do both — we'll also show psychiatrists, psychologists, and therapists", icon: "🩺" },
   { id: "substance", label: "Substance use / addiction", desc: "Addiction specialists and dual-diagnosis providers", icon: "⚠️" },
   { id: "any", label: "I'm not sure what I need", desc: "We'll search across all mental health provider types", icon: "🤔" },
 ];
@@ -51,7 +51,7 @@ const INSURERS = [
 ];
 
 const TYPE_STYLES = {
-  "Psychiatric NP (Healthcare Professional)": { color: "#2B7A9C", badge: "Prescribe + Therapy", icon: "🩺" },
+  "Licensed Healthcare Provider": { color: "#2B7A9C", badge: "Prescribe + Therapy", icon: "🩺" },
   "Psychiatrist": { color: "#6B5CA5", badge: "Prescriber", icon: "⚕️" },
   "Psychologist": { color: "#3D8B5E", badge: "Therapy + Testing", icon: "🧠" },
   "Licensed Clinical Social Worker": { color: "#B8935A", badge: "Therapist (LCSW)", icon: "💬" },
@@ -126,7 +126,7 @@ export default function FindHelpPage() {
   const callScript = `Hi, I'm looking for a mental health provider${!isUninsured && insurance !== "unknown" ? ` who accepts ${insLabel}` : " with sliding scale or self-pay options"}. I'm looking for help with ${NEEDS.find(n => n.id === need)?.label?.toLowerCase() || "mental health concerns"}. Are you accepting new patients?`;
 
   const handleShare = (type) => {
-    const text = "Find a therapist, psychiatrist, or psychiatric NP near you — free tool → aiforj.com/find-help";
+    const text = "Find a therapist, psychiatrist, or licensed healthcare provider near you — free tool → aiforj.com/find-help";
     const url = "https://aiforj.com/find-help";
     if (type === "sms") window.open(`sms:?&body=${encodeURIComponent(text)}`, "_self");
     else if (type === "native" && navigator.share) navigator.share({ title: "Find a Mental Health Provider", text, url }).catch(() => {});
@@ -188,7 +188,7 @@ export default function FindHelpPage() {
             </div>
 
             <p style={{ fontSize: 11, color: C.muted, opacity: 0.35, marginTop: 28, lineHeight: 1.7 }}>
-              Nothing is stored, sent, or tracked. Provider data from CMS.gov. Built by a Board-Certified Healthcare Professional.
+              Nothing is stored, sent, or tracked. Provider data from CMS.gov. Built by AIForj Team and clinically informed by a Licensed Healthcare Provider.
             </p>
           </div>
         )}
@@ -614,7 +614,7 @@ export default function FindHelpPage() {
         <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.7, margin: "0 0 24px", maxWidth: 480, marginLeft: "auto", marginRight: "auto" }}>
           Forj is a wellness companion — not a therapist or substitute for professional care.
         </p>
-        <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "0 0 8px", lineHeight: 1.8 }}>Built by a Board-Certified Healthcare Professional — Caring for the Whole Human</p>
+        <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "0 0 8px", lineHeight: 1.8 }}>Built by AIForj Team and clinically informed by a Licensed Healthcare Provider</p>
         <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.5, margin: 0 }}>© 2026 AIForj. All rights reserved.</p>
       </footer>
     </div>

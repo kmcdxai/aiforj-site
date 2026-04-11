@@ -337,7 +337,7 @@ async function run() {
         hasStartCTA: text.includes('Get support now'),
         hasWorkbook: text.includes('CBT workbook'),
         hasPremium: text.includes('Talk to Forj Premium'),
-        hasCredential: text.includes('Kevin Cooke, PMHNP-BC'),
+        hasCredential: text.includes('AIForj Team') && text.includes('Licensed Healthcare Provider'),
         navHasWorkbook: [...document.querySelectorAll('a[href]')].some((a) => a.textContent.includes('CBT Workbook')),
         navHasCompanion: [...document.querySelectorAll('a[href]')].some((a) => a.textContent.includes('Talk to Forj')),
       };

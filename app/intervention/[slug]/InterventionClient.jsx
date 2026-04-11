@@ -17,7 +17,7 @@ function PlaceholderIntervention({ technique, onComplete }) {
         </p>
         {technique.tier === 'premium' && (
           <p style={{ margin: '0 auto 22px', color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: 14 }}>
-            This is a Phase 1 premium placeholder. Talk to Forj Premium is available now for deeper, personalized support while the full interactive tool is built.
+            This guided version is still on the way. If you want more support right now, Talk to Forj Premium is available for deeper personalized help.
           </p>
         )}
         <div style={{ display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap' }}>

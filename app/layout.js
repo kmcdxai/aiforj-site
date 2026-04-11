@@ -8,14 +8,14 @@ import SEO from './components/SEO';
 export const metadata = {
   metadataBase: new URL('https://aiforj.com'),
   title: 'AIForj — Emotional First Aid That Actually Works',
-  description: '100+ clinically-matched tools for anxiety, sadness, anger, overwhelm, and more. Built by Kevin Cooke, PMHNP-BC. Free, private, evidence-based emotional first aid.',
+  description: '100+ clinically-matched tools for anxiety, sadness, anger, overwhelm, and more. Built by AIForj Team and clinically informed by a Licensed Healthcare Provider. Free, private, evidence-based emotional first aid.',
   keywords: 'emotional first aid, mental health tools, CBT tools, DBT skills, ACT defusion, somatic grounding, anxiety grounding, mood tracking, therapeutic techniques, AIForj',
   alternates: {
     canonical: 'https://aiforj.com',
   },
   openGraph: {
     title: 'AIForj — Emotional First Aid That Actually Works',
-    description: '100+ clinically-matched tools for anxiety, sadness, anger, overwhelm, and more. Built by Kevin Cooke, PMHNP-BC.',
+    description: '100+ clinically-matched tools for anxiety, sadness, anger, overwhelm, and more. Built by AIForj Team and clinically informed by a Licensed Healthcare Provider.',
     url: 'https://aiforj.com',
     siteName: 'AIForj',
     type: 'website',
@@ -24,7 +24,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'AIForj — Emotional First Aid That Actually Works',
-    description: '100+ clinically-matched emotional first-aid tools. Built by Kevin Cooke, PMHNP-BC.',
+    description: '100+ clinically-matched emotional first-aid tools. Built by AIForj Team and clinically informed by a Licensed Healthcare Provider.',
     images: ['/aif.jpeg'],
   },
 };

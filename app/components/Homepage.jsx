@@ -113,6 +113,8 @@ export default function Homepage() {
             display: "inline-flex",
             alignItems: "center",
             gap: 8,
+            flexWrap: "wrap",
+            justifyContent: "center",
             padding: "7px 14px",
             borderRadius: 999,
             background: "var(--sage-light)",
@@ -120,9 +122,10 @@ export default function Homepage() {
             fontSize: 13,
             fontWeight: 700,
             marginBottom: 24,
+            maxWidth: "min(100%, 560px)",
           }}>
             <img src="/aif.jpeg" alt="AIForj leaf mark" style={{ width: 24, height: 24, borderRadius: 6 }} />
-            Built by Kevin Cooke, PMHNP-BC
+            Built by AIForj Team · Clinically informed by a Licensed Healthcare Provider
           </div>
           <h1 style={{ fontSize: "clamp(36px, 6vw, 64px)", maxWidth: 760, margin: "0 auto 20px", letterSpacing: 0 }}>
             Emotional first aid that actually works.
@@ -139,7 +142,7 @@ export default function Homepage() {
             </a>
           </div>
           <p className="text-caption" style={{ margin: "18px auto 0", color: "var(--text-muted)" }}>
-            No account needed. Your emotional data stays on this device. Takes 30 seconds.
+            No account needed. No data leaves your device. Takes 30 seconds.
           </p>
         </div>
       </section>
@@ -178,12 +181,12 @@ export default function Homepage() {
               ))}
             </article>
             <article className="card" style={{ boxShadow: "var(--shadow-sm)" }}>
-              <h3 style={{ margin: "0 0 12px" }}>Built by Kevin Cooke, PMHNP-BC</h3>
+              <h3 style={{ margin: "0 0 12px" }}>Built by AIForj Team</h3>
               <p style={{ margin: "0 0 16px", color: "var(--text-secondary)", lineHeight: 1.75 }}>
-                Kevin is a Board Certified Psychiatric Mental Health Nurse Practitioner who built AIForj because clinical-grade emotional support shouldn't require a waitlist or a copay.
+                AIForj was built because emotionally grounded support should not require a waitlist or a copay.
               </p>
               <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.75 }}>
-                Your emotional check-ins are saved locally for your own history. They do not become a server-side profile.
+                It is clinically informed by a Licensed Healthcare Provider, and your emotional check-ins stay local to your device.
               </p>
             </article>
           </div>
@@ -221,8 +224,8 @@ export default function Homepage() {
 
       <section style={{ padding: "84px 24px", background: "var(--surface)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <SectionHeader eyebrow="Real numbers" title="The Phase 1 toolkit foundation">
-            These are product architecture counts, not user claims.
+          <SectionHeader eyebrow="Coverage" title="A broad toolkit for real moments">
+            100+ interventions across 12 emotional states, 15 therapeutic modalities, and 7 interaction types.
           </SectionHeader>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 16 }}>
             {[
@@ -264,8 +267,8 @@ export default function Homepage() {
 
       <section style={{ padding: "84px 24px", background: "var(--surface)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <SectionHeader eyebrow="Technique library" title="Crawlable tools for real search intent">
-            The SEO technique pages remain accessible for people who arrive with a specific need.
+          <SectionHeader eyebrow="Technique library" title="Explore techniques and guides">
+            If you already know what you need, you can jump straight into a specific tool or support page.
           </SectionHeader>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 14 }}>
             {[...TECHNIQUE_LINKS, ...HELP_LINKS].map((link) => (
@@ -295,7 +298,7 @@ export default function Homepage() {
                 <strong style={{ fontFamily: "'Fraunces', serif", fontSize: 20 }}>AIForj</strong>
               </div>
               <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 14, lineHeight: 1.7 }}>
-                Built by Kevin Cooke, PMHNP-BC. Your emotional data never leaves your device.
+                Built by AIForj Team and clinically informed by a Licensed Healthcare Provider. Your emotional data never leaves your device.
               </p>
             </div>
             <nav style={{ display: "grid", gap: 8 }}>

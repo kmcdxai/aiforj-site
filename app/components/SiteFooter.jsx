@@ -83,7 +83,7 @@ export default function SiteFooter() {
       </div>
 
       <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "0 0 8px", lineHeight: 1.8 }}>
-        Built by Kevin Cooke, PMHNP-BC — Caring for the Whole Human
+        Built by AIForj Team. Clinically informed by a Licensed Healthcare Provider.
       </p>
       <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.5, margin: 0 }}>
         © 2026 AIForj. All rights reserved.

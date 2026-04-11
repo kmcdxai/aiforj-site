@@ -108,7 +108,9 @@ export default function StartClient() {
             <Tag variant="act">Guided Check-In</Tag>
             <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>Private · no account · matched in under 30 seconds</span>
           </div>
-          <h1 style={{ margin: 0, maxWidth: 760 }}>Start with what is happening right now.</h1>
+          <p style={{ margin: 0, maxWidth: 760, fontFamily: "'Fraunces', serif", fontSize: "clamp(28px, 4vw, 40px)", lineHeight: 1.2, color: 'var(--text-primary)' }}>
+            Start with what is happening right now.
+          </p>
           <p style={{ fontSize: 16, maxWidth: 640, color: 'var(--text-secondary)', lineHeight: 1.75, margin: 0 }}>
             Pick what fits, choose how strong it feels, and get a tool that matches your moment.
           </p>
@@ -308,7 +310,7 @@ export default function StartClient() {
                       {(intervention.modalities || [intervention.modality]).filter(Boolean).map((modality) => (
                         <Tag key={modality} variant={tagVariant(modality)}>{modality}</Tag>
                       ))}
-                      <span style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 700 }}>· {intervention.interactionLabel}</span>
+                      <span style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 700 }}>{intervention.interactionLabel}</span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
                       <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>{intervention.evidenceBase}</span>

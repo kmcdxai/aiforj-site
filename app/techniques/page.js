@@ -5,14 +5,14 @@ import SiteFooter from "../components/SiteFooter";
 export const metadata = {
   title: "Evidence-Based Mental Health Techniques | AIForj",
   description:
-    "Explore 30 clinician-built, interactive mental health techniques. CBT, DBT, ACT, and more. Free guided exercises you can do right now. Built by Kevin Cooke, PMHNP-BC.",
+    "Explore 30 interactive mental health techniques for anxiety, stress, grief, burnout, and more. CBT, DBT, ACT, and somatic tools you can use right now. Built by AIForj Team and clinically informed by a Licensed Healthcare Provider.",
   alternates: {
     canonical: "https://aiforj.com/techniques",
   },
   openGraph: {
     title: "Evidence-Based Mental Health Techniques | AIForj",
     description:
-      "30 interactive, clinician-built techniques for anxiety, stress, depression, and more. Free. Private. Science-backed.",
+      "30 interactive techniques for anxiety, stress, depression, and more. Free. Private. Clinically informed.",
     url: "https://aiforj.com/techniques",
     siteName: "AIForj",
     type: "website",
@@ -21,7 +21,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Evidence-Based Mental Health Techniques | AIForj",
     description:
-      "30 interactive, clinician-built techniques for anxiety, stress, depression, and more. Free. Private.",
+      "30 interactive techniques for anxiety, stress, depression, and more. Free. Private.",
   },
 };
 
@@ -66,8 +66,8 @@ export default function TechniquesPage() {
             }}
           >
             30 evidence-based techniques you can do right now. Each one is
-            interactive — not just reading, but doing. Built by a Board
-            Certified Healthcare Professional.
+            interactive — not just reading, but doing. Clinically informed by
+            a Licensed Healthcare Provider.
           </p>
         </header>
 

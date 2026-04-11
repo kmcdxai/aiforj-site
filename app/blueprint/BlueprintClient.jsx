@@ -482,7 +482,7 @@ export default function BlueprintClient() {
       ctx.fillText("aiforj.com/blueprint", d.w / 2, d.h - 60);
       ctx.font = "400 16px 'DM Sans', sans-serif";
       ctx.globalAlpha = 0.4;
-      ctx.fillText("Designed by Kevin Cooke, PMHNP-BC", d.w / 2, d.h - 32);
+      ctx.fillText("Designed by AIForj Team and clinically informed by a Licensed Healthcare Provider", d.w / 2, d.h - 32);
 
       const blob = await new Promise((res) => out.toBlob(res, "image/png"));
       const file = new File([blob], `blueprint-${result.archetype}.png`, { type: "image/png" });
@@ -542,7 +542,7 @@ export default function BlueprintClient() {
           </div>
           <h1 style={styles.introTitle}>Discover Your Emotional Blueprint</h1>
           <p style={styles.introSub}>
-            A 2-minute assessment designed by Kevin Cooke, PMHNP-BC. Learn your stress response pattern, your dominant thinking style, and which techniques match your brain.
+            A 2-minute assessment designed by AIForj Team and clinically informed by a Licensed Healthcare Provider. Learn your stress response pattern, your dominant thinking style, and which techniques match your brain.
           </p>
           <button onClick={handleStart} style={styles.startBtn}>
             Begin Assessment
@@ -692,7 +692,7 @@ export default function BlueprintClient() {
           {/* Disclaimer */}
           <p style={{ fontSize: 11, color: "var(--text-muted)", textAlign: "center", marginTop: 40, lineHeight: 1.6 }}>
             This assessment is for self-reflection only — not a clinical diagnosis.
-            {" "}Built by Kevin Cooke, PMHNP-BC. Nothing is stored or sent to any server.
+            {" "}Built by AIForj Team and clinically informed by a Licensed Healthcare Provider. Nothing is stored or sent to any server.
           </p>
         </div>
       </div>

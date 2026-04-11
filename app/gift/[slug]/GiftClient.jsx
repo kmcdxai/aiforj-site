@@ -270,7 +270,7 @@ function GiftClientInner({ technique }) {
           <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 24, lineHeight: 1.5 }}>
             100% private — nothing is stored or tracked.
             <br />
-            Built by a Board-Certified Healthcare Professional.
+            Built by AIForj Team and clinically informed by a Licensed Healthcare Provider.
           </p>
         </div>
       </div>
@@ -395,7 +395,7 @@ function GiftClientInner({ technique }) {
           </div>
 
           <p style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 40, lineHeight: 1.6 }}>
-            Built by a Board-Certified Healthcare Professional · aiforj.com
+            Built by AIForj Team · Clinically informed by a Licensed Healthcare Provider · aiforj.com
           </p>
         </div>
       </div>

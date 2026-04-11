@@ -589,9 +589,8 @@ function StructuredData({ technique }) {
       url: "https://aiforj.com",
     },
     author: {
-      "@type": "Person",
-      name: "Kevin Cooke",
-      jobTitle: "Board Certified Psychiatric Mental Health Nurse Practitioner",
+      "@type": "Organization",
+      name: "AIForj Team",
     },
     publisher: {
       "@type": "Organization",
@@ -680,7 +679,7 @@ export default function TechniqueClient({ technique, related }) {
             {technique.subtitle}
           </p>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px", background: "rgba(107,127,110,0.08)", borderRadius: 20, border: `1px solid ${SUBTLE}` }}>
-            <span style={{ fontSize: 12, color: ACCENT, fontWeight: 500 }}>Built by Kevin Cooke, PMHNP-BC</span>
+            <span style={{ fontSize: 12, color: ACCENT, fontWeight: 500 }}>Built by AIForj Team · Clinically informed by a Licensed Healthcare Provider</span>
           </div>
         </header>
 

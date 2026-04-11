@@ -1,6 +1,6 @@
 const metadata = {
   title: 'The Sentinel Emotional Archetype — Clinical Guide | AIForj',
-  description: 'Discover what it means to be The Sentinel. Understand your stress response, thinking patterns, and evidence-based techniques matched to this archetype. Free guide by Kevin Cooke, PMHNP-BC.',
+  description: 'Discover what it means to be The Sentinel. Understand your stress response, thinking patterns, and evidence-based techniques matched to this archetype. Free guide from AIForj, clinically informed by a Licensed Healthcare Provider.',
 };
 
 const faq = [
@@ -86,7 +86,7 @@ export default function Page() {
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "The Sentinel: Understanding the Hypervigilant Protector",
-        "author": { "@type": "Person", "name": "Kevin Cooke" },
+        "author": { "@type": "Person", "name": "AIForj Team" },
         "datePublished": "2026-04-05",
         "publisher": { "@type": "Organization", "name": "AIForj", "logo": { "@type": "ImageObject", "url": "https://aiforj.com/aif.jpeg" } },
         "medicalSpecialty": "Psychiatry",

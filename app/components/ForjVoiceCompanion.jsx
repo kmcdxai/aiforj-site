@@ -9,11 +9,11 @@ import { useTheme } from "./ThemeProvider";
 //
 //  AIForj VOICE COMPANION — "Talk to Forj"
 //
-//  The world's first voice-based, clinician-built, completely private
+//  The world's first voice-based, clinically informed, completely private
 //  AI therapeutic companion.
 //
 //  15+ therapeutic modalities with dynamic selection
-//  Built by Kevin Cooke, PMHNP-BC
+//  Built by AIForj Team and clinically informed by a Licensed Healthcare Provider
 //  100% browser-based — nothing leaves the device
 //
 //  ARCHITECTURE:
@@ -83,7 +83,7 @@ const TIERS = {
 // This is the brain of the entire product.
 // Dynamic technique selection across 15+ modalities.
 // ─────────────────────────────────────────────────
-const CLINICAL_SYSTEM_PROMPT = `You are FORJ — the AI voice companion inside AIForj.com. You were designed by Kevin Cooke, PMHNP-BC, a Board Certified Psychiatric Mental Health Nurse Practitioner. You are a clinically-informed, evidence-based AI wellness companion.
+const CLINICAL_SYSTEM_PROMPT = `You are FORJ — the AI voice companion inside AIForj.com. You were designed by AIForj Team and clinically informed by a Licensed Healthcare Provider. You are a clinically-informed, evidence-based AI wellness companion.
 
 ═══════════════════════════════════════
 IDENTITY & BOUNDARIES
@@ -1239,7 +1239,7 @@ export default function ForjVoiceCompanion() {
 
           {/* Sub-headline */}
           <p style={{ fontSize: "clamp(15px, 2.5vw, 18px)", color: "var(--text-secondary)", margin: "0 auto 24px", lineHeight: 1.7, maxWidth: 520, animation: "fadeIn 1s ease 0.2s both" }}>
-            Built by Kevin Cooke, PMHNP-BC. 16 evidence-based modalities. Privacy-forward and local-first where supported by your browser.
+            Built by AIForj Team and clinically informed by a Licensed Healthcare Provider. 16 evidence-based modalities. Privacy-forward and local-first where supported by your browser.
           </p>
 
           {/* Privacy badge */}
@@ -1373,7 +1373,7 @@ export default function ForjVoiceCompanion() {
             Discover Your Emotional Blueprint
           </h2>
           <p style={{ fontSize: 16, color: "var(--text-secondary)", lineHeight: 1.7, margin: "0 auto 32px", maxWidth: 540 }}>
-            A 2-minute assessment designed by Kevin Cooke, PMHNP-BC. Learn your stress response pattern, your dominant thinking style, and which techniques match your brain.
+            A 2-minute assessment designed by AIForj Team and clinically informed by a Licensed Healthcare Provider. Learn your stress response pattern, your dominant thinking style, and which techniques match your brain.
           </p>
 
           {/* Preview Card */}
@@ -1496,7 +1496,7 @@ export default function ForjVoiceCompanion() {
             Forj was built for the space between moments of care: private, practical, and grounded in real therapeutic techniques rather than generic affirmations.
           </p>
           <p style={{ fontSize: 14, color: "var(--text-secondary)", fontWeight: 500, margin: "0 0 20px" }}>
-            — Kevin Cooke, PMHNP-BC
+            — AIForj Team, clinically informed by a Licensed Healthcare Provider
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8 }}>
             {["Evidence-Informed", "Local-First Sessions", "Browser-Based AI Mode", "Privacy-Forward Design"].map(b => (
@@ -1601,7 +1601,7 @@ export default function ForjVoiceCompanion() {
 
         <div style={{ display: "flex", justifyContent: "center", gap: 12, marginBottom: 24, flexWrap: "wrap" }}>
           <button onClick={() => {
-            const text = "Free AI therapeutic companion — clinician-built, completely private, evidence-based. This helped me.\n\naiforj.com";
+            const text = "Free AI therapeutic companion — clinically informed, completely private, evidence-based. This helped me.\n\naiforj.com";
             if (navigator.share) navigator.share({ title: "AIForj", text, url: "https://aiforj.com" }).catch(() => {});
             else navigator.clipboard.writeText(text).catch(() => {});
           }} className="btn-glow" style={{ background: "none", border: "1px solid rgba(45,42,38,0.08)", padding: "8px 20px", borderRadius: 20, fontSize: 12, color: "var(--text-secondary)", cursor: "pointer" }}>

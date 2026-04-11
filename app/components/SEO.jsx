@@ -6,9 +6,8 @@ export default function SEO() {
     url: "https://aiforj.com",
     logo: "https://aiforj.com/aif.jpeg",
     founder: {
-      "@type": "Person",
-      name: "Kevin Cooke",
-      jobTitle: "Board Certified Psychiatric Mental Health Nurse Practitioner"
+      "@type": "Organization",
+      name: "AIForj Team"
     },
     sameAs: ["https://x.com/AIForj"]
   };
@@ -35,9 +34,8 @@ export default function SEO() {
       availability: "https://schema.org/InStock"
     },
     creator: {
-      "@type": "Person",
-      name: "Kevin Cooke",
-      jobTitle: "Board Certified Psychiatric Mental Health Nurse Practitioner"
+      "@type": "Organization",
+      name: "AIForj Team"
     }
   };
 

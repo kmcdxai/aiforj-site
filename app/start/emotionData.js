@@ -1,7 +1,7 @@
 export const emotionOptions = [
   {
     id: 'anxious',
-    emoji: '⚡',
+    emoji: '😰',
     label: 'Anxious',
     shortLabel: 'Anxious',
     description: 'Racing thoughts, worry, tension.',
@@ -13,7 +13,7 @@ export const emotionOptions = [
   },
   {
     id: 'sad-low',
-    emoji: '🌧',
+    emoji: '😢',
     label: 'Sad / Low',
     shortLabel: 'Sad',
     description: 'Heavy, low, tearful, quiet.',
@@ -25,7 +25,7 @@ export const emotionOptions = [
   },
   {
     id: 'angry',
-    emoji: '🔥',
+    emoji: '😤',
     label: 'Angry',
     shortLabel: 'Angry',
     description: 'Frustrated, hot, reactive, ready to snap.',
@@ -37,7 +37,7 @@ export const emotionOptions = [
   },
   {
     id: 'overwhelmed',
-    emoji: '🌊',
+    emoji: '😵‍💫',
     label: 'Overwhelmed',
     shortLabel: 'Overwhelmed',
     description: 'Too much at once, flooded, overloaded.',
@@ -49,7 +49,7 @@ export const emotionOptions = [
   },
   {
     id: 'shame-guilt',
-    emoji: '🎭',
+    emoji: '😔',
     label: 'Shame / Guilt',
     shortLabel: 'Shame',
     description: 'Self-blame, regret, feeling not enough.',
@@ -61,7 +61,7 @@ export const emotionOptions = [
   },
   {
     id: 'grief-loss',
-    emoji: '🕊️',
+    emoji: '💔',
     label: 'Grief / Loss',
     shortLabel: 'Grief',
     description: 'Missing someone or something deeply.',
@@ -73,7 +73,7 @@ export const emotionOptions = [
   },
   {
     id: 'numb-disconnected',
-    emoji: '🧊',
+    emoji: '😶',
     label: 'Numb / Disconnected',
     shortLabel: 'Numb',
     description: 'Flat, distant, checked out, not quite here.',
@@ -85,7 +85,7 @@ export const emotionOptions = [
   },
   {
     id: 'lonely',
-    emoji: '🌑',
+    emoji: '😟',
     label: 'Lonely',
     shortLabel: 'Lonely',
     description: 'Disconnected, unseen, isolated.',
@@ -97,7 +97,7 @@ export const emotionOptions = [
   },
   {
     id: 'stressed-burned-out',
-    emoji: '⏰',
+    emoji: '😫',
     label: 'Stressed / Burned Out',
     shortLabel: 'Stressed',
     description: 'Pressure, depletion, deadlines, tension.',
@@ -109,7 +109,7 @@ export const emotionOptions = [
   },
   {
     id: 'scared-fearful',
-    emoji: '🫣',
+    emoji: '😨',
     label: 'Scared / Fearful',
     shortLabel: 'Scared',
     description: 'Threatened, unsafe, bracing for what might happen.',
@@ -121,7 +121,7 @@ export const emotionOptions = [
   },
   {
     id: 'stuck-lost',
-    emoji: '🧭',
+    emoji: '🙃',
     label: 'Stuck / Lost',
     shortLabel: 'Stuck',
     description: 'Unsure, blocked, unable to choose the next step.',
@@ -133,7 +133,7 @@ export const emotionOptions = [
   },
   {
     id: 'self-destructive',
-    emoji: '🩹',
+    emoji: '🫠',
     label: 'Self-Destructive',
     shortLabel: 'Self-Destructive',
     description: 'Urges to hurt yourself, disappear, or not be here.',
@@ -159,14 +159,14 @@ export const timePreferences = [
     label: 'Medium',
     duration: '5-10 min',
     description: 'A deeper dive. Space to actually work through it.',
-    emoji: '🌬️',
+    emoji: '🔄',
   },
   {
     id: 'deep',
     label: 'Deep',
     duration: '15-25 min',
     description: 'A full session. Real tools, real shifts.',
-    emoji: '🌿',
+    emoji: '🌊',
   },
 ];
 

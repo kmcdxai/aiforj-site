@@ -15,7 +15,7 @@ const NAV_LINKS = [
 export default function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { theme, toggleTheme, isDark } = useTheme();
+  const { toggleTheme, isDark } = useTheme();
   const pathname = usePathname();
   const focusRoute = pathname?.startsWith("/start") || pathname?.startsWith("/intervention");
 
@@ -75,14 +75,7 @@ export default function Navigation() {
             <span style={{ fontFamily: "'Fraunces', serif", fontSize: 18, fontWeight: 700, color: "var(--text-primary)" }}>AIForj</span>
           </a>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <a href="/" className="btn-ghost" style={{ textDecoration: "none" }}>← Home</a>
-            <button
-              onClick={toggleTheme}
-              aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-              className="btn-ghost"
-            >
-              {isDark ? "☀️" : "🌙"}
-            </button>
+            <a href="/" className="btn-ghost" style={{ textDecoration: "none" }}>← Back</a>
           </div>
         </nav>
         <div style={{ height: 60 }} />
@@ -144,17 +137,7 @@ export default function Navigation() {
               color: "var(--text-primary)",
             }}
           >
-            Forj
-          </span>
-          <span
-            style={{
-              fontSize: 10,
-              color: "var(--text-muted)",
-              fontWeight: 400,
-              marginLeft: -4,
-            }}
-          >
-            by AIForj
+            AIForj
           </span>
         </a>
 

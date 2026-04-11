@@ -126,7 +126,7 @@ export default function BurnedOutPage() {
             <p style={{ fontSize:16, lineHeight:1.8, color:ac, marginBottom:40 }}>This protocol is built on the Maslach Burnout framework — the most validated measure in existence, 35+ years of research. You'll assess your specific burnout pattern, identify what's draining you, and leave with a concrete recovery plan.</p>
 
             <div style={{ textAlign:"center" }}><Btn onClick={() => go("assess")}>Assess my burnout</Btn></div>
-            <p style={{ fontSize:10, color:"#5d5850", opacity:0.4, marginTop:32, textAlign:"center", lineHeight:1.7 }}>Built by a Board-Certified Healthcare Professional. Nothing stored or sent.</p>
+            <p style={{ fontSize:10, color:"#5d5850", opacity:0.4, marginTop:32, textAlign:"center", lineHeight:1.7 }}>Built by AIForj Team and clinically informed by a Licensed Healthcare Provider. Nothing stored or sent.</p>
 
             <InlineEmailCapture />
           </div>
@@ -335,9 +335,9 @@ export default function BurnedOutPage() {
 
             <div style={{ padding:24, background:"rgba(184,147,90,0.06)", borderRadius:16, border:"1px solid rgba(184,147,90,0.15)", marginBottom:20, textAlign:"center" }}>
               <p style={{ fontSize:16, color:"#2d2a25", fontWeight:500, marginBottom:8 }}>This helped? Share it with someone who might need it.</p>
-              <p style={{ fontSize:13, color:"#5d5850", marginBottom:16, lineHeight:1.5 }}>"Running on empty? This free burnout assessment and recovery protocol is clinician-built. No app, no login."</p>
+              <p style={{ fontSize:13, color:"#5d5850", marginBottom:16, lineHeight:1.5 }}>"Running on empty? This free burnout assessment and recovery protocol is clinically informed. No app, no login."</p>
               <div style={{ display:"flex", gap:10, justifyContent:"center", flexWrap:"wrap" }}>
-                <button onClick={() => { if(navigator.share){navigator.share({title:"Burnout Protocol",text:"Running on empty? This free burnout assessment and recovery protocol is clinician-built. No app, no login.",url:"https://aiforj.com/burned-out"}).catch(()=>{});}else{navigator.clipboard.writeText("Running on empty? This free burnout assessment and recovery protocol is clinician-built. No app, no login → https://aiforj.com/burned-out");} }} style={{ padding:"10px 24px", fontSize:14, fontWeight:600, background:ac, color:"#fff", border:"none", borderRadius:30, cursor:"pointer" }}>Share</button>
+                <button onClick={() => { if(navigator.share){navigator.share({title:"Burnout Protocol",text:"Running on empty? This free burnout assessment and recovery protocol is clinically informed. No app, no login.",url:"https://aiforj.com/burned-out"}).catch(()=>{});}else{navigator.clipboard.writeText("Running on empty? This free burnout assessment and recovery protocol is clinically informed. No app, no login → https://aiforj.com/burned-out");} }} style={{ padding:"10px 24px", fontSize:14, fontWeight:600, background:ac, color:"#fff", border:"none", borderRadius:30, cursor:"pointer" }}>Share</button>
                 <button onClick={() => navigator.clipboard.writeText("https://aiforj.com/burned-out")} style={{ padding:"10px 24px", fontSize:14, fontWeight:500, background:"transparent", color:ac, border:`1px solid ${ac}`, borderRadius:30, cursor:"pointer" }}>Copy link</button>
               </div>
             </div>

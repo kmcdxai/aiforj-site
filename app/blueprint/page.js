@@ -36,8 +36,8 @@ const blueprintStructuredData = {
   },
   author: {
     "@type": "Person",
-    name: "Kevin Cooke",
-    jobTitle: "Board Certified Psychiatric Mental Health Nurse Practitioner",
+    name: "AIForj Team",
+    jobTitle: "Licensed Healthcare Provider",
   },
   publisher: {
     "@type": "Organization",
