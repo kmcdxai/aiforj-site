@@ -309,7 +309,7 @@ export default function Homepage() {
               <a href="/garden">Mood Garden</a>
             </nav>
             <nav style={{ display: "grid", gap: 8 }}>
-              <strong className="text-label">Monetization</strong>
+              <strong className="text-label">Go deeper</strong>
               <a href={GUMROAD_WORKBOOK_URL} target="_blank" rel="noopener noreferrer">CBT Workbook</a>
               <a href="/companion">Premium</a>
               <a href="#premium">Pricing</a>
