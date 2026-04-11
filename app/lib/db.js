@@ -64,6 +64,20 @@ function generateId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
+function toTimestamp(value) {
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  const parsed = Date.parse(value || "");
+  return Number.isFinite(parsed) ? parsed : Date.now();
+}
+
+function toDateKey(value) {
+  const date = new Date(typeof value === "number" ? value : toTimestamp(value));
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 // ── Generic CRUD ──
 
 async function put(storeName, record) {
@@ -118,18 +132,44 @@ async function clearStore(storeName) {
 
 // ── Sessions ──
 
-export async function saveSession({ emotion, pathway, duration, completedSteps, techniqueUsed }) {
+export async function saveSession({
+  id,
+  legacySessionId,
+  emotion,
+  pathway,
+  timePreference,
+  duration,
+  completedSteps,
+  techniqueUsed,
+  intervention,
+  interventionName,
+  preRating,
+  postRating,
+  shift,
+  intensity,
+  source,
+  timestamp,
+}) {
   const record = {
-    id: generateId(),
-    timestamp: Date.now(),
+    id: id || generateId(),
+    legacySessionId: legacySessionId || null,
+    timestamp: toTimestamp(timestamp),
     emotion,
-    pathway,
-    duration,
-    completedSteps,
-    techniqueUsed,
+    pathway: pathway || timePreference || null,
+    timePreference: timePreference || pathway || null,
+    duration: duration ?? null,
+    completedSteps: completedSteps ?? null,
+    techniqueUsed: techniqueUsed || interventionName || intervention || null,
+    intervention: intervention || null,
+    interventionName: interventionName || techniqueUsed || null,
+    preRating: preRating ?? null,
+    postRating: postRating ?? null,
+    shift: shift ?? (typeof preRating === "number" && typeof postRating === "number" ? postRating - preRating : null),
+    intensity: intensity ?? null,
+    source: source || "app",
   };
   await put(STORES.sessions, record);
-  await updateStreak();
+  await recomputeStreak();
   return record;
 }
 
@@ -196,31 +236,57 @@ export async function getLatestWeeklyInsight() {
 
 // ── Streaks ──
 
-async function updateStreak() {
-  const today = new Date().toISOString().slice(0, 10);
-  const existing = await get(STORES.streaks, "main");
-
-  if (!existing) {
+async function recomputeStreak() {
+  const sessions = await getAll(STORES.sessions);
+  if (!sessions.length) {
     return put(STORES.streaks, {
       key: "main",
-      lastSessionDate: today,
-      currentStreak: 1,
-      longestStreak: 1,
+      lastSessionDate: null,
+      currentStreak: 0,
+      longestStreak: 0,
     });
   }
 
-  const lastDate = existing.lastSessionDate;
-  if (lastDate === today) return existing; // already counted today
+  const uniqueDates = [...new Set(sessions.map((session) => toDateKey(session.timestamp)))].sort();
+  const latestDate = uniqueDates[uniqueDates.length - 1];
 
-  const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-  const newStreak = lastDate === yesterday ? existing.currentStreak + 1 : 1;
-  const longest = Math.max(newStreak, existing.longestStreak);
+  let longestStreak = 1;
+  let runningLongest = 1;
+  for (let index = 1; index < uniqueDates.length; index += 1) {
+    const prev = new Date(`${uniqueDates[index - 1]}T00:00:00`);
+    const current = new Date(`${uniqueDates[index]}T00:00:00`);
+    const diffDays = Math.round((current - prev) / 86400000);
+    if (diffDays === 1) {
+      runningLongest += 1;
+      longestStreak = Math.max(longestStreak, runningLongest);
+    } else {
+      runningLongest = 1;
+    }
+  }
+
+  const today = toDateKey(Date.now());
+  const yesterday = toDateKey(Date.now() - 86400000);
+  let currentStreak = 0;
+
+  if (latestDate === today || latestDate === yesterday) {
+    currentStreak = 1;
+    for (let index = uniqueDates.length - 1; index > 0; index -= 1) {
+      const current = new Date(`${uniqueDates[index]}T00:00:00`);
+      const prev = new Date(`${uniqueDates[index - 1]}T00:00:00`);
+      const diffDays = Math.round((current - prev) / 86400000);
+      if (diffDays === 1) {
+        currentStreak += 1;
+      } else {
+        break;
+      }
+    }
+  }
 
   return put(STORES.streaks, {
     key: "main",
-    lastSessionDate: today,
-    currentStreak: newStreak,
-    longestStreak: longest,
+    lastSessionDate: latestDate,
+    currentStreak,
+    longestStreak,
   });
 }
 
@@ -248,19 +314,68 @@ export async function getAllPreferences() {
 // ── Export & Delete ──
 
 export async function exportAllData() {
-  const [sessions, moodCheckins, blueprints, streaks, preferences] = await Promise.all([
+  const [sessions, moodCheckins, blueprints, streaks, preferences, weeklyInsights] = await Promise.all([
     getAll(STORES.sessions),
     getAll(STORES.moodCheckins),
     getAll(STORES.blueprints),
     getAll(STORES.streaks),
     getAll(STORES.preferences),
+    getAll(STORES.weeklyInsights),
   ]);
 
   return {
     exportDate: new Date().toISOString(),
     version: DB_VERSION,
-    data: { sessions, moodCheckins, blueprints, streaks, preferences },
+    data: { sessions, moodCheckins, blueprints, streaks, preferences, weeklyInsights },
   };
+}
+
+export async function syncLegacyLocalSessions() {
+  if (typeof window === "undefined") {
+    return { imported: 0, total: 0 };
+  }
+
+  let legacySessions = [];
+  try {
+    legacySessions = JSON.parse(localStorage.getItem("aiforj_sessions") || "[]");
+  } catch {
+    legacySessions = [];
+  }
+
+  if (!Array.isArray(legacySessions) || legacySessions.length === 0) {
+    return { imported: 0, total: 0 };
+  }
+
+  const existing = await getAll(STORES.sessions);
+  const existingLegacyIds = new Set(existing.map((session) => session.legacySessionId).filter(Boolean));
+  let imported = 0;
+
+  for (const legacy of legacySessions) {
+    const legacyId = legacy?.id || `${legacy?.timestamp || "unknown"}-${legacy?.intervention || legacy?.interventionName || "session"}`;
+    if (existingLegacyIds.has(legacyId)) continue;
+
+    await saveSession({
+      id: `legacy-${legacyId}`,
+      legacySessionId: legacyId,
+      timestamp: legacy?.timestamp,
+      emotion: legacy?.emotion || "unknown",
+      pathway: legacy?.timePreference || legacy?.pathway || null,
+      timePreference: legacy?.timePreference || legacy?.pathway || null,
+      duration: legacy?.duration ?? null,
+      completedSteps: legacy?.completedSteps ?? null,
+      techniqueUsed: legacy?.interventionName || legacy?.techniqueUsed || legacy?.intervention || null,
+      intervention: legacy?.intervention || null,
+      interventionName: legacy?.interventionName || null,
+      preRating: legacy?.preRating ?? null,
+      postRating: legacy?.postRating ?? null,
+      shift: legacy?.shift ?? null,
+      intensity: legacy?.intensity ?? null,
+      source: "legacy-session-history",
+    });
+    imported += 1;
+  }
+
+  return { imported, total: legacySessions.length };
 }
 
 export async function deleteAllData() {

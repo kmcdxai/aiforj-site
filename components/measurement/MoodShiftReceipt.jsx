@@ -494,6 +494,25 @@ export default function MoodShiftReceipt({
       <div style={{
         marginTop: 18,
         padding: '22px',
+        background: 'var(--surface)',
+        borderRadius: 20,
+        textAlign: 'center',
+        border: '1px solid rgba(107,152,184,0.12)',
+      }}>
+        <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: '1.05rem', margin: '0 0 8px', color: 'var(--text-primary)' }}>
+          Watch this become part of your Mood Garden
+        </h3>
+        <p style={{ margin: '0 auto 14px', color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.6 }}>
+          Your completed sessions, mood shifts, and check-ins can grow into a private progress landscape on this device.
+        </p>
+        <a href="/garden" className="btn-secondary" style={{ textDecoration: 'none', color: 'var(--ocean-deep)', borderColor: 'var(--ocean)' }}>
+          Open Mood Garden →
+        </a>
+      </div>
+
+      <div style={{
+        marginTop: 18,
+        padding: '22px',
         background: 'var(--amber-light)',
         borderRadius: 20,
         textAlign: 'center',

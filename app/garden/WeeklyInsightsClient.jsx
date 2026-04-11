@@ -209,7 +209,7 @@ export default function WeeklyInsightsClient({ isPremium }) {
             <div style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 8 }}>Unlock Weekly Insights — Start Free Trial to get personalized clinical notes from your data.</div>
           </div>
           <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <button onClick={() => window.location.href = "/"} style={{ padding: "10px 18px", borderRadius: 10, background: "var(--interactive, #7D9B82)", color: "white", border: "none" }}>Unlock Weekly Insights — Free Trial</button>
+            <button onClick={() => window.location.href = "/companion"} style={{ padding: "10px 18px", borderRadius: 10, background: "var(--interactive, #7D9B82)", color: "white", border: "none" }}>Unlock Weekly Insights — Free Trial</button>
           </div>
         </div>
       )}

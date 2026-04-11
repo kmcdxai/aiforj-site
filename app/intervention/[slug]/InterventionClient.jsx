@@ -38,6 +38,8 @@ function PlaceholderIntervention({ technique, onComplete }) {
 function InterventionInner({ technique }) {
   const searchParams = useSearchParams();
   const emotion = searchParams.get('emotion') || 'general';
+  const intensity = Number(searchParams.get('intensity') || '');
+  const timePreference = searchParams.get('time') || null;
 
   // Check if a custom interactive component exists for this technique
   const slug = technique.slug || technique.id;
@@ -52,6 +54,8 @@ function InterventionInner({ technique }) {
         modality: technique.modality,
         time: technique.time,
         tier: technique.tier,
+        intensity: Number.isFinite(intensity) ? intensity : null,
+        timePreference,
       }}
     >
       {({ onComplete }) =>

@@ -202,6 +202,70 @@
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --parchment: #1A1816;
+    --parchment-deep: #242220;
+    --bg-primary: #1A1816;
+    --bg-secondary: #242220;
+    --surface: #2A251E;
+    --surface-elevated: #322C24;
+
+    --ink: #E8E0D8;
+    --ink-soft: #B8AFA6;
+    --ink-muted: #8A8078;
+    --text-primary: #E8E0D8;
+    --text-secondary: #B8AFA4;
+    --text-muted: #8A8178;
+
+    --sage: #9BB89E;
+    --sage-light: rgba(155, 184, 158, 0.12);
+    --sage-deep: #7A9A7F;
+
+    --clay: #D4A87A;
+    --clay-light: rgba(212, 168, 122, 0.12);
+    --clay-deep: #A68050;
+
+    --lavender: #B8A8D4;
+    --lavender-light: rgba(184, 168, 212, 0.12);
+    --lavender-deep: #8B7CAF;
+
+    --ocean: #8BB8D4;
+    --ocean-light: rgba(139, 184, 212, 0.12);
+    --ocean-deep: #5A8FB8;
+
+    --amber: #E8B857;
+    --amber-light: rgba(232, 184, 87, 0.12);
+    --amber-deep: #B89040;
+
+    --rose: #D4989C;
+    --rose-light: rgba(212, 152, 156, 0.12);
+    --rose-deep: #A8687F;
+
+    --accent-sage: #9BB89E;
+    --accent-sage-light: rgba(155, 184, 158, 0.12);
+    --accent-sage-rgb: 155, 184, 158;
+    --accent-warm: #D4A87A;
+    --accent-warm-light: rgba(212, 168, 122, 0.1);
+    --accent-teal: #8BB8BB;
+    --accent-rose: #D4ABAB;
+
+    --interactive: #9BB89E;
+    --interactive-hover: #AECAB0;
+    --interactive-pressed: #8BAE8E;
+
+    --success: #7AB87A;
+    --warning: #E8B857;
+    --error: #E87878;
+    --crisis: #D4A020;
+
+    --border: rgba(232, 224, 216, 0.08);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.25);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+}
+
 
 /* ── 2. Reset & Base ── */
 *, *::before, *::after {
@@ -631,6 +695,19 @@ input:focus, textarea:focus {
 .emotion-card.selected .emotion-card__label {
   color: var(--sage-deep);
   font-weight: 600;
+}
+
+.emotion-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  justify-items: center;
+}
+
+@media (max-width: 900px) {
+  .emotion-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 /* ── 14. Modal / Dialog ── */

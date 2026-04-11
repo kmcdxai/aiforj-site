@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import MoodRating from './MoodRating';
 import MoodShiftReceipt from './MoodShiftReceipt';
 import { saveSession } from '../../utils/sessionHistory';
+import { saveSession as saveGardenSession } from '../../app/lib/db';
 
 const PHASES = {
   PRE_RATING: 'pre-rating',
@@ -45,12 +46,13 @@ export default function InterventionWrapper({
     setPhase(PHASES.POST_RATING);
   }, []);
 
-  const handlePostRatingSubmit = (rating) => {
+  const handlePostRatingSubmit = async (rating) => {
     setPostRating(rating);
     setPhase(PHASES.RECEIPT);
 
     const now = Date.now();
     const durationMs = now - (startTime || now);
+    const durationSeconds = Math.max(1, Math.round(durationMs / 1000));
     const shift = rating - preRating;
 
     saveSession({
@@ -60,9 +62,32 @@ export default function InterventionWrapper({
       preRating,
       postRating: rating,
       shift,
-      duration: Math.max(1, Math.round(durationMs / 1000)),
+      duration: durationSeconds,
+      timePreference: intervention?.timePreference || null,
+      intensity: intervention?.intensity ?? null,
       timestamp: new Date().toISOString(),
     });
+
+    try {
+      await saveGardenSession({
+        emotion: emotion || 'unknown',
+        pathway: intervention?.timePreference || intervention?.tier || null,
+        duration: durationSeconds,
+        completedSteps: intervention?.time || intervention?.timeMinutes || null,
+        techniqueUsed: interventionName,
+        intervention: interventionSlug,
+        interventionName,
+        preRating,
+        postRating: rating,
+        shift,
+        intensity: intervention?.intensity ?? null,
+        timePreference: intervention?.timePreference || null,
+        source: 'intervention-wrapper',
+        timestamp: now,
+      });
+    } catch (error) {
+      console.warn('Failed to mirror session into garden store:', error);
+    }
 
     onComplete?.({ preRating, postRating: rating, shift, duration: durationMs });
   };

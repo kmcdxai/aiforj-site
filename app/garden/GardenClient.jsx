@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import {
   getSessions,
   getMoodCheckins,
@@ -9,264 +9,203 @@ import {
   getStreak,
   exportAllData,
   deleteAllData,
+  syncLegacyLocalSessions,
 } from "../lib/db";
 import WeeklyInsightsClient from "./WeeklyInsightsClient";
+import { buildGardenSnapshot, EMOTION_PLANTS } from "./gardenData";
 
-// ═══════════════════════════════════════════════════════════════
-// EMOTION → PLANT MAPPING
-// ═══════════════════════════════════════════════════════════════
-const EMOTION_PLANTS = {
-  anxious:        { name: "Lavender",      color: "#9B8EC4", stem: "#6B8C6B" },
-  overwhelmed:    { name: "Peace Lily",    color: "#E8E4F0", stem: "#5A7A5A" },
-  sad:            { name: "Rain Lily",     color: "#7AAFC4", stem: "#5B8C5A" },
-  angry:          { name: "Red Sage",      color: "#C47A7A", stem: "#6B7F4A" },
-  numb:           { name: "Snow Drop",     color: "#E4E8EC", stem: "#7A8A6A" },
-  unmotivated:    { name: "Sunflower",     color: "#E8C44A", stem: "#5B8C3A" },
-  lonely:         { name: "Forget-Me-Not", color: "#7AA4D4", stem: "#5A7A5A" },
-  stressed:       { name: "Chamomile",     color: "#F5E6A0", stem: "#6B8C5A" },
-  "burned-out":   { name: "Aloe Vera",    color: "#8BC48B", stem: "#5A7A4A" },
-  grief:          { name: "White Rose",    color: "#F0ECE8", stem: "#8A8A6A" },
-  "social-anxiety":{ name: "Violet",      color: "#9A7AC4", stem: "#5A7A5A" },
-  imposter:       { name: "Iris",          color: "#8A7AB4", stem: "#5A7A5A" },
-  "relationship": { name: "Jasmine",      color: "#F5F0E0", stem: "#5B8C5A" },
-  "3am-spiral":   { name: "Moonflower",   color: "#C4C8E4", stem: "#6A7A8A" },
-  fine:           { name: "Daisy",         color: "#F5F0E0", stem: "#5B8C5A" },
-};
+const MOOD_OPTIONS = [
+  { value: 1, emoji: "😔", label: "Struggling" },
+  { value: 2, emoji: "😕", label: "Low" },
+  { value: 3, emoji: "😐", label: "Okay" },
+  { value: 4, emoji: "🙂", label: "Good" },
+  { value: 5, emoji: "😊", label: "Great" },
+];
 
-// ═══════════════════════════════════════════════════════════════
-// SVG GARDEN SCENE
-// ═══════════════════════════════════════════════════════════════
+function parseStoredJSON(value) {
+  try {
+    return JSON.parse(value);
+  } catch {
+    return value;
+  }
+}
+
+function getPremiumStatus() {
+  if (typeof window === "undefined") return false;
+  const premium = parseStoredJSON(localStorage.getItem("aiforj_premium"));
+  const tier = parseStoredJSON(localStorage.getItem("forj_tier"));
+  return premium === true || tier === "premium" || tier === "trial";
+}
+
+function getShiftTone(shift) {
+  if (shift >= 3) return { label: "Strong shift", color: "var(--success)" };
+  if (shift > 0) return { label: "Helpful shift", color: "var(--sage-deep)" };
+  if (shift === 0) return { label: "Steady", color: "var(--text-secondary)" };
+  return { label: "Mixed", color: "var(--warning)" };
+}
+
 function GardenSVG({ sessionCount, emotions, streak, isPremium }) {
-  const stage = !isPremium
-    ? sessionCount === 0 ? 0 : 1
-    : sessionCount === 0 ? 0
-    : sessionCount <= 5 ? 1
-    : sessionCount <= 15 ? 2
-    : sessionCount <= 30 ? 3
-    : 4;
-
-  const uniqueEmotions = [...new Set(emotions)];
-  const plantCount = Math.min(uniqueEmotions.length, 7);
+  const baseStage = sessionCount === 0 ? 0 : sessionCount <= 3 ? 1 : sessionCount <= 12 ? 2 : sessionCount <= 28 ? 3 : 4;
+  const stage = isPremium ? Math.min(4, baseStage + (sessionCount > 10 ? 1 : 0)) : baseStage;
+  const uniqueEmotions = [...new Set(emotions)].slice(0, 7);
+  const plantCount = Math.min(uniqueEmotions.length || Math.min(sessionCount, 3), 7);
   const displayStreak = Math.min(streak, 5);
 
   return (
-    <svg viewBox="0 0 400 250" style={{ width: "100%", display: "block" }}>
+    <svg viewBox="0 0 520 320" style={{ width: "100%", display: "block" }}>
       <defs>
-        <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="var(--garden-sky-top, #D4E4D8)" />
-          <stop offset="100%" stopColor="var(--garden-sky-bottom, #E8EFE6)" />
+        <linearGradient id="gardenSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="rgba(228, 238, 230, 0.96)" />
+          <stop offset="100%" stopColor="rgba(248, 244, 237, 0.98)" />
         </linearGradient>
-        <linearGradient id="soilG" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id="gardenSoil" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#8B7355" />
           <stop offset="100%" stopColor="#6B5335" />
         </linearGradient>
       </defs>
 
-      {/* Sky */}
-      <rect x="0" y="0" width="400" height="180" fill="url(#skyG)" />
+      <rect x="0" y="0" width="520" height="240" rx="28" fill="url(#gardenSky)" />
+      <ellipse cx="438" cy="62" rx="26" ry="26" fill="#F5E6A0" opacity="0.72">
+        <animate attributeName="opacity" values="0.55;0.85;0.55" dur="6s" repeatCount="indefinite" />
+      </ellipse>
 
-      {/* Sun */}
-      <circle cx="340" cy="45" r="22" fill="#F5E6A0" opacity="0.7">
-        <animate attributeName="opacity" values="0.5;0.8;0.5" dur="6s" repeatCount="indefinite" />
-      </circle>
-      {stage >= 3 && [0, 45, 90, 135, 180, 225, 270, 315].map((a, i) => (
-        <line key={i}
-          x1={340 + Math.cos(a * Math.PI / 180) * 26}
-          y1={45 + Math.sin(a * Math.PI / 180) * 26}
-          x2={340 + Math.cos(a * Math.PI / 180) * 34}
-          y2={45 + Math.sin(a * Math.PI / 180) * 34}
-          stroke="#F5E6A0" strokeWidth="1.5" opacity="0.4" />
-      ))}
-
-      {/* Clouds */}
       {stage >= 2 && (
-        <g opacity="0.3">
-          <ellipse cx="80" cy="40" rx="30" ry="12" fill="white">
-            <animate attributeName="cx" values="80;100;80" dur="20s" repeatCount="indefinite" />
+        <g opacity="0.35">
+          <ellipse cx="112" cy="72" rx="42" ry="15" fill="white">
+            <animate attributeName="cx" values="112;138;112" dur="26s" repeatCount="indefinite" />
           </ellipse>
-          <ellipse cx="200" cy="30" rx="25" ry="10" fill="white">
-            <animate attributeName="cx" values="200;180;200" dur="25s" repeatCount="indefinite" />
+          <ellipse cx="252" cy="46" rx="34" ry="12" fill="white">
+            <animate attributeName="cx" values="252;230;252" dur="22s" repeatCount="indefinite" />
           </ellipse>
         </g>
       )}
 
-      {/* Ground */}
-      <ellipse cx="200" cy="195" rx="190" ry="25" fill="url(#soilG)" />
-      <rect x="10" y="195" width="380" height="60" fill="#6B5335" rx="4" />
+      <ellipse cx="260" cy="246" rx="220" ry="30" fill="url(#gardenSoil)" />
+      <rect x="28" y="246" width="464" height="80" rx="18" fill="#6B5335" />
 
-      {/* EMPTY: seed */}
       {stage === 0 && (
         <g>
-          <ellipse cx="200" cy="188" rx="6" ry="4" fill="#A0855A">
-            <animate attributeName="ry" values="4;4.5;4" dur="3s" repeatCount="indefinite" />
+          <ellipse cx="260" cy="235" rx="8" ry="5" fill="#A0855A">
+            <animate attributeName="ry" values="5;6;5" dur="3.2s" repeatCount="indefinite" />
           </ellipse>
-          <ellipse cx="200" cy="188" rx="3" ry="2" fill="#8A7040" />
+          <path d="M248 214 C252 208, 258 206, 260 199 C264 206, 270 210, 272 218" fill="none" stroke="#8BAE8B" strokeWidth="2" opacity="0.2" />
         </g>
       )}
 
-      {/* SPROUTS (stage 1) */}
-      {stage >= 1 && sessionCount > 0 && Array.from({ length: Math.min(sessionCount, 5) }).map((_, i) => {
-        const x = 120 + i * 45;
-        const h = 15 + (i * 3);
+      {stage >= 1 && Array.from({ length: Math.min(sessionCount || 1, 5) }).map((_, index) => {
+        const x = 140 + index * 52;
+        const h = 18 + index * 5;
         return (
-          <g key={`sp-${i}`}>
-            <line x1={x} y1={190} x2={x} y2={190 - h} stroke="var(--garden-growth, #8BAE8B)" strokeWidth="2" strokeLinecap="round">
-              <animate attributeName="y2" values={`${190-h+2};${190-h-2};${190-h+2}`} dur={`${3+i*0.5}s`} repeatCount="indefinite" />
+          <g key={`sprout-${index}`}>
+            <line x1={x} y1={238} x2={x} y2={238 - h} stroke="#8BAE8B" strokeWidth="2.4" strokeLinecap="round">
+              <animate attributeName="y2" values={`${238 - h + 2};${238 - h - 2};${238 - h + 2}`} dur={`${3 + index * 0.4}s`} repeatCount="indefinite" />
             </line>
-            <ellipse cx={x-4} cy={190-h+3} rx="4" ry="2" fill="var(--garden-growth, #8BAE8B)" transform={`rotate(-30 ${x-4} ${190-h+3})`}>
-              <animate attributeName="rx" values="4;4.5;4" dur={`${3+i*0.3}s`} repeatCount="indefinite" />
-            </ellipse>
-            <ellipse cx={x+4} cy={190-h+6} rx="4" ry="2" fill="var(--garden-growth, #8BAE8B)" transform={`rotate(30 ${x+4} ${190-h+6})`}>
-              <animate attributeName="rx" values="4;4.5;4" dur={`${3.5+i*0.3}s`} repeatCount="indefinite" />
-            </ellipse>
+            <ellipse cx={x - 5} cy={238 - h + 4} rx="5" ry="3" fill="#8BAE8B" transform={`rotate(-28 ${x - 5} ${238 - h + 4})`} />
+            <ellipse cx={x + 5} cy={238 - h + 7} rx="5" ry="3" fill="#8BAE8B" transform={`rotate(28 ${x + 5} ${238 - h + 7})`} />
           </g>
         );
       })}
 
-      {/* PLANTS (stage 2+) */}
-      {stage >= 2 && uniqueEmotions.slice(0, plantCount).map((emotion, i) => {
+      {stage >= 2 && uniqueEmotions.slice(0, plantCount).map((emotion, index) => {
         const plant = EMOTION_PLANTS[emotion] || EMOTION_PLANTS.fine;
-        const spacing = 340 / (plantCount + 1);
-        const x = 30 + spacing * (i + 1);
-        const baseH = stage >= 3 ? 60 : 40;
-        const h = baseH + (i % 3) * 10;
-        const hasBlooms = stage >= 3;
-        const isLush = stage >= 4;
+        const spacing = 400 / (plantCount + 1);
+        const x = 60 + spacing * (index + 1);
+        const height = stage >= 4 ? 108 + (index % 3) * 12 : 78 + (index % 3) * 10;
+        const lush = stage >= 4;
 
         return (
-          <g key={`pl-${emotion}-${i}`}>
-            {/* Stem */}
-            <path d={`M${x},190 Q${x+(i%2?3:-3)},${190-h/2} ${x},${190-h}`}
-              stroke={plant.stem} strokeWidth={isLush ? 3 : 2} fill="none" strokeLinecap="round">
-              <animate attributeName="d"
-                values={`M${x},190 Q${x+3},${190-h/2} ${x},${190-h};M${x},190 Q${x-3},${190-h/2} ${x},${190-h};M${x},190 Q${x+3},${190-h/2} ${x},${190-h}`}
-                dur={`${4+i*0.7}s`} repeatCount="indefinite" />
+          <g key={`plant-${emotion}-${index}`}>
+            <path
+              d={`M${x},238 C${x + (index % 2 ? 8 : -8)},${238 - height / 2} ${x - (index % 2 ? 10 : -10)},${238 - height * 0.72} ${x},${238 - height}`}
+              fill="none"
+              stroke={plant.stem}
+              strokeWidth={lush ? 3.2 : 2.4}
+              strokeLinecap="round"
+            >
+              <animate
+                attributeName="d"
+                values={`M${x},238 C${x + 8},${238 - height / 2} ${x - 10},${238 - height * 0.72} ${x},${238 - height};M${x},238 C${x - 8},${238 - height / 2} ${x + 10},${238 - height * 0.72} ${x},${238 - height};M${x},238 C${x + 8},${238 - height / 2} ${x - 10},${238 - height * 0.72} ${x},${238 - height}`}
+                dur={`${4 + index * 0.45}s`}
+                repeatCount="indefinite"
+              />
             </path>
-            {/* Leaves */}
-            {[0.3, 0.5, 0.7].map((pos, li) => {
-              const ly = 190 - h * pos;
-              const side = li % 2 === 0 ? -1 : 1;
-              const ls = isLush ? 12 : 8;
+
+            {[0.28, 0.52, 0.74].map((position, leafIndex) => {
+              const y = 238 - height * position;
+              const side = leafIndex % 2 === 0 ? -1 : 1;
+              const rx = lush ? 13 : 10;
               return (
-                <ellipse key={li} cx={x + side*(ls-2)} cy={ly} rx={ls} ry={ls/3}
-                  fill={plant.stem} opacity="0.8"
-                  transform={`rotate(${side*30} ${x+side*(ls-2)} ${ly})`}>
-                  <animate attributeName="rx" values={`${ls};${ls+1};${ls}`} dur={`${3+li}s`} repeatCount="indefinite" />
-                </ellipse>
+                <ellipse
+                  key={leafIndex}
+                  cx={x + side * (rx - 1)}
+                  cy={y}
+                  rx={rx}
+                  ry={rx / 3.2}
+                  fill={plant.stem}
+                  opacity="0.84"
+                  transform={`rotate(${side * 30} ${x + side * (rx - 1)} ${y})`}
+                />
               );
             })}
-            {/* Blooms */}
-            {hasBlooms && (
+
+            {stage >= 3 && (
               <g>
-                {[0, 72, 144, 216, 288].map((angle, pi) => {
-                  const px = x + Math.cos(angle * Math.PI / 180) * (isLush ? 8 : 6);
-                  const py = (190 - h - 4) + Math.sin(angle * Math.PI / 180) * (isLush ? 8 : 6);
+                {[0, 72, 144, 216, 288].map((angle, petalIndex) => {
+                  const px = x + Math.cos((angle * Math.PI) / 180) * (lush ? 10 : 7);
+                  const py = (238 - height - 4) + Math.sin((angle * Math.PI) / 180) * (lush ? 10 : 7);
                   return (
-                    <ellipse key={pi} cx={px} cy={py} rx={isLush ? 5 : 4} ry={isLush ? 7 : 5}
-                      fill={plant.color} opacity="0.85"
-                      transform={`rotate(${angle} ${px} ${py})`}>
-                      <animate attributeName="opacity" values="0.75;0.95;0.75" dur={`${3+pi*0.5}s`} repeatCount="indefinite" />
+                    <ellipse
+                      key={petalIndex}
+                      cx={px}
+                      cy={py}
+                      rx={lush ? 6 : 5}
+                      ry={lush ? 10 : 7}
+                      fill={plant.color}
+                      opacity="0.9"
+                      transform={`rotate(${angle} ${px} ${py})`}
+                    >
+                      <animate attributeName="opacity" values="0.72;0.96;0.72" dur={`${3 + petalIndex * 0.4}s`} repeatCount="indefinite" />
                     </ellipse>
                   );
                 })}
-                <circle cx={x} cy={190-h-4} r={isLush ? 4 : 3} fill="#F5E6A0" opacity="0.9" />
+                <circle cx={x} cy={238 - height - 4} r={lush ? 4 : 3} fill="#F5E6A0" />
               </g>
             )}
-            {/* Extra blooms (lush) */}
-            {isLush && [0.4, 0.6].map((pos, bi) => {
-              const bx = x + (bi%2 ? 8 : -8);
-              const by = 190 - h * pos;
-              return (
-                <g key={`eb-${bi}`}>
-                  {[0, 90, 180, 270].map((a, ai) => (
-                    <ellipse key={ai}
-                      cx={bx + Math.cos(a*Math.PI/180)*4} cy={by + Math.sin(a*Math.PI/180)*4}
-                      rx="3" ry="4" fill={plant.color} opacity="0.7"
-                      transform={`rotate(${a} ${bx+Math.cos(a*Math.PI/180)*4} ${by+Math.sin(a*Math.PI/180)*4})`} />
-                  ))}
-                  <circle cx={bx} cy={by} r="2" fill="#F5E6A0" opacity="0.8" />
-                </g>
-              );
-            })}
           </g>
         );
       })}
 
-      {/* Grass */}
-      {stage >= 2 && Array.from({ length: 12 }).map((_, i) => {
-        const gx = 25 + i * 32;
-        return (
-          <line key={`gr-${i}`} x1={gx} y1={192} x2={gx+(i%2?3:-3)} y2={186}
-            stroke="var(--garden-growth, #8BAE8B)" strokeWidth="1.5" opacity="0.4" strokeLinecap="round">
-            <animate attributeName="x2" values={`${gx+3};${gx-3};${gx+3}`} dur={`${5+i*0.3}s`} repeatCount="indefinite" />
-          </line>
-        );
-      })}
-
-      {/* Butterflies (streak) */}
-      {displayStreak > 0 && Array.from({ length: displayStreak }).map((_, i) => {
-        const bx = 60 + i * 70;
-        const by = 60 + (i % 3) * 30;
+      {displayStreak > 0 && Array.from({ length: displayStreak }).map((_, index) => {
+        const x = 84 + index * 74;
+        const y = 88 + (index % 3) * 24;
         const colors = ["#D4A98E", "#A0C4D4", "#C4A0D8", "#D4C4A0", "#A0D4A8"];
         return (
-          <g key={`bf-${i}`}>
-            <ellipse cx={bx-4} cy={by} rx="5" ry="3" fill={colors[i%5]} opacity="0.7" transform={`rotate(-20 ${bx-4} ${by})`}>
-              <animate attributeName="ry" values="3;1;3" dur="0.8s" repeatCount="indefinite" />
+          <g key={`butterfly-${index}`}>
+            <ellipse cx={x - 5} cy={y} rx="6" ry="4" fill={colors[index % colors.length]} opacity="0.78" transform={`rotate(-18 ${x - 5} ${y})`}>
+              <animate attributeName="ry" values="4;1.2;4" dur="0.85s" repeatCount="indefinite" />
             </ellipse>
-            <ellipse cx={bx+4} cy={by} rx="5" ry="3" fill={colors[i%5]} opacity="0.7" transform={`rotate(20 ${bx+4} ${by})`}>
-              <animate attributeName="ry" values="3;1;3" dur="0.8s" repeatCount="indefinite" />
+            <ellipse cx={x + 5} cy={y} rx="6" ry="4" fill={colors[index % colors.length]} opacity="0.78" transform={`rotate(18 ${x + 5} ${y})`}>
+              <animate attributeName="ry" values="4;1.2;4" dur="0.85s" repeatCount="indefinite" />
             </ellipse>
-            <ellipse cx={bx} cy={by} rx="1" ry="3" fill="#5A4A3A" />
-            <animateTransform attributeName="transform" type="translate"
-              values={`0,0;${10-i*3},${-5+i*2};0,0`} dur={`${4+i}s`} repeatCount="indefinite" />
+            <ellipse cx={x} cy={y} rx="1.1" ry="4" fill="#5A4A3A" />
+            <animateTransform attributeName="transform" type="translate" values={`0,0;${9 - index * 2},${-4 + index};0,0`} dur={`${4 + index * 0.6}s`} repeatCount="indefinite" />
           </g>
         );
       })}
-
-      {/* Premium lock overlay */}
-      {!isPremium && sessionCount > 5 && (
-        <g>
-          <rect x="0" y="0" width="400" height="180" fill="var(--bg-primary, #FDFAF6)" opacity="0.5" />
-          <text x="200" y="90" textAnchor="middle" fontFamily="'DM Sans', sans-serif" fontSize="13" fill="var(--accent-sage, #7D9B82)" fontWeight="500">
-            🌿 Your garden wants to grow
-          </text>
-          <text x="200" y="110" textAnchor="middle" fontFamily="'DM Sans', sans-serif" fontSize="11" fill="var(--accent-sage, #7D9B82)" opacity="0.7">
-            Unlock Premium to see it bloom
-          </text>
-        </g>
-      )}
     </svg>
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// MOOD SPARKLINE (SVG)
-// ═══════════════════════════════════════════════════════════════
-function MoodSparkline({ moods }) {
-  const last30 = moods.slice(-30);
-  if (last30.length < 2) return null;
-  const w = 300, h = 60, pad = 8;
-  const pts = last30.map((m, i) => {
-    const x = pad + (i / (last30.length - 1)) * (w - pad * 2);
-    const y = h - pad - ((m.moodScore - 1) / 4) * (h - pad * 2);
-    return { x, y };
-  });
+function GardenStat({ label, value, detail, tone = "var(--sage-deep)" }) {
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} style={{ width: "100%", maxWidth: 300, display: "block" }}>
-      <rect x="0" y="0" width={w} height={h} rx="8" fill="var(--surface, #FAF7F2)" />
-      <polyline points={pts.map(p => `${p.x},${p.y}`).join(" ")}
-        fill="none" stroke="var(--garden-growth, #8BAE8B)" strokeWidth="2"
-        strokeLinecap="round" strokeLinejoin="round" />
-      {pts.map((p, i) => (
-        <circle key={i} cx={p.x} cy={p.y} r="2.5" fill="var(--garden-growth, #8BAE8B)" opacity="0.6" />
-      ))}
-    </svg>
+    <div className="garden-card-sm" style={{ display: "grid", gap: 8 }}>
+      <span className="garden-label">{label}</span>
+      <div style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(26px, 4vw, 34px)", color: tone, lineHeight: 1 }}>{value}</div>
+      {detail && <p style={{ margin: 0, fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.6 }}>{detail}</p>}
+    </div>
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// MAIN COMPONENT
-// ═══════════════════════════════════════════════════════════════
 export default function GardenClient() {
   const [sessions, setSessions] = useState([]);
   const [moods, setMoods] = useState([]);
@@ -279,402 +218,591 @@ export default function GardenClient() {
   const [moodLogged, setMoodLogged] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [gardenPulse, setGardenPulse] = useState(false);
+  const [syncInfo, setSyncInfo] = useState({ imported: 0, total: 0 });
 
-  // Load all data from IndexedDB
-  useEffect(() => {
-    async function load() {
-      try {
-        const [s, m, b, st] = await Promise.all([
-          getSessions(), getMoodCheckins(), getBlueprints(), getStreak()
-        ]);
-        setSessions(s);
-        setMoods(m);
-        setBlueprints(b);
-        setStreakData(st);
-        const prem = localStorage.getItem("aiforj_premium") === "true"
-          || localStorage.getItem("forj_tier") === "premium"
-          || localStorage.getItem("forj_tier") === "trial";
-        setIsPremium(prem);
-      } catch (e) {
-        console.warn("Garden: IndexedDB load error", e);
-      }
+  const loadGarden = useCallback(async () => {
+    try {
+      const sync = await syncLegacyLocalSessions();
+      setSyncInfo(sync);
+      const [nextSessions, nextMoods, nextBlueprints, nextStreak] = await Promise.all([
+        getSessions(),
+        getMoodCheckins(),
+        getBlueprints(),
+        getStreak(),
+      ]);
+      setSessions(nextSessions);
+      setMoods(nextMoods);
+      setBlueprints(nextBlueprints);
+      setStreakData(nextStreak);
+      setIsPremium(getPremiumStatus());
+    } catch (error) {
+      console.warn("Garden: load error", error);
+    } finally {
       setLoaded(true);
     }
-    load();
   }, []);
 
-  // Computed
-  const emotionCounts = {};
-  sessions.forEach(s => { emotionCounts[s.emotion] = (emotionCounts[s.emotion] || 0) + 1; });
-  const allEmotions = sessions.map(s => s.emotion);
-  const topEmotion = Object.entries(emotionCounts).sort((a, b) => b[1] - a[1])[0];
+  useEffect(() => {
+    loadGarden();
+  }, [loadGarden]);
 
-  const techniqueCounts = {};
-  sessions.forEach(s => {
-    if (s.techniqueUsed) {
-      techniqueCounts[s.techniqueUsed] = (techniqueCounts[s.techniqueUsed] || 0) + 1;
-    }
-  });
-  const topTechnique = Object.entries(techniqueCounts).sort((a, b) => b[1] - a[1])[0];
+  const snapshot = useMemo(
+    () => buildGardenSnapshot({ sessions, moods, blueprints, streakData }),
+    [sessions, moods, blueprints, streakData]
+  );
 
-  const MOOD_OPTIONS = [
-    { value: 1, emoji: "😔", label: "Struggling" },
-    { value: 2, emoji: "😕", label: "Low" },
-    { value: 3, emoji: "😐", label: "Okay" },
-    { value: 4, emoji: "🙂", label: "Good" },
-    { value: 5, emoji: "😊", label: "Great" },
-  ];
+  const allEmotions = snapshot.biome.map((entry) => entry.id);
+  const latestShiftTone = snapshot.latestSession && typeof snapshot.latestSession.shift === "number"
+    ? getShiftTone(snapshot.latestSession.shift)
+    : getShiftTone(0);
 
   const logMood = useCallback(async () => {
     if (selectedMood === null) return;
-    const opt = MOOD_OPTIONS.find(m => m.value === selectedMood);
-    await saveMoodCheckin({ moodScore: selectedMood, note: moodNote || opt.label });
-    const updated = await getMoodCheckins();
-    setMoods(updated);
+    const option = MOOD_OPTIONS.find((mood) => mood.value === selectedMood);
+    await saveMoodCheckin({ moodScore: selectedMood, note: moodNote || option?.label || null });
+    const updatedMoods = await getMoodCheckins();
+    setMoods(updatedMoods);
     setMoodLogged(true);
     setGardenPulse(true);
-    setTimeout(() => setGardenPulse(false), 2000);
+    setTimeout(() => setGardenPulse(false), 1800);
   }, [selectedMood, moodNote]);
 
   const handleExportJSON = async () => {
     const data = await exportAllData();
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `forj-data-${new Date().toISOString().slice(0, 10)}.json`;
-    a.click();
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `aiforj-garden-${new Date().toISOString().slice(0, 10)}.json`;
+    link.click();
     URL.revokeObjectURL(url);
   };
 
   const handleExportPDF = () => {
-    const earliest = sessions.length > 0
-      ? new Date(sessions[sessions.length - 1].timestamp).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
-      : "N/A";
-    const latest = new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
-    const emotionsUsed = Object.entries(emotionCounts)
-      .sort((a, b) => b[1] - a[1])
-      .map(([e, c]) => `${EMOTION_PLANTS[e]?.name || e} (${c} sessions)`)
-      .join(", ");
+    const opened = window.open("", "_blank");
+    if (!opened) return;
 
-    const pw = window.open("", "_blank");
-    if (!pw) return;
-    pw.document.write(`<!DOCTYPE html><html><head><title>My Forj Progress Report</title>
+    const emotionsUsed = snapshot.biome.length
+      ? snapshot.biome.slice(0, 6).map((entry) => `${entry.plantName} (${entry.sessions})`).join(", ")
+      : "No planted emotions yet.";
+
+    opened.document.write(`<!DOCTYPE html><html><head><title>My AIForj Mood Garden</title>
       <style>
-        body{font-family:Georgia,serif;color:#2D2A26;max-width:700px;margin:0 auto;padding:40px;line-height:1.8}
-        h1{font-size:28px;font-weight:400;margin:0 0 8px}
-        h2{font-size:18px;font-weight:600;margin:32px 0 12px;color:#7D9B82;border-bottom:1px solid #E8F0E9;padding-bottom:8px}
-        .stat{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #F5EFE7}
-        .stat-label{color:#6B6560}.stat-value{font-weight:600}
-        .footer{margin-top:48px;padding-top:24px;border-top:1px solid #E8F0E9;font-size:12px;color:#9B9590;text-align:center}
-        @media print{body{padding:20px}}
+        body { font-family: Georgia, serif; color: #2C2520; max-width: 760px; margin: 0 auto; padding: 40px; line-height: 1.8; }
+        h1 { font-size: 30px; font-weight: 500; margin: 0 0 8px; }
+        h2 { font-size: 18px; font-weight: 600; margin: 32px 0 12px; color: #4A7A50; border-bottom: 1px solid #E8F0E8; padding-bottom: 8px; }
+        .stat { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid #F3EDE4; }
+        .label { color: #5C534A; }
+        .value { font-weight: 600; }
+        .footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #E8F0E8; font-size: 12px; color: #8A8078; text-align: center; }
       </style></head><body>
-      <h1>My Forj Progress Report</h1>
-      <div style="font-size:13px;color:#6B6560;margin-bottom:32px">${earliest} — ${latest}</div>
-      <h2>Summary</h2>
-      <div class="stat"><span class="stat-label">Total Sessions</span><span class="stat-value">${sessions.length}</span></div>
-      <div class="stat"><span class="stat-label">Current Streak</span><span class="stat-value">${streakData.currentStreak} day${streakData.currentStreak !== 1 ? "s" : ""}</span></div>
-      <div class="stat"><span class="stat-label">Longest Streak</span><span class="stat-value">${streakData.longestStreak} day${streakData.longestStreak !== 1 ? "s" : ""}</span></div>
-      <div class="stat"><span class="stat-label">Emotions Explored</span><span class="stat-value">${Object.keys(emotionCounts).length}</span></div>
-      <div class="stat"><span class="stat-label">Mood Check-ins</span><span class="stat-value">${moods.length}</span></div>
-      ${topTechnique ? `<div class="stat"><span class="stat-label">Most Used Technique</span><span class="stat-value">${topTechnique[0]}</span></div>` : ""}
-      ${blueprints.length > 0 ? `<div class="stat"><span class="stat-label">Blueprint Archetype</span><span class="stat-value">${blueprints[0].archetype}</span></div>` : ""}
-      <h2>Emotions Explored</h2><p>${emotionsUsed || "No sessions yet."}</p>
-      ${moods.length >= 2 ? `<h2>Mood Trend</h2><p>Last ${Math.min(moods.length, 30)} check-ins: ${moods[moods.length-1]?.moodScore}/5 → ${moods[0]?.moodScore}/5</p>` : ""}
-      <div class="footer"><p>Generated locally — this data never left your device.</p><p><strong>aiforj.com</strong> — Built by AIForj Team and clinically informed by a Licensed Healthcare Provider</p></div>
+      <h1>My AIForj Mood Garden</h1>
+      <div style="font-size:13px;color:#5C534A;margin-bottom:24px;">Generated ${new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</div>
+      <h2>Landscape</h2>
+      <div class="stat"><span class="label">Season</span><span class="value">${snapshot.season.label}</span></div>
+      <div class="stat"><span class="label">Total sessions</span><span class="value">${snapshot.totalSessions}</span></div>
+      <div class="stat"><span class="label">Current streak</span><span class="value">${snapshot.streak} day${snapshot.streak === 1 ? "" : "s"}</span></div>
+      <div class="stat"><span class="label">Longest streak</span><span class="value">${snapshot.longestStreak} day${snapshot.longestStreak === 1 ? "" : "s"}</span></div>
+      <div class="stat"><span class="label">Average mood shift</span><span class="value">${snapshot.averageShift > 0 ? "+" : ""}${snapshot.averageShift}</span></div>
+      <div class="stat"><span class="label">Emotions explored</span><span class="value">${snapshot.emotionsExplored}</span></div>
+      <div class="stat"><span class="label">Mood check-ins</span><span class="value">${snapshot.totalMoodCheckins}</span></div>
+      ${snapshot.topTechnique ? `<div class="stat"><span class="label">Most used technique</span><span class="value">${snapshot.topTechnique.name}</span></div>` : ""}
+      ${snapshot.latestBlueprint ? `<div class="stat"><span class="label">Latest blueprint</span><span class="value">${snapshot.latestBlueprint.archetype}</span></div>` : ""}
+      <h2>Emotional biome</h2>
+      <p>${emotionsUsed}</p>
+      <div class="footer">
+        <p>Built by AIForj Team · Clinically informed by a Licensed Healthcare Provider</p>
+        <p>This report was generated locally. Your data never left your device.</p>
+      </div>
     </body></html>`);
-    pw.document.close();
-    pw.print();
+    opened.document.close();
+    opened.print();
+  };
+
+  const handleShare = async () => {
+    const text = `My AIForj Mood Garden: ${snapshot.totalSessions} sessions, ${snapshot.streak}-day streak, ${snapshot.averageShift > 0 ? "+" : ""}${snapshot.averageShift} average mood shift. aiforj.com/garden`;
+    if (navigator.share) {
+      navigator.share({ title: "My AIForj Mood Garden", text, url: "https://aiforj.com/garden" }).catch(() => {});
+      return;
+    }
+    navigator.clipboard?.writeText(text).catch(() => {});
   };
 
   const handleDeleteAll = async () => {
     await deleteAllData();
-    setSessions([]); setMoods([]); setBlueprints([]);
+    localStorage.removeItem("aiforj_sessions");
+    setSessions([]);
+    setMoods([]);
+    setBlueprints([]);
     setStreakData({ currentStreak: 0, longestStreak: 0 });
-    setShowDeleteModal(false); setMoodLogged(false);
-    setSelectedMood(null); setMoodNote("");
+    setSelectedMood(null);
+    setMoodNote("");
+    setMoodLogged(false);
+    setShowDeleteModal(false);
   };
 
-  if (!loaded) return <div style={{ minHeight: "100vh" }} />;
-
-  const streak = streakData.currentStreak;
+  if (!loaded) {
+    return <div style={{ minHeight: "100vh" }} />;
+  }
 
   return (
-    <div className="garden-page" style={{ maxWidth: "var(--max-text, 680px)", margin: "0 auto", padding: "0 20px 80px" }}>
+    <div className="garden-page" style={{ maxWidth: 1140, margin: "0 auto", padding: "0 20px 96px" }}>
       <style>{`
-        .garden-page input:focus, .garden-page textarea:focus { outline: none; border-color: var(--accent-sage) !important; }
-        @keyframes gardenGrow { 0%{transform:scale(1)} 50%{transform:scale(1.02)} 100%{transform:scale(1)} }
-        .garden-card { background: var(--surface, #FAF7F2); border-radius: var(--radius-lg, 24px); padding: 24px; border: 1px solid var(--border, rgba(0,0,0,0.06)); }
-        .garden-card-sm { background: var(--surface, #FAF7F2); border-radius: var(--radius-md, 12px); padding: 20px; border: 1px solid var(--border, rgba(0,0,0,0.06)); }
-        .garden-label { font-size: 11px; color: var(--text-muted, #9B9590); text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 8px; }
-        .garden-btn { font-family: 'DM Sans', sans-serif; border: none; cursor: pointer; border-radius: 50px; transition: all 0.3s; }
+        .garden-page input:focus, .garden-page textarea:focus { outline: none; border-color: var(--sage) !important; box-shadow: 0 0 0 3px rgba(122, 158, 126, 0.12); }
+        .garden-card { background: color-mix(in srgb, var(--surface-elevated) 92%, white); border-radius: var(--radius-xl); padding: 24px; border: 1px solid var(--border); box-shadow: var(--shadow-md); }
+        .garden-card-sm { background: color-mix(in srgb, var(--surface) 94%, white); border-radius: var(--radius-md); padding: 20px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+        .garden-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.14em; display: block; margin-bottom: 8px; font-weight: 700; }
+        .garden-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; cursor: pointer; text-decoration: none; transition: all 220ms var(--ease-out); }
+        .garden-soft-gradient { background: linear-gradient(145deg, rgba(122, 158, 126, 0.16), rgba(107, 152, 184, 0.08) 45%, rgba(255, 255, 255, 0.9)); }
+        @keyframes gardenPulse { 0% { transform: scale(1); } 50% { transform: scale(1.015); } 100% { transform: scale(1); } }
+        @keyframes riseIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        .garden-rise { animation: riseIn 420ms var(--ease-out); }
+        @media (max-width: 920px) {
+          .garden-hero-grid, .garden-bottom-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 640px) {
+          .garden-metric-grid, .garden-action-grid, .garden-stat-grid { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
-      {/* ═══ YOUR GARDEN ═══ */}
-      <section style={{ marginBottom: 40, paddingTop: 24 }}>
-        <h1 style={{ fontFamily: "Fraunces, serif", fontSize: "clamp(26px, 4vw, 36px)", fontWeight: 400, color: "var(--text-primary)", margin: "0 0 8px", textAlign: "center" }}>
-          Your Garden
-        </h1>
-        <p style={{ fontSize: 13, color: "var(--text-muted)", textAlign: "center", marginBottom: 24 }}>
-          {sessions.length === 0 ? "Your garden is ready." :
-           sessions.length <= 5 ? "Your garden is sprouting." :
-           sessions.length <= 15 ? "Your garden is growing." :
-           sessions.length <= 30 ? "Your garden is blooming." :
-           "Your garden is flourishing."}
-        </p>
-
-        <div style={{
-          background: "var(--garden-sky-bottom, #E8EFE6)", borderRadius: "var(--radius-lg, 24px)",
-          overflow: "hidden", border: "1px solid var(--border, rgba(0,0,0,0.06))",
-          animation: gardenPulse ? "gardenGrow 1s ease" : "none",
-        }}>
-          <GardenSVG sessionCount={sessions.length} emotions={allEmotions} streak={streak} isPremium={isPremium} />
-        </div>
-
-        {sessions.length === 0 && (
-          <div style={{ textAlign: "center", marginTop: 20 }}>
-            <p style={{ fontSize: 14, color: "var(--text-secondary)", marginBottom: 16 }}>
-              Complete your first session to plant your first seed.
-            </p>
-            <a href="/" className="garden-btn" style={{
-              display: "inline-block", padding: "12px 28px", fontSize: 14,
-              background: "var(--interactive, #7D9B82)", color: "white", textDecoration: "none", fontWeight: 500,
-            }}>
-              Start a session →
-            </a>
-          </div>
-        )}
-      </section>
-
-      {/* ═══ DAILY CHECK-IN ═══ */}
-      <section className="garden-card" style={{ marginBottom: 24 }}>
-        {moodLogged ? (
-          <div style={{ textAlign: "center", padding: "12px 0" }}>
-            <span style={{ fontSize: 28, display: "block", marginBottom: 8 }}>🌱</span>
-            <p style={{ fontSize: 15, color: "var(--text-primary)", margin: "0 0 4px", fontWeight: 500 }}>
-              Mood logged. Your garden grew a little today.
-            </p>
-            <p style={{ fontSize: 12, color: "var(--text-muted)" }}>Come back tomorrow to keep your streak going.</p>
-          </div>
-        ) : (
-          <>
-            <h3 style={{ fontFamily: "Fraunces, serif", fontSize: 18, fontWeight: 400, margin: "0 0 16px", color: "var(--text-primary)", textAlign: "center" }}>
-              How are you feeling right now?
-            </h3>
-            <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
-              {MOOD_OPTIONS.map(opt => (
-                <button key={opt.value} onClick={() => setSelectedMood(opt.value)} style={{
-                  display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
-                  padding: "10px 14px", borderRadius: "var(--radius-md, 12px)", border: "none", cursor: "pointer",
-                  background: selectedMood === opt.value ? "var(--accent-sage-light, #E8F0E9)" : "transparent",
-                  outline: selectedMood === opt.value ? "2px solid var(--accent-sage, #7D9B82)" : "2px solid transparent",
-                  transition: "all 0.2s",
-                }}>
-                  <span style={{ fontSize: 26 }}>{opt.emoji}</span>
-                  <span style={{ fontSize: 10, color: "var(--text-muted)", letterSpacing: 0.5 }}>{opt.label}</span>
-                </button>
-              ))}
+      <section style={{ paddingTop: 26, marginBottom: 28 }}>
+        <div className="garden-hero-grid garden-rise" style={{ display: "grid", gridTemplateColumns: "minmax(0, 1.2fr) minmax(320px, 0.8fr)", gap: 20, alignItems: "start" }}>
+          <div className="garden-card garden-soft-gradient" style={{ overflow: "hidden", animation: gardenPulse ? "gardenPulse 1.2s ease" : "none" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 10, alignItems: "center", marginBottom: 14 }}>
+              <span className="tag tag-act">Private progress landscape</span>
+              <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>Local-only · session-powered · grows with you</span>
             </div>
-            <input type="text" value={moodNote} onChange={e => setMoodNote(e.target.value)}
-              placeholder="Optional: a quick note about today..."
-              style={{
-                width: "100%", padding: "10px 16px", fontSize: 13, border: "1px solid var(--border, rgba(0,0,0,0.08))",
-                borderRadius: "var(--radius-md, 12px)", background: "var(--bg-primary, #FDFAF6)",
-                color: "var(--text-primary)", fontFamily: "'DM Sans', sans-serif", marginBottom: 12, boxSizing: "border-box",
-              }} />
-            <button onClick={logMood} disabled={selectedMood === null} className="garden-btn" style={{
-              width: "100%", padding: 12, fontSize: 14, fontWeight: 500,
-              background: selectedMood !== null ? "var(--interactive, #7D9B82)" : "var(--border, rgba(0,0,0,0.06))",
-              color: selectedMood !== null ? "white" : "var(--text-muted, #9B9590)",
-              cursor: selectedMood !== null ? "pointer" : "not-allowed",
-            }}>
-              Log
-            </button>
-          </>
-        )}
+            <h1 style={{ margin: "0 0 14px", fontSize: "clamp(34px, 6vw, 58px)" }}>Mood Garden</h1>
+            <p style={{ margin: "0 0 22px", maxWidth: 720, color: "var(--text-secondary)", fontSize: 17, lineHeight: 1.8 }}>
+              Every technique, mood check-in, and quiet comeback adds to a private landscape that lives on this device. Not a feed. Not a streak trap. A calmer way to see your own momentum.
+            </p>
+
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 20 }}>
+              <a href="/start" className="btn-primary" style={{ textDecoration: "none" }}>Plant something new →</a>
+              <a href="#garden-biome" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>See your biome ↓</a>
+              <button onClick={handleShare} className="btn-ghost">Share garden</button>
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 10, marginBottom: 20 }} className="garden-stat-grid">
+              <div className="garden-card-sm" style={{ padding: 14 }}>
+                <span className="garden-label">Season</span>
+                <div style={{ fontFamily: "'Fraunces', serif", fontSize: 22 }}>{snapshot.season.label}</div>
+              </div>
+              <div className="garden-card-sm" style={{ padding: 14 }}>
+                <span className="garden-label">Streak</span>
+                <div style={{ fontFamily: "'Fraunces', serif", fontSize: 22 }}>{snapshot.streak} day{snapshot.streak === 1 ? "" : "s"}</div>
+              </div>
+              <div className="garden-card-sm" style={{ padding: 14 }}>
+                <span className="garden-label">Average shift</span>
+                <div style={{ fontFamily: "'Fraunces', serif", fontSize: 22 }}>{snapshot.averageShift > 0 ? "+" : ""}{snapshot.averageShift}</div>
+              </div>
+              <div className="garden-card-sm" style={{ padding: 14 }}>
+                <span className="garden-label">Active days</span>
+                <div style={{ fontFamily: "'Fraunces', serif", fontSize: 22 }}>{snapshot.activeDays30} / 30</div>
+              </div>
+            </div>
+
+            <div style={{ position: "relative", borderRadius: 28, overflow: "hidden", border: "1px solid rgba(122, 158, 126, 0.14)", background: "rgba(255,255,255,0.62)" }}>
+              <GardenSVG sessionCount={snapshot.totalSessions} emotions={allEmotions} streak={snapshot.streak} isPremium={isPremium} />
+              <div style={{ position: "absolute", left: 16, top: 16, padding: "10px 12px", borderRadius: 16, background: "rgba(255,255,255,0.82)", backdropFilter: "blur(10px)", boxShadow: "var(--shadow-sm)" }}>
+                <div className="garden-label" style={{ marginBottom: 4 }}>Landscape note</div>
+                <div style={{ fontSize: 13, color: "var(--text-primary)", lineHeight: 1.6 }}>{snapshot.season.description}</div>
+              </div>
+              <div style={{ position: "absolute", right: 16, bottom: 16, padding: "10px 12px", borderRadius: 16, background: "rgba(255,255,255,0.82)", backdropFilter: "blur(10px)", boxShadow: "var(--shadow-sm)", textAlign: "right" }}>
+                <div className="garden-label" style={{ marginBottom: 4 }}>Last planted</div>
+                <div style={{ fontSize: 13, color: "var(--text-primary)", lineHeight: 1.6 }}>
+                  {snapshot.latestSession
+                    ? `${snapshot.latestSession.techniqueName} · ${snapshot.latestSessionLabel}`
+                    : "Your first session will plant the first seed."}
+                </div>
+              </div>
+            </div>
+
+            {syncInfo.imported > 0 && (
+              <p style={{ margin: "14px 0 0", fontSize: 12, color: "var(--text-muted)" }}>
+                Synced {syncInfo.imported} earlier session{syncInfo.imported === 1 ? "" : "s"} into your Garden.
+              </p>
+            )}
+          </div>
+
+          <div style={{ display: "grid", gap: 16 }}>
+            <div className="garden-card">
+              <span className="garden-label">Today in your garden</span>
+              {snapshot.latestSession ? (
+                <>
+                  <h2 style={{ margin: "0 0 10px", fontSize: "clamp(24px, 4vw, 30px)" }}>
+                    {snapshot.latestSession.techniqueName}
+                  </h2>
+                  <p style={{ margin: "0 0 16px", color: "var(--text-secondary)", lineHeight: 1.75 }}>
+                    Your latest planted moment was {snapshot.latestSessionLabel}, with a {latestShiftTone.label.toLowerCase()} of {snapshot.latestSession.shift > 0 ? "+" : ""}{snapshot.latestSession.shift ?? 0}.
+                  </p>
+                  <div style={{ display: "grid", gap: 10 }}>
+                    <div className="garden-card-sm" style={{ padding: 14 }}>
+                      <span className="garden-label">Most visited bloom</span>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                        <div style={{ width: 14, height: 14, borderRadius: 999, background: snapshot.topEmotion?.color || "var(--sage)", border: `1px solid ${snapshot.topEmotion?.stem || "var(--sage-deep)"}` }} />
+                        <div>
+                          <div style={{ fontWeight: 700 }}>{snapshot.topEmotion?.name || "No bloom yet"}</div>
+                          <div style={{ fontSize: 13, color: "var(--text-secondary)" }}>{snapshot.topEmotion ? `${snapshot.topEmotion.bloom} · ${snapshot.topEmotion.count} sessions` : "Try a first session to start."}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="garden-card-sm" style={{ padding: 14 }}>
+                      <span className="garden-label">Most used tool</span>
+                      <div style={{ fontWeight: 700 }}>{snapshot.topTechnique?.name || "Not enough data yet"}</div>
+                      <div style={{ fontSize: 13, color: "var(--text-secondary)" }}>{snapshot.topTechnique ? `Used ${snapshot.topTechnique.count} time${snapshot.topTechnique.count === 1 ? "" : "s"}` : "Your repeat-help patterns will show up here."}</div>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h2 style={{ margin: "0 0 10px", fontSize: "clamp(24px, 4vw, 30px)" }}>A blank plot, on purpose.</h2>
+                  <p style={{ margin: "0 0 16px", color: "var(--text-secondary)", lineHeight: 1.75 }}>
+                    The Garden only grows from moments you actually complete. The first tool you finish becomes the first visible seed.
+                  </p>
+                  <a href="/start" className="btn-primary" style={{ textDecoration: "none", width: "fit-content" }}>Start your first session →</a>
+                </>
+              )}
+            </div>
+
+            <div className="garden-card">
+              <span className="garden-label">Milestones</span>
+              <div style={{ display: "grid", gap: 10 }}>
+                {snapshot.unlockedMilestones.slice(-3).map((milestone) => (
+                  <div key={milestone.id} className="garden-card-sm" style={{ padding: 14, display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center" }}>
+                    <div>
+                      <div style={{ fontWeight: 700 }}>{milestone.label}</div>
+                      <div style={{ fontSize: 13, color: "var(--text-secondary)" }}>Unlocked at {milestone.threshold} {milestone.unit}</div>
+                    </div>
+                    <span className="tag tag-free">Unlocked</span>
+                  </div>
+                ))}
+                {snapshot.nextMilestone && (
+                  <div className="garden-card-sm" style={{ padding: 14, borderStyle: "dashed" }}>
+                    <div style={{ fontWeight: 700, marginBottom: 4 }}>Next: {snapshot.nextMilestone.label}</div>
+                    <div style={{ fontSize: 13, color: "var(--text-secondary)", marginBottom: 8 }}>
+                      {Math.max(snapshot.nextMilestone.threshold - snapshot.totalSessions, 0)} more session{snapshot.nextMilestone.threshold - snapshot.totalSessions === 1 ? "" : "s"} to reach it.
+                    </div>
+                    <div className="progress" aria-label="Milestone progress">
+                      <div className="progress-fill" style={{ width: `${Math.min((snapshot.totalSessions / snapshot.nextMilestone.threshold) * 100, 100)}%` }} />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="garden-card">
+              <span className="garden-label">Daily check-in</span>
+              {moodLogged ? (
+                <div style={{ textAlign: "center", padding: "8px 0 4px" }}>
+                  <div style={{ fontSize: 32, marginBottom: 8 }}>🌱</div>
+                  <div style={{ fontWeight: 700, marginBottom: 4 }}>Mood logged.</div>
+                  <p style={{ margin: 0, fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.6 }}>
+                    Your Garden registered today’s state. Come back tomorrow to keep the rhythm going.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <p style={{ margin: "0 0 12px", fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.7 }}>
+                    Quick mood check-ins help the Garden track more than outcomes. They show what the week actually felt like.
+                  </p>
+                  <div style={{ display: "flex", justifyContent: "space-between", gap: 8, flexWrap: "wrap", marginBottom: 14 }}>
+                    {MOOD_OPTIONS.map((option) => (
+                      <button
+                        key={option.value}
+                        type="button"
+                        onClick={() => setSelectedMood(option.value)}
+                        style={{
+                          flex: "1 1 72px",
+                          minWidth: 72,
+                          padding: "10px 8px",
+                          borderRadius: 16,
+                          border: selectedMood === option.value ? "1.5px solid var(--sage)" : "1px solid var(--border)",
+                          background: selectedMood === option.value ? "var(--sage-light)" : "var(--surface)",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <div style={{ fontSize: 24 }}>{option.emoji}</div>
+                        <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4 }}>{option.label}</div>
+                      </button>
+                    ))}
+                  </div>
+                  <input
+                    type="text"
+                    value={moodNote}
+                    onChange={(event) => setMoodNote(event.target.value)}
+                    placeholder="Optional: what did today feel like?"
+                    style={{ width: "100%", marginBottom: 12, padding: "12px 14px", borderRadius: 14, border: "1px solid var(--border)", background: "var(--surface)" }}
+                  />
+                  <button onClick={logMood} disabled={selectedMood === null} className="btn-primary" style={{ width: "100%", opacity: selectedMood === null ? 0.55 : 1 }}>
+                    Log today →
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
       </section>
 
-      {/* ═══ STATS ═══ */}
-      <section>
-        <h2 style={{ fontFamily: "Fraunces, serif", fontSize: 22, fontWeight: 400, color: "var(--text-primary)", margin: "0 0 16px" }}>
-          Your Stats
-        </h2>
+      <section style={{ marginBottom: 28 }}>
+        <div className="garden-metric-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 14 }}>
+          <GardenStat label="Sessions planted" value={snapshot.totalSessions} detail={`${snapshot.weeklySessions} in the last 7 days`} />
+          <GardenStat label="Emotions explored" value={snapshot.emotionsExplored} detail={snapshot.topEmotion ? `${snapshot.topEmotion.bloom} leads the season` : "Your first session unlocks this view"} tone="var(--ocean-deep)" />
+          <GardenStat label="Mood check-ins" value={snapshot.totalMoodCheckins} detail={snapshot.moodAverage ? `${snapshot.moodAverage}/5 average mood check-in` : "Daily notes make the landscape richer"} tone="var(--amber-deep)" />
+          <GardenStat label="Improving sessions" value={`${snapshot.improvingShare}%`} detail="Sessions with a positive mood shift" tone="var(--rose-deep)" />
+        </div>
+      </section>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
-          <div className="garden-card-sm">
-            <span className="garden-label">Current Streak</span>
-            <span style={{ fontSize: 28, fontWeight: 300, color: "var(--text-primary)" }}>🌱 {streak}</span>
-            <span style={{ fontSize: 13, color: "var(--text-secondary)", marginLeft: 4 }}>day{streak !== 1 ? "s" : ""} in a row</span>
-            {streak > 0 && (
-              <div style={{ marginTop: 10, height: 4, background: "var(--border, rgba(0,0,0,0.06))", borderRadius: 2, overflow: "hidden" }}>
-                <div style={{ height: "100%", borderRadius: 2, background: "linear-gradient(90deg, var(--garden-growth, #8BAE8B), var(--garden-bloom, #D4A98E))", width: `${Math.min(streak/30*100, 100)}%`, transition: "width 0.5s" }} />
+      <section style={{ marginBottom: 28 }}>
+        <div className="garden-bottom-grid" style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(320px, 0.92fr)", gap: 20 }}>
+          <div className="garden-card" style={{ background: "linear-gradient(145deg, rgba(255,255,255,0.9), rgba(232,240,232,0.55))" }}>
+            <span className="garden-label">Season story</span>
+            <h2 style={{ margin: "0 0 10px" }}>{snapshot.seasonStory.title}</h2>
+            <p style={{ margin: "0 0 18px", color: "var(--text-secondary)", lineHeight: 1.8, maxWidth: 720 }}>
+              {snapshot.seasonStory.body}
+            </p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+              <span className="tag tag-act">{snapshot.season.label}</span>
+              {snapshot.topEmotion && <span className="tag tag-cbt">{snapshot.topEmotion.bloom}</span>}
+              {snapshot.topTechnique && <span className="tag tag-somatic">{snapshot.topTechnique.name}</span>}
+              <span className="tag tag-free">{snapshot.averageShift > 0 ? `${snapshot.averageShift > 0 ? "+" : ""}${snapshot.averageShift} avg shift` : "Pattern forming"}</span>
+            </div>
+          </div>
+
+          <div className="garden-card">
+            <span className="garden-label">Recent path</span>
+            {snapshot.recentTrail.length ? (
+              <div style={{ display: "grid", gap: 14 }}>
+                <div style={{ display: "grid", gridTemplateColumns: `repeat(${snapshot.recentTrail.length}, minmax(0, 1fr))`, gap: 10, alignItems: "end" }}>
+                  {snapshot.recentTrail.map((step, index) => (
+                    <div key={step.id} style={{ display: "grid", gap: 8, justifyItems: "center" }}>
+                      <div style={{ fontSize: 11, color: "var(--text-muted)", textAlign: "center", minHeight: 30 }}>
+                        {step.label}
+                      </div>
+                      <div style={{
+                        width: 16,
+                        height: 16,
+                        borderRadius: 999,
+                        background: step.color,
+                        border: `2px solid ${step.stem}`,
+                        boxShadow: "0 0 0 8px rgba(255,255,255,0.55)",
+                      }} />
+                      {index < snapshot.recentTrail.length - 1 && (
+                        <div style={{ width: "100%", height: 2, background: "linear-gradient(90deg, rgba(122,158,126,0.28), rgba(107,152,184,0.16))", marginTop: -9 }} />
+                      )}
+                      <div style={{ textAlign: "center" }}>
+                        <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-primary)", lineHeight: 1.5 }}>{step.emotionLabel}</div>
+                        <div style={{ fontSize: 11, color: "var(--text-secondary)", lineHeight: 1.5 }}>{step.techniqueName}</div>
+                        <div style={{ fontSize: 11, color: typeof step.shift === "number" && step.shift > 0 ? "var(--sage-deep)" : "var(--text-muted)" }}>
+                          {typeof step.shift === "number" ? `${step.shift > 0 ? "+" : ""}${step.shift} shift` : "No shift logged"}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <p style={{ margin: 0, fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.65 }}>
+                  A small trail of the last few sessions, so progress reads like a path instead of a pile of numbers.
+                </p>
+              </div>
+            ) : (
+              <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.75 }}>
+                Finish a few sessions and the Garden will draw a visible trail of how you have been finding your way back.
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <section id="garden-biome" style={{ marginBottom: 28 }}>
+        <div className="garden-bottom-grid" style={{ display: "grid", gridTemplateColumns: "minmax(0, 1.15fr) minmax(320px, 0.85fr)", gap: 20 }}>
+          <div className="garden-card">
+            <span className="garden-label">Emotional biome</span>
+            <h2 style={{ margin: "0 0 10px" }}>What keeps returning, and what keeps helping</h2>
+            <p style={{ margin: "0 0 18px", color: "var(--text-secondary)", lineHeight: 1.75 }}>
+              Each bloom tracks a feeling you have worked with. Repetition shows where life keeps pressing. Average shift shows where relief is actually showing up.
+            </p>
+
+            {snapshot.biome.length ? (
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 }}>
+                {snapshot.biome.map((entry) => (
+                  <article key={entry.id} className="garden-card-sm" style={{ display: "grid", gap: 10 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start" }}>
+                      <div>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+                          <div style={{ width: 14, height: 14, borderRadius: 999, background: entry.color, border: `1px solid ${entry.stem}` }} />
+                          <span className="garden-label" style={{ marginBottom: 0 }}>{entry.plantName}</span>
+                        </div>
+                        <h3 style={{ margin: 0, fontSize: 20 }}>{entry.label}</h3>
+                      </div>
+                      <span className="tag tag-cbt">{entry.sessions} session{entry.sessions === 1 ? "" : "s"}</span>
+                    </div>
+                    <p style={{ margin: 0, fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.65 }}>{entry.note}</p>
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: 12, fontSize: 13 }}>
+                      <span style={{ color: "var(--text-secondary)" }}>Avg shift <strong style={{ color: entry.averageShift >= 0 ? "var(--sage-deep)" : "var(--warning)" }}>{entry.averageShift > 0 ? "+" : ""}{entry.averageShift}</strong></span>
+                      <span style={{ color: "var(--text-muted)" }}>Last seen {entry.lastSeen}</span>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <div className="garden-card-sm" style={{ textAlign: "center" }}>
+                <div style={{ fontSize: 30, marginBottom: 8 }}>🌱</div>
+                <p style={{ margin: "0 0 12px", color: "var(--text-secondary)", lineHeight: 1.7 }}>
+                  This section lights up after your first completed intervention.
+                </p>
+                <a href="/start" className="btn-primary" style={{ textDecoration: "none" }}>Start now →</a>
               </div>
             )}
           </div>
-          <div className="garden-card-sm">
-            <span className="garden-label">Total Sessions</span>
-            <span style={{ fontSize: 28, fontWeight: 300, color: "var(--text-primary)" }}>{sessions.length}</span>
-            <span style={{ fontSize: 13, color: "var(--text-secondary)", marginLeft: 4 }}>completed</span>
+
+          <div style={{ display: "grid", gap: 16 }}>
+            <div className="garden-card">
+              <span className="garden-label">Growth notes</span>
+              <div style={{ display: "grid", gap: 12 }}>
+                <div className="garden-card-sm" style={{ padding: 14 }}>
+                  <div className="garden-label" style={{ marginBottom: 4 }}>Momentum</div>
+                  <div style={{ fontWeight: 700, marginBottom: 4 }}>{snapshot.weeklySessions} session{snapshot.weeklySessions === 1 ? "" : "s"} this week</div>
+                  <p style={{ margin: 0, fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.65 }}>
+                    {snapshot.weeklySessions > 0
+                      ? "Recent activity gives the Garden enough signal to spot patterns quickly."
+                      : "A couple of sessions this week will make the first pattern visible."}
+                  </p>
+                </div>
+
+                <div className="garden-card-sm" style={{ padding: 14 }}>
+                  <div className="garden-label" style={{ marginBottom: 4 }}>Blueprint</div>
+                  <div style={{ fontWeight: 700, marginBottom: 4 }}>{snapshot.latestBlueprint?.archetype || "No blueprint saved yet"}</div>
+                  <p style={{ margin: 0, fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.65 }}>
+                    {snapshot.latestBlueprint
+                      ? "Your latest blueprint is stored here as part of the same local progress story."
+                      : "When you complete the blueprint, it will join the rest of your Garden history."}
+                  </p>
+                </div>
+
+                <div className="garden-card-sm" style={{ padding: 14 }}>
+                  <div className="garden-label" style={{ marginBottom: 4 }}>Privacy</div>
+                  <div style={{ fontWeight: 700, marginBottom: 4 }}>All local. No server profile.</div>
+                  <p style={{ margin: 0, fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.65 }}>
+                    Your sessions, notes, and mood check-ins stay on this device unless you explicitly export them.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <WeeklyInsightsClient isPremium={isPremium} />
           </div>
         </div>
+      </section>
 
-        {/* Emotions Explored */}
-        <div className="garden-card-sm" style={{ marginBottom: 12 }}>
-          <span className="garden-label">Emotions Explored</span>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-            {Object.entries(EMOTION_PLANTS).map(([id, plant]) => {
-              const count = emotionCounts[id] || 0;
-              return (
-                <div key={id} style={{
-                  display: "flex", alignItems: "center", gap: 5, padding: "5px 10px", borderRadius: 20,
-                  background: count > 0 ? "var(--accent-sage-light, #E8F0E9)" : "var(--border, rgba(0,0,0,0.03))",
-                  opacity: count > 0 ? 1 : 0.4,
-                }}>
-                  <div style={{ width: 10, height: 10, borderRadius: "50%", background: count > 0 ? plant.color : "#ccc", border: `1px solid ${count > 0 ? plant.stem : "#ddd"}` }} />
-                  <span style={{ fontSize: 11, color: "var(--text-primary)" }}>{plant.name}</span>
-                  {count > 0 && <span style={{ fontSize: 10, color: "var(--text-muted)", opacity: 0.6 }}>×{count}</span>}
-                </div>
-              );
-            })}
-          </div>
+      <section style={{ marginBottom: 28 }}>
+        <div className="garden-action-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 14 }}>
+          <button onClick={() => isPremium ? handleExportPDF() : (window.location.href = "/companion")} className="garden-card-sm" style={{ cursor: "pointer", textAlign: "left", fontFamily: "'DM Sans', sans-serif" }}>
+            <span className="garden-label">Export</span>
+            <div style={{ fontWeight: 700, marginBottom: 6 }}>Print a progress summary</div>
+            <p style={{ margin: 0, fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.65 }}>
+              {isPremium ? "Create a clean PDF snapshot for yourself or a therapist." : "Premium unlocks printable summaries from your private Garden."}
+            </p>
+          </button>
+
+          <button onClick={handleExportJSON} className="garden-card-sm" style={{ cursor: "pointer", textAlign: "left", fontFamily: "'DM Sans', sans-serif" }}>
+            <span className="garden-label">Archive</span>
+            <div style={{ fontWeight: 700, marginBottom: 6 }}>Export your raw data</div>
+            <p style={{ margin: 0, fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.65 }}>
+              Download sessions, mood check-ins, streaks, and insights as JSON.
+            </p>
+          </button>
+
+          <button onClick={handleShare} className="garden-card-sm" style={{ cursor: "pointer", textAlign: "left", fontFamily: "'DM Sans', sans-serif" }}>
+            <span className="garden-label">Share</span>
+            <div style={{ fontWeight: 700, marginBottom: 6 }}>Share your milestone</div>
+            <p style={{ margin: 0, fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.65 }}>
+              Share the existence of your progress without exposing private details.
+            </p>
+          </button>
         </div>
+      </section>
 
-        {/* Most Used Technique */}
-        {topTechnique && (
-          <div className="garden-card-sm" style={{ marginBottom: 12 }}>
-            <span className="garden-label">Most Used Technique</span>
-            <span style={{ fontSize: 15, color: "var(--text-primary)" }}>{topTechnique[0]}</span>
-            <span style={{ fontSize: 12, color: "var(--text-muted)", marginLeft: 6 }}>used {topTechnique[1]} time{topTechnique[1] > 1 ? "s" : ""}</span>
-          </div>
-        )}
-
-        {/* Blueprint History (premium) */}
-        {isPremium && blueprints.length > 0 && (
-          <div className="garden-card-sm" style={{ marginBottom: 12 }}>
-            <span className="garden-label">Blueprint History</span>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              {blueprints.map((b, i) => (
-                <div key={b.id} style={{
-                  padding: "8px 14px", borderRadius: "var(--radius-md, 12px)",
-                  background: i === 0 ? "var(--accent-sage-light, #E8F0E9)" : "var(--border, rgba(0,0,0,0.03))",
-                  border: i === 0 ? "1px solid var(--accent-sage, #7D9B82)" : "1px solid transparent",
-                }}>
-                  <span style={{ fontSize: 13, fontWeight: i === 0 ? 500 : 400, color: "var(--text-primary)" }}>{b.archetype}</span>
-                  <span style={{ fontSize: 10, color: "var(--text-muted)", display: "block", marginTop: 2 }}>
-                    {new Date(b.timestamp).toLocaleDateString("en-US", { month: "short", year: "numeric" })}
-                  </span>
-                </div>
-              ))}
+      {!isPremium && (
+        <section style={{ marginBottom: 28 }}>
+          <div className="garden-card" style={{ background: "linear-gradient(135deg, var(--amber-light), color-mix(in srgb, var(--surface-elevated) 86%, white))", borderColor: "rgba(212, 168, 67, 0.18)" }}>
+            <span className="garden-label">Garden upgrades</span>
+            <h2 style={{ margin: "0 0 10px" }}>Make the Garden deeper, not louder</h2>
+            <p style={{ margin: "0 0 18px", color: "var(--text-secondary)", lineHeight: 1.75, maxWidth: 760 }}>
+              Premium keeps the free core intact and adds richer reflection surfaces: full bloom visuals, weekly insights, printable summaries, and deeper guided sessions through Talk to Forj.
+            </p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+              <a href="/companion" className="btn-primary" style={{ textDecoration: "none", background: "var(--amber-deep)" }}>Explore Premium →</a>
+              <a href="/start" className="btn-secondary" style={{ textDecoration: "none", color: "var(--amber-deep)", borderColor: "var(--amber)" }}>Keep using free tools →</a>
             </div>
           </div>
-        )}
+        </section>
+      )}
 
-        {/* Mood Trend (premium) */}
-        {isPremium && moods.length >= 2 && (
-          <div className="garden-card-sm" style={{ marginBottom: 12 }}>
-            <span className="garden-label">Mood Trend (Last 30 Days)</span>
-            <MoodSparkline moods={moods.slice().reverse()} />
-          </div>
-        )}
-
-        {/* Weekly Insights */}
-        <WeeklyInsightsClient isPremium={isPremium} />
-
-        {/* Premium upsell */}
-        {!isPremium && (sessions.length > 5 || moods.length >= 2) && (
-          <div className="garden-card" style={{ textAlign: "center", borderStyle: "dashed", cursor: "pointer", marginBottom: 12 }} onClick={() => window.location.href = "/"}>
-            <span style={{ fontSize: 24, display: "block", marginBottom: 8 }}>🌿</span>
-            <p style={{ fontSize: 14, color: "var(--text-primary)", margin: "0 0 4px", fontWeight: 500 }}>Unlock your full garden</p>
-            <p style={{ fontSize: 12, color: "var(--text-muted)", margin: "0 0 12px" }}>Full bloom, mood trends, Blueprint history, export PDF</p>
-            <span className="garden-btn" style={{ display: "inline-block", padding: "8px 20px", fontSize: 12, background: "var(--interactive, #7D9B82)", color: "white", fontWeight: 500 }}>
-              ✦ Unlock Premium
-            </span>
-          </div>
-        )}
-      </section>
-
-      {/* ═══ EXPORT & SHARE ═══ */}
-      <section style={{ marginTop: 32 }}>
-        <h2 style={{ fontFamily: "Fraunces, serif", fontSize: 22, fontWeight: 400, color: "var(--text-primary)", margin: "0 0 16px" }}>
-          Export &amp; Share
-        </h2>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
-          <button onClick={() => isPremium ? handleExportPDF() : (window.location.href = "/")} className="garden-card-sm" style={{
-            cursor: "pointer", textAlign: "center", fontFamily: "'DM Sans', sans-serif", position: "relative",
-          }}>
-            <span style={{ fontSize: 22, display: "block", marginBottom: 6 }}>📄</span>
-            <span style={{ fontSize: 13, color: "var(--text-primary)", fontWeight: 500, display: "block" }}>Export Progress</span>
-            <span style={{ fontSize: 10, color: "var(--text-muted)" }}>PDF for your therapist</span>
-            {!isPremium && <span style={{ position: "absolute", top: 8, right: 8, fontSize: 10 }}>🔒</span>}
-          </button>
-          <button onClick={() => {
-            const text = `I'm growing my mental wellness garden with Forj! 🌱 ${streak > 0 ? `${streak}-day streak! ` : ""}${sessions.length} sessions completed. — aiforj.com`;
-            if (navigator.share) navigator.share({ title: "My Forj Garden", text, url: "https://aiforj.com" }).catch(() => {});
-            else navigator.clipboard?.writeText(text).then(() => alert("Copied to clipboard!")).catch(() => {});
-          }} className="garden-card-sm" style={{ cursor: "pointer", textAlign: "center", fontFamily: "'DM Sans', sans-serif" }}>
-            <span style={{ fontSize: 22, display: "block", marginBottom: 6 }}>🌿</span>
-            <span style={{ fontSize: 13, color: "var(--text-primary)", fontWeight: 500, display: "block" }}>Share Garden</span>
-            <span style={{ fontSize: 10, color: "var(--text-muted)" }}>Share your milestone</span>
-          </button>
-        </div>
-        <button onClick={handleExportJSON} style={{
-          width: "100%", padding: 14, borderRadius: "var(--radius-md, 12px)",
-          border: "1px solid var(--border, rgba(0,0,0,0.08))", background: "transparent",
-          cursor: "pointer", fontSize: 13, color: "var(--text-secondary)", fontFamily: "'DM Sans', sans-serif",
-        }}>
-          📦 Export My Data (JSON)
-        </button>
-      </section>
-
-      {/* ═══ DELETE ═══ */}
-      <section style={{ marginTop: 48, paddingTop: 24, borderTop: "1px solid var(--border, rgba(0,0,0,0.06))" }}>
-        <button onClick={() => setShowDeleteModal(true)} style={{
-          width: "100%", padding: 12, borderRadius: "var(--radius-md, 12px)",
-          border: "1px solid rgba(200,80,80,0.2)", background: "rgba(200,80,80,0.04)",
-          cursor: "pointer", fontSize: 13, color: "#A05050", fontFamily: "'DM Sans', sans-serif",
-        }}>
-          Delete All My Data
+      <section style={{ marginTop: 40, paddingTop: 24, borderTop: "1px solid var(--border)" }}>
+        <button
+          onClick={() => setShowDeleteModal(true)}
+          style={{
+            width: "100%",
+            padding: 12,
+            borderRadius: "var(--radius-md)",
+            border: "1px solid rgba(196, 91, 91, 0.2)",
+            background: "rgba(196, 91, 91, 0.05)",
+            cursor: "pointer",
+            fontSize: 13,
+            color: "var(--error)",
+            fontFamily: "'DM Sans', sans-serif",
+          }}
+        >
+          Delete all Garden data
         </button>
         <p style={{ fontSize: 11, color: "var(--text-muted)", textAlign: "center", marginTop: 8, lineHeight: 1.6 }}>
-          All data is stored locally on your device. Nothing is on any server.
+          All Garden data is stored locally on your device. Deleting it cannot be undone.
         </p>
       </section>
 
-      {/* ═══ DELETE MODAL ═══ */}
       {showDeleteModal && (
-        <div style={{
-          position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", backdropFilter: "blur(8px)",
-          display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000, padding: 24,
-        }} onClick={() => setShowDeleteModal(false)}>
-          <div onClick={e => e.stopPropagation()} style={{
-            background: "var(--bg-primary, #FDFAF6)", borderRadius: "var(--radius-lg, 24px)",
-            padding: 32, maxWidth: 400, width: "100%", boxShadow: "0 24px 80px rgba(0,0,0,0.15)",
-          }}>
-            <h3 style={{ fontFamily: "Fraunces, serif", fontSize: 20, fontWeight: 400, color: "var(--text-primary)", margin: "0 0 12px" }}>Delete all data?</h3>
-            <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.7, margin: "0 0 24px" }}>
-              This will permanently erase your garden, sessions, mood check-ins, and all local data. <strong>This cannot be undone.</strong>
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.42)",
+            backdropFilter: "blur(8px)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000,
+            padding: 24,
+          }}
+          onClick={() => setShowDeleteModal(false)}
+        >
+          <div
+            onClick={(event) => event.stopPropagation()}
+            style={{
+              background: "var(--surface-elevated)",
+              borderRadius: "var(--radius-xl)",
+              padding: 32,
+              maxWidth: 420,
+              width: "100%",
+              boxShadow: "var(--shadow-lg)",
+            }}
+          >
+            <h3 style={{ margin: "0 0 12px" }}>Delete everything?</h3>
+            <p style={{ margin: "0 0 20px", color: "var(--text-secondary)", lineHeight: 1.7 }}>
+              This will erase your Garden, sessions, mood check-ins, blueprint history, and weekly insights from this device.
             </p>
             <div style={{ display: "flex", gap: 12 }}>
-              <button onClick={() => setShowDeleteModal(false)} style={{
-                flex: 1, padding: 12, borderRadius: "var(--radius-md, 12px)",
-                border: "1px solid var(--border)", background: "transparent", cursor: "pointer",
-                fontSize: 14, color: "var(--text-primary)", fontFamily: "'DM Sans', sans-serif",
-              }}>Cancel</button>
-              <button onClick={handleDeleteAll} style={{
-                flex: 1, padding: 12, borderRadius: "var(--radius-md, 12px)", border: "none",
-                background: "#C05050", cursor: "pointer", fontSize: 14, color: "white", fontWeight: 500,
-                fontFamily: "'DM Sans', sans-serif",
-              }}>Delete Everything</button>
+              <button onClick={() => setShowDeleteModal(false)} className="btn-secondary" style={{ flex: 1 }}>Cancel</button>
+              <button onClick={handleDeleteAll} className="btn-primary" style={{ flex: 1, background: "var(--error)" }}>Delete all</button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Footer */}
-      <footer style={{ textAlign: "center", padding: "24px 0 0", marginTop: 40 }}>
+      <footer style={{ textAlign: "center", padding: "28px 0 0", marginTop: 20 }}>
         <p style={{ fontSize: 11, color: "var(--text-muted)", lineHeight: 1.7 }}>
-          AIForj — Built by AIForj Team and clinically informed by a Licensed Healthcare Provider<br />
-          Your data never leaves your device. Privacy is not a feature — it&apos;s the foundation.
+          AIForj — Built by AIForj Team and clinically informed by a Licensed Healthcare Provider
+          <br />
+          Your data never leaves your device. Privacy is not a feature. It is the foundation.
         </p>
       </footer>
     </div>

@@ -2,6 +2,7 @@
 
 import EmailCapture from "./EmailCapture";
 import { emotionOptions } from "../start/emotionData";
+import useScrollReveal from "../hooks/useScrollReveal";
 import PremiumCheckoutButton from "../../components/monetization/PremiumCheckoutButton";
 
 const GUMROAD_WORKBOOK_URL = "https://aiforj.gumroad.com/l/jmdqvd";
@@ -45,6 +46,16 @@ const HELP_LINKS = [
   { href: "/help/self-worth", label: "Self-worth" },
 ];
 
+function RevealSection({ as: Component = "section", children, className = "", style, ...props }) {
+  const ref = useScrollReveal();
+
+  return (
+    <Component ref={ref} className={`reveal ${className}`.trim()} style={style} {...props}>
+      {children}
+    </Component>
+  );
+}
+
 function SectionHeader({ eyebrow, title, children }) {
   return (
     <div style={{ textAlign: "center", marginBottom: 44 }}>
@@ -82,6 +93,86 @@ function WorkbookCard({ compact = false }) {
         <span style={{ color: "var(--amber-deep)", fontWeight: 700 }}>Get the workbook →</span>
       </article>
     </a>
+  );
+}
+
+function GardenShowcase() {
+  return (
+    <RevealSection style={{ padding: "84px 24px", background: "var(--surface)" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        <SectionHeader eyebrow="Mood Garden" title="Progress you can actually see">
+          Every completed tool, mood check-in, and streak quietly grows a private landscape on your device.
+        </SectionHeader>
+        <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(320px, 0.95fr)", gap: 22, alignItems: "center" }} className="home-value-grid">
+          <article className="card" style={{ display: "grid", gap: 16 }}>
+            <h3 style={{ margin: 0 }}>A private progress layer, not another dashboard.</h3>
+            <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.8 }}>
+              Mood Garden turns your sessions into something tangible: the feelings you have worked with, the tools you return to, the shifts that actually help, and the rhythm you are building over time.
+            </p>
+            <div style={{ display: "grid", gap: 10 }}>
+              {[
+                "Sessions plant new blooms tied to emotional states",
+                "Mood check-ins deepen the picture without leaving your device",
+                "Weekly insights and exports are there when you want reflection",
+              ].map((line) => (
+                <div key={line} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                  <span style={{ color: "var(--sage-deep)", fontWeight: 700 }}>•</span>
+                  <span style={{ color: "var(--text-secondary)", lineHeight: 1.7 }}>{line}</span>
+                </div>
+              ))}
+            </div>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+              <a href="/garden" className="btn-primary" style={{ textDecoration: "none" }}>Open Mood Garden →</a>
+              <a href="/start" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>Plant your first session →</a>
+            </div>
+          </article>
+
+          <article className="card" style={{ padding: 0, overflow: "hidden", background: "linear-gradient(180deg, rgba(232,240,232,0.9), rgba(250,246,240,0.96))" }}>
+            <div style={{ padding: "24px 24px 12px", display: "flex", justifyContent: "space-between", gap: 16, alignItems: "flex-start" }}>
+              <div>
+                <p className="text-label" style={{ margin: "0 0 6px", color: "var(--sage-deep)" }}>Private landscape</p>
+                <h3 style={{ margin: 0 }}>Mood Garden</h3>
+              </div>
+              <span className="tag tag-free">Local-only</span>
+            </div>
+            <div style={{ position: "relative", padding: "0 24px 24px" }}>
+              <div style={{ borderRadius: 24, overflow: "hidden", border: "1px solid rgba(122,158,126,0.12)", background: "rgba(255,255,255,0.7)" }}>
+                <div style={{ height: 220, position: "relative", background: "linear-gradient(180deg, rgba(224,237,245,0.9), rgba(250,246,240,0.98))" }}>
+                  <div style={{ position: "absolute", top: 26, right: 38, width: 42, height: 42, borderRadius: "50%", background: "rgba(245,230,160,0.82)" }} />
+                  <div style={{ position: "absolute", top: 44, left: 54, width: 68, height: 22, borderRadius: 999, background: "rgba(255,255,255,0.72)" }} />
+                  <div style={{ position: "absolute", top: 30, left: 120, width: 52, height: 18, borderRadius: 999, background: "rgba(255,255,255,0.62)" }} />
+                  <div style={{ position: "absolute", left: 22, right: 22, bottom: 18, height: 54, borderRadius: 24, background: "linear-gradient(180deg, #8B7355, #6B5335)" }} />
+                  {[
+                    { left: 70, stem: "#6B8C6B", bloom: "#9B8EC4", height: 72 },
+                    { left: 122, stem: "#5B8C5A", bloom: "#7AAFC4", height: 54 },
+                    { left: 182, stem: "#6B7F4A", bloom: "#C47A7A", height: 86 },
+                    { left: 244, stem: "#5A7A5A", bloom: "#E8E4F0", height: 64 },
+                    { left: 300, stem: "#6B8C5A", bloom: "#F5E6A0", height: 78 },
+                  ].map((plant) => (
+                    <div key={plant.left} style={{ position: "absolute", left: plant.left, bottom: 54, width: 30, height: plant.height }}>
+                      <div style={{ position: "absolute", left: 14, bottom: 0, width: 3, height: plant.height - 20, borderRadius: 999, background: plant.stem }} />
+                      <div style={{ position: "absolute", left: 4, top: 2, width: 22, height: 22, borderRadius: "50%", background: plant.bloom, boxShadow: `0 0 0 6px color-mix(in srgb, ${plant.bloom} 18%, transparent)` }} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginTop: 12 }}>
+                {[
+                  ["7", "day streak"],
+                  ["+2.4", "avg shift"],
+                  ["5", "blooms planted"],
+                ].map(([value, label]) => (
+                  <div key={label} style={{ padding: "12px 10px", borderRadius: 16, background: "rgba(255,255,255,0.86)", border: "1px solid rgba(45,42,38,0.06)", textAlign: "center" }}>
+                    <div style={{ fontFamily: "'Fraunces', serif", fontSize: 24, color: "var(--sage-deep)", lineHeight: 1 }}>{value}</div>
+                    <div className="text-label" style={{ marginTop: 6, color: "var(--text-muted)" }}>{label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </RevealSection>
   );
 }
 
@@ -144,10 +235,13 @@ export default function Homepage() {
           <p className="text-caption" style={{ margin: "18px auto 0", color: "var(--text-muted)" }}>
             No account needed. No data leaves your device. Takes 30 seconds.
           </p>
+          <p style={{ margin: "10px auto 0", fontSize: 14 }}>
+            Already using AIForj? <a href="/garden" style={{ fontWeight: 700 }}>Open your Mood Garden →</a>
+          </p>
         </div>
       </section>
 
-      <section id="how-it-works" style={{ padding: "84px 24px", maxWidth: 1100, margin: "0 auto" }}>
+      <RevealSection id="how-it-works" style={{ padding: "84px 24px", maxWidth: 1100, margin: "0 auto" }}>
         <SectionHeader eyebrow="How it works" title="Three steps to a calmer next minute" />
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 18 }}>
           {HOW_IT_WORKS.map((item, index) => (
@@ -159,9 +253,9 @@ export default function Homepage() {
             </article>
           ))}
         </div>
-      </section>
+      </RevealSection>
 
-      <section style={{ padding: "84px 24px", background: "var(--surface)" }}>
+      <RevealSection style={{ padding: "84px 24px", background: "var(--surface)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <SectionHeader eyebrow="Why AIForj" title="Clinical-grade support without clinical coldness">
             Built for moments when you need something more specific than “just breathe.”
@@ -191,9 +285,9 @@ export default function Homepage() {
             </article>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
-      <section style={{ padding: "84px 24px" }}>
+      <RevealSection style={{ padding: "84px 24px" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <SectionHeader eyebrow="Emotional states" title="Whatever you're feeling, there's a tool for it." />
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 14 }}>
@@ -220,9 +314,9 @@ export default function Homepage() {
             <a href="/start" className="btn-primary" style={{ textDecoration: "none" }}>Get started →</a>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
-      <section style={{ padding: "84px 24px", background: "var(--surface)" }}>
+      <RevealSection style={{ padding: "84px 24px", background: "var(--surface)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <SectionHeader eyebrow="Coverage" title="A broad toolkit for real moments">
             100+ interventions across 12 emotional states, 15 therapeutic modalities, and 7 interaction types.
@@ -241,9 +335,11 @@ export default function Homepage() {
             ))}
           </div>
         </div>
-      </section>
+      </RevealSection>
 
-      <section id="premium" style={{ padding: "84px 24px" }}>
+      <GardenShowcase />
+
+      <RevealSection id="premium" style={{ padding: "84px 24px" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <SectionHeader eyebrow="Go deeper" title="Free first aid stays free. Premium adds depth." />
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20 }}>
@@ -263,9 +359,9 @@ export default function Homepage() {
             </div>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
-      <section style={{ padding: "84px 24px", background: "var(--surface)" }}>
+      <RevealSection style={{ padding: "84px 24px", background: "var(--surface)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <SectionHeader eyebrow="Technique library" title="Explore techniques and guides">
             If you already know what you need, you can jump straight into a specific tool or support page.
@@ -281,13 +377,13 @@ export default function Homepage() {
             <a href="/techniques" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>Browse all techniques →</a>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
-      <section style={{ padding: "72px 24px" }}>
+      <RevealSection style={{ padding: "72px 24px" }}>
         <div style={{ maxWidth: 880, margin: "0 auto" }}>
           <EmailCapture />
         </div>
-      </section>
+      </RevealSection>
 
       <footer style={{ padding: "54px 24px 34px", background: "var(--parchment-deep)", borderTop: "1px solid var(--border)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gap: 34 }}>

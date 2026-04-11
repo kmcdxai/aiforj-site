@@ -8,6 +8,7 @@ import SoundToggle from "./SoundToggle";
 const NAV_LINKS = [
   { href: "/#how-it-works", label: "How it works" },
   { href: "/techniques", label: "Techniques" },
+  { href: "/garden", label: "Mood Garden" },
   { href: "/companion", label: "Talk to Forj" },
   { href: "https://aiforj.gumroad.com/l/jmdqvd", label: "CBT Workbook", external: true },
 ];

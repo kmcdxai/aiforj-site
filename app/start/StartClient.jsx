@@ -173,7 +173,7 @@ export default function StartClient() {
               <p style={{ margin: '0 0 24px', color: 'var(--text-secondary)' }}>
                 No judgment. Just pick what fits closest right now.
               </p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 14, justifyItems: 'center' }}>
+              <div className="emotion-grid">
                 {emotionOptions.map((emotion) => (
                   <EmotionCard
                     key={emotion.id}
@@ -335,6 +335,30 @@ export default function StartClient() {
                     Continue with Talk to Forj Premium →
                   </a>
                 )}
+              </div>
+
+              <div style={{
+                display: 'grid',
+                gap: 10,
+                padding: '18px',
+                borderRadius: 20,
+                border: '1px solid var(--border)',
+                background: 'color-mix(in srgb, var(--surface) 92%, white)',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+                  <div>
+                    <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.14em', color: 'var(--text-muted)', marginBottom: 6 }}>
+                      Mood Garden
+                    </div>
+                    <h3 style={{ margin: 0, fontSize: 18 }}>Track what actually helps you</h3>
+                  </div>
+                  <a href="/garden" className="btn-secondary" style={{ textDecoration: 'none', color: 'var(--ocean-deep)', borderColor: 'var(--ocean)' }}>
+                    Open Garden →
+                  </a>
+                </div>
+                <p style={{ margin: 0, fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+                  Completed tools and mood shifts can grow into a private progress landscape on this device, so the techniques that help stop disappearing into memory.
+                </p>
               </div>
             </section>
           )}

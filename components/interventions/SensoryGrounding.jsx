@@ -88,22 +88,53 @@ export default function SensoryGrounding({ onComplete }) {
             Everything you named is real and present. You are too.
           </p>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginBottom: 40 }}>
-            {allEntries.map((group) =>
-              group.items.map((item, j) => (
-                <div key={`${group.sense}-${j}`} style={{
-                  padding: '10px 18px',
-                  background: 'rgba(107,152,184,0.08)',
-                  borderRadius: 50,
-                  fontSize: 14,
-                  color: 'var(--text-primary)',
-                  border: '1px solid rgba(107,152,184,0.15)',
-                  animation: `groundedFadeIn 0.4s ease ${j * 0.08}s both`,
+          <div style={{ display: 'grid', gap: 12, marginBottom: 40 }}>
+            {allEntries.map((group, groupIndex) => (
+              <section
+                key={group.sense}
+                style={{
+                  padding: '16px 18px',
+                  borderRadius: 20,
+                  background: 'rgba(107,152,184,0.06)',
+                  border: '1px solid rgba(107,152,184,0.12)',
+                  animation: `groundedFadeIn 0.45s ease ${groupIndex * 0.08}s both`,
+                }}
+              >
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  marginBottom: 12,
                 }}>
-                  {group.emoji} {item}
+                  <span style={{ fontSize: 22 }}>{group.emoji}</span>
+                  <div style={{
+                    fontSize: 11,
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    color: '#6B98B8',
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontWeight: 600,
+                  }}>
+                    {group.sense}
+                  </div>
                 </div>
-              ))
-            )}
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                  {group.items.map((item, j) => (
+                    <div key={`${group.sense}-${j}`} style={{
+                      padding: '9px 14px',
+                      background: 'rgba(255,255,255,0.78)',
+                      borderRadius: 999,
+                      fontSize: 14,
+                      color: 'var(--text-primary)',
+                      border: '1px solid rgba(107,152,184,0.14)',
+                      animation: `groundedFadeIn 0.35s ease ${(groupIndex * 0.08) + (j * 0.04)}s both`,
+                    }}>
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </section>
+            ))}
           </div>
 
           <button onClick={onComplete} style={styles.primaryBtn}>
@@ -160,6 +191,30 @@ export default function SensoryGrounding({ onComplete }) {
         </div>
 
         {/* Input fields */}
+        {filledCount > 0 && (
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 10,
+            justifyContent: 'center',
+            marginBottom: 22,
+          }}>
+            {currentInputs.filter((value) => value.trim()).map((value, index) => (
+              <div key={`${senseIndex}-${index}-${value}`} style={{
+                padding: '8px 12px',
+                borderRadius: 999,
+                background: 'rgba(107,152,184,0.08)',
+                color: '#4D7693',
+                border: '1px solid rgba(107,152,184,0.14)',
+                fontSize: 13,
+                animation: 'groundedFloatIn 0.28s ease',
+              }}>
+                {value}
+              </div>
+            ))}
+          </div>
+        )}
+
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 32 }}>
           {currentInputs.map((val, idx) => (
             <div key={idx} style={{
@@ -229,6 +284,10 @@ export default function SensoryGrounding({ onComplete }) {
         @keyframes groundedFadeIn {
           from { opacity: 0; transform: translateY(8px); }
           to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes groundedFloatIn {
+          from { opacity: 0; transform: translateY(10px) scale(0.96); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
         }
       `}</style>
     </div>

@@ -518,6 +518,104 @@ async function run() {
     await start.close();
   }
 
+  const garden = await newPage('http://127.0.0.1:3000/garden');
+  try {
+    await garden.waitFor(`document.readyState === 'complete'`);
+    await delay(4000);
+    const gardenText = await garden.textSnapshot();
+    results.gardenTextSample = gardenText.slice(0, 1200);
+    results.garden = await garden.evaluate(`(() => {
+      const text = document.body.innerText;
+      const lower = text.toLowerCase();
+      const startLinks = [...document.querySelectorAll('a[href]')].filter((a) => a.getAttribute('href') === '/start').length;
+      return {
+        title: document.title,
+        hasHero: text.includes('Mood Garden') && lower.includes('private progress landscape'),
+        hasBiome: lower.includes('emotional biome'),
+        hasSeasonStory: lower.includes('season story'),
+        hasRecentPath: lower.includes('recent path'),
+        hasDailyCheckin: lower.includes('daily check-in'),
+        hasExport: lower.includes('export your raw data'),
+        hasMilestones: lower.includes('milestones'),
+        hasLatestSession: text.includes('5-4-3-2-1 Sensory Grounding'),
+        hasSessionCount: /sessions planted\\s+\\d+/i.test(text),
+        hasCompanionLink: [...document.querySelectorAll('a[href]')].some((a) => a.getAttribute('href') === '/companion'),
+        startLinks,
+      };
+    })()`);
+  } finally {
+    await garden.close();
+  }
+
+  const sigh = await newPage('http://127.0.0.1:3000/intervention/physiological-sigh?emotion=anxious&intensity=7&time=quick');
+  try {
+    await sigh.waitFor(`document.body.innerText.includes('Before we start')`);
+    await sigh.clickBySelector('[aria-label="Rate as Okay"]');
+    await sigh.clickByText('Let’s begin');
+    await sigh.waitFor(`document.body.innerText.includes('fastest evidence-backed way to calm your nervous system')`);
+    await sigh.clickByText('Begin breathing');
+    await sigh.waitFor(`document.body.innerText.includes("That's it. Three physiological sighs.")`, 45000);
+    results.physiologicalSigh = await sigh.evaluate(`(() => {
+      const text = document.body.innerText;
+      return {
+        hasCompletion: text.includes("That's it. Three physiological sighs."),
+        hasEvidence: text.includes('Huberman Lab / Stanford, 2023'),
+        hasParasympatheticCopy: text.includes('parasympathetic nervous system'),
+      };
+    })()`);
+    await sigh.clickByText('Continue');
+    await sigh.waitFor(`document.body.innerText.includes('How are you feeling now?')`);
+    await sigh.clickBySelector('[aria-label="Rate as Good"]');
+    await sigh.clickByText('See my results');
+    await sigh.waitFor(`document.body.innerText.includes('Your Mood Shift')`);
+    results.physiologicalSigh.hasReceipt = true;
+  } finally {
+    await sigh.close();
+  }
+
+  const story = await newPage('http://127.0.0.1:3000/intervention/name-the-story?emotion=anxious&intensity=7&time=quick');
+  try {
+    await story.waitFor(`document.body.innerText.includes('Before we start')`);
+    await story.clickBySelector('[aria-label="Rate as Okay"]');
+    await story.clickByText('Let’s begin');
+    await story.waitFor(`document.body.innerText.includes('Your mind is telling you a story right now')`);
+    await story.clickByText("Let's start");
+    await story.waitFor(`document.querySelectorAll('textarea').length === 1`);
+    await story.fillVisibleFields(['Something terrible is going to happen']);
+    await story.clickByText('Next');
+    await story.waitFor(`document.querySelectorAll('input[type="text"]').length === 1`);
+    await story.fillVisibleFields(['Everything Falls Apart: Part 47']);
+    await story.clickByText('See the poster');
+    await story.waitFor(`document.body.innerText.includes('Directed by:') && document.body.innerText.includes('Everything Falls Apart: Part 47')`);
+    const posterCheck = await story.evaluate(`(() => {
+      const text = document.body.innerText;
+      return {
+        hasPoster: text.includes('Directed by:') && text.includes('Everything Falls Apart: Part 47'),
+      };
+    })()`);
+    await story.clickByText('Practice the distance');
+    await story.waitFor(`document.body.innerText.toLowerCase().includes('the raw thought:') || document.body.innerText.toLowerCase().includes('creating distance')`);
+    await story.clickByText('Add more distance');
+    await story.clickByText('Add more distance');
+    results.nameTheStory = await story.evaluate(`(() => {
+      const text = document.body.innerText;
+      return {
+        hasPoster: ${JSON.stringify(true)},
+        hasDefusion: text.includes('I notice my mind is playing'),
+        hasPracticeCopy: text.includes("It loses power every time."),
+      };
+    })()`);
+    results.nameTheStory.hasPoster = posterCheck.hasPoster;
+    await story.clickByText('Continue');
+    await story.waitFor(`document.body.innerText.includes('How are you feeling now?')`);
+    await story.clickBySelector('[aria-label="Rate as Good"]');
+    await story.clickByText('See my results');
+    await story.waitFor(`document.body.innerText.includes('Your Mood Shift')`);
+    results.nameTheStory.hasReceipt = true;
+  } finally {
+    await story.close();
+  }
+
   console.log(JSON.stringify(results, null, 2));
 }
 
