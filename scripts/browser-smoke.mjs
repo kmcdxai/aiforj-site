@@ -1,4 +1,5 @@
 const DEVTOOLS_BASE = 'http://127.0.0.1:9223';
+const BASE_URL = process.env.BASE_URL || 'http://127.0.0.1:3000';
 
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -327,7 +328,7 @@ class CDPPage {
 async function run() {
   const results = {};
 
-  const home = await newPage('http://127.0.0.1:3000/');
+  const home = await newPage(`${BASE_URL}/`);
   try {
     await home.waitFor(`document.body.innerText.includes('Emotional first aid that actually works.')`);
     results.homepage = await home.evaluate(`(() => {
@@ -346,7 +347,7 @@ async function run() {
     await home.close();
   }
 
-  const themePage = await newPage('http://127.0.0.1:3000/');
+  const themePage = await newPage(`${BASE_URL}/`);
   try {
     await themePage.waitFor(`document.body.innerText.includes('Emotional first aid that actually works.')`);
     const before = await themePage.evaluate(`(() => ({
@@ -367,7 +368,7 @@ async function run() {
     await themePage.close();
   }
 
-  const mobileHome = await newPage('http://127.0.0.1:3000/', {
+  const mobileHome = await newPage(`${BASE_URL}/`, {
     width: 390,
     height: 844,
     mobile: true,
@@ -385,7 +386,7 @@ async function run() {
     await mobileHome.close();
   }
 
-  const mobileStart = await newPage('http://127.0.0.1:3000/start', {
+  const mobileStart = await newPage(`${BASE_URL}/start`, {
     width: 390,
     height: 844,
     mobile: true,
@@ -403,7 +404,7 @@ async function run() {
     await mobileStart.close();
   }
 
-  const safety = await newPage('http://127.0.0.1:3000/start');
+  const safety = await newPage(`${BASE_URL}/start`);
   try {
     await safety.waitFor(`document.body.innerText.includes('Self-Destructive')`);
     await safety.clickByText('Self-Destructive');
@@ -424,7 +425,7 @@ async function run() {
     await safety.close();
   }
 
-  const start = await newPage('http://127.0.0.1:3000/start');
+  const start = await newPage(`${BASE_URL}/start`);
   try {
     await start.waitFor(`document.body.innerText.includes('Anxious')`);
     results.startEmotionSet = await start.evaluate(`(() => {
@@ -518,7 +519,7 @@ async function run() {
     await start.close();
   }
 
-  const garden = await newPage('http://127.0.0.1:3000/garden');
+  const garden = await newPage(`${BASE_URL}/garden`);
   try {
     await garden.waitFor(`document.readyState === 'complete'`);
     await delay(4000);
@@ -547,7 +548,7 @@ async function run() {
     await garden.close();
   }
 
-  const sigh = await newPage('http://127.0.0.1:3000/intervention/physiological-sigh?emotion=anxious&intensity=7&time=quick');
+  const sigh = await newPage(`${BASE_URL}/intervention/physiological-sigh?emotion=anxious&intensity=7&time=quick`);
   try {
     await sigh.waitFor(`document.body.innerText.includes('Before we start')`);
     await sigh.clickBySelector('[aria-label="Rate as Okay"]');
@@ -573,7 +574,7 @@ async function run() {
     await sigh.close();
   }
 
-  const story = await newPage('http://127.0.0.1:3000/intervention/name-the-story?emotion=anxious&intensity=7&time=quick');
+  const story = await newPage(`${BASE_URL}/intervention/name-the-story?emotion=anxious&intensity=7&time=quick`);
   try {
     await story.waitFor(`document.body.innerText.includes('Before we start')`);
     await story.clickBySelector('[aria-label="Rate as Okay"]');

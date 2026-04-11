@@ -371,6 +371,7 @@ Smoke test confirmed:
 ### Browser smoke
 
 - `node scripts/browser-smoke.mjs` passed against a local production build.
+- `BASE_URL=https://aiforj.com node scripts/browser-smoke.mjs` passed against live production.
 
 ### Honest deviations still noted
 
