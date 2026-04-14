@@ -37,7 +37,7 @@ export default function StartClient() {
   const progress = Math.min(100, ((step - 1) / 3) * 100);
   const recommendations = useMemo(() => {
     if (!selectedEmotion || !timePref) return [];
-    return getInterventions(selectedEmotion.id, timePref);
+    return getInterventions(selectedEmotion.id, timePref).filter(i => !i.placeholder);
   }, [selectedEmotion, timePref]);
 
   useEffect(() => {
@@ -281,50 +281,68 @@ export default function StartClient() {
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gap: 14 }}>
-                {recommendations.map((intervention, index) => (
-                  <article
-                    key={intervention.id}
-                    style={{
-                      display: 'grid',
-                      gap: 14,
-                      padding: '22px',
-                      borderRadius: 22,
-                      background: index === 0 ? selectedEmotion.accentLight : 'var(--surface)',
-                      border: index === 0 ? `2px solid ${selectedEmotion.accent}` : '1px solid var(--border)',
-                      boxShadow: index === 0 ? 'var(--shadow-md)' : 'var(--shadow-sm)',
-                    }}
-                  >
-                    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
-                        {index === 0 && <Tag variant="free">Recommended for you</Tag>}
-                        <Tag variant={intervention.tier === 'premium' ? 'premium' : 'free'}>{intervention.tier}</Tag>
+              {recommendations.length > 0 ? (
+                <div style={{ display: 'grid', gap: 14 }}>
+                  {recommendations.map((intervention, index) => (
+                    <article
+                      key={intervention.id}
+                      style={{
+                        display: 'grid',
+                        gap: 14,
+                        padding: '22px',
+                        borderRadius: 22,
+                        background: index === 0 ? selectedEmotion.accentLight : 'var(--surface)',
+                        border: index === 0 ? `2px solid ${selectedEmotion.accent}` : '1px solid var(--border)',
+                        boxShadow: index === 0 ? 'var(--shadow-md)' : 'var(--shadow-sm)',
+                      }}
+                    >
+                      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
+                          {index === 0 && <Tag variant="free">Recommended for you</Tag>}
+                          <Tag variant={intervention.tier === 'premium' ? 'premium' : 'free'}>{intervention.tier}</Tag>
+                        </div>
+                        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: 'var(--text-muted)' }}>{intervention.timeMinutes} min</span>
                       </div>
-                      <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: 'var(--text-muted)' }}>{intervention.timeMinutes} min</span>
-                    </div>
-                    <div>
-                      <h3 style={{ margin: '0 0 8px' }}>{intervention.name || intervention.title}</h3>
-                      <p style={{ margin: 0, fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.65 }}>{intervention.description}</p>
-                    </div>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
-                      {(intervention.modalities || [intervention.modality]).filter(Boolean).map((modality) => (
-                        <Tag key={modality} variant={tagVariant(modality)}>{modality}</Tag>
-                      ))}
-                      <span style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 700 }}>{intervention.interactionLabel}</span>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-                      <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>{intervention.evidenceBase}</span>
-                      <a
-                        href={`/intervention/${intervention.id}?emotion=${selectedEmotion.id}&intensity=${intensity}&time=${timePref}`}
-                        className="btn-primary"
-                        style={{ background: selectedEmotion.accentDeep, textDecoration: 'none', padding: '10px 18px' }}
-                      >
-                        Start →
-                      </a>
-                    </div>
-                  </article>
-                ))}
-              </div>
+                      <div>
+                        <h3 style={{ margin: '0 0 8px' }}>{intervention.name || intervention.title}</h3>
+                        <p style={{ margin: 0, fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.65 }}>{intervention.description}</p>
+                      </div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
+                        {(intervention.modalities || [intervention.modality]).filter(Boolean).map((modality) => (
+                          <Tag key={modality} variant={tagVariant(modality)}>{modality}</Tag>
+                        ))}
+                        <span style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 700 }}>{intervention.interactionLabel}</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+                        <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>{intervention.evidenceBase}</span>
+                        <a
+                          href={`/intervention/${intervention.id}?emotion=${selectedEmotion.id}&intensity=${intensity}&time=${timePref}`}
+                          className="btn-primary"
+                          style={{ background: selectedEmotion.accentDeep, textDecoration: 'none', padding: '10px 18px' }}
+                        >
+                          Start →
+                        </a>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              ) : (
+                <div style={{ padding: '36px 24px', borderRadius: 22, background: 'var(--surface)', border: '1px solid var(--border)', textAlign: 'center' }}>
+                  <span style={{ fontSize: 36, display: 'block', marginBottom: 14 }}>🛠️</span>
+                  <h3 style={{ margin: '0 0 10px' }}>Interactive tools for {selectedEmotion.label.toLowerCase()} ({selectedTime.label.toLowerCase()}) are coming soon</h3>
+                  <p style={{ margin: '0 0 20px', color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: 14 }}>
+                    We're building clinically-informed interactive tools for this exact situation. In the meantime, you can try our available anxiety tools or talk to Forj for personalized support.
+                  </p>
+                  <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+                    <a href="/start?emotion=anxious" className="btn-primary" style={{ textDecoration: 'none', background: selectedEmotion.accentDeep }}>
+                      Try anxiety tools →
+                    </a>
+                    <a href="/companion" className="btn-secondary" style={{ textDecoration: 'none', color: 'var(--amber-deep)', borderColor: 'var(--amber)' }}>
+                      Talk to Forj →
+                    </a>
+                  </div>
+                </div>
+              )}
 
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
                 <a href="/techniques" style={{ color: selectedEmotion.accentDeep, fontWeight: 700 }}>
