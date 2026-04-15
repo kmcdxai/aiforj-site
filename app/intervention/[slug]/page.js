@@ -3,15 +3,24 @@ import { getAllInterventions, getInterventionById } from "../../../data/interven
 import { notFound } from "next/navigation";
 import InterventionClient from "./InterventionClient";
 
+function getRouteEntry(slug) {
+  // `/intervention/*` should prefer the interactive intervention catalog when a
+  // slug exists in both datasets (for example legacy technique content vs a
+  // newer intervention with the same slug).
+  return getInterventionById(slug) || TECHNIQUES.find((technique) => technique.slug === slug) || null;
+}
+
 export async function generateStaticParams() {
   const techniqueParams = TECHNIQUES.map((t) => ({ slug: t.slug }));
   const interventionParams = getAllInterventions().map((t) => ({ slug: t.id }));
-  return [...techniqueParams, ...interventionParams];
+  return Array.from(
+    new Map([...techniqueParams, ...interventionParams].map((entry) => [entry.slug, entry])).values()
+  );
 }
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const t = TECHNIQUES.find((t) => t.slug === slug) || getInterventionById(slug);
+  const t = getRouteEntry(slug);
   if (!t) return {};
 
   const name = t.name || t.title;
@@ -56,7 +65,7 @@ export async function generateMetadata({ params }) {
 
 export default async function InterventionPage({ params }) {
   const { slug } = await params;
-  const technique = TECHNIQUES.find((t) => t.slug === slug) || getInterventionById(slug);
+  const technique = getRouteEntry(slug);
   if (!technique) notFound();
 
   return <InterventionClient technique={technique} />;
