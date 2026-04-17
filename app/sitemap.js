@@ -9,6 +9,7 @@ const staticRoutes = [
   "/help",
   "/start",
   "/tools",
+  "/weather",
   "/techniques",
   "/blueprint",
   "/companion",
