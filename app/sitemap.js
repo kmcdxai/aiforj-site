@@ -15,7 +15,7 @@ const staticRoutes = [
   "/clinician-pack",
   "/family",
   "/organizations",
-  "/organizations/preview",
+  "/organizations/reporting",
   "/sponsor",
   "/send",
   "/garden",

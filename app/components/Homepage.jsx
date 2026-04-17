@@ -394,7 +394,7 @@ export default function Homepage() {
               </p>
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
                 <a href="/organizations" className="btn-primary" style={{ textDecoration: "none" }}>See organization toolkit →</a>
-                <a href="/organizations/preview" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>Preview reporting →</a>
+                <a href="/organizations/reporting" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>Open reporting →</a>
                 <a href="/what-we-collect" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>Privacy details →</a>
               </div>
               <p className="text-caption" style={{ margin: "14px 0 0", color: "var(--text-muted)" }}>Org intake live · aggregate-only by default</p>

@@ -118,16 +118,16 @@ export default function Page() {
             </h2>
             <p style={{ margin: "0 0 14px", lineHeight: 1.8, color: "var(--text-secondary)" }}>
               If you need something more concrete than a principles page, we built
-              a preview of the exact style of org reporting AIForj is designed to
-              support: trends, completion patterns, and shift buckets in aggregate,
+              a live version of the exact style of org reporting AIForj is designed
+              to support: trends, completion patterns, and shift buckets in aggregate,
               without individual mental-health dashboards.
             </p>
             <Link
-              href="/organizations/preview"
+              href="/organizations/reporting"
               className="btn-primary"
               style={{ textDecoration: "none" }}
             >
-              Open aggregate-only preview →
+              Open aggregate-only reporting →
             </Link>
           </section>
 

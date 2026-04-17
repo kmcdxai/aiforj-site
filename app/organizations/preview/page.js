@@ -11,11 +11,11 @@ import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 import { getOrganizationReportingSnapshot } from "../../../lib/organizationReporting";
 
 export const metadata = buildContentPageMetadata({
-  title: "Aggregate-Only Reporting Preview for Organizations | AIForj",
+  title: "Aggregate-Only Reporting for Organizations | AIForj",
   description:
-    "A concrete preview of the aggregate-only reporting model AIForj offers organizations, without individual mental-health dashboards.",
-  path: "/organizations/preview",
-  socialTitle: "AIForj Aggregate-Only Reporting Preview",
+    "See the live aggregate-only reporting model AIForj offers organizations, without individual mental-health dashboards.",
+  path: "/organizations/reporting",
+  socialTitle: "AIForj Aggregate-Only Reporting",
   socialDescription:
     "See what leaders can learn from aggregate-only emotional first-aid usage without individual surveillance.",
   type: "article",
@@ -237,6 +237,7 @@ function TrendChart({ data, isLiveSnapshot }) {
 
 export default async function Page() {
   const snapshot = await getOrganizationReportingSnapshot();
+  const hasReportingData = snapshot.hasData !== false;
   const isBlobSnapshot = snapshot.source === "live_blob";
   const isConfiguredSnapshot =
     snapshot.source === "live_blob" || snapshot.source === "live_configured";
@@ -245,20 +246,19 @@ export default async function Page() {
     snapshot.source === "live_configured" ||
     snapshot.source === "live_local" ||
     snapshot.source === "live_memory";
-  const isReferenceSnapshot = snapshot.source === "reference";
   const articleSchema = buildArticleSchema({
-    title: "AIForj aggregate-only reporting preview for organizations",
+    title: "AIForj aggregate-only reporting for organizations",
     description: metadata.description,
-    url: "https://aiforj.com/organizations/preview",
-    section: "Organization reporting preview",
-    about: "AIForj aggregate-only organization reporting preview",
+    url: "https://aiforj.com/organizations/reporting",
+    section: "Organization reporting",
+    about: "AIForj aggregate-only organization reporting",
   });
   const breadcrumbSchema = buildBreadcrumbSchema([
     { name: "Home", item: "https://aiforj.com" },
     { name: "Organizations", item: "https://aiforj.com/organizations" },
     {
-      name: "Aggregate reporting preview",
-      item: "https://aiforj.com/organizations/preview",
+      name: "Aggregate reporting",
+      item: "https://aiforj.com/organizations/reporting",
     },
   ]);
 
@@ -290,7 +290,7 @@ export default async function Page() {
                 fontWeight: 700,
               }}
             >
-              Aggregate reporting preview
+              Aggregate-only reporting
             </p>
             <h1
               style={{
@@ -304,21 +304,23 @@ export default async function Page() {
               What leaders can learn without seeing anyone’s private emotional data
             </h1>
             <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.85 }}>
-              This preview shows the ceiling of the org view: anonymous counts,
-              completion patterns, shift buckets, and rollout surfaces. It is
+              This page shows the organization view AIForj is built to support:
+              anonymous counts, completion patterns, shift buckets, and rollout surfaces. It is
               intentionally designed to answer “is this helping?” without answering
               “who is struggling?”.
             </p>
             <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.85 }}>
-              {isLiveSnapshot
+              {hasReportingData
                 ? isBlobSnapshot
-                  ? "This page is currently reading aggregate metrics from a durable Vercel Blob reporting store."
+                  ? "This page is currently reading live aggregate metrics from a durable Vercel Blob reporting store."
                   : isConfiguredSnapshot
-                  ? "This page is currently reading aggregate metrics from a configured reporting source."
-                  : "This page is currently reading aggregate metrics from the active app runtime."
-                : isReferenceSnapshot
-                  ? "This page is showing a reference aggregate baseline until live organization reporting is connected."
-                  : "This page is reading recent aggregate metrics observed by the current app instance."}
+                  ? "This page is currently reading live aggregate metrics from a configured reporting source."
+                  : "This page is currently reading recent aggregate metrics from the active app runtime."
+                : isBlobSnapshot
+                  ? "Aggregate reporting is live and ready. Charts will populate automatically as opted-in anonymous metrics accumulate in the durable reporting store."
+                  : isConfiguredSnapshot
+                    ? "Aggregate reporting is connected and ready. Charts will populate automatically as opted-in anonymous metrics accumulate."
+                    : "Aggregate reporting is ready. It will populate once opted-in anonymous metrics begin flowing from real usage."}
             </p>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
               <Link
@@ -338,62 +340,131 @@ export default async function Page() {
             </div>
           </section>
 
-          <EditorialReviewCard kind="Aggregate-only reporting preview" />
+          <EditorialReviewCard kind="Aggregate-only reporting" />
 
-          <section
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-              gap: 16,
-            }}
-          >
-            <SummaryCard
-              label="Monthly active users"
-              value={String(snapshot.monthlyActiveUsers)}
-              note="Counted through rotating anonymous client ids, not named user accounts."
-            />
-            <SummaryCard
-              label="Completion rate"
-              value={`${snapshot.completionRate}%`}
-              note="Share of started tools that reached completion across all anonymous sessions."
-            />
-            <SummaryCard
-              label="Positive shift rate"
-              value={`${snapshot.positiveShiftRate}%`}
-              note="Share of measured sessions with a positive bucketed pre/post improvement."
-            />
-            <SummaryCard
-              label="Median time-to-start"
-              value={`${snapshot.medianTimeToStartSeconds} sec`}
-              note="How fast people get from landing to beginning a tool, which is crucial for emotional first aid."
-            />
-          </section>
+          {hasReportingData ? (
+            <>
+              <section
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                  gap: 16,
+                }}
+              >
+                <SummaryCard
+                  label="Monthly active users"
+                  value={String(snapshot.monthlyActiveUsers)}
+                  note="Counted through rotating anonymous client ids, not named user accounts."
+                />
+                <SummaryCard
+                  label="Completion rate"
+                  value={`${snapshot.completionRate}%`}
+                  note="Share of started tools that reached completion across all anonymous sessions."
+                />
+                <SummaryCard
+                  label="Positive shift rate"
+                  value={`${snapshot.positiveShiftRate}%`}
+                  note="Share of measured sessions with a positive bucketed pre/post improvement."
+                />
+                <SummaryCard
+                  label="Aggregate events"
+                  value={String(snapshot.eventCount || 0)}
+                  note="Count of anonymous start and completion events stored for aggregate reporting."
+                />
+              </section>
 
-          <TrendChart data={snapshot.weeklyTrend} isLiveSnapshot={isLiveSnapshot} />
+              <TrendChart data={snapshot.weeklyTrend} isLiveSnapshot={isLiveSnapshot} />
 
-          <section
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-              gap: 16,
-            }}
-          >
-            <HorizontalBars
-              title="Top anonymous need categories"
-              items={snapshot.topNeeds}
-              accent="var(--accent-sage)"
-            />
-            <HorizontalBars
-              title="Most-used tool families"
-              items={snapshot.topTools}
-              accent="var(--accent-teal)"
-            />
-            <HorizontalBars
-              title="How people arrived"
-              items={snapshot.rolloutSurfaces}
-              accent="var(--amber-deep)"
-            />
-          </section>
+              <section
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                  gap: 16,
+                }}
+              >
+                <HorizontalBars
+                  title="Top anonymous need categories"
+                  items={snapshot.topNeeds}
+                  accent="var(--accent-sage)"
+                />
+                <HorizontalBars
+                  title="Most-used tool families"
+                  items={snapshot.topTools}
+                  accent="var(--accent-teal)"
+                />
+                <HorizontalBars
+                  title="How people arrived"
+                  items={snapshot.rolloutSurfaces}
+                  accent="var(--amber-deep)"
+                />
+              </section>
+            </>
+          ) : (
+            <>
+              <section
+                style={{
+                  padding: "22px 20px",
+                  borderRadius: 20,
+                  background: "rgba(255,255,255,0.68)",
+                  border: "1px solid rgba(45,42,38,0.08)",
+                }}
+              >
+                <h2
+                  style={{
+                    margin: "0 0 12px",
+                    fontFamily: "'Fraunces', serif",
+                    fontSize: 24,
+                    color: "var(--text-primary)",
+                  }}
+                >
+                  Reporting is live and waiting for the first real aggregate events
+                </h2>
+                <p style={{ margin: "0 0 10px", color: "var(--text-secondary)", lineHeight: 1.8 }}>
+                  The reporting backend is active now. As soon as people use AIForj with
+                  anonymous metrics enabled, this page will begin filling with real,
+                  low-resolution aggregate trends.
+                </p>
+                <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.8 }}>
+                  Until then, AIForj shows an honest empty state instead of synthetic sample
+                  numbers. That keeps the reporting surface useful without pretending activity
+                  exists where it doesn&apos;t.
+                </p>
+              </section>
+
+              <section
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                  gap: 16,
+                }}
+              >
+                <SummaryCard
+                  label="Reporting status"
+                  value={isBlobSnapshot ? "Live" : "Ready"}
+                  note={
+                    isBlobSnapshot
+                      ? "Aggregate events are stored in AIForj’s durable Vercel Blob reporting store."
+                      : "Aggregate reporting is connected and ready to populate when events arrive."
+                  }
+                />
+                <SummaryCard
+                  label="Collection model"
+                  value="Anonymous"
+                  note="Only whitelisted counters and buckets are eligible for reporting. No journals, messages, or transcripts are included."
+                />
+                <SummaryCard
+                  label="Employee visibility"
+                  value="Aggregate only"
+                  note="Leaders never see names, direct identifiers, raw mood histories, or ranked lists of specific people."
+                />
+                <SummaryCard
+                  label="Current events"
+                  value="0"
+                  note="The first opted-in aggregate events will appear here automatically once real usage begins."
+                />
+              </section>
+            </>
+          )}
 
           <section
             style={{
