@@ -4,15 +4,15 @@ import EvidenceDrawer from "../components/EvidenceDrawer";
 import SiteFooter from "../components/SiteFooter";
 import SOS from "../components/SOS";
 import { getPageEvidence } from "../../data/evidence";
+import { buildContentPageMetadata } from "../../lib/pageMetadata";
 
-export const metadata = {
+export const metadata = buildContentPageMetadata({
   title: "How AIForj Stays Safe | Scope, Privacy, and Crisis Boundaries",
   description:
     "How AIForj handles privacy, safety boundaries, crisis escalation, and scope of use for guided emotional first aid.",
-  alternates: {
-    canonical: "https://aiforj.com/how-aiforj-stays-safe",
-  },
-};
+  path: "/how-aiforj-stays-safe",
+  socialTitle: "How AIForj Stays Safe",
+});
 
 export default function Page() {
   const pageEvidence = getPageEvidence("how-aiforj-stays-safe");

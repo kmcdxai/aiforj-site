@@ -2,15 +2,15 @@ import Link from "next/link";
 import BiophilicBackground from "../components/BiophilicBackground";
 import SiteFooter from "../components/SiteFooter";
 import SOS from "../components/SOS";
+import { buildContentPageMetadata } from "../../lib/pageMetadata";
 
-export const metadata = {
+export const metadata = buildContentPageMetadata({
   title: "Editorial Policy | AIForj",
   description:
     "How AIForj creates, reviews, updates, and scopes emotional first-aid content.",
-  alternates: {
-    canonical: "https://aiforj.com/editorial-policy",
-  },
-};
+  path: "/editorial-policy",
+  socialTitle: "AIForj Editorial Policy",
+});
 
 export default function Page() {
   return (
