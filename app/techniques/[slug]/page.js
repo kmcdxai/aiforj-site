@@ -1,6 +1,7 @@
 import { TECHNIQUES } from "../data";
 import { notFound } from "next/navigation";
 import TechniqueClient from "./TechniqueClient";
+import { buildCalmCardUrl } from "../../../utils/calmCard";
 
 export async function generateStaticParams() {
   return TECHNIQUES.map((t) => ({ slug: t.slug }));
@@ -10,6 +11,7 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const t = TECHNIQUES.find((t) => t.slug === slug);
   if (!t) return {};
+  const socialImage = buildCalmCardUrl({ kind: "technique", slug: t.slug, format: "og" });
   return {
     title: t.metaTitle,
     description: t.metaDescription,
@@ -23,11 +25,13 @@ export async function generateMetadata({ params }) {
       url: `https://aiforj.com/techniques/${t.slug}`,
       siteName: "AIForj",
       type: "article",
+      images: [{ url: socialImage, width: 1200, height: 630, alt: `${t.title} calm card` }],
     },
     twitter: {
       card: "summary_large_image",
       title: t.metaTitle,
       description: t.metaDescription,
+      images: [socialImage],
     },
   };
 }

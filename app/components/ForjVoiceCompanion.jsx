@@ -667,9 +667,8 @@ export default function ForjVoiceCompanion() {
       if (saved) {
         setTier(saved);
       } else if (typeof window !== "undefined") {
-        // Also check aiforj_premium key (set by /success page after Stripe checkout)
-        const rawPremium = localStorage.getItem("aiforj_premium");
-        if (rawPremium === "true") {
+        const premiumStatus = getPremiumAccessStatus();
+        if (premiumStatus.active) {
           setTier("premium");
           await DB.set("tier", "premium");
         }
@@ -819,7 +818,7 @@ export default function ForjVoiceCompanion() {
         return "When thoughts are spiraling, trying to stop them makes it worse. Instead, try this ACT technique: say to yourself 'I notice I'm having the thought that...' and finish the sentence. It creates distance between you and the thought. You become the observer, not the hostage. What thought is loudest right now?";
       }
       if (detect(["panic", "heart racing", "can't breathe", "chest tight"])) {
-        return "That sounds like your nervous system is in overdrive — your amygdala has hit the alarm. Let's bring it down right now. Can you try this with me? Breathe in for 4 counts, hold for 4, exhale slowly for 6. The extended exhale activates your vagus nerve and tells your body you're safe. Do that three times, then tell me how you feel.";
+        return "That sounds like your nervous system is in overdrive. Let's bring it down right now. Can you try this with me? Breathe in for 4 counts, hold for 4, exhale slowly for 6. The longer exhale can help your body downshift and feel a little safer. Do that three times, then tell me how you feel.";
       }
       const anxOpts = [
         userQuote ? `"${userQuote}" — that's your anxiety talking, not reality. In CBT, we'd ask: what evidence supports this fear? And what evidence contradicts it? Usually the evidence against is much stronger.` : "Anxiety makes thoughts feel like facts. But feelings aren't evidence. What would you tell a close friend who had this exact same worry?",
@@ -1099,17 +1098,17 @@ export default function ForjVoiceCompanion() {
   useEffect(() => { setLiveText(sr.interim); }, [sr.interim]);
 
   const handleSubscribe = async () => {
-    // In production: redirect to Stripe checkout
-    // For now: activate trial
     try {
       const res = await fetch('/api/create-checkout-session', { method: 'POST' });
       const data = await res.json();
-      if (data.url) { window.location.href = data.url; return; }
-    } catch {}
-    // Fallback for demo
-    setTier("trial");
-    await DB.set("tier", "trial");
-    setShowUpgrade(false);
+      if (data.url) {
+        window.location.href = data.url;
+        return;
+      }
+      setError(data?.error || "Premium checkout is temporarily unavailable right now.");
+    } catch {
+      setError("Premium checkout is temporarily unavailable right now.");
+    }
   };
 
   const remainingMsgs = tier === "free" ? Math.max(0, TIERS.free.maxMessagesPerSession - msgCount) : null;
@@ -1617,3 +1616,4 @@ export default function ForjVoiceCompanion() {
     </div>
   );
 }
+import { getPremiumAccessStatus } from "../../utils/premiumAccess";

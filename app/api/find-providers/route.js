@@ -107,6 +107,36 @@ function parseProvider(result, searchLabel, priority) {
   };
 }
 
+function buildFallbackResources(zip) {
+  const safeZip = String(zip || "").slice(0, 5);
+  return [
+    {
+      id: "psychology-today",
+      label: "Psychology Today",
+      description: "Browse therapists and prescribers with filters for specialty, insurance, and telehealth.",
+      url: `https://www.psychologytoday.com/us/therapists?search=${encodeURIComponent(safeZip)}`,
+    },
+    {
+      id: "open-path",
+      label: "Open Path Collective",
+      description: "Affordable therapy directory with lower-cost private-pay options.",
+      url: "https://openpathcollective.org/",
+    },
+    {
+      id: "hrsa-health-center",
+      label: "Community Health Centers",
+      description: "Find federally funded clinics that often offer sliding-scale behavioral health care.",
+      url: `https://findahealthcenter.hrsa.gov/?zip=${encodeURIComponent(safeZip)}&radius=30`,
+    },
+    {
+      id: "samhsa-treatment",
+      label: "SAMHSA Treatment Locator",
+      description: "National directory for mental health and substance use treatment services.",
+      url: `https://findtreatment.gov/locator?distance=25&location=${encodeURIComponent(safeZip)}`,
+    },
+  ];
+}
+
 async function fetchTaxonomy(tax, zipPattern) {
   const params = new URLSearchParams({
     version: "2.1",
@@ -191,9 +221,20 @@ export async function GET(request) {
       providers: allProviders.slice(0, 50),
       total: allProviders.length,
       zip,
+      searchWarning: allProviders.length === 0
+        ? "The national registry did not return providers for this zip code. Try the additional directories below."
+        : null,
+      fallbackResources: buildFallbackResources(zip),
     });
   } catch (err) {
     console.error("NPPES API error:", err);
-    return Response.json({ providers: [], error: "Provider search temporarily unavailable" }, { status: 500 });
+    return Response.json({
+      providers: [],
+      total: 0,
+      zip,
+      searchWarning:
+        "We could not reach the national provider registry right now. Use the additional directories below while we keep the search path resilient.",
+      fallbackResources: buildFallbackResources(zip),
+    });
   }
 }

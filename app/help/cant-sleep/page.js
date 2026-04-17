@@ -1,14 +1,18 @@
 import BiophilicBackground from "../../components/BiophilicBackground";
 import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
+import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
 import Link from "next/link";
+import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
-export const metadata = {
+export const metadata = buildContentPageMetadata({
   title: "Can't Sleep? Clinician-Designed Tools for Racing Thoughts",
   description: "Mind won't turn off at night? Practical, evidence-informed steps to quiet racing thoughts and fall asleep faster.",
-  alternates: { canonical: "https://aiforj.com/help/cant-sleep" },
-};
+  path: "/help/cant-sleep",
+  kind: "help",
+  slug: "cant-sleep",
+});
 
 export default function Page() {
   const faq = [
@@ -40,24 +44,19 @@ export default function Page() {
           <h2>Go deeper</h2>
           <p>Try the <Link href="/blueprint">Blueprint</Link> for tailored nighttime routines or the <Link href="/send">voice companion</Link> to guide a sleep-winddown.</p>
 
+          <HelpPageEnhancements
+            title="Can't Sleep? Mind Won't Turn Off?"
+            description={metadata.description}
+            url="https://aiforj.com/help/cant-sleep"
+            about="Insomnia and nighttime racing thoughts"
+            faq={faq}
+          />
+
           <EmailCapture />
         </article>
       </main>
 
       <SiteFooter />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "MedicalWebPage",
-        "mainEntity": { "@type": "MedicalCondition", "name": "Insomnia / Racing thoughts" },
-        "description": "Practical, clinician-designed tips to quiet racing thoughts and fall asleep.",
-      }) }} />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": faq.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } }))
-      }) }} />
     </>
   );
 }

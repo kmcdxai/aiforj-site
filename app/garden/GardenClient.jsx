@@ -13,6 +13,7 @@ import {
 } from "../lib/db";
 import WeeklyInsightsClient from "./WeeklyInsightsClient";
 import { buildGardenSnapshot, EMOTION_PLANTS } from "./gardenData";
+import { getPremiumAccessStatus } from "../../utils/premiumAccess";
 
 const MOOD_OPTIONS = [
   { value: 1, emoji: "😔", label: "Struggling" },
@@ -32,9 +33,7 @@ function parseStoredJSON(value) {
 
 function getPremiumStatus() {
   if (typeof window === "undefined") return false;
-  const premium = parseStoredJSON(localStorage.getItem("aiforj_premium"));
-  const tier = parseStoredJSON(localStorage.getItem("forj_tier"));
-  return premium === true || tier === "premium" || tier === "trial";
+  return getPremiumAccessStatus().active;
 }
 
 function getShiftTone(shift) {

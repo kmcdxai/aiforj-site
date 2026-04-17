@@ -1,8 +1,15 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useMemo, useState, useCallback } from "react";
 import { TECHNIQUES } from "../techniques/data";
 import SiteFooter from "../components/SiteFooter";
+import {
+  buildGiftLink,
+  formatSendCalmReset,
+  getReplyContactInfo,
+  getSendCalmRateLimit,
+  recordSendCalmLink,
+} from "../../utils/sendCalm";
 
 // Compact technique info for the grid
 const TECHNIQUE_CARDS = TECHNIQUES.map((t) => ({
@@ -16,18 +23,37 @@ export default function SendClient() {
   const [selected, setSelected] = useState(null);
   const [fromName, setFromName] = useState("");
   const [message, setMessage] = useState("");
+  const [replyContact, setReplyContact] = useState("");
   const [generatedLink, setGeneratedLink] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [error, setError] = useState("");
+
+  const replyInfo = useMemo(() => getReplyContactInfo(replyContact), [replyContact]);
 
   const handleGenerate = useCallback(() => {
     if (!selected) return;
-    const params = new URLSearchParams();
-    if (fromName.trim()) params.set("from", fromName.trim());
-    if (message.trim()) params.set("msg", message.trim());
-    const qs = params.toString();
-    const link = `https://aiforj.com/gift/${selected.slug}${qs ? "?" + qs : ""}`;
+
+    if (replyContact.trim() && !replyInfo.valid) {
+      setError("Add a valid email or phone number if you want them to be able to send calm back.");
+      return;
+    }
+
+    const rateLimit = getSendCalmRateLimit();
+    if (!rateLimit.allowed) {
+      setError(`You've made ${rateLimit.limit} calm links in the last hour. Try again in ${formatSendCalmReset(rateLimit.resetInMs)}.`);
+      return;
+    }
+
+    const link = buildGiftLink({
+      techniqueSlug: selected.slug,
+      fromName,
+      message,
+      replyContact: replyInfo.valid ? replyInfo.value : "",
+    });
+
     setGeneratedLink(link);
     setCopied(false);
+    setError("");
 
     // Log to IndexedDB count
     try {
@@ -35,7 +61,9 @@ export default function SendClient() {
       const current = parseInt(localStorage.getItem(key) || "0", 10);
       localStorage.setItem(key, String(current + 1));
     } catch {}
-  }, [selected, fromName, message]);
+
+    recordSendCalmLink();
+  }, [selected, fromName, message, replyContact, replyInfo]);
 
   const handleCopy = () => {
     if (!generatedLink) return;
@@ -58,8 +86,10 @@ export default function SendClient() {
     setSelected(null);
     setFromName("");
     setMessage("");
+    setReplyContact("");
     setGeneratedLink(null);
     setCopied(false);
+    setError("");
   };
 
   return (
@@ -170,7 +200,10 @@ export default function SendClient() {
                   <input
                     type="text"
                     value={fromName}
-                    onChange={(e) => setFromName(e.target.value)}
+                    onChange={(e) => {
+                      setFromName(e.target.value);
+                      setError("");
+                    }}
                     placeholder="e.g., Sarah"
                     maxLength={50}
                     style={{
@@ -198,7 +231,10 @@ export default function SendClient() {
                   </span>
                   <textarea
                     value={message}
-                    onChange={(e) => setMessage(e.target.value.slice(0, 140))}
+                    onChange={(e) => {
+                      setMessage(e.target.value.slice(0, 140));
+                      setError("");
+                    }}
                     placeholder="I thought this might help..."
                     maxLength={140}
                     rows={3}
@@ -219,6 +255,44 @@ export default function SendClient() {
                     onFocus={(e) => { e.target.style.borderColor = "var(--interactive)"; }}
                     onBlur={(e) => { e.target.style.borderColor = "rgba(45,42,38,0.1)"; }}
                   />
+                </label>
+
+                <label style={{ display: "block", marginBottom: 24 }}>
+                  <span style={{ fontSize: 14, fontWeight: 500, color: "var(--text-primary)", display: "block", marginBottom: 6 }}>
+                    Reply email or phone <span style={{ color: "var(--text-muted)", fontWeight: 400 }}>(optional)</span>
+                  </span>
+                  <input
+                    type="text"
+                    value={replyContact}
+                    onChange={(e) => {
+                      setReplyContact(e.target.value);
+                      setError("");
+                    }}
+                    placeholder="So they can send calm back to you"
+                    maxLength={80}
+                    style={{
+                      width: "100%",
+                      padding: "12px 16px",
+                      fontSize: 15,
+                      fontFamily: "'DM Sans', sans-serif",
+                      background: "var(--surface)",
+                      border: `1px solid ${replyContact.trim() && !replyInfo.valid ? "rgba(196,91,91,0.45)" : "rgba(45,42,38,0.1)"}`,
+                      borderRadius: 12,
+                      color: "var(--text-primary)",
+                      outline: "none",
+                      boxSizing: "border-box",
+                      transition: "border-color 300ms",
+                    }}
+                    onFocus={(e) => { e.target.style.borderColor = "var(--interactive)"; }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = replyContact.trim() && !replyInfo.valid
+                        ? "rgba(196,91,91,0.45)"
+                        : "rgba(45,42,38,0.1)";
+                    }}
+                  />
+                  <p style={{ fontSize: 12, color: replyContact.trim() && !replyInfo.valid ? "#8F3F3F" : "var(--text-muted)", margin: "8px 0 0", lineHeight: 1.5 }}>
+                    If you add this, the recipient will see a “Send calm back” option after they finish.
+                  </p>
                 </label>
 
                 {/* Preview */}
@@ -244,7 +318,20 @@ export default function SendClient() {
                   <p style={{ fontSize: 13, color: "var(--text-secondary)", margin: 0 }}>
                     Then: guided {selected.name} ({selected.duration})
                   </p>
+                  {replyInfo.valid && (
+                    <p style={{ fontSize: 12, color: "var(--interactive)", margin: "10px 0 0", fontWeight: 500 }}>
+                      They’ll also be able to send calm back to you from the completion screen.
+                    </p>
+                  )}
                 </div>
+
+                {error && (
+                  <div style={{ marginBottom: 16, padding: "12px 14px", borderRadius: 12, background: "rgba(196,91,91,0.08)", border: "1px solid rgba(196,91,91,0.2)" }}>
+                    <p style={{ fontSize: 13, color: "#8F3F3F", margin: 0, lineHeight: 1.5 }}>
+                      {error}
+                    </p>
+                  </div>
+                )}
 
                 {/* Generate button */}
                 <button
@@ -266,6 +353,10 @@ export default function SendClient() {
                 >
                   Generate Link
                 </button>
+
+                <p style={{ fontSize: 12, color: "var(--text-muted)", margin: "12px 0 0", lineHeight: 1.5 }}>
+                  Don’t spam. This works best when it’s personal.
+                </p>
               </>
             ) : (
               <>
@@ -315,7 +406,7 @@ export default function SendClient() {
                   )}
                 </div>
 
-                <button onClick={() => { setGeneratedLink(null); setSelected(null); setFromName(""); setMessage(""); }} style={{
+                <button onClick={() => { setGeneratedLink(null); setSelected(null); setFromName(""); setMessage(""); setReplyContact(""); setError(""); }} style={{
                   width: "100%",
                   padding: "12px",
                   fontSize: 13,
@@ -337,7 +428,7 @@ export default function SendClient() {
       {/* Privacy notice */}
       <div style={{ padding: "20px 24px", textAlign: "center" }}>
         <p style={{ fontSize: 12, color: "var(--text-muted)", margin: 0, lineHeight: 1.6 }}>
-          No data is stored. Links contain only the technique, name, and message — no tracking.
+          No data is stored on AIForj. Personal details stay in the URL fragment by default, so they are not sent to our servers when someone opens the gift link.
         </p>
       </div>
 

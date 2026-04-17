@@ -1,14 +1,18 @@
 import BiophilicBackground from "../../components/BiophilicBackground";
 import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
+import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
 import Link from "next/link";
+import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
-export const metadata = {
+export const metadata = buildContentPageMetadata({
   title: "Panic Attack Help: Instant Free Techniques | Healthcare Professional-Designed",
   description: "Having a panic attack right now? Quick, clinician-designed steps to calm your body and mind — free and private.",
-  alternates: { canonical: "https://aiforj.com/help/panic-attack" },
-};
+  path: "/help/panic-attack",
+  kind: "help",
+  slug: "panic-attack",
+});
 
 export default function Page() {
   const faq = [
@@ -40,24 +44,19 @@ export default function Page() {
           <h2 style={{ marginTop: 20 }}>Go deeper</h2>
           <p>Take the <Link href="/blueprint">2-minute Blueprint</Link> to see which patterns fit you, or use the <Link href="/send">voice companion</Link> to guide you through a calm practice.</p>
 
+          <HelpPageEnhancements
+            title="Having a Panic Attack Right Now?"
+            description={metadata.description}
+            url="https://aiforj.com/help/panic-attack"
+            about="Panic attack"
+            faq={faq}
+          />
+
           <EmailCapture />
         </article>
       </main>
 
       <SiteFooter />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "MedicalWebPage",
-        "mainEntity": { "@type": "MedicalCondition", "name": "Panic attack" },
-        "description": "Immediate, free clinician-designed steps to reduce panic attack intensity.",
-      }) }} />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": faq.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } }))
-      }) }} />
     </>
   );
 }

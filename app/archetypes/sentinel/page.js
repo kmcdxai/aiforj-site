@@ -1,7 +1,13 @@
-const metadata = {
+import ArchetypePageEnhancements from "../../components/ArchetypePageEnhancements";
+import { buildContentPageMetadata } from "../../../lib/pageMetadata";
+
+const metadata = buildContentPageMetadata({
   title: 'The Sentinel Emotional Archetype — Clinical Guide | AIForj',
   description: 'Discover what it means to be The Sentinel. Understand your stress response, thinking patterns, and evidence-based techniques matched to this archetype. Free guide from AIForj, clinically informed by a Licensed Healthcare Provider.',
-};
+  path: "/archetypes/sentinel",
+  kind: "archetype",
+  slug: "sentinel",
+});
 
 const faq = [
   { q: 'What does it mean to be a Sentinel archetype?', a: 'A Sentinel is a protective pattern characterized by vigilance and readiness to respond to threat; it developed to keep you and others safe.' },
@@ -72,26 +78,13 @@ export default function Page() {
         </ul>
       </section>
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        mainEntity: faq.map(f => ({
-          "@type": "Question",
-          name: f.q,
-          acceptedAnswer: { "@type": "Answer", text: f.a }
-        }))
-      }) }} />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "The Sentinel: Understanding the Hypervigilant Protector",
-        "author": { "@type": "Person", "name": "AIForj Team" },
-        "datePublished": "2026-04-05",
-        "publisher": { "@type": "Organization", "name": "AIForj", "logo": { "@type": "ImageObject", "url": "https://aiforj.com/aif.jpeg" } },
-        "medicalSpecialty": "Psychiatry",
-        "url": "https://aiforj.com/archetypes/sentinel"
-      }) }} />
+      <ArchetypePageEnhancements
+        title="The Sentinel: Understanding the Hypervigilant Protector"
+        description={metadata.description}
+        url="https://aiforj.com/archetypes/sentinel"
+        about="Sentinel emotional archetype"
+        faq={faq}
+      />
     </main>
   );
 }

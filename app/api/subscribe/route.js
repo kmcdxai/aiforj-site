@@ -3,15 +3,23 @@ import { NextResponse } from "next/server";
 export async function POST(request) {
   try {
     const { email_address } = await request.json();
+    const apiKey = process.env.BUTTONDOWN_API_KEY;
 
     if (!email_address || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email_address)) {
       return NextResponse.json({ error: "Invalid email address" }, { status: 400 });
     }
 
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: "Email signups are temporarily unavailable." },
+        { status: 503 }
+      );
+    }
+
     const res = await fetch("https://api.buttondown.email/v1/subscribers", {
       method: "POST",
       headers: {
-        Authorization: `Token ${process.env.BUTTONDOWN_API_KEY}`,
+        Authorization: `Token ${apiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email_address }),

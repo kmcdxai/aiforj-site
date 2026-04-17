@@ -70,6 +70,7 @@ export default function FindHelpPage() {
   const [providers, setProviders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [searchWarning, setSearchWarning] = useState("");
   const [totalFound, setTotalFound] = useState(0);
   const [showCount, setShowCount] = useState(10);
   const [copied, setCopied] = useState(false);
@@ -83,6 +84,7 @@ export default function FindHelpPage() {
     if (zip.length < 5) return;
     setLoading(true);
     setError("");
+    setSearchWarning("");
     setProviders([]);
     setShowCount(10);
     setFilterType("all");
@@ -91,14 +93,15 @@ export default function FindHelpPage() {
     try {
       const res = await fetch(`/api/find-providers?zip=${zip}&type=${need}`);
       const data = await res.json();
-      if (data.error) {
+      if (!res.ok && data.error) {
         setError(data.error);
       } else {
         setProviders(data.providers || []);
         setTotalFound(data.total || 0);
+        setSearchWarning(data.searchWarning || "");
       }
     } catch {
-      setError("Search temporarily unavailable. Please try again.");
+      setSearchWarning("We couldn't reach the national provider registry right now, but you can still use the directories and affordable-care links below.");
     }
     setLoading(false);
   }, [zip, need]);
@@ -286,6 +289,12 @@ export default function FindHelpPage() {
               <div style={{ padding: 20, background: `rgba(200,90,58,0.05)`, borderRadius: 14, border: `1px solid rgba(200,90,58,0.12)`, marginBottom: 20 }}>
                 <p style={{ fontSize: 14, color: C.urgent, margin: "0 0 12px" }}>{error}</p>
                 <button onClick={searchProviders} style={{ padding: "10px 24px", fontSize: 13, background: C.accent, color: "#fff", border: "none", borderRadius: 20, cursor: "pointer", fontWeight: 600 }}>Try again</button>
+              </div>
+            )}
+
+            {searchWarning && !loading && !error && (
+              <div style={{ padding: 20, background: `rgba(184,147,90,0.08)`, borderRadius: 14, border: `1px solid rgba(184,147,90,0.18)`, marginBottom: 20 }}>
+                <p style={{ fontSize: 14, color: C.warm, margin: 0, lineHeight: 1.75 }}>{searchWarning}</p>
               </div>
             )}
 

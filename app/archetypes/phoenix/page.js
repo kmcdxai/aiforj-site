@@ -1,7 +1,13 @@
-const metadata = {
+import ArchetypePageEnhancements from "../../components/ArchetypePageEnhancements";
+import { buildContentPageMetadata } from "../../../lib/pageMetadata";
+
+const metadata = buildContentPageMetadata({
   title: 'The Phoenix Emotional Archetype — Clinical Guide | AIForj',
   description: 'Discover what it means to be The Phoenix. Understand your stress response, thinking patterns, and evidence-based techniques matched to this archetype. Free guide from AIForj, clinically informed by a Licensed Healthcare Provider.',
-};
+  path: "/archetypes/phoenix",
+  kind: "archetype",
+  slug: "phoenix",
+});
 
 const faq = [
   { q: 'What does it mean to be a Phoenix archetype?', a: 'A Phoenix endures cycles of exhaustion and recovery, demonstrating resilience even after depletion.' },
@@ -72,26 +78,13 @@ export default function Page() {
         </ul>
       </section>
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        mainEntity: faq.map(f => ({
-          "@type": "Question",
-          name: f.q,
-          acceptedAnswer: { "@type": "Answer", text: f.a }
-        }))
-      }) }} />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "The Phoenix: Understanding the Resilient Rebuilder",
-        "author": { "@type": "Person", "name": "AIForj Team" },
-        "datePublished": "2026-04-05",
-        "publisher": { "@type": "Organization", "name": "AIForj", "logo": { "@type": "ImageObject", "url": "https://aiforj.com/aif.jpeg" } },
-        "medicalSpecialty": "Psychiatry",
-        "url": "https://aiforj.com/archetypes/phoenix"
-      }) }} />
+      <ArchetypePageEnhancements
+        title="The Phoenix: Understanding Resilient Exhaustion"
+        description={metadata.description}
+        url="https://aiforj.com/archetypes/phoenix"
+        about="Phoenix emotional archetype"
+        faq={faq}
+      />
     </main>
   );
 }

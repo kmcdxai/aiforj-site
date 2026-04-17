@@ -1,7 +1,13 @@
-const metadata = {
+import ArchetypePageEnhancements from "../../components/ArchetypePageEnhancements";
+import { buildContentPageMetadata } from "../../../lib/pageMetadata";
+
+const metadata = buildContentPageMetadata({
   title: 'The Architect Emotional Archetype — Clinical Guide | AIForj',
   description: 'Discover what it means to be The Architect. Understand your stress response, thinking patterns, and evidence-based techniques matched to this archetype. Free guide from AIForj, clinically informed by a Licensed Healthcare Provider.',
-};
+  path: "/archetypes/architect",
+  kind: "archetype",
+  slug: "architect",
+});
 
 const faq = [
   { q: 'What does it mean to be an Architect archetype?', a: 'An Architect is strategic and future-focused, using planning and problem solving as safety strategies.' },
@@ -72,26 +78,13 @@ export default function Page() {
         </ul>
       </section>
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        mainEntity: faq.map(f => ({
-          "@type": "Question",
-          name: f.q,
-          acceptedAnswer: { "@type": "Answer", text: f.a }
-        }))
-      }) }} />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "The Architect: Understanding the Strategic Planner",
-        "author": { "@type": "Person", "name": "AIForj Team" },
-        "datePublished": "2026-04-05",
-        "publisher": { "@type": "Organization", "name": "AIForj", "logo": { "@type": "ImageObject", "url": "https://aiforj.com/aif.jpeg" } },
-        "medicalSpecialty": "Psychiatry",
-        "url": "https://aiforj.com/archetypes/architect"
-      }) }} />
+      <ArchetypePageEnhancements
+        title="The Architect: Understanding the Strategic Escape Artist"
+        description={metadata.description}
+        url="https://aiforj.com/archetypes/architect"
+        about="Architect emotional archetype"
+        faq={faq}
+      />
     </main>
   );
 }

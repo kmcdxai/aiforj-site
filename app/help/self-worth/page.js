@@ -1,14 +1,18 @@
 import BiophilicBackground from "../../components/BiophilicBackground";
 import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
+import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
 import Link from "next/link";
+import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
-export const metadata = {
+export const metadata = buildContentPageMetadata({
   title: "Build Self-Worth: Free Clinician-Designed Exercises",
   description: "Struggling with self-worth? Evidence-based exercises to begin rebuilding confidence and self-compassion.",
-  alternates: { canonical: "https://aiforj.com/help/self-worth" },
-};
+  path: "/help/self-worth",
+  kind: "help",
+  slug: "self-worth",
+});
 
 export default function Page() {
   const faq = [
@@ -40,24 +44,19 @@ export default function Page() {
           <h2>Go deeper</h2>
           <p>Try the <Link href="/blueprint">Blueprint</Link> to map a confidence-building plan or use the <Link href="/send">voice companion</Link> for guided practice.</p>
 
+          <HelpPageEnhancements
+            title="Struggling With Self-Worth?"
+            description={metadata.description}
+            url="https://aiforj.com/help/self-worth"
+            about="Low self-worth and low self-esteem"
+            faq={faq}
+          />
+
           <EmailCapture />
         </article>
       </main>
 
       <SiteFooter />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "MedicalWebPage",
-        "mainEntity": { "@type": "MedicalCondition", "name": "Low self-worth / low self-esteem" },
-        "description": "Exercises to begin rebuilding self-worth using evidence-based practices.",
-      }) }} />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": faq.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } }))
-      }) }} />
     </>
   );
 }

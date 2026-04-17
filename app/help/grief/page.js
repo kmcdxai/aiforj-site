@@ -1,14 +1,18 @@
 import BiophilicBackground from "../../components/BiophilicBackground";
 import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
+import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
 import Link from "next/link";
+import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
-export const metadata = {
+export const metadata = buildContentPageMetadata({
   title: "Grief Wave Support: Free Clinician-Designed Coping Tools",
   description: "Grief can arrive suddenly. Gentle, evidence-informed steps to ride the wave and care for yourself in the moment.",
-  alternates: { canonical: "https://aiforj.com/help/grief" },
-};
+  path: "/help/grief",
+  kind: "help",
+  slug: "grief",
+});
 
 export default function Page() {
   const faq = [
@@ -40,24 +44,19 @@ export default function Page() {
           <h2>Go deeper</h2>
           <p>Try the <Link href="/blueprint">Blueprint</Link> for personalized coping strategies or the <Link href="/send">voice companion</Link> for a guided support script.</p>
 
+          <HelpPageEnhancements
+            title="Grief Hit You Out of Nowhere?"
+            description={metadata.description}
+            url="https://aiforj.com/help/grief"
+            about="Grief"
+            faq={faq}
+          />
+
           <EmailCapture />
         </article>
       </main>
 
       <SiteFooter />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "MedicalWebPage",
-        "mainEntity": { "@type": "MedicalCondition", "name": "Grief" },
-        "description": "Clinician-designed coping tools for sudden grief waves.",
-      }) }} />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": faq.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } }))
-      }) }} />
     </>
   );
 }

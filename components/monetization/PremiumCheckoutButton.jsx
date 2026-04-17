@@ -6,7 +6,6 @@ export default function PremiumCheckoutButton({
   children = 'Start 7-day free trial',
   className = 'btn-primary',
   style = {},
-  fallbackHref = '/companion',
 }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -24,8 +23,7 @@ export default function PremiumCheckoutButton({
       throw new Error(data?.error || 'Checkout unavailable');
     } catch (checkoutError) {
       console.warn('Unable to start checkout:', checkoutError);
-      setError('Checkout did not start here. Opening Talk to Forj instead.');
-      window.location.href = fallbackHref;
+      setError('Checkout is temporarily unavailable. Please try again in a moment.');
     } finally {
       setLoading(false);
     }

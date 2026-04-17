@@ -5,6 +5,7 @@ import MoodRating from './MoodRating';
 import MoodShiftReceipt from './MoodShiftReceipt';
 import { saveSession } from '../../utils/sessionHistory';
 import { saveSession as saveGardenSession } from '../../app/lib/db';
+import { trackAnonymousMetric } from '../../utils/anonymousMetrics';
 
 const PHASES = {
   PRE_RATING: 'pre-rating',
@@ -33,8 +34,15 @@ export default function InterventionWrapper({
   useEffect(() => {
     if (phase === PHASES.INTERVENTION) {
       setStartTime(Date.now());
+      trackAnonymousMetric({
+        event: 'tool_started',
+        toolKind: 'intervention',
+        toolId: interventionSlug,
+        emotion,
+        source: 'intervention-route',
+      });
     }
-  }, [phase]);
+  }, [emotion, interventionSlug, phase]);
 
   const handlePreRatingSubmit = (rating) => {
     setPreRating(rating);
@@ -88,6 +96,16 @@ export default function InterventionWrapper({
     } catch (error) {
       console.warn('Failed to mirror session into garden store:', error);
     }
+
+    trackAnonymousMetric({
+      event: 'tool_completed',
+      toolKind: 'intervention',
+      toolId: interventionSlug,
+      emotion,
+      source: 'intervention-route',
+      durationSeconds,
+      shift,
+    });
 
     onComplete?.({ preRating, postRating: rating, shift, duration: durationMs });
   };

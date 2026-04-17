@@ -1,21 +1,10 @@
 "use client";
 
-import { Suspense, useEffect } from 'react';
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import InterventionWrapper from '../../../components/measurement/InterventionWrapper';
 import TechniqueClient from '../../techniques/[slug]/TechniqueClient';
 import { interventionComponents } from '../../../components/interventions/registry';
-
-function PlaceholderRedirect() {
-  useEffect(() => {
-    window.location.href = '/start';
-  }, []);
-  return (
-    <section style={{ minHeight: '60vh', display: 'grid', placeItems: 'center', padding: '48px 24px' }}>
-      <div style={{ textAlign: 'center', color: 'var(--text-muted)' }}>Redirecting to check-in...</div>
-    </section>
-  );
-}
 
 function InterventionInner({ technique }) {
   const searchParams = useSearchParams();
@@ -43,9 +32,7 @@ function InterventionInner({ technique }) {
       {({ onComplete }) =>
         CustomComponent
           ? <CustomComponent onComplete={onComplete} emotion={emotion} />
-          : technique.placeholder
-            ? <PlaceholderRedirect />
-          : <TechniqueClient technique={technique} related={[]} />
+          : <TechniqueClient technique={technique} related={[]} disableAnonymousMetrics metricsSource="intervention-route" />
       }
     </InterventionWrapper>
   );

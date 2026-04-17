@@ -3,6 +3,17 @@
 import { useState, useEffect, useRef, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import BiophilicBackground from "../../components/BiophilicBackground";
+import {
+  buildForwardShareCopy,
+  buildGiftLink,
+  buildSendBackHref,
+  formatSendCalmReset,
+  getReplyContactInfo,
+  getSendCalmRateLimit,
+  parseGiftPayloadFromHash,
+  parseLegacyGiftPayload,
+  recordSendCalmLink,
+} from "../../../utils/sendCalm";
 
 // ─── Breathing Step ───
 function BreathingStep({ breathe, onComplete }) {
@@ -166,12 +177,83 @@ function GiftClientInner({ technique }) {
   const [currentStep, setCurrentStep] = useState(-1); // -1 = welcome
   const [completed, setCompleted] = useState(false);
   const [feelingScore, setFeelingScore] = useState(null);
+  const [giftPayload, setGiftPayload] = useState(() => parseLegacyGiftPayload(searchParams));
+  const [actionMessage, setActionMessage] = useState("");
 
-  const fromName = searchParams.get("from") || "";
-  const message = searchParams.get("msg") || "";
+  useEffect(() => {
+    const hashPayload = parseGiftPayloadFromHash(window.location.hash);
+    if (hashPayload) {
+      setGiftPayload((current) => ({ ...current, ...hashPayload }));
+    }
+  }, []);
+
+  const fromName = giftPayload.fromName;
+  const message = giftPayload.message;
+  const replyInfo = getReplyContactInfo(giftPayload.replyContact);
 
   const shortName = technique.title.split(":")[0].replace(" Technique", "").replace("The ", "").trim();
   const steps = technique.steps || [];
+
+  const createGiftLink = useCallback((messageOverride = "") => {
+    const rateLimit = getSendCalmRateLimit();
+    if (!rateLimit.allowed) {
+      setActionMessage(`You’ve hit the calm-link limit for this hour. Try again in ${formatSendCalmReset(rateLimit.resetInMs)}.`);
+      return null;
+    }
+
+    const link = buildGiftLink({
+      techniqueSlug: technique.slug,
+      message: messageOverride,
+    });
+
+    recordSendCalmLink();
+    setActionMessage("");
+    return link;
+  }, [technique.slug]);
+
+  const handleSendBack = useCallback(async () => {
+    const link = createGiftLink(fromName ? `Sending calm back, ${fromName}.` : "Sending calm back your way.");
+    if (!link) return;
+
+    const directHref = buildSendBackHref({
+      replyContact: replyInfo.value,
+      senderName: fromName,
+      giftLink: link,
+    });
+
+    if (!directHref) {
+      setActionMessage("Add a valid reply method to send calm back directly.");
+      return;
+    }
+
+    window.location.href = directHref;
+  }, [createGiftLink, fromName, replyInfo.value]);
+
+  const handleSendForward = useCallback(async () => {
+    const link = createGiftLink("");
+    if (!link) return;
+
+    const shareCopy = buildForwardShareCopy({
+      techniqueName: shortName,
+      giftLink: link,
+    });
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: `${shortName} on AIForj`,
+          text: shareCopy,
+        });
+        setActionMessage("Forwarded with care.");
+        return;
+      }
+
+      await navigator.clipboard.writeText(shareCopy);
+      setActionMessage("Forward link copied. Send it to one person who might need it.");
+    } catch {
+      setActionMessage("Couldn’t open sharing right now. Try copying the page link instead.");
+    }
+  }, [createGiftLink, shortName]);
 
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
@@ -327,6 +409,69 @@ function GiftClientInner({ technique }) {
                 </span>
               </button>
             ))}
+          </div>
+
+          <div style={{
+            background: "var(--surface-elevated)",
+            borderRadius: 18,
+            padding: "22px 20px",
+            marginBottom: 28,
+            border: "1px solid rgba(45,42,38,0.06)",
+            boxShadow: "var(--shadow-sm)",
+            textAlign: "left",
+          }}>
+            <p style={{ fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase", color: "var(--text-muted)", margin: "0 0 10px" }}>
+              Keep the calm moving
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {replyInfo.valid && (
+                <button
+                  onClick={handleSendBack}
+                  style={{
+                    width: "100%",
+                    padding: "15px 16px",
+                    borderRadius: 14,
+                    border: "none",
+                    background: "linear-gradient(135deg, var(--interactive), var(--interactive-pressed))",
+                    color: "#fff",
+                    fontSize: 14,
+                    fontWeight: 600,
+                    fontFamily: "'Fraunces', serif",
+                    cursor: "pointer",
+                    boxShadow: "0 4px 16px rgba(125,155,130,0.2)",
+                  }}
+                >
+                  Send calm back{fromName ? ` to ${fromName}` : ""}
+                </button>
+              )}
+
+              <button
+                onClick={handleSendForward}
+                style={{
+                  width: "100%",
+                  padding: "15px 16px",
+                  borderRadius: 14,
+                  border: "1px solid rgba(125,155,130,0.2)",
+                  background: "var(--accent-sage-light)",
+                  color: "var(--interactive)",
+                  fontSize: 14,
+                  fontWeight: 600,
+                  fontFamily: "'Fraunces', serif",
+                  cursor: "pointer",
+                }}
+              >
+                Send calm forward
+              </button>
+            </div>
+
+            <p style={{ fontSize: 12, color: "var(--text-muted)", margin: "12px 0 0", lineHeight: 1.5 }}>
+              Don’t spam. This works best when it’s personal.
+            </p>
+            {actionMessage && (
+              <p style={{ fontSize: 12, color: "var(--interactive)", margin: "12px 0 0", lineHeight: 1.5 }}>
+                {actionMessage}
+              </p>
+            )}
           </div>
 
           {/* Next steps */}

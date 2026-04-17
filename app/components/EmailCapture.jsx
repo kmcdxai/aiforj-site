@@ -26,7 +26,8 @@ export default function EmailCapture() {
       if (res.ok) {
         setSubmitted(true);
       } else {
-        setError("Something went wrong. Try again.");
+        const data = await res.json().catch(() => ({}));
+        setError(data?.error || "Something went wrong. Try again.");
       }
     } catch {
       setError("Something went wrong. Try again.");

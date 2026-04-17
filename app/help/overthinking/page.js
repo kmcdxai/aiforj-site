@@ -1,14 +1,18 @@
 import BiophilicBackground from "../../components/BiophilicBackground";
 import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
+import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
 import Link from "next/link";
+import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
-export const metadata = {
+export const metadata = buildContentPageMetadata({
   title: "Stop Overthinking: Break the Loop in 3 Minutes | Healthcare Professional Tool",
   description: "Stuck in an overthinking spiral? Practical steps to interrupt rumination and regain focus in minutes.",
-  alternates: { canonical: "https://aiforj.com/help/overthinking" },
-};
+  path: "/help/overthinking",
+  kind: "help",
+  slug: "overthinking",
+});
 
 export default function Page() {
   const faq = [
@@ -40,24 +44,19 @@ export default function Page() {
           <h2>Go deeper</h2>
           <p>Use the <Link href="/blueprint">Blueprint</Link> to build a personalized anti-rumination routine or the <Link href="/send">voice companion</Link> for a guided interruption.</p>
 
+          <HelpPageEnhancements
+            title="Stuck in an Overthinking Spiral?"
+            description={metadata.description}
+            url="https://aiforj.com/help/overthinking"
+            about="Rumination and overthinking"
+            faq={faq}
+          />
+
           <EmailCapture />
         </article>
       </main>
 
       <SiteFooter />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "MedicalWebPage",
-        "mainEntity": { "@type": "MedicalCondition", "name": "Rumination / overthinking" },
-        "description": "Practical steps to interrupt rumination and regain focus.",
-      }) }} />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": faq.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } }))
-      }) }} />
     </>
   );
 }

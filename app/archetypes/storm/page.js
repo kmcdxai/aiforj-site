@@ -1,7 +1,13 @@
-const metadata = {
+import ArchetypePageEnhancements from "../../components/ArchetypePageEnhancements";
+import { buildContentPageMetadata } from "../../../lib/pageMetadata";
+
+const metadata = buildContentPageMetadata({
   title: 'The Storm Emotional Archetype — Clinical Guide | AIForj',
   description: 'Discover what it means to be The Storm. Understand your stress response, thinking patterns, and evidence-based techniques matched to this archetype. Free guide from AIForj, clinically informed by a Licensed Healthcare Provider.',
-};
+  path: "/archetypes/storm",
+  kind: "archetype",
+  slug: "storm",
+});
 
 const faq = [
   { q: 'What does it mean to be a Storm archetype?', a: 'A Storm experiences emotional intensity and rapid rises in arousal; this pattern can fuel creativity and passion but can also feel overwhelming.' },
@@ -72,26 +78,13 @@ export default function Page() {
         </ul>
       </section>
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        mainEntity: faq.map(f => ({
-          "@type": "Question",
-          name: f.q,
-          acceptedAnswer: { "@type": "Answer", text: f.a }
-        }))
-      }) }} />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "The Storm: Understanding the Emotional Cyclone",
-        "author": { "@type": "Person", "name": "AIForj Team" },
-        "datePublished": "2026-04-05",
-        "publisher": { "@type": "Organization", "name": "AIForj", "logo": { "@type": "ImageObject", "url": "https://aiforj.com/aif.jpeg" } },
-        "medicalSpecialty": "Psychiatry",
-        "url": "https://aiforj.com/archetypes/storm"
-      }) }} />
+      <ArchetypePageEnhancements
+        title="The Storm: Understanding Emotional Intensity"
+        description={metadata.description}
+        url="https://aiforj.com/archetypes/storm"
+        about="Storm emotional archetype"
+        faq={faq}
+      />
     </main>
   );
 }

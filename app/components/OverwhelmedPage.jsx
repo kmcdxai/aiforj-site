@@ -126,8 +126,8 @@ export default function OverwhelmedPage() {
             <p style={{ fontSize:12, color:ac, letterSpacing:4, textTransform:"uppercase", marginBottom:20, fontWeight:500 }}>Overwhelm protocol</p>
             <h1 style={{ fontFamily:"'Newsreader', serif", fontSize:"clamp(30px,6vw,46px)", fontWeight:300, lineHeight:1.25, marginBottom:24 }}>Everything is<br/>too much<br/>right now.</h1>
             <p style={{ fontSize:15, lineHeight:1.9, color:"#5a5a62", marginBottom:20 }}>The to-do list has a to-do list. There's no visible starting point. You feel paralyzed, panicky, numb, or all three at once.</p>
-            <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(42,47,53,0.8)", marginBottom:20 }}>That's not weakness — it's a hardware limitation. When cognitive load exceeds working memory capacity, your prefrontal cortex doesn't slow down — it shuts off. That's why overwhelm makes you feel stupid. You're not stupid. Your brain hit a circuit breaker.</p>
-            <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(42,47,53,0.8)", marginBottom:20 }}>There's a name for this: <strong>cognitive overload</strong>. Miller's Law (1956) established that working memory holds 7±2 items. Under stress, that drops to 3-4. When you're trying to hold 40 obligations, 15 worries, and an emotional crisis simultaneously, the system crashes. It's not a you problem — it's a math problem.</p>
+            <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(42,47,53,0.8)", marginBottom:20 }}>That's not weakness — it's a cognitive bottleneck. When the load gets too high, attention narrows, sequencing gets harder, and even obvious next steps can disappear. That's why overwhelm can make you feel scattered or stuck. You're not failing. Your system hit a limit.</p>
+            <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(42,47,53,0.8)", marginBottom:20 }}>There's a name for this: <strong>cognitive overload</strong>. Working memory can only hold a limited amount at once, and stress often makes that feel even smaller. When you're trying to carry dozens of obligations, worries, and emotions at the same time, the system jams. It's not a character flaw — it's overload.</p>
             <p style={{ fontSize:16, lineHeight:1.8, color:ac, marginBottom:20 }}>This protocol will take you from "I can't" to "I can do this one thing" in under 10 minutes. Seven steps. All evidence-based.</p>
 
             <div style={{ display:"flex", flexDirection:"column", gap:8, marginBottom:36 }}>
@@ -150,7 +150,7 @@ export default function OverwhelmedPage() {
           <div key={fk} style={{ animation:"fadeUp 0.8s ease", paddingTop:"6vh" }}>
             <p style={{ fontSize:11, color:ac, letterSpacing:3, textTransform:"uppercase", marginBottom:6 }}>Step 1 of 7</p>
             <h2 style={{ fontFamily:"'Newsreader', serif", fontSize:28, fontWeight:300, marginBottom:12 }}>Bring your brain back online</h2>
-            <p style={{ fontSize:14, lineHeight:1.8, color:"#5a5a62", marginBottom:6 }}>Overwhelm triggers the same fight-or-flight cascade as a physical threat. Shallow breathing, tight chest, narrowed thinking. This 4-2-8 pattern — exhale double the inhale — activates your parasympathetic nervous system through the vagus nerve. Three cycles is enough to shift the balance.</p>
+            <p style={{ fontSize:14, lineHeight:1.8, color:"#5a5a62", marginBottom:6 }}>Overwhelm often comes with shallow breathing, tight chest, and narrowed thinking. This 4-2-8 pattern uses a longer exhale to help your system downshift. Three cycles is often enough to create a little more room.</p>
             <p style={{ fontSize:13, color:ac, opacity:0.8, marginBottom:20 }}>4 in. 2 hold. 8 slow out. Three cycles.</p>
 
             <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:20, padding:"12px 0" }}>
@@ -159,7 +159,7 @@ export default function OverwhelmedPage() {
               ) : bPhase === "done" ? (
                 <div style={{ textAlign:"center" }}>
                   <p style={{ fontSize:18, fontFamily:"'Newsreader', serif", color:ac }}>Better. Your exhale was twice your inhale.</p>
-                  <p style={{ fontSize:13, color:"#5a5a62", marginTop:6 }}>Your prefrontal cortex is coming back.</p>
+                  <p style={{ fontSize:13, color:"#5a5a62", marginTop:6 }}>Your system is starting to come back online.</p>
                 </div>
               ) : (
                 <>
@@ -189,7 +189,7 @@ export default function OverwhelmedPage() {
             {wordCount > 0 && <p style={{ fontSize:12, color:ac, opacity:0.6, marginTop:8 }}>{lineCount} items, {wordCount} words externalized.{lineCount >= 10 ? " That's a full working memory dump." : " Keep going — get everything out."}</p>}
 
             <div style={{ padding:16, background:"rgba(123,107,154,0.04)", borderRadius:12, border:"1px solid rgba(123,107,154,0.08)", marginTop:16 }}>
-              <p style={{ fontSize:12, color:"#5a5a62", lineHeight:1.7 }}><strong style={{ color:ac }}>Pennebaker's research (UT Austin):</strong> Externalizing worries reduces their emotional charge by up to 20% and frees working memory capacity. Your brain can stop holding items once it knows they've been "saved" somewhere external.</p>
+              <p style={{ fontSize:12, color:"#5a5a62", lineHeight:1.7 }}><strong style={{ color:ac }}>Why this can help:</strong> Externalizing worries onto paper or a screen often makes them feel more manageable. Once your brain no longer has to hold every item internally, it becomes easier to sort, sequence, and choose one next step.</p>
             </div>
             <p style={{ fontSize:10, color:"#5a5a62", opacity:0.3, marginTop:12, textAlign:"center" }}>Nothing stored or sent anywhere.</p>
 

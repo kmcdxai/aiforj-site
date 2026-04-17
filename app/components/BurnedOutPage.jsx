@@ -1,6 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import EvidenceDrawer from "./EvidenceDrawer";
+import EditorialReviewCard from "./EditorialReviewCard";
+import { getPageEvidence } from "../../data/evidence";
 
 function InlineEmailCapture({ accentColor = "#b8935a", textColor = "#2d2a25", bgColor = "rgba(184,147,90,0.06)", borderColor = "rgba(184,147,90,0.12)" }) {
   const [email, setEmail] = useState("");
@@ -45,6 +48,7 @@ export default function BurnedOutPage() {
   const [boundaryNo, setBoundaryNo] = useState("");
   const [microAct, setMicroAct] = useState("");
   const [timeline, setTimeline] = useState("");
+  const pageEvidence = getPageEvidence("burned-out");
 
   useEffect(() => {
     if (step === "landing") return;
@@ -117,13 +121,13 @@ export default function BurnedOutPage() {
             <p style={{ fontSize:12, color:ac, letterSpacing:4, textTransform:"uppercase", marginBottom:20, fontWeight:500 }}>Burnout protocol</p>
             <h1 style={{ fontFamily:"'Literata', serif", fontSize:"clamp(30px,6vw,46px)", fontWeight:300, lineHeight:1.25, marginBottom:24 }}>You're not lazy.<br/>You're running<br/>on empty.</h1>
             <p style={{ fontSize:15, lineHeight:1.9, color:"#5d5850", marginBottom:20 }}>You keep pushing but nothing moves. Things that used to energize you feel like obligations. Rest doesn't recharge. You wonder if you're broken, weak, or just not trying hard enough.</p>
-            <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(45,42,37,0.8)", marginBottom:20 }}>Nothing is wrong with you. Burnout is a measurable state with specific biological markers. The WHO classifies it as caused by "chronic stress that has not been successfully managed." But it doesn't only come from work — caregiving, relationships, financial pressure, and simply existing in a world that demands constant output all contribute.</p>
+            <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(45,42,37,0.8)", marginBottom:20 }}>Nothing is wrong with you. In formal WHO language, burnout is an occupational phenomenon tied to chronic workplace stress that has not been successfully managed. People can also feel profoundly depleted by caregiving, relationships, financial pressure, or prolonged strain outside work. The experience is real even when the label needs care.</p>
 
             <div style={{ padding:20, background:"rgba(255,255,255,0.6)", borderRadius:14, border:"1px solid #e0dbd3", marginBottom:24 }}>
               <p style={{ fontSize:14, color:"#2d2a25", lineHeight:1.8 }}><strong style={{ color:ac }}>Burnout vs. Depression — they're different.</strong> Depression says "nothing matters." Burnout says "this mattered so much it broke me." Depression is generalized loss of interest. Burnout is specific — tied to demands exceeding resources. The distinction matters because the interventions differ.</p>
             </div>
 
-            <p style={{ fontSize:16, lineHeight:1.8, color:ac, marginBottom:40 }}>This protocol is built on the Maslach Burnout framework — the most validated measure in existence, 35+ years of research. You'll assess your specific burnout pattern, identify what's draining you, and leave with a concrete recovery plan.</p>
+            <p style={{ fontSize:16, lineHeight:1.8, color:ac, marginBottom:40 }}>This protocol is informed by the Maslach burnout model, one of the most widely used research frameworks in this area. You'll check in on your current pattern, identify what's draining you, and leave with a concrete recovery plan.</p>
 
             <div style={{ textAlign:"center" }}><Btn onClick={() => go("assess")}>Assess my burnout</Btn></div>
             <p style={{ fontSize:10, color:"#5d5850", opacity:0.4, marginTop:32, textAlign:"center", lineHeight:1.7 }}>Built by AIForj Team and clinically informed by a Licensed Healthcare Provider. Nothing stored or sent.</p>
@@ -136,7 +140,7 @@ export default function BurnedOutPage() {
           <div key={fk} style={{ animation:"fadeUp 0.8s ease", paddingTop:"6vh" }}>
             <p style={{ fontSize:11, color:ac, letterSpacing:3, textTransform:"uppercase", marginBottom:6 }}>Step 1 of 6</p>
             <h2 style={{ fontFamily:"'Literata', serif", fontSize:28, fontWeight:300, marginBottom:12 }}>The three dimensions of burnout</h2>
-            <p style={{ fontSize:14, lineHeight:1.8, color:"#5d5850", marginBottom:20 }}>Christina Maslach (UC Berkeley) identified that burnout isn't one thing — it's three distinct dimensions. Most people are high on one or two, not all three. Knowing YOUR pattern tells you exactly where to focus recovery.</p>
+            <p style={{ fontSize:14, lineHeight:1.8, color:"#5d5850", marginBottom:20 }}>Christina Maslach's work helped popularize the idea that burnout is not one single feeling. Many people mainly feel exhaustion, some mostly feel cynicism, and others feel reduced effectiveness. Knowing your pattern helps you choose a more useful recovery focus.</p>
 
             <div style={{ padding:20, background:"rgba(255,255,255,0.6)", borderRadius:14, border:"1px solid #e0dbd3", marginBottom:16 }}>
               <h3 style={{ fontFamily:"'Literata', serif", fontSize:17, color:"#c4796b", fontWeight:400, marginBottom:4 }}>Emotional Exhaustion</h3>
@@ -278,7 +282,7 @@ export default function BurnedOutPage() {
             </div>
 
             <div style={{ padding:16, background:"rgba(184,147,90,0.05)", borderRadius:12 }}>
-              <p style={{ fontSize:12, color:"#5d5850", lineHeight:1.7 }}><strong style={{ color:ac }}>Maslach's research:</strong> The strongest predictor of burnout recovery isn't vacation, therapy, or medication — it's restoring a sense of control over your own time and energy. Every boundary is an act of agency recovery.</p>
+              <p style={{ fontSize:12, color:"#5d5850", lineHeight:1.7 }}><strong style={{ color:ac }}>What the research does support:</strong> Recovery usually goes better when people can reclaim some control over workload, time, and expectations. Every workable boundary is a small act of agency recovery.</p>
             </div>
 
             {boundaryYes.trim().length > 5 && <div style={{ animation:"fadeUp 0.5s ease", textAlign:"center", marginTop:20 }}><Btn onClick={() => go("recover")}>Final step</Btn></div>}
@@ -311,7 +315,7 @@ export default function BurnedOutPage() {
         {step === "close" && (
           <div key={fk} style={{ animation:"fadeUp 1s ease", paddingTop:"6vh" }}>
             <h2 style={{ fontFamily:"'Literata', serif", fontSize:32, fontWeight:300, marginBottom:8, lineHeight:1.3 }}>This is your<br/>recovery map.</h2>
-            <p style={{ fontSize:15, lineHeight:1.8, color:"#5d5850", marginBottom:24 }}>You completed a clinical burnout assessment, identified your primary dimension, mapped your energy equation, reconnected with your values, set boundaries, and committed to a micro-recovery. That's a real recovery plan — not a motivational poster.</p>
+            <p style={{ fontSize:15, lineHeight:1.8, color:"#5d5850", marginBottom:24 }}>You completed a structured burnout check-in, identified your primary dimension, mapped your energy equation, reconnected with your values, set boundaries, and committed to a micro-recovery. That's a real recovery plan — not a motivational poster.</p>
 
             <div style={{ padding:24, background:"rgba(255,255,255,0.6)", borderRadius:16, border:"1px solid #e0dbd3", marginBottom:20 }}>
               <p style={{ fontSize:11, color:ac, letterSpacing:2, textTransform:"uppercase", marginBottom:16, fontWeight:600 }}>Your burnout recovery plan</p>
@@ -322,7 +326,7 @@ export default function BurnedOutPage() {
                 <div><p style={{ fontSize:10, color:"#5a8c6b", textTransform:"uppercase", letterSpacing:1 }}>Saying YES to</p><p style={{ fontSize:13 }}>{boundaryYes}</p></div>
                 <div><p style={{ fontSize:10, color:"#c4796b", textTransform:"uppercase", letterSpacing:1 }}>Saying NO to</p><p style={{ fontSize:13 }}>{boundaryNo}</p></div>
                 <div><p style={{ fontSize:10, color:ac, textTransform:"uppercase", letterSpacing:1 }}>Today's micro-recovery</p><p style={{ fontSize:16, color:ac, fontWeight:600, fontFamily:"'Literata', serif" }}>"{microAct}"</p></div>
-                <div><p style={{ fontSize:10, color:"#5d5850", textTransform:"uppercase", letterSpacing:1 }}>Session</p><p style={{ fontSize:13 }}>{mins} min · Maslach assessment · Energy audit · ACT values · DBT boundaries</p></div>
+                <div><p style={{ fontSize:10, color:"#5d5850", textTransform:"uppercase", letterSpacing:1 }}>Session</p><p style={{ fontSize:13 }}>{mins} min · Maslach-style check-in · Energy audit · ACT values · DBT boundaries</p></div>
               </div>
             </div>
 
@@ -356,6 +360,22 @@ export default function BurnedOutPage() {
             <InlineEmailCapture />
           </div>
         )}
+
+        <EvidenceDrawer
+          evidence={pageEvidence}
+          accentColor={ac}
+          borderColor="rgba(184,147,90,0.16)"
+          background="rgba(184,147,90,0.05)"
+          panelBackground="rgba(255,255,255,0.45)"
+          textColor="var(--text-primary)"
+          mutedColor="var(--text-secondary)"
+        />
+
+        <EditorialReviewCard
+          kind="Protocol"
+          background="rgba(255,255,255,0.55)"
+          border="1px solid rgba(184,147,90,0.16)"
+        />
       </main>
     </div>
   );

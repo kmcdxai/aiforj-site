@@ -1,14 +1,18 @@
 import BiophilicBackground from "../../components/BiophilicBackground";
 import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
+import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
 import Link from "next/link";
+import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
-export const metadata = {
+export const metadata = buildContentPageMetadata({
   title: "Pre-Presentation Anxiety: 60-Second Calm Technique | Free",
   description: "Nervous before a presentation or interview? Quick, 60-second techniques to steady your nerves and improve performance.",
-  alternates: { canonical: "https://aiforj.com/help/before-presentation" },
-};
+  path: "/help/before-presentation",
+  kind: "help",
+  slug: "before-presentation",
+});
 
 export default function Page() {
   const faq = [
@@ -40,24 +44,19 @@ export default function Page() {
           <h2>Go deeper</h2>
           <p>Build a pre-performance routine with the <Link href="/blueprint">Blueprint</Link> or use the <Link href="/send">voice companion</Link> for a spoken warm-up.</p>
 
+          <HelpPageEnhancements
+            title="Nervous Before a Presentation or Interview?"
+            description={metadata.description}
+            url="https://aiforj.com/help/before-presentation"
+            about="Performance anxiety"
+            faq={faq}
+          />
+
           <EmailCapture />
         </article>
       </main>
 
       <SiteFooter />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "MedicalWebPage",
-        "mainEntity": { "@type": "MedicalCondition", "name": "Performance anxiety" },
-        "description": "Quick techniques to calm pre-presentation nerves and improve performance.",
-      }) }} />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": faq.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } }))
-      }) }} />
     </>
   );
 }

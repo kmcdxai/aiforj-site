@@ -3,9 +3,19 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import EmailCapture from "../../components/EmailCapture";
+import EvidenceDrawer from "../../components/EvidenceDrawer";
+import EditorialReviewCard from "../../components/EditorialReviewCard";
 import ShareResultCard from "../../components/ShareResultCard";
 import SiteFooter from "../../components/SiteFooter";
 import { getArchetypeForTechnique } from "../archetypeMap";
+import { getTechniqueEvidence } from "../../../data/evidence";
+import {
+  LAST_REVIEWED_DATE,
+  buildArticleSchema,
+  buildBreadcrumbSchema,
+  buildFaqSchema,
+} from "../../../lib/contentSchemas";
+import { trackAnonymousMetric } from "../../../utils/anonymousMetrics";
 
 const ACCENT = "var(--accent-sage)";
 const BG = "var(--bg-primary)";
@@ -553,15 +563,7 @@ function ShareButton({ technique }) {
 
 // ─── Structured Data ───
 function StructuredData({ technique }) {
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: technique.faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.q,
-      acceptedAnswer: { "@type": "Answer", text: faq.a },
-    })),
-  };
+  const faqSchema = buildFaqSchema(technique.faqs);
 
   const howToSchema = {
     "@context": "https://schema.org",
@@ -577,33 +579,19 @@ function StructuredData({ technique }) {
     })),
   };
 
-  const webPageSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: technique.metaTitle,
+  const articleSchema = buildArticleSchema({
+    title: technique.metaTitle,
     description: technique.metaDescription,
     url: `https://aiforj.com/techniques/${technique.slug}`,
-    isPartOf: {
-      "@type": "WebSite",
-      name: "AIForj",
-      url: "https://aiforj.com",
-    },
-    author: {
-      "@type": "Organization",
-      name: "AIForj Team",
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "AIForj",
-      url: "https://aiforj.com",
-    },
-    dateModified: "2026-03-27",
-    inLanguage: "en-US",
-    about: {
-      "@type": "MedicalCondition",
-      name: technique.subtitle,
-    },
-  };
+    section: "Technique",
+    about: technique.subtitle,
+    dateModified: LAST_REVIEWED_DATE,
+  });
+  const breadcrumbSchema = buildBreadcrumbSchema([
+    { name: "Home", item: "https://aiforj.com" },
+    { name: "Techniques", item: "https://aiforj.com/techniques" },
+    { name: technique.title, item: `https://aiforj.com/techniques/${technique.slug}` },
+  ]);
 
   return (
     <>
@@ -617,20 +605,30 @@ function StructuredData({ technique }) {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
     </>
   );
 }
 
 // ─── Main Page Component ───
-export default function TechniqueClient({ technique, related }) {
+export default function TechniqueClient({
+  technique,
+  related,
+  disableAnonymousMetrics = false,
+  metricsSource = "technique-page",
+}) {
   const [exerciseStarted, setExerciseStarted] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [exerciseDone, setExerciseDone] = useState(false);
   const [exerciseStartTime, setExerciseStartTime] = useState(null);
   const [elapsedMinutes, setElapsedMinutes] = useState(0);
   const exerciseRef = useRef(null);
+  const techniqueEvidence = getTechniqueEvidence(technique.slug);
 
   const handleStepComplete = () => {
     if (currentStep < technique.steps.length - 1) {
@@ -646,6 +644,16 @@ export default function TechniqueClient({ technique, related }) {
         data.push({ slug: technique.slug, date: new Date().toISOString(), minutes: mins });
         localStorage.setItem(key, JSON.stringify(data.slice(-100)));
       } catch {}
+
+      if (!disableAnonymousMetrics) {
+        trackAnonymousMetric({
+          event: "tool_completed",
+          toolKind: "technique",
+          toolId: technique.slug,
+          source: metricsSource,
+          durationSeconds: mins * 60,
+        });
+      }
     }
   };
 
@@ -654,6 +662,16 @@ export default function TechniqueClient({ technique, related }) {
     setExerciseStartTime(Date.now());
     setCurrentStep(0);
     setExerciseDone(false);
+
+    if (!disableAnonymousMetrics) {
+      trackAnonymousMetric({
+        event: "tool_started",
+        toolKind: "technique",
+        toolId: technique.slug,
+        source: metricsSource,
+      });
+    }
+
     setTimeout(() => exerciseRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
   };
 
@@ -694,9 +712,25 @@ export default function TechniqueClient({ technique, related }) {
 
         {/* ─── Neuroscience ─── */}
         <section style={{ marginBottom: 36, padding: "24px 20px", background: "rgba(107,127,110,0.06)", borderRadius: 16, border: `1px solid ${SUBTLE}` }}>
-          <h2 style={{ ...h2Style, marginTop: 0 }}>What's Happening in Your Brain</h2>
+          <h2 style={{ ...h2Style, marginTop: 0 }}>Why It Can Help</h2>
           <p style={{ ...proseStyle, marginBottom: 0 }}>{technique.neuroscience}</p>
         </section>
+
+        <EvidenceDrawer
+          evidence={techniqueEvidence}
+          accentColor={ACCENT}
+          borderColor={SUBTLE}
+          background="rgba(107,127,110,0.05)"
+          panelBackground="rgba(255,255,255,0.04)"
+          textColor={TEXT}
+          mutedColor="rgba(45,42,38,0.72)"
+        />
+
+        <EditorialReviewCard
+          kind="Technique"
+          background="rgba(255,255,255,0.45)"
+          border={`1px solid ${SUBTLE}`}
+        />
 
         {/* ─── Interactive Exercise ─── */}
         <section ref={exerciseRef} style={{ marginBottom: 40 }}>

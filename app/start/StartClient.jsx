@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button, Card, EmotionCard, Tag } from '../components/ui';
 import { emotionOptions, intensityLabels, timePreferences } from './emotionData';
-import { getInterventions } from '../../data/interventions';
+import { getAllInterventions, getInterventions } from '../../data/interventions';
+import { getMeasuredSessions, getSessions, rankInterventions } from '../../utils/sessionHistory';
 
 const stepLabels = [
   "What's going on?",
@@ -23,26 +25,74 @@ function tagVariant(modality = '') {
 }
 
 export default function StartClient() {
+  const router = useRouter();
   const [step, setStep] = useState(1);
   const [selectedEmotionId, setSelectedEmotionId] = useState(null);
   const [intensity, setIntensity] = useState(5);
   const [timePref, setTimePref] = useState(null);
   const [showCrisis, setShowCrisis] = useState(false);
+  const [sessionHistory, setSessionHistory] = useState([]);
 
   const selectedEmotion = useMemo(
     () => emotionOptions.find((item) => item.id === selectedEmotionId),
     [selectedEmotionId]
   );
 
+  const measuredSessions = useMemo(() => getMeasuredSessions(sessionHistory), [sessionHistory]);
   const progress = Math.min(100, ((step - 1) / 3) * 100);
   const recommendations = useMemo(() => {
     if (!selectedEmotion || !timePref) return [];
-    return getInterventions(selectedEmotion.id, timePref).filter(i => !i.placeholder);
-  }, [selectedEmotion, timePref]);
+    const candidates = getInterventions(selectedEmotion.id, timePref)
+      .filter((intervention) => !intervention.placeholder)
+      .map((intervention) => ({
+        ...intervention,
+        emotionLabel: selectedEmotion.label,
+        emotionEmoji: selectedEmotion.emoji,
+      }));
+
+    return rankInterventions(candidates, {
+      sessions: measuredSessions,
+      emotionId: selectedEmotion.id,
+      timePreference: timePref,
+      limit: candidates.length,
+    });
+  }, [measuredSessions, selectedEmotion, timePref]);
+
+  const fallbackRecommendations = useMemo(() => {
+    if (!selectedEmotion || !timePref || recommendations.length > 0) return [];
+
+    const candidates = getAllInterventions()
+      .filter((intervention) => intervention.emotionId === selectedEmotion.id)
+      .map((intervention) => ({
+        ...intervention,
+        emotionLabel: selectedEmotion.label,
+        emotionEmoji: selectedEmotion.emoji,
+      }));
+
+    return rankInterventions(candidates, {
+      sessions: measuredSessions,
+      emotionId: selectedEmotion.id,
+      timePreference: timePref,
+      limit: 3,
+    });
+  }, [measuredSessions, recommendations.length, selectedEmotion, timePref]);
+
+  const displayedRecommendations = recommendations.length > 0 ? recommendations : fallbackRecommendations;
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [step, showCrisis]);
+
+  useEffect(() => {
+    const syncSessions = () => setSessionHistory(getSessions());
+    syncSessions();
+    window.addEventListener('storage', syncSessions);
+    window.addEventListener('focus', syncSessions);
+    return () => {
+      window.removeEventListener('storage', syncSessions);
+      window.removeEventListener('focus', syncSessions);
+    };
+  }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -57,6 +107,22 @@ export default function StartClient() {
       setStep(2);
     }
   }, [selectedEmotionId]);
+
+  useEffect(() => {
+    if (step !== 4 || !selectedEmotionId || !timePref) return;
+
+    if (displayedRecommendations.length > 0) {
+      displayedRecommendations.slice(0, 3).forEach((intervention) => {
+        router.prefetch(
+          `/intervention/${intervention.id}?emotion=${selectedEmotionId}&intensity=${intensity}&time=${timePref}`
+        );
+      });
+      return;
+    }
+
+    router.prefetch('/techniques');
+    router.prefetch('/companion');
+  }, [displayedRecommendations, intensity, router, selectedEmotionId, step, timePref]);
 
   const handleEmotionSelect = (id) => {
     const emotion = emotionOptions.find((item) => item.id === id);
@@ -281,9 +347,34 @@ export default function StartClient() {
                 </div>
               </div>
 
-              {recommendations.length > 0 ? (
+              <div style={{
+                display: 'grid',
+                gap: 8,
+                padding: '16px 18px',
+                borderRadius: 18,
+                border: '1px solid var(--border)',
+                background: 'color-mix(in srgb, var(--surface) 94%, white)',
+              }}>
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                  <Tag variant={selectedEmotion.variant || 'act'}>For You, right now</Tag>
+                  {measuredSessions.length > 0 ? (
+                    <span style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 700 }}>
+                      Reordered privately using {measuredSessions.length} completed mood-shift session{measuredSessions.length !== 1 ? 's' : ''} on this device.
+                    </span>
+                  ) : (
+                    <span style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 700 }}>
+                      AIForj will start personalizing after you complete a few tools on this device.
+                    </span>
+                  )}
+                </div>
+                <p style={{ margin: 0, fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+                  We rank tools by fit for this feeling and whether similar tools actually helped you before. No session text or history leaves your device.
+                </p>
+              </div>
+
+              {displayedRecommendations.length > 0 ? (
                 <div style={{ display: 'grid', gap: 14 }}>
-                  {recommendations.map((intervention, index) => (
+                  {displayedRecommendations.map((intervention, index) => (
                     <article
                       key={intervention.id}
                       style={{
@@ -299,6 +390,8 @@ export default function StartClient() {
                       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
                           {index === 0 && <Tag variant="free">Recommended for you</Tag>}
+                          {intervention.recommendationKind === 'history' && <Tag variant={selectedEmotion.variant || 'act'}>Because it helped before</Tag>}
+                          {recommendations.length === 0 && <Tag variant={selectedEmotion.variant || 'act'}>Best available fit</Tag>}
                           <Tag variant={intervention.tier === 'premium' ? 'premium' : 'free'}>{intervention.tier}</Tag>
                         </div>
                         <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: 'var(--text-muted)' }}>{intervention.timeMinutes} min</span>
@@ -306,6 +399,10 @@ export default function StartClient() {
                       <div>
                         <h3 style={{ margin: '0 0 8px' }}>{intervention.name || intervention.title}</h3>
                         <p style={{ margin: 0, fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.65 }}>{intervention.description}</p>
+                        <p style={{ margin: '10px 0 0', fontSize: 13, color: selectedEmotion.accentDeep, fontWeight: 700, lineHeight: 1.6 }}>
+                          {intervention.recommendationReason}
+                          {intervention.recommendationStats?.averageShift > 0 ? ` · Avg shift ${intervention.recommendationStats.averageShift > 0 ? '+' : ''}${intervention.recommendationStats.averageShift}` : ''}
+                        </p>
                       </div>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
                         {(intervention.modalities || [intervention.modality]).filter(Boolean).map((modality) => (
@@ -326,23 +423,7 @@ export default function StartClient() {
                     </article>
                   ))}
                 </div>
-              ) : (
-                <div style={{ padding: '36px 24px', borderRadius: 22, background: 'var(--surface)', border: '1px solid var(--border)', textAlign: 'center' }}>
-                  <span style={{ fontSize: 36, display: 'block', marginBottom: 14 }}>🛠️</span>
-                  <h3 style={{ margin: '0 0 10px' }}>Interactive tools for {selectedEmotion.label.toLowerCase()} ({selectedTime.label.toLowerCase()}) are coming soon</h3>
-                  <p style={{ margin: '0 0 20px', color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: 14 }}>
-                    We're building clinically-informed interactive tools for this exact situation. In the meantime, you can try our available anxiety tools or talk to Forj for personalized support.
-                  </p>
-                  <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-                    <a href="/start?emotion=anxious" className="btn-primary" style={{ textDecoration: 'none', background: selectedEmotion.accentDeep }}>
-                      Try anxiety tools →
-                    </a>
-                    <a href="/companion" className="btn-secondary" style={{ textDecoration: 'none', color: 'var(--amber-deep)', borderColor: 'var(--amber)' }}>
-                      Talk to Forj →
-                    </a>
-                  </div>
-                </div>
-              )}
+              ) : null}
 
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
                 <a href="/techniques" style={{ color: selectedEmotion.accentDeep, fontWeight: 700 }}>

@@ -1,7 +1,13 @@
-const metadata = {
+import ArchetypePageEnhancements from "../../components/ArchetypePageEnhancements";
+import { buildContentPageMetadata } from "../../../lib/pageMetadata";
+
+const metadata = buildContentPageMetadata({
   title: 'The Ghost Emotional Archetype — Clinical Guide | AIForj',
   description: 'Discover what it means to be The Ghost. Understand your stress response, thinking patterns, and evidence-based techniques matched to this archetype. Free guide from AIForj, clinically informed by a Licensed Healthcare Provider.',
-};
+  path: "/archetypes/ghost",
+  kind: "archetype",
+  slug: "ghost",
+});
 
 const faq = [
   { q: 'What does it mean to be a Ghost archetype?', a: 'A Ghost tends toward emotional shutdown and withdrawal; this pattern protects by reducing exposure to overwhelm.' },
@@ -72,26 +78,13 @@ export default function Page() {
         </ul>
       </section>
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        mainEntity: faq.map(f => ({
-          "@type": "Question",
-          name: f.q,
-          acceptedAnswer: { "@type": "Answer", text: f.a }
-        }))
-      }) }} />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "The Ghost: Understanding Quiet Distress",
-        "author": { "@type": "Person", "name": "AIForj Team" },
-        "datePublished": "2026-04-05",
-        "publisher": { "@type": "Organization", "name": "AIForj", "logo": { "@type": "ImageObject", "url": "https://aiforj.com/aif.jpeg" } },
-        "medicalSpecialty": "Psychiatry",
-        "url": "https://aiforj.com/archetypes/ghost"
-      }) }} />
+      <ArchetypePageEnhancements
+        title="The Ghost: Understanding Emotional Shutdown"
+        description={metadata.description}
+        url="https://aiforj.com/archetypes/ghost"
+        about="Ghost emotional archetype"
+        faq={faq}
+      />
     </main>
   );
 }

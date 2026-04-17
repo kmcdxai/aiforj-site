@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { XAxis, YAxis, Tooltip, ResponsiveContainer, Area, AreaChart } from "recharts";
 import EmailCapture from "./EmailCapture";
 import SiteFooter from "./SiteFooter";
+import { getForYouRecommendations, getMeasuredSessions } from "../../utils/sessionHistory";
 
 // ═══════════════════════════════════════════════════════════════
 // PRODUCTION CONFIG
@@ -86,6 +87,12 @@ const QUICK_TOOLS = [
   { id: "tipp",   icon: "❄️", label: "TIPP Crisis Skill",    time: "3 min", desc: "DBT's fastest emotion reducer.",   type: "tipp",                                                   free: false },
 ];
 
+const TIER_LABELS = {
+  quick: "Quick",
+  medium: "Medium",
+  deep: "Deep",
+};
+
 // ═══════════════════════════════════════════════════════════════
 // COMPREHENSIVE EVIDENCE-BASED PROTOCOLS
 // CBT, DBT, ACT, IPT, Behavioral Activation, MBSR,
@@ -97,7 +104,7 @@ const PROTOCOLS = {
     basis: "CBT + Somatic Grounding + ACT",
     icon: "⚡",
     steps: [
-      { type: "breathing", title: "Vagal Nerve Reset", instruction: "Activating your parasympathetic nervous system. This 4-4-6 pattern is clinically shown to reduce cortisol and lower heart rate within 90 seconds.", breathe: { inhale: 4, hold: 4, exhale: 6 } },
+      { type: "breathing", title: "Nervous System Reset", instruction: "A longer exhale can help the body downshift. This 4-4-6 pattern is a simple way to slow the pace and create a little more room to think.", breathe: { inhale: 4, hold: 4, exhale: 6 } },
       { type: "scale", title: "Anxiety Intensity", instruction: "How intense is this anxiety right now? This helps us calibrate the right intervention.", fieldKey: "intensity", min: 1, max: 10 },
       { type: "input", title: "Thought Capture", instruction: "What thought is looping in your mind right now? Write it exactly as your brain is saying it — don't filter.", placeholder: "e.g., 'I'm going to fail and everyone will see...'", fieldKey: "thought" },
       { type: "select", title: "Cognitive Distortion Scan", instruction: "Your thought may contain a thinking trap. These are patterns your brain defaults to under stress. Which one fits?", options: [
@@ -518,9 +525,9 @@ CRITICAL RULES:
 // Intelligent rule-based fallback when WebLLM isn't available
 function generateFallbackInsight(emotion, responses, protocol) {
   const distortionAdvice = {
-    catastrophizing: "Your mind jumped to the worst case — a pattern called catastrophizing. Research shows that less than 10% of our worst fears actually materialize. Try asking yourself: 'What's the MOST LIKELY outcome?' rather than the worst one.",
+    catastrophizing: "Your mind jumped to the worst case — a pattern called catastrophizing. Try asking yourself: 'What's the MOST LIKELY outcome?' rather than the worst one.",
     mindreading: "You're assuming you know what others think — that's mind-reading, one of the most common cognitive distortions. The truth is, we're usually wrong about others' thoughts. Consider: 'What evidence do I actually have for this belief?'",
-    fortunetelling: "You're predicting a negative future — fortune-telling. But your brain isn't a crystal ball. Studies show our negative predictions are wrong far more often than they're right. Focus on what you can control right now.",
+    fortunetelling: "You're predicting a negative future — fortune-telling. But your brain isn't a crystal ball. Focus on what you can control right now.",
     allnothing: "You're seeing this in all-or-nothing terms. Life rarely operates in absolutes. Where's the middle ground here? Most situations have a spectrum of outcomes.",
     filtering: "You're filtering out the positive and zooming in on the negative. This is called mental filtering. Try this: name three things that went well today, even small ones.",
     shoulding: "Those 'should' statements are creating unnecessary pressure. Replace 'I should' with 'I choose to' or 'I'd prefer to' — it shifts the energy from obligation to intention.",
@@ -535,7 +542,7 @@ function generateFallbackInsight(emotion, responses, protocol) {
       return base + reframe + action;
     },
     overwhelmed: (r) => {
-      let out = "You just externalized everything weighing on you — that alone reduces cognitive load. Research shows that writing down worries decreases their emotional impact by up to 20%.";
+      let out = "You just externalized everything weighing on you — that alone can reduce cognitive load and make the problem feel more workable.";
       if (r.microStep) out += `\n\nYour chosen first step — "${r.microStep}" — is perfect. The key insight from behavioral science: starting is always harder than continuing. Once you begin, momentum builds naturally.`;
       if (r.acceptance) out += `\n\nYour radical acceptance statement shows emotional maturity. DBT teaches us that fighting reality creates suffering — accepting it creates space to act wisely.`;
       out += "\n\nDo your micro-step right now. Set a 2-minute timer if it helps.";
@@ -562,7 +569,7 @@ function generateFallbackInsight(emotion, responses, protocol) {
     },
     unmotivated: (r) => {
       let out = `Your energy is at ${r.energy || "low"}/10. That's your starting point — not your ceiling. Behavioral activation research shows that action precedes motivation, not the other way around. You don't need to feel motivated to begin.`;
-      if (r.fiveMin) out += `\n\n"${r.fiveMin}" — that's your 5-minute contract with yourself. The science is clear: once you start a task, your brain releases dopamine that sustains effort. The hardest part is literally just the first 30 seconds.`;
+      if (r.fiveMin) out += `\n\n"${r.fiveMin}" — that's your 5-minute contract with yourself. Starting is often the hardest part, and even a brief beginning can make the next minute easier.`;
       if (r.commit) out += `\n\nYour commitment: "${r.commit}". Say it out loud. Research on implementation intentions shows that stating when and what you'll do doubles your follow-through rate.`;
       return out;
     },
@@ -576,7 +583,7 @@ function generateFallbackInsight(emotion, responses, protocol) {
     stressed: (r) => {
       let out = "You inventoried your stressors and assessed your control — that's stress inoculation in action. Separating controllables from uncontrollables is the single most effective cognitive strategy for stress reduction.";
       if (r.defusion) out += `\n\n"${r.defusion}" — that ACT defusion technique creates psychological distance between you and the thought. You're not eliminating the stress; you're changing your relationship to it. That shift is where freedom lives.`;
-      if (r.action) out += `\n\nYour one controllable action: "${r.action}". Do it now. When you act on what you can control, your brain's threat-detection system (the amygdala) calms down because you've demonstrated agency.`;
+      if (r.action) out += `\n\nYour one controllable action: "${r.action}". Do it now. Acting on something concrete can reduce helplessness and give your system evidence that you are moving, not just bracing.`;
       return out;
     },
     fine: (r) => {
@@ -593,20 +600,20 @@ function generateFallbackInsight(emotion, responses, protocol) {
       return out;
     },
     relationship: (r) => {
-      let out = "Relationship pain is one of the most physiologically activating experiences humans have — your nervous system treats social threat the same as physical danger. You handled it well by separating facts from interpretation.";
+      let out = "Relationship pain can be intensely activating — your body often responds to social hurt with the same urgency it brings to other forms of threat. You handled it well by separating facts from interpretation.";
       if (r.need) out += `\n\nWhat you actually need: "${r.need}" — that's the real conversation waiting to happen. DBT Interpersonal Effectiveness teaches that most relationship conflicts are fundamentally about unmet needs, not the surface argument.`;
       if (r.selfCare) out += `\n\nYour self-care plan: "${r.selfCare}". Do it before you try to resolve anything. You can't pour from empty, and you can't communicate clearly from activation.`;
       return out;
     },
     night: (r) => {
-      let out = "3AM thoughts have a particular cruelty — they feel more real and more catastrophic than they actually are. This is because the prefrontal cortex (your rational mind) is less active at night, leaving your amygdala in charge.";
+      let out = "3AM thoughts have a particular cruelty — they feel more real and more catastrophic than they usually are. Late-night thinking is often narrower, more threat-focused, and less balanced than daytime thinking.";
       if (r.worry) out += `\n\nYou wrote: "${r.worry?.slice(0,80)}${r.worry?.length > 80 ? "..." : ""}". That's now on the screen, not just in your head. CBT-Insomnia research shows that externalizing 3AM thoughts reduces their grip within minutes.`;
       if (r.permission) out += `\n\nYour permission: "${r.permission}". Say it out loud, once, and mean it. You don't have to solve tonight's problems tonight.`;
       out += "\n\nNow: do your chosen sleep technique. Give it 10 full minutes before evaluating whether it worked.";
       return out;
     },
     socialanxiety: (r) => {
-      let out = "Social anxiety runs on prediction — your brain generates a worst-case social scenario and treats it as fact before anything has happened. CBT research shows this prediction is wrong the vast majority of the time.";
+      let out = "Social anxiety runs on prediction — your brain generates a worst-case social scenario and treats it as fact before anything has happened. CBT often finds that the mind overestimates social threat and underestimates your ability to cope.";
       if (r.evidence) out += `\n\nYour evidence check: "${r.evidence}". That's the most powerful tool in this entire protocol. When you search for evidence and find little or none, you're doing cognitive restructuring in real time.`;
       if (r.courage) out += `\n\n"${r.courage}" — hold onto that. Courage in social anxiety isn't the absence of fear. It's moving toward the situation while the fear is still present. Every time you do that, you're rewiring your threat response.`;
       return out;
@@ -1221,6 +1228,8 @@ export default function AIForj() {
   const theme = COLOR_THEMES[emotion] || COLOR_THEMES.default;
   const protocol = emotion ? PROTOCOLS[emotion] : null;
   const currentStep = protocol?.steps[step];
+  const measuredSessionCount = useMemo(() => getMeasuredSessions(sessions).length, [sessions]);
+  const personalizedTools = useMemo(() => getForYouRecommendations({ sessions, limit: 3 }), [sessions]);
 
   // Load persisted data on mount + handle URL params for deep-linking
   useEffect(() => {
@@ -1471,6 +1480,82 @@ export default function AIForj() {
             <p style={{ fontSize: 15, color: theme.accent, fontWeight: 300, margin: 0, lineHeight: 1.6, opacity: 0.8 }}>
               Evidence-based micro-interventions. 3–5 minutes.<br />No login. No data stored on servers. Completely private.
             </p>
+          </div>
+
+          <div style={{ width: "100%", maxWidth: 700, marginBottom: 28 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
+              <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 2, color: theme.accent, fontWeight: 600, opacity: 0.8 }}>For You, right now</span>
+              <span style={{ fontSize: 11, color: theme.accent, opacity: 0.5 }}>
+                {measuredSessionCount > 0
+                  ? `powered by ${measuredSessionCount} completed mood-shift session${measuredSessionCount !== 1 ? "s" : ""} on this device`
+                  : "starts learning after you complete a few tools"}
+              </span>
+            </div>
+
+            {personalizedTools.length > 0 ? (
+              <div style={{ display: "grid", gap: 10, gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))" }}>
+                {personalizedTools.map((tool, index) => (
+                  <button
+                    key={tool.id}
+                    onClick={() => { window.location.href = `/intervention/${tool.id}?emotion=${tool.emotionId}&intensity=5&time=${tool.tier}`; }}
+                    style={{
+                      display: "grid",
+                      gap: 10,
+                      padding: "18px 18px",
+                      textAlign: "left",
+                      background: index === 0 ? `rgba(${theme.breathe},0.12)` : theme.card,
+                      border: index === 0 ? `1px solid rgba(${theme.breathe},0.26)` : `1px solid rgba(${theme.breathe},0.08)`,
+                      borderRadius: 18,
+                      cursor: "pointer",
+                      backdropFilter: "blur(10px)",
+                      transition: "all 0.2s ease",
+                    }}
+                    onMouseEnter={(event) => {
+                      event.currentTarget.style.transform = "translateY(-2px)";
+                      event.currentTarget.style.boxShadow = `0 12px 28px rgba(${theme.breathe},0.12)`;
+                    }}
+                    onMouseLeave={(event) => {
+                      event.currentTarget.style.transform = "translateY(0)";
+                      event.currentTarget.style.boxShadow = "none";
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
+                      <span style={{ fontSize: 12, color: theme.accent, fontWeight: 600, letterSpacing: 1, textTransform: "uppercase" }}>
+                        {tool.emotionEmoji} {tool.emotionLabel}
+                      </span>
+                      <span style={{ fontSize: 11, color: theme.accent, opacity: 0.6 }}>
+                        {TIER_LABELS[tool.tier] || tool.tier} · {tool.duration}
+                      </span>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 16, color: theme.text, fontWeight: 600, marginBottom: 6 }}>{tool.title || tool.name}</div>
+                      <div style={{ fontSize: 12, color: theme.accent, opacity: 0.85, lineHeight: 1.6 }}>{tool.recommendationReason}</div>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+                      <span style={{ fontSize: 12, color: theme.accent, opacity: 0.65 }}>
+                        {tool.recommendationStats?.averageShift > 0
+                          ? `Avg shift +${tool.recommendationStats.averageShift}`
+                          : "Private local match"}
+                      </span>
+                      <span style={{ fontSize: 12, color: theme.text, fontWeight: 600 }}>Open tool →</span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div style={{
+                padding: "18px 20px",
+                background: theme.card,
+                border: `1px solid rgba(${theme.breathe},0.08)`,
+                borderRadius: 18,
+                backdropFilter: "blur(10px)",
+              }}>
+                <p style={{ fontSize: 13, color: theme.text, lineHeight: 1.7, margin: 0 }}>
+                  Complete a few interventions and AIForj will start surfacing the tools that help most on this device.
+                  The ranking is local-first and based on actual mood shifts, not time-on-site.
+                </p>
+              </div>
+            )}
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(155px, 1fr))", gap: 10, maxWidth: 700, width: "100%" }}>

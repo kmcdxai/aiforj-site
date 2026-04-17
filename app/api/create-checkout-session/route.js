@@ -1,18 +1,58 @@
 import Stripe from 'stripe';
 import { NextResponse } from 'next/server';
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+function createStripeClient() {
+  const apiKey = process.env.STRIPE_SECRET_KEY;
+  if (!apiKey) return null;
+
+  return new Stripe(apiKey, {
+    timeout: 8000,
+    maxNetworkRetries: 0,
+  });
+}
+
 export async function POST() {
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { timeout: 8000, maxNetworkRetries: 0 });
+  const stripe = createStripeClient();
   const domain = (process.env.NEXT_PUBLIC_DOMAIN || 'https://aiforj.com').trim();
+
+  if (!stripe) {
+    return NextResponse.json(
+      { error: 'Premium checkout is temporarily unavailable.' },
+      { status: 503 }
+    );
+  }
+
   try {
+    const lineItems = process.env.STRIPE_PRICE_ID
+      ? [
+          {
+            price: process.env.STRIPE_PRICE_ID,
+            quantity: 1,
+          },
+        ]
+      : [
+          {
+            price_data: {
+              currency: 'usd',
+              product_data: {
+                name: 'AIForj Premium',
+                description: 'Monthly AIForj Premium subscription.',
+              },
+              recurring: {
+                interval: 'month',
+              },
+              unit_amount: 999,
+            },
+            quantity: 1,
+          },
+        ];
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: [
-        {
-          price: process.env.STRIPE_PRICE_ID,
-          quantity: 1,
-        },
-      ],
+      line_items: lineItems,
       mode: 'subscription',
       success_url: `${domain}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${domain}/`,
@@ -26,8 +66,8 @@ export async function POST() {
   } catch (err) {
     console.error('Stripe checkout error:', err);
     return NextResponse.json(
-      { error: err.message },
-      { status: 500 }
+      { error: 'Premium checkout is temporarily unavailable.' },
+      { status: 503 }
     );
   }
 }

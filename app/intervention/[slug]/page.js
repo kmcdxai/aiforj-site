@@ -2,6 +2,7 @@ import { TECHNIQUES } from "../../techniques/data";
 import { getAllInterventions, getInterventionById } from "../../../data/interventions";
 import { notFound } from "next/navigation";
 import InterventionClient from "./InterventionClient";
+import { buildCalmCardUrl } from "../../../utils/calmCard";
 
 function getRouteEntry(slug) {
   // `/intervention/*` should prefer the interactive intervention catalog when a
@@ -29,6 +30,11 @@ export async function generateMetadata({ params }) {
     t.metaDescription ||
     `${t.description} Use this guided AIForj tool to check in before and after, then save a shareable Mood Shift Receipt.`;
   const canonicalSlug = t.slug || t.id;
+  const socialImage = buildCalmCardUrl({
+    kind: t.id ? "intervention" : "technique",
+    slug: canonicalSlug,
+    format: "og",
+  });
   const keywordList = Array.from(
     new Set(
       [
@@ -54,11 +60,13 @@ export async function generateMetadata({ params }) {
       url: `https://aiforj.com/intervention/${canonicalSlug}`,
       siteName: "AIForj",
       type: "article",
+      images: [{ url: socialImage, width: 1200, height: 630, alt: `${name} calm card` }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: [socialImage],
     },
   };
 }

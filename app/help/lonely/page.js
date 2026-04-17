@@ -1,14 +1,18 @@
 import BiophilicBackground from "../../components/BiophilicBackground";
 import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
+import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
 import Link from "next/link";
+import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
-export const metadata = {
+export const metadata = buildContentPageMetadata({
   title: "Loneliness Support: Evidence-Based Tools | Free & Private",
   description: "Feeling lonely even around people? Ways to cope, reconnect, and care for yourself that are private and evidence-based.",
-  alternates: { canonical: "https://aiforj.com/help/lonely" },
-};
+  path: "/help/lonely",
+  kind: "help",
+  slug: "lonely",
+});
 
 export default function Page() {
   const faq = [
@@ -40,24 +44,19 @@ export default function Page() {
           <h2>Go deeper</h2>
           <p>Use the <Link href="/blueprint">Blueprint</Link> to map social goals or the <Link href="/send">voice companion</Link> for guided outreach scripts.</p>
 
+          <HelpPageEnhancements
+            title="Feeling Lonely Even Around People?"
+            description={metadata.description}
+            url="https://aiforj.com/help/lonely"
+            about="Loneliness"
+            faq={faq}
+          />
+
           <EmailCapture />
         </article>
       </main>
 
       <SiteFooter />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "MedicalWebPage",
-        "mainEntity": { "@type": "MedicalCondition", "name": "Loneliness" },
-        "description": "Practical, evidence-based tools to reduce loneliness and reconnect.",
-      }) }} />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": faq.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } }))
-      }) }} />
     </>
   );
 }

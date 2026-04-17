@@ -37,7 +37,18 @@ export default function SiteFooter() {
         marginLeft: "auto",
         marginRight: "auto",
       }}>
-        Forj is a wellness companion — not a therapist or substitute for professional care.
+        Forj is a wellness companion — not a therapist or substitute for professional care.{" "}
+        <Link href="/how-aiforj-stays-safe" style={{ color: "var(--interactive)", textDecoration: "underline" }}>
+          How AIForj stays safe
+        </Link>
+        {" "}·{" "}
+        <Link href="/editorial-policy" style={{ color: "var(--interactive)", textDecoration: "underline" }}>
+          Editorial policy
+        </Link>
+        {" "}·{" "}
+        <Link href="/what-we-collect" style={{ color: "var(--interactive)", textDecoration: "underline" }}>
+          What we collect
+        </Link>
       </p>
 
       {/* Footer nav */}
@@ -45,11 +56,20 @@ export default function SiteFooter() {
         {[
           { href: "/", label: "Home" },
           { href: "/start", label: "Start" },
+          { href: "/help", label: "Help Guides" },
           { href: "/companion", label: "Talk to Forj" },
           { href: "/blueprint", label: "Blueprint" },
           { href: "/techniques", label: "Techniques" },
           { href: "/tools", label: "Guided Tools" },
           { href: "/send", label: "Send Calm" },
+          { href: "/sponsor", label: "Sponsor a Friend" },
+          { href: "/family", label: "Family Plan" },
+          { href: "/clinician-pack", label: "Clinician Pack" },
+          { href: "/organizations", label: "Organizations" },
+          { href: "/why-aiforj", label: "Why AIForj" },
+          { href: "/how-aiforj-stays-safe", label: "Safety" },
+          { href: "/editorial-policy", label: "Editorial Policy" },
+          { href: "/what-we-collect", label: "What We Collect" },
           { href: "/find-help", label: "Find a Provider" },
           { href: "https://aiforj.gumroad.com/l/jmdqvd", label: "CBT Workbook", external: true },
         ].map(link => (
@@ -64,6 +84,7 @@ export default function SiteFooter() {
       {/* Landing pages */}
       <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 10, marginBottom: 24 }}>
         {[
+          { href: "/help", icon: "🧭", label: "Help Hub" },
           { href: "/3am-spiral", icon: "🌙", label: "3AM Spiral" },
           { href: "/overwhelmed", icon: "🌊", label: "Overwhelmed" },
           { href: "/burned-out", icon: "🪨", label: "Burned Out" },

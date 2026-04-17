@@ -1,6 +1,9 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import EvidenceDrawer from "./EvidenceDrawer";
+import EditorialReviewCard from "./EditorialReviewCard";
+import { getPageEvidence } from "../../data/evidence";
 
 function InlineEmailCapture({ accentColor = "#5b8fa8", textColor = "rgba(200,215,230,0.75)", bgColor = "rgba(91,143,168,0.06)", borderColor = "rgba(91,143,168,0.12)" }) {
   const [email, setEmail] = useState("");
@@ -53,6 +56,7 @@ export default function ThreeAMSpiral() {
   const [morningAction, setMorningAction] = useState("");
   const [morningKindness, setMorningKindness] = useState("");
   const [postStress, setPostStress] = useState(5);
+  const pageEvidence = getPageEvidence("3am-spiral");
 
   useEffect(() => {
     if (step === "landing") return;
@@ -168,8 +172,8 @@ export default function ThreeAMSpiral() {
             <p style={{ fontSize:12, color:"#5b8fa8", letterSpacing:4, textTransform:"uppercase", marginBottom:20, fontWeight:500 }}>Can't sleep</p>
             <h1 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"clamp(34px,7vw,52px)", fontWeight:300, lineHeight:1.15, marginBottom:24, color:"#dde4ee" }}>It's late. Your<br/>brain won't stop.</h1>
             <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(200,215,230,0.75)", marginBottom:20 }}>Replaying conversations. Predicting disasters. Listing everything undone. The thoughts loop and there's no off switch.</p>
-            <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(200,215,230,0.82)", marginBottom:20 }}>Here's what's happening: your prefrontal cortex — the rational part — drops up to 30% in activity after midnight. Meanwhile your amygdala, the threat system, runs unsupervised. That's why the same thought that feels manageable at 2pm feels catastrophic at 2am. Your brain's editor went home but the alarm system stayed.</p>
-            <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(200,215,230,0.82)", marginBottom:20 }}>There's also a cortisol factor: your body's cortisol levels begin rising around 2-3am in preparation for waking. If you're already stressed, this bump jolts you into hypervigilant wakefulness — wide awake, heart racing, mind spinning.</p>
+            <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(200,215,230,0.82)", marginBottom:20 }}>Here's what's happening: when you're under-slept or jolted awake in the night, your brain usually gets worse at perspective-taking and better at threat-detection. That's why the same thought that feels manageable at 2pm can feel catastrophic at 2am. Your inner editor is tired, but the alarm system is still loud.</p>
+            <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(200,215,230,0.82)", marginBottom:20 }}>Hormones can play a role too. Your cortisol rhythm shifts as morning approaches, but the timing varies by person and by stress load. The practical point is simpler: late-night wakefulness can feel physiologically activating, and that can turn looping thoughts into a full-body spiral.</p>
             <p style={{ fontSize:16, lineHeight:1.8, color:"#5b8fa8", marginBottom:44 }}>This protocol uses six evidence-based techniques — sequenced in the order your nervous system needs them — to bring your rational brain back online. About 10 minutes. No app. No login.</p>
             <div style={{ textAlign:"center" }}><Btn onClick={() => go("check")}>Start the protocol</Btn></div>
             <p style={{ fontSize:10, color:"rgba(200,215,230,0.4)", marginTop:36, lineHeight:1.7, textAlign:"center" }}>Built by AIForj Team and clinically informed by a Licensed Healthcare Provider. 100% private — nothing stored or sent.</p>
@@ -191,7 +195,7 @@ export default function ThreeAMSpiral() {
               </div>
               <input type="range" min={1} max={10} value={stressLevel} onChange={e => setStressLevel(+e.target.value)} />
               <p style={{ fontSize:12, color:"rgba(200,215,230,0.55)", marginTop:8, textAlign:"center" }}>
-                {stressLevel <= 3 ? "Mildly restless — we'll settle this quickly" : stressLevel <= 6 ? "Moderately activated — your amygdala is running the show" : stressLevel <= 8 ? "Highly activated — racing thoughts, tight chest. Common at this hour." : "Full alarm mode. This protocol is built for exactly this."}
+                {stressLevel <= 3 ? "Mildly restless — we'll settle this quickly" : stressLevel <= 6 ? "Moderately activated — your threat system has your attention right now" : stressLevel <= 8 ? "Highly activated — racing thoughts, tight chest. Common at this hour." : "Full alarm mode. This protocol is built for exactly this."}
               </p>
             </div>
             <div style={{ textAlign:"center", marginTop:28 }}><Btn onClick={() => go("breathe")}>Next: Calm the nervous system</Btn></div>
@@ -202,15 +206,15 @@ export default function ThreeAMSpiral() {
           <div key={fk} style={{ animation:"fadeUp 0.8s ease", paddingTop:"6vh" }}>
             <p style={{ fontSize:11, color:"#5b8fa8", letterSpacing:3, textTransform:"uppercase", marginBottom:6 }}>Step 2 of 6</p>
             <h2 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:28, fontWeight:300, marginBottom:12, color:"#dde4ee" }}>The 4-7-8 breath</h2>
-            <p style={{ fontSize:14, lineHeight:1.8, color:"rgba(200,215,230,0.75)", marginBottom:6 }}>Developed by Dr. Andrew Weil, based on pranayama. The long hold saturates blood with oxygen while the extended exhale activates the vagus nerve, shifting from fight/flight to rest/digest.</p>
+            <p style={{ fontSize:14, lineHeight:1.8, color:"rgba(200,215,230,0.75)", marginBottom:6 }}>Developed by Dr. Andrew Weil and influenced by pranayama breathing traditions. The goal here is simple: slow the pace, lengthen the exhale, and give your body a more settle-down rhythm to follow.</p>
             <p style={{ fontSize:13, color:"#5b8fa8", opacity:0.8, marginBottom:20 }}>4 in through nose. 7 hold. 8 out through mouth. Three cycles.</p>
             <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:20, padding:"12px 0" }}>
               {breathPhase === "ready" ? (
                 <Btn onClick={() => setBreathPhase("inhale")}>Begin breathing</Btn>
               ) : breathPhase === "done" ? (
                 <div style={{ textAlign:"center" }}>
-                  <p style={{ fontSize:18, fontFamily:"'Cormorant Garamond', serif", color:"#5b8fa8" }}>Your heart rate just dropped.</p>
-                  <p style={{ fontSize:13, color:"rgba(200,215,230,0.6)", marginTop:6 }}>The vagus nerve is doing its job.</p>
+                  <p style={{ fontSize:18, fontFamily:"'Cormorant Garamond', serif", color:"#5b8fa8" }}>Many people notice their body starting to settle here.</p>
+                  <p style={{ fontSize:13, color:"rgba(200,215,230,0.6)", marginTop:6 }}>A longer exhale can be enough to take the edge off the spiral.</p>
                 </div>
               ) : (
                 <>
@@ -232,12 +236,12 @@ export default function ThreeAMSpiral() {
           <div key={fk} style={{ animation:"fadeUp 0.8s ease", paddingTop:"6vh" }}>
             <p style={{ fontSize:11, color:"#5b8fa8", letterSpacing:3, textTransform:"uppercase", marginBottom:6 }}>Step 3 of 6</p>
             <h2 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:28, fontWeight:300, marginBottom:12, color:"#dde4ee" }}>Get it all out</h2>
-            <p style={{ fontSize:14, lineHeight:1.8, color:"rgba(200,215,230,0.75)", marginBottom:6 }}>Your working memory holds ~4 items. You're juggling 40. Your brain recycles thoughts because it's afraid of forgetting — so it replays the whole list on loop. Externalize everything so it can stop.</p>
+            <p style={{ fontSize:14, lineHeight:1.8, color:"rgba(200,215,230,0.75)", marginBottom:6 }}>Working memory is limited. When you try to hold too many worries at once, your brain often replays them so they do not get lost. Externalize everything so the loop has somewhere else to go.</p>
             <p style={{ fontSize:14, lineHeight:1.8, color:"#5b8fa8", opacity:0.8, marginBottom:20 }}>Write EVERYTHING. Worries, tasks, replays, what-ifs, random fears, that thing from 2019. Don't organize. Just dump.</p>
             <textarea value={dumpText} onChange={e => setDumpText(e.target.value)} placeholder={"That email I haven't replied to...\nWhat if I said the wrong thing...\nRent is due and I'm not sure...\nI need to call the doctor...\nWhy did they look at me like that...\nI'm falling behind on everything...\nWhat if this never gets better..."} rows={9} style={{ width:"100%", padding:18, fontSize:14, fontFamily:"'DM Sans', sans-serif", background:"rgba(255,255,255,0.03)", border:"1px solid rgba(91,143,168,0.12)", borderRadius:14, color:"#c0d0e0", resize:"vertical", lineHeight:1.8 }} />
             {wordCount > 0 && <p style={{ fontSize:12, color:"#5b8fa8", opacity:0.5, marginTop:8 }}>{wordCount} words, {lineCount} thoughts externalized.{wordCount > 50 ? " Your working memory just got significantly lighter." : " Keep going."}</p>}
             <div style={{ padding:16, background:"rgba(91,143,168,0.06)", borderRadius:12, border:"1px solid rgba(91,143,168,0.1)", marginTop:16 }}>
-              <p style={{ fontSize:12, color:"rgba(180,200,220,0.7)", lineHeight:1.7 }}><strong style={{ color:"#5b8fa8" }}>Pennebaker (1997):</strong> Writing about worries for even 5 minutes reduces their emotional intensity and frees working memory. Participants who wrote anxious thoughts before exams performed significantly better — writing freed cognitive resources anxiety was consuming.</p>
+              <p style={{ fontSize:12, color:"rgba(180,200,220,0.7)", lineHeight:1.7 }}><strong style={{ color:"#5b8fa8" }}>Why write it down:</strong> Externalizing worries can make repetitive thinking feel more containable. It is not magic, but for many people it lowers the mental traffic enough to think more clearly.</p>
             </div>
             <p style={{ fontSize:10, color:"rgba(200,215,230,0.4)", marginTop:12, textAlign:"center" }}>Nothing stored or sent. Exists only on your screen.</p>
             {wordCount >= 15 && <div style={{ animation:"fadeUp 0.5s ease", textAlign:"center", marginTop:20 }}><Btn onClick={() => go("forensics")}>Next: Examine the loudest thought</Btn></div>}
@@ -382,7 +386,7 @@ export default function ThreeAMSpiral() {
         })() && (
           <div key={fk} style={{ animation:"fadeUp 1s ease", paddingTop:"6vh" }}>
             <h2 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:34, fontWeight:300, marginBottom:8, color:"#dde4ee", lineHeight:1.3 }}>You did something<br/>most people don't.</h2>
-            <p style={{ fontSize:15, lineHeight:1.8, color:"rgba(200,215,230,0.75)", marginBottom:24 }}>Instead of fighting your brain in the dark, you used a clinical protocol: regulated your nervous system, externalized thoughts, challenged the loudest one, broke the spiral, released body tension, and anchored for tomorrow.</p>
+            <p style={{ fontSize:15, lineHeight:1.8, color:"rgba(200,215,230,0.75)", marginBottom:24 }}>Instead of fighting your brain in the dark, you used a structured calming protocol: regulated your nervous system, externalized thoughts, challenged the loudest one, broke the spiral, released body tension, and anchored for tomorrow.</p>
 
             {stressLevel > postStress && (
               <div style={{ padding:20, background:"rgba(90,140,107,0.06)", borderRadius:14, border:"1px solid rgba(90,140,107,0.12)", marginBottom:20, textAlign:"center" }}>
@@ -405,7 +409,7 @@ export default function ThreeAMSpiral() {
 
             <div style={{ padding:22, background:"rgba(91,143,168,0.04)", borderRadius:16, border:"1px solid rgba(91,143,168,0.08)", marginBottom:20 }}>
               <p style={{ fontSize:11, color:"#5b8fa8", letterSpacing:2, textTransform:"uppercase", marginBottom:12, fontWeight:600 }}>Next 15 minutes</p>
-              <p style={{ fontSize:14, color:"rgba(180,200,220,0.6)", lineHeight:1.8, marginBottom:10 }}><strong style={{ color:"#c0d0e0" }}>Phone face-down.</strong> Blue light suppresses melatonin for up to 90 minutes.</p>
+              <p style={{ fontSize:14, color:"rgba(180,200,220,0.6)", lineHeight:1.8, marginBottom:10 }}><strong style={{ color:"#c0d0e0" }}>Phone face-down.</strong> Bright screens can delay melatonin and make it harder to settle back down.</p>
               <p style={{ fontSize:14, color:"rgba(180,200,220,0.6)", lineHeight:1.8, marginBottom:10 }}><strong style={{ color:"#c0d0e0" }}>If a thought returns:</strong> "I notice I'm having the thought that..." (ACT defusion — become the observer, not the thought).</p>
               <p style={{ fontSize:14, color:"rgba(180,200,220,0.6)", lineHeight:1.8 }}><strong style={{ color:"#c0d0e0" }}>Still awake in 20 min?</strong> Get up, do something boring in dim light for 10 min, then return. Stimulus control therapy — prevents your brain from linking bed with anxiety.</p>
             </div>
@@ -446,6 +450,24 @@ export default function ThreeAMSpiral() {
             <p style={{ textAlign:"center", fontSize:10, color:"rgba(180,200,220,0.15)", margin:0 }}>Built by AIForj Team and clinically informed by a Licensed Healthcare Provider · © 2026 AIForj</p>
           </div>
         )}
+
+        <EvidenceDrawer
+          evidence={pageEvidence}
+          accentColor="#5b8fa8"
+          borderColor="rgba(91,143,168,0.16)"
+          background="rgba(91,143,168,0.05)"
+          panelBackground="rgba(6,11,18,0.22)"
+          textColor="#dde4ee"
+          mutedColor="rgba(200,215,230,0.72)"
+        />
+
+        <EditorialReviewCard
+          kind="Protocol"
+          background="rgba(91,143,168,0.05)"
+          border="1px solid rgba(91,143,168,0.16)"
+          textColor="#dde4ee"
+          mutedColor="rgba(200,215,230,0.72)"
+        />
       </main>
     </div>
   );
