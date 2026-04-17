@@ -4,6 +4,7 @@ import EmailCapture from "./EmailCapture";
 import { emotionOptions } from "../start/emotionData";
 import useScrollReveal from "../hooks/useScrollReveal";
 import PremiumCheckoutButton from "../../components/monetization/PremiumCheckoutButton";
+import { FORJ_MODALITIES, FORJ_MODALITY_COUNT } from "../../lib/forjModalities";
 
 const GUMROAD_WORKBOOK_URL = "https://aiforj.gumroad.com/l/jmdqvd";
 
@@ -25,8 +26,27 @@ const HOW_IT_WORKS = [
   },
 ];
 
-const MODALITIES = ["CBT", "DBT", "ACT", "Somatic", "Polyvagal", "Behavioral", "Psychoed", "Mindfulness", "Self-Compassion", "Problem-Solving", "Exposure", "Values", "Grounding", "Breathwork", "Journaling"];
 const INTERACTIONS = ["Thinking", "Writing", "Body", "Decision", "Social", "Psychoeducation", "Planning"];
+const HERO_PATHWAYS = [
+  {
+    eyebrow: "Guided check-in",
+    title: "Start with /start",
+    description:
+      "Pick what you are feeling, how intense it is, and how much time you have. AIForj matches a tool in under 30 seconds.",
+    href: "/start",
+    cta: "Get support now →",
+    badge: "Free",
+  },
+  {
+    eyebrow: "Voice or text companion",
+    title: "Talk to Forj",
+    description:
+      "If you want to talk it through instead of choosing a tool first, start a private conversation and let Forj adapt in real time.",
+    href: "/companion",
+    cta: "Open Talk to Forj →",
+    badge: "Voice + text",
+  },
+];
 
 const TECHNIQUE_LINKS = [
   { href: "/techniques/physiological-sigh", label: "Physiological Sigh" },
@@ -228,12 +248,51 @@ export default function Homepage() {
             <a href="/start" className="btn-primary" style={{ textDecoration: "none", padding: "16px 30px", fontSize: 16 }}>
               Get support now — it's free →
             </a>
-            <a href="#workbook" className="btn-secondary" style={{ textDecoration: "none", padding: "16px 26px", color: "var(--sage-deep)" }}>
-              See the CBT workbook
+            <a href="/companion" className="btn-secondary" style={{ textDecoration: "none", padding: "16px 26px", color: "var(--sage-deep)" }}>
+              Talk to Forj →
             </a>
+          </div>
+          <div style={{ margin: "28px auto 0", maxWidth: 760 }}>
+            <p className="text-label" style={{ margin: "0 0 12px", color: "var(--sage-deep)" }}>
+              Two doors into the same house
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14 }} className="home-hero-pathways">
+              {HERO_PATHWAYS.map((pathway) => (
+                <a
+                  key={pathway.href}
+                  href={pathway.href}
+                  className="card-hover"
+                  style={{
+                    textDecoration: "none",
+                    color: "inherit",
+                    padding: "22px 20px",
+                    borderRadius: 22,
+                    background: "rgba(255,255,255,0.72)",
+                    border: "1px solid rgba(45,42,38,0.08)",
+                    boxShadow: "var(--shadow-sm)",
+                    display: "grid",
+                    gap: 10,
+                    textAlign: "left",
+                  }}
+                >
+                  <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center" }}>
+                    <span className="text-label" style={{ color: "var(--sage-deep)" }}>{pathway.eyebrow}</span>
+                    <span className="tag tag-free">{pathway.badge}</span>
+                  </div>
+                  <h3 style={{ margin: 0 }}>{pathway.title}</h3>
+                  <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.7, fontSize: 15 }}>
+                    {pathway.description}
+                  </p>
+                  <span style={{ color: "var(--sage-deep)", fontWeight: 700 }}>{pathway.cta}</span>
+                </a>
+              ))}
+            </div>
           </div>
           <p className="text-caption" style={{ margin: "18px auto 0", color: "var(--text-muted)" }}>
             No account needed. No data leaves your device. Takes 30 seconds.
+          </p>
+          <p style={{ margin: "10px auto 0", fontSize: 14, color: "var(--text-secondary)" }}>
+            Prefer worksheets? <a href="#workbook" style={{ fontWeight: 700 }}>See the CBT workbook →</a>
           </p>
           <p style={{ margin: "10px auto 0", fontSize: 14 }}>
             Already using AIForj? <a href="/garden" style={{ fontWeight: 700 }}>Open your Mood Garden →</a>
@@ -263,7 +322,7 @@ export default function Homepage() {
           <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1.1fr) minmax(0, 0.9fr)", gap: 28, alignItems: "start" }} className="home-value-grid">
             <article style={{ display: "grid", gap: 18 }}>
               {[
-                ["15 therapeutic modalities, not just meditation", MODALITIES],
+                [`${FORJ_MODALITY_COUNT} therapeutic modalities, not just meditation`, FORJ_MODALITIES],
                 ["7 types of interactions", INTERACTIONS],
               ].map(([title, list]) => (
                 <div key={title} className="card" style={{ boxShadow: "var(--shadow-sm)" }}>
@@ -319,13 +378,13 @@ export default function Homepage() {
       <RevealSection style={{ padding: "84px 24px", background: "var(--surface)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <SectionHeader eyebrow="Coverage" title="A broad toolkit for real moments">
-            100+ interventions across 12 emotional states, 15 therapeutic modalities, and 7 interaction types.
+            100+ interventions across 12 emotional states, {FORJ_MODALITY_COUNT} therapeutic modalities, and 7 interaction types.
           </SectionHeader>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 16 }}>
             {[
               ["100+", "interventions"],
               ["12", "emotional states"],
-              ["15", "therapeutic modalities"],
+              [String(FORJ_MODALITY_COUNT), "therapeutic modalities"],
               ["7", "interaction types"],
             ].map(([value, label]) => (
               <div key={label} style={{ textAlign: "center", padding: "30px 18px", background: "var(--surface-elevated)", border: "1px solid var(--border)", borderRadius: 18 }}>

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import EmailCapture from "./EmailCapture";
 import DataManagement from "./DataManagement";
 import { useTheme } from "./ThemeProvider";
+import { FORJ_MODALITY_COUNT } from "../../lib/forjModalities";
 
 // ═══════════════════════════════════════════════════════════════════════════
 //
@@ -12,7 +13,7 @@ import { useTheme } from "./ThemeProvider";
 //  The world's first voice-based, clinically informed, completely private
 //  AI therapeutic companion.
 //
-//  15+ therapeutic modalities with dynamic selection
+//  16 therapeutic modalities with dynamic selection
 //  Built by AIForj Team and clinically informed by a Licensed Healthcare Provider
 //  100% browser-based — nothing leaves the device
 //
@@ -81,7 +82,7 @@ const TIERS = {
 // ─────────────────────────────────────────────────
 // THE CLINICAL INTELLIGENCE ENGINE
 // This is the brain of the entire product.
-// Dynamic technique selection across 15+ modalities.
+// Dynamic technique selection across 16 modalities.
 // ─────────────────────────────────────────────────
 const CLINICAL_SYSTEM_PROMPT = `You are FORJ — the AI voice companion inside AIForj.com. You were designed by AIForj Team and clinically informed by a Licensed Healthcare Provider. You are a clinically-informed, evidence-based AI wellness companion.
 
@@ -1238,7 +1239,7 @@ export default function ForjVoiceCompanion() {
 
           {/* Sub-headline */}
           <p style={{ fontSize: "clamp(15px, 2.5vw, 18px)", color: "var(--text-secondary)", margin: "0 auto 24px", lineHeight: 1.7, maxWidth: 520, animation: "fadeIn 1s ease 0.2s both" }}>
-            Built by AIForj Team and clinically informed by a Licensed Healthcare Provider. 16 evidence-based modalities. Privacy-forward and local-first where supported by your browser.
+            Built by AIForj Team and clinically informed by a Licensed Healthcare Provider. {FORJ_MODALITY_COUNT} evidence-based therapeutic modalities. Privacy-forward and local-first where supported by your browser.
           </p>
 
           {/* Privacy badge */}
@@ -1477,7 +1478,7 @@ export default function ForjVoiceCompanion() {
           <div className="card-hover" style={{ padding: "32px 28px", background: "var(--surface-elevated)", border: "1px solid rgba(45,42,38,0.06)", borderRadius: 20, boxShadow: "var(--shadow-md)" }}>
             <span style={{ fontSize: 32, display: "block", marginBottom: 14 }}>🗣️</span>
             <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 19, fontWeight: 500, color: "var(--text-primary)", margin: "0 0 10px" }}>Talk or Type</h3>
-            <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.7, margin: 0 }}>Personalized support in the moment. The AI adapts to what you say using 16 therapeutic techniques.</p>
+            <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.7, margin: 0 }}>Personalized support in the moment. The AI adapts to what you say using {FORJ_MODALITY_COUNT} therapeutic modalities.</p>
           </div>
           <div className="card-hover" style={{ padding: "32px 28px", background: "var(--surface-elevated)", border: "1px solid rgba(45,42,38,0.06)", borderRadius: 20, boxShadow: "var(--shadow-md)" }}>
             <span style={{ fontSize: 32, display: "block", marginBottom: 14 }}>🧭</span>
