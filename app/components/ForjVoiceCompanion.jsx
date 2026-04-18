@@ -1850,6 +1850,16 @@ export default function ForjVoiceCompanion() {
     getResponse(t, "text");
   }, [textInput, state, getResponse, tts]);
 
+  const handleReplayReply = useCallback((text) => {
+    if (!text || state === "listening" || state === "thinking") return;
+    if (state === "speaking") tts.stop();
+    setError("");
+    setState("speaking");
+    tts.speak(text, () => {
+      setState("idle");
+    });
+  }, [state, tts]);
+
   // New session tracking
   const startNewSession = useCallback(async () => {
     const today = new Date().toDateString();
@@ -1887,6 +1897,8 @@ export default function ForjVoiceCompanion() {
 
   const remainingMsgs = tier === "free" ? Math.max(0, TIERS.free.maxMessagesPerSession - msgCount) : null;
   const remainingSessions = tier === "free" ? Math.max(0, TIERS.free.sessionsPerDay - sessionCount) : null;
+  const transcriptPreviewMessages = messages.slice(-4);
+  const shouldShowTranscriptPreview = transcriptPreviewMessages.length > 1 || !!liveText || state === "thinking";
 
   const emotionColors = {
     anxious: "#6B9B9E", overwhelmed: "#8B7DA8", stressed: "#C4956A",
@@ -2109,17 +2121,93 @@ export default function ForjVoiceCompanion() {
             <a href="/tools" className="btn-glow" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '14px 32px', borderRadius: 999, background: 'transparent', color: 'var(--interactive)', textDecoration: 'none', border: '1.5px solid var(--interactive)' }}>Explore tools</a>
           </div>
 
-          {/* Live transcript */}
-          {state === "listening" && liveText && (
-            <div style={{ marginBottom: 20, padding: "12px 20px", background: "var(--surface)", borderRadius: 14, maxWidth: 400, margin: "0 auto 20px", animation: "fadeIn 0.3s", border: "1px solid rgba(107,155,158,0.15)" }}>
-              <span style={{ fontSize: 14, color: "var(--accent-teal)", fontStyle: "italic" }}>"{liveText}"</span>
-            </div>
-          )}
+          {/* Siri-style conversation transcript */}
+          {shouldShowTranscriptPreview && (
+            <div style={{ margin: "0 auto 20px", maxWidth: 520, textAlign: "left", animation: "fadeIn 0.4s" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginBottom: 10, padding: "0 4px" }}>
+                <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--text-muted)", fontWeight: 700, fontFamily: "'Fraunces', serif" }}>
+                  Live Transcript
+                </span>
+                <button
+                  onClick={() => setShowHistory((current) => !current)}
+                  className="btn-glow"
+                  style={{ background: "none", border: "none", color: "var(--interactive)", fontSize: 12, cursor: "pointer", fontWeight: 600, padding: 0 }}
+                >
+                  {showHistory ? "Hide full chat" : "Open full chat"}
+                </button>
+              </div>
 
-          {/* AI response */}
-          {aiText && state !== "listening" && (
-            <div style={{ marginBottom: 20, padding: "18px 24px", maxWidth: 480, margin: "0 auto 20px", animation: "fadeIn 0.5s", background: "var(--surface)", borderRadius: 16, boxShadow: "var(--shadow-sm)" }}>
-              <p style={{ fontSize: 15, lineHeight: 1.8, color: "var(--text-primary)", margin: 0, fontWeight: 300, opacity: 0.9 }}>{aiText}</p>
+              <div style={{ display: "grid", gap: 10 }}>
+                {transcriptPreviewMessages.map((message, index) => {
+                  const isUser = message.role === "user";
+                  const bubbleStyles = isUser
+                    ? {
+                        alignSelf: "flex-end",
+                        background: "rgba(107,155,158,0.10)",
+                        border: "1px solid rgba(107,155,158,0.16)",
+                        borderLeft: "4px solid var(--accent-teal)",
+                      }
+                    : {
+                        alignSelf: "flex-start",
+                        background: "rgba(125,155,130,0.10)",
+                        border: "1px solid rgba(125,155,130,0.16)",
+                        borderLeft: "4px solid var(--accent-sage)",
+                      };
+
+                  return (
+                    <div
+                      key={`${message.role}-${message.ts || index}`}
+                      style={{
+                        ...bubbleStyles,
+                        padding: "14px 16px",
+                        borderRadius: 18,
+                        boxShadow: "var(--shadow-sm)",
+                        maxWidth: "100%",
+                      }}
+                    >
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginBottom: 6 }}>
+                        <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 1.5, color: isUser ? "var(--accent-teal)" : "var(--accent-sage)", fontWeight: 700, fontFamily: "'Fraunces', serif" }}>
+                          {isUser ? "You said" : "Forj"}
+                        </span>
+                        {!isUser && (
+                          <button
+                            onClick={() => handleReplayReply(message.text)}
+                            className="btn-glow"
+                            style={{ background: "none", border: "none", color: "var(--interactive)", fontSize: 11, cursor: "pointer", fontWeight: 600, padding: 0 }}
+                          >
+                            Play reply
+                          </button>
+                        )}
+                      </div>
+                      <p style={{ fontSize: 15, lineHeight: 1.8, color: "var(--text-primary)", margin: 0, fontWeight: 300 }}>
+                        {message.text}
+                      </p>
+                    </div>
+                  );
+                })}
+
+                {state === "listening" && (
+                  <div style={{ alignSelf: "flex-end", background: "rgba(107,155,158,0.08)", border: "1px dashed rgba(107,155,158,0.22)", borderLeft: "4px solid var(--accent-teal)", padding: "14px 16px", borderRadius: 18, boxShadow: "var(--shadow-sm)" }}>
+                    <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 1.5, color: "var(--accent-teal)", fontWeight: 700, display: "block", marginBottom: 6, fontFamily: "'Fraunces', serif" }}>
+                      Listening…
+                    </span>
+                    <p style={{ fontSize: 15, lineHeight: 1.8, color: "var(--text-primary)", margin: 0, fontWeight: 300, fontStyle: liveText ? "normal" : "italic" }}>
+                      {liveText || "Speak naturally. Your words will appear here as Forj hears them."}
+                    </p>
+                  </div>
+                )}
+
+                {state === "thinking" && (
+                  <div style={{ alignSelf: "flex-start", background: "rgba(125,155,130,0.08)", border: "1px dashed rgba(125,155,130,0.22)", borderLeft: "4px solid var(--accent-sage)", padding: "14px 16px", borderRadius: 18, boxShadow: "var(--shadow-sm)" }}>
+                    <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 1.5, color: "var(--accent-sage)", fontWeight: 700, display: "block", marginBottom: 6, fontFamily: "'Fraunces', serif" }}>
+                      Forj is thinking…
+                    </span>
+                    <p style={{ fontSize: 14, lineHeight: 1.7, color: "var(--text-secondary)", margin: 0, fontWeight: 300 }}>
+                      Building a reply based on what you just said.
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           )}
 
