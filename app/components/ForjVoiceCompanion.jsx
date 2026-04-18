@@ -1725,7 +1725,7 @@ export default function ForjVoiceCompanion() {
   const showShareRef = useRef(false);
   useEffect(() => { showShareRef.current = showShare; }, [showShare]);
 
-  const getResponse = useCallback(async (userText) => {
+  const getResponse = useCallback(async (userText, inputMode = "text") => {
     if (!canSend()) { setShowUpgrade(true); setState("idle"); return; }
 
     setState("thinking");
@@ -1806,6 +1806,12 @@ export default function ForjVoiceCompanion() {
       }
     }
 
+    if (inputMode !== "voice") {
+      setState("idle");
+      if (msgsRef.current.length >= 6 && !showShareRef.current) setShowShare(true);
+      return;
+    }
+
     setState("speaking");
     tts.speak(text, () => {
       setState("idle");
@@ -1827,7 +1833,7 @@ export default function ForjVoiceCompanion() {
     }
     setState("listening");
     sr.start(
-      (final) => getResponse(final),
+      (final) => getResponse(final, "voice"),
       () => setState("idle")
     );
   }, [state, sr, tts, getResponse]);
@@ -1841,7 +1847,7 @@ export default function ForjVoiceCompanion() {
     }
     const t = textInput.trim();
     setTextInput("");
-    getResponse(t);
+    getResponse(t, "text");
   }, [textInput, state, getResponse, tts]);
 
   // New session tracking
