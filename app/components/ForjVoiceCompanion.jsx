@@ -806,6 +806,12 @@ function chooseLocalModel() {
   return LOCAL_WEBLLM_MODELS.standard;
 }
 
+function timeoutPromise(ms, message) {
+  return new Promise((_, reject) => {
+    setTimeout(() => reject(new Error(message)), ms);
+  });
+}
+
 const PREMIUM_CONVERSATION_MODES = [
   {
     id: "steady",
@@ -896,6 +902,7 @@ function useSpeechRecognition() {
 function useTTS() {
   const [speaking, setSpeaking] = useState(false);
   const activeRef = useRef(false);
+  const utteranceIdRef = useRef(0);
 
   const speak = useCallback((text, onEnd) => {
     // If no speech synthesis, skip TTS entirely
@@ -907,6 +914,8 @@ function useTTS() {
     try { window.speechSynthesis.cancel(); } catch {}
     activeRef.current = true;
     setSpeaking(true);
+    utteranceIdRef.current += 1;
+    const utteranceId = utteranceIdRef.current;
 
     // Pick best voice available
     let voice = null;
@@ -919,9 +928,14 @@ function useTTS() {
         || null;
     } catch {}
 
+    let hardTimeout = null;
+
     const finish = () => {
-      if (!activeRef.current) return;
+      if (!activeRef.current || utteranceIdRef.current !== utteranceId) return;
       activeRef.current = false;
+      clearInterval(watchdog);
+      clearTimeout(startTimeout);
+      clearTimeout(hardTimeout);
       try { window.speechSynthesis.cancel(); } catch {}
       setSpeaking(false);
       onEnd?.();
@@ -939,7 +953,7 @@ function useTTS() {
     const startWatchdog = () => {
       clearInterval(watchdog);
       watchdog = setInterval(() => {
-        if (!activeRef.current) { clearInterval(watchdog); return; }
+        if (!activeRef.current || utteranceIdRef.current !== utteranceId) { clearInterval(watchdog); return; }
         // Chrome keepalive: pause/resume to prevent silent death
         try {
           if (window.speechSynthesis.speaking) {
@@ -958,22 +972,29 @@ function useTTS() {
 
     // If onstart never fires within 2s, TTS is broken — skip it
     const startTimeout = setTimeout(() => {
-      if (activeRef.current && !window.speechSynthesis.speaking) {
+      if (activeRef.current && utteranceIdRef.current === utteranceId && !window.speechSynthesis.speaking) {
         clearInterval(watchdog);
         finish();
       }
     }, 2000);
     u.onstart = () => { clearTimeout(startTimeout); startWatchdog(); };
 
+    hardTimeout = setTimeout(() => {
+      if (activeRef.current && utteranceIdRef.current === utteranceId) {
+        clearInterval(watchdog);
+        finish();
+      }
+    }, Math.max(12000, Math.min(26000, text.length * 95)));
+
     try {
       window.speechSynthesis.speak(u);
     } catch {
-      clearTimeout(startTimeout);
       finish();
     }
   }, []);
 
   const stop = useCallback(() => {
+    utteranceIdRef.current += 1;
     activeRef.current = false;
     try { window.speechSynthesis.cancel(); } catch {}
     setSpeaking(false);
@@ -1709,6 +1730,7 @@ export default function ForjVoiceCompanion() {
 
     setState("thinking");
     setAiText("");
+    setError("");
     setMsgCount(c => c + 1);
 
     // Update msgsRef synchronously so WebLLM sees latest messages
@@ -1717,35 +1739,50 @@ export default function ForjVoiceCompanion() {
     setMessages(updated);
 
     let text = "";
-    const planner = buildSessionPlanner(userText, updated, tier, premiumMode);
+    let planner = null;
 
-    // Try WebLLM first (free + premium, no API key)
-    if (webllmRef.current && webllmStatus === "ready") {
-      try {
-        const history = updated
-          .slice(-(hasLongerContext ? 14 : 10))
-          .map((message) => ({ role: message.role, content: message.text }));
-        const reply = await webllmRef.current.chat.completions.create({
-          messages: [{
-            role: "system",
-            content: buildCompanionSystemPrompt({
-              tier,
-              planner,
-              memory: hasContinuityMemory ? companionMemoryRef.current : null,
+    try {
+      planner = buildSessionPlanner(userText, updated, tier, premiumMode);
+
+      // Try WebLLM first (free + premium, no API key), but never let it hang the session.
+      if (webllmRef.current && webllmStatus === "ready") {
+        try {
+          const history = updated
+            .slice(-(hasLongerContext ? 14 : 10))
+            .map((message) => ({ role: message.role, content: message.text }));
+          const reply = await Promise.race([
+            webllmRef.current.chat.completions.create({
+              messages: [{
+                role: "system",
+                content: buildCompanionSystemPrompt({
+                  tier,
+                  planner,
+                  memory: hasContinuityMemory ? companionMemoryRef.current : null,
+                }),
+              }, ...history],
+              max_tokens: 300,
+              temperature: 0.65,
             }),
-          }, ...history],
-          max_tokens: 300,
-          temperature: 0.65,
-        });
-        text = reply.choices?.[0]?.message?.content || "";
-      } catch (e) {
-        console.warn("WebLLM generation failed, using clinical engine:", e);
+            timeoutPromise(6500, "Local model timed out"),
+          ]);
+          text = reply?.choices?.[0]?.message?.content || "";
+        } catch (e) {
+          console.warn("WebLLM generation failed, using clinical engine:", e);
+        }
       }
+
+      // Fallback: Intelligent clinical response engine (always works, no API)
+      if (!text) {
+        text = generateClinicalResponse(userText, updated);
+      }
+    } catch (e) {
+      console.error("Forj response failed, using safe fallback:", e);
+      text = `I'm here with you. Something glitched on my side for a second, so let's keep it simple. What's the hardest part of this moment right now?`;
+      planner = buildSessionPlanner("general distress", updated, tier, premiumMode);
     }
 
-    // Fallback: Intelligent clinical response engine (always works, no API)
     if (!text) {
-      text = generateClinicalResponse(userText, updated);
+      text = "I'm here. Tell me the hardest part of this moment, and we'll take it one step at a time.";
     }
 
     setAiText(text);
@@ -1753,15 +1790,19 @@ export default function ForjVoiceCompanion() {
     msgsRef.current = withResponse;
     setMessages(withResponse);
 
-    if (hasContinuityMemory) {
-      const summary = buildSessionSummary(withResponse, planner);
-      if (summary) {
-        setSessionSummary(summary);
-        await DB.set("companion_session_note", summary);
-        const nextMemory = mergeCompanionMemory(companionMemoryRef.current, summary);
-        companionMemoryRef.current = nextMemory;
-        setCompanionMemory(nextMemory);
-        await DB.set("companion_memory", nextMemory);
+    if (hasContinuityMemory && planner) {
+      try {
+        const summary = buildSessionSummary(withResponse, planner);
+        if (summary) {
+          setSessionSummary(summary);
+          await DB.set("companion_session_note", summary);
+          const nextMemory = mergeCompanionMemory(companionMemoryRef.current, summary);
+          companionMemoryRef.current = nextMemory;
+          setCompanionMemory(nextMemory);
+          await DB.set("companion_memory", nextMemory);
+        }
+      } catch (e) {
+        console.warn("Failed to save companion continuity data:", e);
       }
     }
 
@@ -1780,7 +1821,10 @@ export default function ForjVoiceCompanion() {
     if (!canSend()) { setShowUpgrade(true); return; }
     setError("");
     setLiveText("");
-    if (!sr.supported) return;
+    if (!sr.supported) {
+      setError("Voice input is not available in this browser right now. You can still type to Forj below.");
+      return;
+    }
     setState("listening");
     sr.start(
       (final) => getResponse(final),
@@ -1789,12 +1833,16 @@ export default function ForjVoiceCompanion() {
   }, [state, sr, tts, getResponse]);
 
   const handleTextSend = useCallback(() => {
-    if (!textInput.trim() || state !== "idle") return;
+    if (!textInput.trim() || state === "listening" || state === "thinking") return;
     if (!canSend()) { setShowUpgrade(true); return; }
+    if (state === "speaking") {
+      tts.stop();
+      setState("idle");
+    }
     const t = textInput.trim();
     setTextInput("");
     getResponse(t);
-  }, [textInput, state, getResponse]);
+  }, [textInput, state, getResponse, tts]);
 
   // New session tracking
   const startNewSession = useCallback(async () => {
@@ -2110,12 +2158,12 @@ export default function ForjVoiceCompanion() {
           <div style={{ width: "100%", maxWidth: 460, margin: "0 auto", animation: "fadeIn 1s ease 0.6s both" }}>
             <div style={{ display: "flex", gap: 8 }}>
               <input type="text" value={textInput} onChange={e => setTextInput(e.target.value)}
-                onKeyDown={e => { if (e.key === "Enter") handleTextSend(); }}
+                onKeyDown={e => { if (e.key === "Enter") { e.preventDefault(); handleTextSend(); } }}
                 placeholder="What's weighing on you right now?"
-                disabled={state !== "idle"}
+                disabled={state === "listening" || state === "thinking"}
                 style={{ flex: 1, padding: "14px 20px", fontSize: 15, background: "var(--surface)", border: "1.5px solid rgba(45,42,38,0.1)", borderRadius: 50, color: "var(--text-primary)", transition: "border-color 0.3s ease" }} />
-              <button onClick={handleTextSend} disabled={!textInput.trim() || state !== "idle"}
-                style={{ padding: "14px 24px", background: textInput.trim() && state === "idle" ? "var(--interactive)" : "var(--surface)", border: textInput.trim() && state === "idle" ? "none" : "1.5px solid rgba(45,42,38,0.1)", borderRadius: 50, color: textInput.trim() && state === "idle" ? "#fff" : "var(--text-muted)", cursor: textInput.trim() && state === "idle" ? "pointer" : "not-allowed", fontSize: 14, fontWeight: 500, transition: "all 0.3s ease" }}>
+              <button onClick={handleTextSend} disabled={!textInput.trim() || state === "listening" || state === "thinking"}
+                style={{ padding: "14px 24px", background: textInput.trim() && state !== "listening" && state !== "thinking" ? "var(--interactive)" : "var(--surface)", border: textInput.trim() && state !== "listening" && state !== "thinking" ? "none" : "1.5px solid rgba(45,42,38,0.1)", borderRadius: 50, color: textInput.trim() && state !== "listening" && state !== "thinking" ? "#fff" : "var(--text-muted)", cursor: textInput.trim() && state !== "listening" && state !== "thinking" ? "pointer" : "not-allowed", fontSize: 14, fontWeight: 500, transition: "all 0.3s ease" }}>
                 Send
               </button>
             </div>
