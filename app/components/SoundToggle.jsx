@@ -3,7 +3,7 @@
 import { useAdaptiveSound } from "./SoundProvider";
 
 export default function SoundToggle() {
-  const { enabled, supported, toggle, profile } = useAdaptiveSound();
+  const { enabled, active, supported, toggle, profile } = useAdaptiveSound();
 
   if (!supported) {
     return (
@@ -38,11 +38,19 @@ export default function SoundToggle() {
     <button
       type="button"
       onClick={toggle}
-      aria-pressed={enabled}
-      aria-label={enabled ? `Disable ${profile.label.toLowerCase()}` : "Enable adaptive ambient audio"}
+      aria-pressed={active}
+      aria-label={
+        enabled
+          ? active
+            ? `Disable ${profile.label.toLowerCase()}`
+            : `Start ${profile.label.toLowerCase()}`
+          : "Enable adaptive ambient audio"
+      }
       title={
         enabled
-          ? `${profile.label}. ${profile.reason}`
+          ? active
+            ? `${profile.label}. ${profile.reason}`
+            : `${profile.label} is saved as your audio preference. Tap once to actually start playback.`
           : "Enable adaptive ambient audio. AIForj picks a low-volume soundscape based on your current route and emotional context."
       }
       style={{
@@ -62,7 +70,7 @@ export default function SoundToggle() {
       }}
     >
       <span style={{ fontSize: 14 }}>{enabled ? profile.icon : "🔇"}</span>
-      <span>{enabled ? profile.shortLabel : "Adaptive audio"}</span>
+      <span>{enabled ? (active ? profile.shortLabel : "Tap for audio") : "Adaptive audio"}</span>
     </button>
   );
 }

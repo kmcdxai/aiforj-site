@@ -12,7 +12,7 @@ const PROFILE_META = {
     shortLabel: "Rain on",
     icon: "🌧️",
     reason: "A steadier water-like bed for higher-arousal or nighttime states.",
-    volume: 0.048,
+    volume: 0.12,
   },
   stream: {
     key: "stream",
@@ -20,7 +20,7 @@ const PROFILE_META = {
     shortLabel: "Stream on",
     icon: "💧",
     reason: "A neutral flowing-water bed for grounding, grief, shame, and conversation-heavy pages.",
-    volume: 0.042,
+    volume: 0.105,
   },
   birds: {
     key: "birds",
@@ -28,7 +28,7 @@ const PROFILE_META = {
     shortLabel: "Birdsong on",
     icon: "🐦",
     reason: "A slightly brighter natural soundscape for low mood, loneliness, and energy-rebuild moments.",
-    volume: 0.036,
+    volume: 0.096,
   },
 };
 
@@ -154,18 +154,18 @@ function buildRainProfile(ctx, destination) {
   const cleanups = [
     buildNoiseLayer(ctx, destination, {
       color: "brown",
-      gainValue: 0.23,
+      gainValue: 0.38,
       filters: [
-        { type: "lowpass", frequency: 900 },
-        { type: "highpass", frequency: 120 },
+        { type: "lowpass", frequency: 1100 },
+        { type: "highpass", frequency: 90 },
       ],
     }),
     buildNoiseLayer(ctx, destination, {
       color: "white",
-      gainValue: 0.045,
+      gainValue: 0.1,
       filters: [
-        { type: "highpass", frequency: 2400 },
-        { type: "lowpass", frequency: 6800 },
+        { type: "highpass", frequency: 2200 },
+        { type: "lowpass", frequency: 7200 },
       ],
     }),
   ];
@@ -176,13 +176,13 @@ function buildRainProfile(ctx, destination) {
 function buildStreamProfile(ctx, destination) {
   const cleanups = [];
   const movementGain = ctx.createGain();
-  movementGain.gain.value = 0.06;
+  movementGain.gain.value = 0.14;
   movementGain.connect(destination);
 
   const lfo = ctx.createOscillator();
   const lfoDepth = ctx.createGain();
   lfo.frequency.value = 0.08;
-  lfoDepth.gain.value = 0.018;
+  lfoDepth.gain.value = 0.045;
   lfo.connect(lfoDepth);
   lfoDepth.connect(movementGain.gain);
   lfo.start();
@@ -203,8 +203,8 @@ function buildStreamProfile(ctx, destination) {
       color: "pink",
       gainValue: 1,
       filters: [
-        { type: "bandpass", frequency: 950, Q: 0.6 },
-        { type: "highpass", frequency: 180 },
+        { type: "bandpass", frequency: 1100, Q: 0.7 },
+        { type: "highpass", frequency: 150 },
       ],
       playbackRate: 0.92,
     })
@@ -213,9 +213,9 @@ function buildStreamProfile(ctx, destination) {
   cleanups.push(
     buildNoiseLayer(ctx, destination, {
       color: "white",
-      gainValue: 0.018,
+      gainValue: 0.045,
       filters: [
-        { type: "bandpass", frequency: 2600, Q: 0.9 },
+        { type: "bandpass", frequency: 2400, Q: 0.8 },
       ],
       playbackRate: 1.04,
     })
@@ -256,7 +256,7 @@ function scheduleBirdsong(ctx, destination) {
     filter.Q.value = 7;
 
     gain.gain.setValueAtTime(0.0001, start);
-    gain.gain.exponentialRampToValueAtTime(0.014 + Math.random() * 0.008, start + duration * 0.25);
+    gain.gain.exponentialRampToValueAtTime(0.03 + Math.random() * 0.014, start + duration * 0.25);
     gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
 
     osc.connect(filter);
@@ -306,7 +306,7 @@ function buildBirdProfile(ctx, destination) {
   const cleanups = [
     buildNoiseLayer(ctx, destination, {
       color: "pink",
-      gainValue: 0.02,
+      gainValue: 0.04,
       filters: [
         { type: "highpass", frequency: 900 },
         { type: "lowpass", frequency: 3600 },
@@ -315,9 +315,9 @@ function buildBirdProfile(ctx, destination) {
     }),
     buildNoiseLayer(ctx, destination, {
       color: "brown",
-      gainValue: 0.065,
+      gainValue: 0.12,
       filters: [
-        { type: "bandpass", frequency: 520, Q: 0.55 },
+        { type: "bandpass", frequency: 680, Q: 0.5 },
       ],
       playbackRate: 0.88,
     }),
@@ -369,6 +369,7 @@ function inferProfile(pathname, search) {
 export function SoundProvider({ children }) {
   const [location, setLocation] = useState({ pathname: "/", search: "" });
   const [enabled, setEnabled] = useState(false);
+  const [active, setActive] = useState(false);
   const [supported, setSupported] = useState(true);
   const engineRef = useRef(null);
   const stopTimeoutRef = useRef(null);
@@ -425,11 +426,15 @@ export function SoundProvider({ children }) {
     const now = engine.ctx.currentTime;
     engine.master.gain.cancelScheduledValues(now);
     if (fadeIn) {
+      const previewPeak = Math.min(nextProfile.volume * 1.5, nextProfile.volume + 0.05);
       engine.master.gain.setValueAtTime(0.0001, now);
-      engine.master.gain.linearRampToValueAtTime(nextProfile.volume, now + 1.2);
+      engine.master.gain.linearRampToValueAtTime(previewPeak, now + 1.1);
+      engine.master.gain.linearRampToValueAtTime(nextProfile.volume, now + 2.6);
     } else {
       engine.master.gain.setValueAtTime(nextProfile.volume, now);
     }
+
+    setActive(true);
   }, [ensureEngine]);
 
   const stopAudio = useCallback(() => {
@@ -452,10 +457,16 @@ export function SoundProvider({ children }) {
       engineRef.current.cleanup = null;
       engineRef.current.profileKey = null;
       stopTimeoutRef.current = null;
+      setActive(false);
     }, 850);
   }, []);
 
   const toggle = useCallback(async () => {
+    if (enabled && !active) {
+      await applyProfile(profile, true);
+      return;
+    }
+
     const next = !enabled;
     setEnabled(next);
     localStorage.setItem(STORAGE_KEY, String(next));
@@ -465,7 +476,10 @@ export function SoundProvider({ children }) {
     } else {
       stopAudio();
     }
-  }, [enabled, applyProfile, profile, stopAudio]);
+    if (!next) {
+      setActive(false);
+    }
+  }, [active, enabled, applyProfile, profile, stopAudio]);
 
   useEffect(() => {
     const syncLocation = () => setLocation(readLocation());
@@ -504,6 +518,7 @@ export function SoundProvider({ children }) {
     setSupported(Boolean(window.AudioContext || window.webkitAudioContext));
     const saved = localStorage.getItem(STORAGE_KEY);
     setEnabled(saved === "true");
+    setActive(false);
   }, []);
 
   useEffect(() => {
@@ -530,6 +545,11 @@ export function SoundProvider({ children }) {
   }, [enabled, profile, applyProfile]);
 
   useEffect(() => {
+    if (enabled) return;
+    setActive(false);
+  }, [enabled]);
+
+  useEffect(() => {
     return () => {
       if (stopTimeoutRef.current) {
         window.clearTimeout(stopTimeoutRef.current);
@@ -545,11 +565,12 @@ export function SoundProvider({ children }) {
   const value = useMemo(
     () => ({
       enabled,
+      active,
       supported,
       toggle,
       profile,
     }),
-    [enabled, supported, toggle, profile]
+    [enabled, active, supported, toggle, profile]
   );
 
   return <SoundContext.Provider value={value}>{children}</SoundContext.Provider>;
