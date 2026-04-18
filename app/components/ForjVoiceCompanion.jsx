@@ -3,8 +3,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import EmailCapture from "./EmailCapture";
 import DataManagement from "./DataManagement";
-import { useTheme } from "./ThemeProvider";
 import { FORJ_MODALITY_COUNT } from "../../lib/forjModalities";
+import { getPremiumAccessStatus } from "../../utils/premiumAccess";
 
 // ═══════════════════════════════════════════════════════════════════════════
 //
@@ -34,16 +34,21 @@ const TIERS = {
     sessionsPerDay: 3,
     maxMessagesPerSession: 8,
     features: {
+      privateBrowserAI: true,
       voiceInput: true,
       textInput: true,
       basicTherapeuticResponse: true,
       breathingExercise: true,
       groundingExercise: true,
       crisisDetection: true,
-      // LOCKED
+      sessionTakeaway: true,
       sessionHistory: false,
       moodTracking: false,
       sessionInsights: false,
+      continuityMemory: false,
+      sessionNotes: false,
+      deeperContext: false,
+      deepWorkModes: false,
       advancedTechniques: false, // schema therapy, IFS parts work, narrative therapy
       unlimitedMessages: false,
       exportNotes: false,
@@ -57,9 +62,10 @@ const TIERS = {
     sessionsPerDay: Infinity,
     maxMessagesPerSession: Infinity,
     features: {
-      voiceInput: true, textInput: true, basicTherapeuticResponse: true,
-      breathingExercise: true, groundingExercise: true, crisisDetection: true,
-      sessionHistory: true, moodTracking: true, sessionInsights: true,
+      privateBrowserAI: true, voiceInput: true, textInput: true, basicTherapeuticResponse: true,
+      breathingExercise: true, groundingExercise: true, crisisDetection: true, sessionTakeaway: true,
+      sessionHistory: true, moodTracking: true, sessionInsights: true, continuityMemory: true,
+      sessionNotes: true, deeperContext: true, deepWorkModes: true,
       advancedTechniques: true, unlimitedMessages: true, exportNotes: true,
       guidedMeditation: true, weeklyReport: true,
     }
@@ -70,9 +76,10 @@ const TIERS = {
     sessionsPerDay: Infinity,
     maxMessagesPerSession: Infinity,
     features: {
-      voiceInput: true, textInput: true, basicTherapeuticResponse: true,
-      breathingExercise: true, groundingExercise: true, crisisDetection: true,
-      sessionHistory: true, moodTracking: true, sessionInsights: true,
+      privateBrowserAI: true, voiceInput: true, textInput: true, basicTherapeuticResponse: true,
+      breathingExercise: true, groundingExercise: true, crisisDetection: true, sessionTakeaway: true,
+      sessionHistory: true, moodTracking: true, sessionInsights: true, continuityMemory: true,
+      sessionNotes: true, deeperContext: true, deepWorkModes: true,
       advancedTechniques: true, unlimitedMessages: true, exportNotes: true,
       guidedMeditation: true, weeklyReport: true,
     }
@@ -277,6 +284,562 @@ const DB = {
     } catch {}
   },
 };
+
+const LOCAL_WEBLLM_MODELS = {
+  standard: {
+    id: "Phi-3.5-mini-instruct-q4f16_1-MLC",
+    label: "Forj Private AI",
+    description: "full local reasoning",
+  },
+  lightweight: {
+    id: "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+    label: "Forj Private AI Lite",
+    description: "lighter local reasoning",
+  },
+};
+
+const COMPANION_SIGNAL_LIBRARY = [
+  {
+    id: "anxiety",
+    label: "Anxiety / spiraling",
+    terms: ["anxious", "anxiety", "worry", "panic", "spiral", "overthinking", "what if", "racing", "can't stop thinking", "fear"],
+    primaryMode: "Regulate",
+    focus: "slow the nervous system first, then reality-check the fear",
+    modalities: ["CBT", "ACT", "Grounding"],
+    techniques: [
+      { name: "Facts vs predictions", desc: "Separate what you know from what you fear." },
+      { name: "Longer exhale", desc: "Bring arousal down before analyzing the thought." },
+    ],
+    nextStep: "Name the loudest fear, then write one fact for it and one fact against it.",
+    microPlan: [
+      "Now: lengthen your exhale for one minute.",
+      "Later today: write facts versus predictions.",
+      "Next time: catch the spiral at the first 'what if'.",
+    ],
+    headline: "Slow the spiral and get back to what is real.",
+  },
+  {
+    id: "overwhelm",
+    label: "Overwhelm / too much",
+    terms: ["overwhelmed", "too much", "can't handle", "drowning", "swamped", "buried", "everything at once", "can't keep up"],
+    primaryMode: "Simplify",
+    focus: "reduce the open loops until the next right step is visible",
+    modalities: ["DBT", "Behavioral Activation", "Stress Regulation"],
+    techniques: [
+      { name: "One thing only", desc: "Shrink the field of attention to the next concrete move." },
+      { name: "Externalize the load", desc: "Get the mental pile out of your head and onto the page." },
+    ],
+    nextStep: "Choose the single most urgent pressure point and do only the first visible step.",
+    microPlan: [
+      "Now: pick one thing and ignore the rest for ten minutes.",
+      "Later today: brain-dump every open loop onto paper.",
+      "Next time: reduce the pile before it becomes a wave.",
+    ],
+    headline: "Reduce the pile until one next step is visible.",
+  },
+  {
+    id: "sadness",
+    label: "Sadness / heaviness",
+    terms: ["sad", "down", "depressed", "hopeless", "empty", "crying", "grief", "heartbroken", "nothing matters"],
+    primaryMode: "Hold",
+    focus: "validate the pain before asking the system to move",
+    modalities: ["Emotion-Focused", "Self-Compassion", "Behavioral Activation"],
+    techniques: [
+      { name: "Name the feeling", desc: "Put language around the pain instead of fighting it." },
+      { name: "Gentle activation", desc: "Choose one kind action before waiting for motivation." },
+    ],
+    nextStep: "Ask what the sadness is trying to say, then pair it with one gentle action.",
+    microPlan: [
+      "Now: name the feeling without arguing with it.",
+      "Later today: do one kind action that takes under five minutes.",
+      "Next time: notice sadness sooner, before it turns into shutdown.",
+    ],
+    headline: "Make room for the feeling and pair it with one kind action.",
+  },
+  {
+    id: "anger",
+    label: "Anger / friction",
+    terms: ["angry", "furious", "rage", "frustrated", "resent", "pissed", "mad", "unfair"],
+    primaryMode: "Cool down",
+    focus: "separate the valid feeling from the action you will regret",
+    modalities: ["DBT", "CBT", "Boundary Work"],
+    techniques: [
+      { name: "Check the facts", desc: "Sort what happened from the meaning your mind added." },
+      { name: "Boundary signal", desc: "Translate anger into the need it is protecting." },
+    ],
+    nextStep: "Name the need under the anger before deciding what to do with it.",
+    microPlan: [
+      "Now: pause before acting while the intensity comes down.",
+      "Later today: write the boundary or need beneath the anger.",
+      "Next time: catch the surge before it becomes the whole story.",
+    ],
+    headline: "Honor the anger without letting it drive the car.",
+  },
+  {
+    id: "connection",
+    label: "Loneliness / relationship pain",
+    terms: ["lonely", "alone", "isolated", "abandoned", "relationship", "breakup", "partner", "friend", "family", "nobody", "left out"],
+    primaryMode: "Reconnect",
+    focus: "name the attachment need clearly and move toward one low-pressure bid for connection",
+    modalities: ["IPT", "Attachment", "Self-Compassion"],
+    techniques: [
+      { name: "Attachment clarity", desc: "Name whether you need closeness, repair, or reassurance." },
+      { name: "Low-pressure reach-out", desc: "Choose the smallest possible step toward connection." },
+    ],
+    nextStep: "Decide what kind of connection you need, then make one gentle bid for it.",
+    microPlan: [
+      "Now: name the connection need underneath the pain.",
+      "Later today: send one low-pressure text or reply.",
+      "Next time: notice the need earlier instead of only the ache.",
+    ],
+    headline: "Turn loneliness into a clear bid for connection.",
+  },
+  {
+    id: "self-worth",
+    label: "Self-worth / inner critic",
+    terms: ["not good enough", "worthless", "failure", "failing", "imposter", "fraud", "hate myself", "ashamed", "embarrassed", "broken", "inner critic", "same pattern", "keep repeating", "self-sabotage"],
+    primaryMode: "Reframe",
+    focus: "separate your identity from the critic's story",
+    modalities: ["Narrative", "Self-Compassion", "CBT"],
+    techniques: [
+      { name: "Critic externalization", desc: "Treat the harsh story as a voice, not the truth." },
+      { name: "Counter-evidence", desc: "Look for lived evidence that you are more than the label." },
+    ],
+    nextStep: "Write down the critic sentence, then answer it with one honest counter-truth.",
+    microPlan: [
+      "Now: notice the critic voice without merging with it.",
+      "Later today: write one piece of counter-evidence.",
+      "Next time: catch the label before it becomes identity.",
+    ],
+    headline: "Loosen the grip of the inner critic.",
+  },
+  {
+    id: "numb",
+    label: "Numbness / shutdown",
+    terms: ["numb", "can't feel", "flat", "shutdown", "dissociat", "detached", "checked out", "autopilot"],
+    primaryMode: "Re-enter gently",
+    focus: "use sensation and orientation, not force, to come back online",
+    modalities: ["Polyvagal", "Somatic", "Mindfulness"],
+    techniques: [
+      { name: "Orienting", desc: "Use your senses to tell your body you are here now." },
+      { name: "Gentle sensation", desc: "Use texture, temperature, and movement to thaw shutdown." },
+    ],
+    nextStep: "Use one sensory cue to re-enter the room before expecting emotion to return.",
+    microPlan: [
+      "Now: use temperature or texture to re-engage your senses.",
+      "Later today: take one short movement break with full attention.",
+      "Next time: treat numbness as a nervous-system state, not a character flaw.",
+    ],
+    headline: "Come back online gently instead of forcing yourself to feel.",
+  },
+  {
+    id: "motivation",
+    label: "Stuck / low motivation",
+    terms: ["unmotivated", "can't start", "no energy", "procrast", "avoid", "stuck", "why bother", "drained", "burnt out"],
+    primaryMode: "Activate",
+    focus: "turn intention into the smallest possible movement",
+    modalities: ["Behavioral Activation", "ACT", "Solution-Focused"],
+    techniques: [
+      { name: "Five-minute start", desc: "Make the barrier to action almost laughably small." },
+      { name: "Values cue", desc: "Connect the task to what matters rather than mood." },
+    ],
+    nextStep: "Choose a five-minute version of the task and start before you feel ready.",
+    microPlan: [
+      "Now: do the smallest possible version for five minutes.",
+      "Later today: connect the task to one value you care about.",
+      "Next time: remember that action can create motivation, not just follow it.",
+    ],
+    headline: "Trade waiting-for-motivation for one tiny start.",
+  },
+  {
+    id: "stress",
+    label: "Stress / pressure",
+    terms: ["stress", "stressed", "pressure", "deadline", "tense", "can't relax", "too many things", "work is killing me"],
+    primaryMode: "Triage",
+    focus: "sort what is controllable from what needs acceptance for now",
+    modalities: ["ACT", "Stress Regulation", "Mindfulness"],
+    techniques: [
+      { name: "Control sort", desc: "Split the stress load into change, accept, and defer." },
+      { name: "Body check-in", desc: "Name where the pressure lives in your body." },
+    ],
+    nextStep: "Make one control/accept/defer list and act only on the controllable piece.",
+    microPlan: [
+      "Now: name the most controllable part of the pressure.",
+      "Later today: sort the rest into change, accept, or defer.",
+      "Next time: catch pressure in the body before it floods the mind.",
+    ],
+    headline: "Sort the pressure so only the next controllable piece remains.",
+  },
+  {
+    id: "trauma",
+    label: "Trauma response / high threat",
+    terms: ["trauma", "ptsd", "flashback", "triggered", "hypervigilant", "abuse", "nightmare"],
+    primaryMode: "Stabilize",
+    focus: "ground in the present and do not move into deep reprocessing",
+    modalities: ["Trauma-Informed Stabilization", "Grounding", "Polyvagal"],
+    techniques: [
+      { name: "Orient to safety", desc: "Use the room around you to remind the nervous system of the present." },
+      { name: "Window of tolerance", desc: "Stay inside stabilization, not deep processing." },
+    ],
+    nextStep: "Orient to the room, slow the body, and stay inside present-moment safety.",
+    microPlan: [
+      "Now: look around and name three things you can see.",
+      "Later today: create a short grounding list you can reuse quickly.",
+      "Next time: stabilize first and reach for human support sooner.",
+    ],
+    headline: "Stay with safety and stabilization, not deeper reprocessing.",
+  },
+];
+
+function clipText(text, maxLength = 120) {
+  if (!text) return "";
+  const clean = text.replace(/\s+/g, " ").trim();
+  if (clean.length <= maxLength) return clean;
+  return `${clean.slice(0, maxLength - 1).trim()}…`;
+}
+
+function getPrimarySignal(text, history = []) {
+  const combined = [text, ...history.filter((message) => message.role === "user").slice(-3).map((message) => message.text)]
+    .join(" ")
+    .toLowerCase();
+
+  const scored = COMPANION_SIGNAL_LIBRARY.map((signal) => ({
+    ...signal,
+    score: signal.terms.reduce((count, term) => count + (combined.includes(term) ? 1 : 0), 0),
+  })).sort((a, b) => b.score - a.score);
+
+  return scored[0]?.score ? scored[0] : {
+    id: "general",
+    label: "General distress / reflection",
+    primaryMode: "Reflect",
+    focus: "help the person feel understood, then find the next useful move",
+    modalities: ["Reflective Listening", "Mindfulness"],
+    techniques: [
+      { name: "Reflect and clarify", desc: "Slow down and name what feels most present." },
+      { name: "One next step", desc: "Leave the conversation with one useful action." },
+    ],
+    nextStep: "Name what feels most present, then choose one small next step.",
+    microPlan: [
+      "Now: name what feels most present without editing it.",
+      "Later today: do one thing that supports your nervous system.",
+      "Next time: come back to the most important part sooner.",
+    ],
+    headline: "Clarify what matters most right now.",
+  };
+}
+
+function buildSessionPlanner(userText, history, tier, premiumModeId = "steady") {
+  let signal = getPrimarySignal(userText, history);
+  const combined = [userText, ...history.filter((message) => message.role === "user").slice(-5).map((message) => message.text)]
+    .join(" ")
+    .toLowerCase();
+  const deeperPattern = /same pattern|always|every relationship|ever since|childhood|inner critic|part of me|goes back|keep repeating/.test(combined);
+  const mode = getPremiumConversationMode(premiumModeId);
+
+  if (tier !== "free" && deeperPattern && signal.id === "general") {
+    signal = {
+      ...signal,
+      label: "Recurring pattern / inner conflict",
+      primaryMode: "Map the loop",
+      focus: "connect the present trigger to the recurring loop and interrupt it earlier",
+      modalities: ["Reflective Listening", "Schema", "IFS / Parts Work"],
+      techniques: [
+        { name: "Pattern map", desc: "Name the trigger, the belief it wakes up, and the move you usually make next." },
+        { name: "Protective part", desc: "Get curious about the part of you that thinks the old strategy is keeping you safe." },
+      ],
+      nextStep: "Name the loop, then choose the first place you want to interrupt it next time.",
+      microPlan: [
+        "Now: name the loop in one sentence.",
+        "Later today: write the trigger, story, and usual reaction.",
+        "Next time: interrupt the loop at the earliest recognizable moment.",
+      ],
+      headline: "Name the loop before it runs the show.",
+    };
+  }
+
+  let modalities = [...signal.modalities];
+  let techniques = [...signal.techniques];
+  let primaryMode = signal.primaryMode;
+  let focus = signal.focus;
+  let nextStep = signal.nextStep;
+  let microPlan = [...signal.microPlan];
+  let headline = signal.headline;
+
+  if (tier !== "free" && deeperPattern) {
+    if (!modalities.includes("Schema")) modalities.push("Schema");
+    if (!modalities.includes("IFS / Parts Work")) modalities.push("IFS / Parts Work");
+    techniques.push({
+      name: "Pattern lens",
+      desc: "Link the immediate trigger to the older pattern without losing sight of the present.",
+    });
+  }
+
+  if (tier !== "free") {
+    if (mode.id === "steady") {
+      primaryMode = "Steady Me";
+      focus = "bring the nervous system down, simplify the emotional load, and leave with one stabilizing step";
+      techniques = [
+        { name: "Regulation first", desc: "Slow the body before trying to solve the whole story." },
+        ...techniques,
+      ];
+      if (!modalities.includes("Mindfulness")) modalities.unshift("Mindfulness");
+      headline = `Steady yourself before you solve it.`;
+      nextStep = `Do one nervous-system calming step before revisiting the rest: ${signal.nextStep.toLowerCase()}`;
+      microPlan = [
+        "Now: calm the body first.",
+        ...signal.microPlan.slice(1),
+      ];
+    }
+
+    if (mode.id === "pattern") {
+      primaryMode = "Pattern";
+      focus = "name the recurring loop, the story it wakes up, and the protective move you usually make next";
+      if (!modalities.includes("Schema")) modalities.unshift("Schema");
+      if (!modalities.includes("IFS / Parts Work")) modalities.splice(1, 0, "IFS / Parts Work");
+      techniques = [
+        { name: "Loop mapping", desc: "Trace trigger, belief, emotion, and reaction in sequence." },
+        { name: "Protective strategy", desc: "Notice how the old move is trying to protect you, even if it now costs you." },
+        ...techniques,
+      ];
+      headline = "See the recurring loop clearly enough to interrupt it.";
+      nextStep = "Name the trigger, the story it wakes up, and the move you want to interrupt next time.";
+      microPlan = [
+        "Now: name the loop in one sentence.",
+        "Later today: write trigger -> story -> reaction -> cost.",
+        "Next time: interrupt the loop at the earliest recognizable moment.",
+      ];
+    }
+
+    if (mode.id === "plan") {
+      primaryMode = "Plan";
+      focus = "turn reflection into a concrete plan with one next step, one fallback step, and one thing to revisit later";
+      if (!modalities.includes("Solution-Focused")) modalities.unshift("Solution-Focused");
+      techniques = [
+        { name: "Concrete next step", desc: "Translate insight into a visible action you can do soon." },
+        { name: "Fallback plan", desc: "Decide what you will do if the first plan feels too hard in the moment." },
+        ...techniques,
+      ];
+      headline = "Leave with a plan you can actually use today.";
+      nextStep = "Choose one next step, one fallback step if you get stuck, and one thing to revisit tonight.";
+      microPlan = [
+        "Now: choose the next visible action.",
+        "Later today: set a fallback move for the hard moment.",
+        "Tonight: review what helped and what still needs attention.",
+      ];
+    }
+
+    if (mode.id === "deep-work") {
+      primaryMode = "Deep Work";
+      focus = "use longer context, deeper pattern recognition, and richer therapeutic language without losing practical grounding";
+      if (!modalities.includes("Narrative")) modalities.unshift("Narrative");
+      if (!modalities.includes("Schema")) modalities.splice(1, 0, "Schema");
+      if (!modalities.includes("IFS / Parts Work")) modalities.splice(2, 0, "IFS / Parts Work");
+      techniques = [
+        { name: "Deeper pattern lens", desc: "Look beneath the immediate feeling for the recurring story or role underneath it." },
+        { name: "Meaning + action", desc: "Pair the deeper insight with one grounded action so the session still changes something real." },
+        ...techniques,
+      ];
+      headline = "Go deeper without losing the ground beneath you.";
+      nextStep = "Name the deeper pattern that is here, then pair that insight with one grounded action before the day ends.";
+      microPlan = [
+        "Now: name the deeper pattern or role that showed up.",
+        "Later today: write what that pattern is trying to protect.",
+        "Before bed: choose one grounded action that reflects the version of you you want to strengthen.",
+      ];
+    }
+  }
+
+  return {
+    ...signal,
+    primaryMode,
+    focus,
+    modalities,
+    techniques,
+    deeperPattern,
+    conversationMode: mode,
+    nextStep,
+    microPlan,
+    headline,
+  };
+}
+
+function buildCompanionSystemPrompt({ tier, planner, memory }) {
+  const recurringThemes = memory?.recurringThemes?.slice(0, 3).map((item) => item.label).join(", ");
+  const helpfulApproaches = memory?.helpfulApproaches?.slice(0, 3).map((item) => item.label).join(", ");
+  const focusTrail = memory?.currentFocus?.slice(0, 2).map((item) => item.label).join(" | ");
+
+  return `${CLINICAL_SYSTEM_PROMPT}
+
+CURRENT SESSION FOCUS
+- Primary state: ${planner.label}
+- Support mode: ${planner.primaryMode}
+- Premium mode: ${planner.conversationMode?.label || "Auto"}
+- Lead modalities: ${planner.modalities.join(", ")}
+- Best next move: ${planner.focus}
+
+${tier === "free"
+    ? "FREE MODE: prioritize immediate relief, one clear reflection, and one practical next step. Stay depth-aware, but do not overcomplicate."
+    : `PREMIUM MODE: ${planner.conversationMode?.description || "use continuity, deeper pattern recognition, and multi-step guidance when it fits."} You may use schema and parts language when clearly relevant.`}
+
+${recurringThemes ? `ON-DEVICE LONGITUDINAL MEMORY\n- Recurring themes: ${recurringThemes}\n- What tends to help: ${helpfulApproaches || "Not enough data yet"}\n- Current focus: ${focusTrail || "Not enough data yet"}` : ""}`.trim();
+}
+
+function mergeRankedEntries(existing = [], labels = [], maxItems = 5) {
+  const scores = new Map(existing.map((item) => [item.label, item.score || 1]));
+
+  labels.filter(Boolean).forEach((label) => {
+    scores.set(label, (scores.get(label) || 0) + 1);
+  });
+
+  return [...scores.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, maxItems)
+    .map(([label, score]) => ({ label, score }));
+}
+
+function buildSessionSummary(messages, planner) {
+  const userMessages = messages.filter((message) => message.role === "user");
+  const latestUser = userMessages[userMessages.length - 1];
+  if (!latestUser) return null;
+
+  const startedAt = messages[0]?.ts || Date.now();
+  const endedAt = messages[messages.length - 1]?.ts || Date.now();
+  const durationMinutes = Math.max(1, Math.round((endedAt - startedAt) / 60000));
+  const focusText = clipText(latestUser.text, 96);
+
+  return {
+    createdAt: new Date(endedAt).toISOString(),
+    headline: planner.headline,
+    stateLabel: planner.label,
+    primaryMode: planner.primaryMode,
+    conversationModeLabel: planner.conversationMode?.label || null,
+    focusText,
+    techniques: planner.techniques,
+    modalities: planner.modalities,
+    nextStep: planner.nextStep,
+    microPlan: planner.microPlan,
+    messageCount: userMessages.length,
+    durationMinutes,
+    shareableLine: `Today I used AIForj to work through ${planner.label.toLowerCase()} and leave with one concrete next step.`,
+  };
+}
+
+function mergeCompanionMemory(existingMemory, summary) {
+  const base = existingMemory || {
+    updatedAt: null,
+    recurringThemes: [],
+    helpfulApproaches: [],
+    currentFocus: [],
+    recentSessions: [],
+  };
+
+  if (!summary) return base;
+
+  return {
+    updatedAt: summary.createdAt,
+    recurringThemes: mergeRankedEntries(base.recurringThemes, [summary.stateLabel]),
+    helpfulApproaches: mergeRankedEntries(base.helpfulApproaches, summary.techniques.map((technique) => technique.name)),
+    currentFocus: mergeRankedEntries(base.currentFocus, [summary.focusText], 4),
+    recentSessions: [
+      {
+        createdAt: summary.createdAt,
+        headline: summary.headline,
+        nextStep: summary.nextStep,
+        stateLabel: summary.stateLabel,
+      },
+      ...base.recentSessions.filter((session) => session.createdAt !== summary.createdAt),
+    ].slice(0, 6),
+  };
+}
+
+function exportSessionNote(summary, memory) {
+  if (typeof window === "undefined" || !summary) return;
+
+  const lines = [
+    "AIForj Premium Session Note",
+    "",
+    `Date: ${new Date(summary.createdAt).toLocaleString()}`,
+    `Headline: ${summary.headline}`,
+    `State: ${summary.stateLabel}`,
+    `Support mode: ${summary.primaryMode}`,
+    `Conversation mode: ${summary.conversationModeLabel || "Auto"}`,
+    `Current focus: ${summary.focusText}`,
+    "",
+    "What Forj leaned on:",
+    ...summary.techniques.map((technique) => `- ${technique.name}: ${technique.desc}`),
+    "",
+    `Carry forward: ${summary.nextStep}`,
+    "",
+    "Micro-plan:",
+    ...summary.microPlan.map((step) => `- ${step}`),
+  ];
+
+  if (memory?.recurringThemes?.length) {
+    lines.push("", "Longitudinal memory (stored on this device):");
+    lines.push(`- Recurring themes: ${memory.recurringThemes.map((item) => item.label).join(", ")}`);
+    if (memory.helpfulApproaches?.length) {
+      lines.push(`- Helpful approaches: ${memory.helpfulApproaches.map((item) => item.label).join(", ")}`);
+    }
+  }
+
+  const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = `aiforj-session-note-${summary.createdAt.slice(0, 10)}.txt`;
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  URL.revokeObjectURL(url);
+}
+
+function chooseLocalModel() {
+  if (typeof navigator === "undefined") {
+    return LOCAL_WEBLLM_MODELS.standard;
+  }
+
+  const deviceMemory = typeof navigator.deviceMemory === "number" ? navigator.deviceMemory : null;
+  if (deviceMemory && deviceMemory <= 4) {
+    return LOCAL_WEBLLM_MODELS.lightweight;
+  }
+
+  return LOCAL_WEBLLM_MODELS.standard;
+}
+
+const PREMIUM_CONVERSATION_MODES = [
+  {
+    id: "steady",
+    label: "Steady Me",
+    shortLabel: "Steady",
+    badge: "Calm first",
+    description: "Bring the nervous system down before we do anything else.",
+  },
+  {
+    id: "pattern",
+    label: "Pattern",
+    shortLabel: "Pattern",
+    badge: "See the loop",
+    description: "Map the recurring loop, inner critic, or protective pattern underneath the moment.",
+  },
+  {
+    id: "plan",
+    label: "Plan",
+    shortLabel: "Plan",
+    badge: "Leave with a plan",
+    description: "Turn the conversation into a concrete next-step plan you can actually use today.",
+  },
+  {
+    id: "deep-work",
+    label: "Deep Work",
+    shortLabel: "Deep Work",
+    badge: "Go deeper",
+    description: "Use longer context, deeper pattern recognition, and richer therapeutic language when it fits.",
+  },
+];
+
+function getPremiumConversationMode(modeId) {
+  return PREMIUM_CONVERSATION_MODES.find((mode) => mode.id === modeId) || PREMIUM_CONVERSATION_MODES[0];
+}
 
 // ─────────────────────────────────────────────────
 // SPEECH RECOGNITION HOOK
@@ -512,64 +1075,129 @@ function Orb({ state, onClick }) {
 // ─────────────────────────────────────────────────
 // SESSION INSIGHTS (Premium)
 // ─────────────────────────────────────────────────
-function SessionInsights({ messages, onClose, theme }) {
-  const userMsgs = messages.filter(m => m.role === "user");
-  const aiMsgs = messages.filter(m => m.role === "assistant");
-  
-  // Simple technique detection from AI responses
-  const techniques = [];
-  const allAiText = aiMsgs.map(m => m.text).join(" ").toLowerCase();
-  if (allAiText.includes("cbt") || allAiText.includes("cognitive") || allAiText.includes("distortion") || allAiText.includes("evidence for") || allAiText.includes("reframe")) techniques.push({ name: "CBT", desc: "Cognitive restructuring & thought challenging" });
-  if (allAiText.includes("dbt") || allAiText.includes("radical acceptance") || allAiText.includes("distress tolerance") || allAiText.includes("wise mind")) techniques.push({ name: "DBT", desc: "Emotional regulation & distress tolerance" });
-  if (allAiText.includes("act") || allAiText.includes("defusion") || allAiText.includes("values") || allAiText.includes("notice i'm having")) techniques.push({ name: "ACT", desc: "Acceptance, defusion & values alignment" });
-  if (allAiText.includes("interpersonal") || allAiText.includes("loneliness") || allAiText.includes("relationship pattern")) techniques.push({ name: "IPT", desc: "Interpersonal patterns & connection" });
-  if (allAiText.includes("behavioral activation") || allAiText.includes("5-minute") || allAiText.includes("motivation follows")) techniques.push({ name: "BA", desc: "Behavioral activation & motivation" });
-  if (allAiText.includes("body") || allAiText.includes("nervous system") || allAiText.includes("somatic") || allAiText.includes("polyvagal")) techniques.push({ name: "Somatic", desc: "Body-based awareness & nervous system regulation" });
-  if (allAiText.includes("mindful") || allAiText.includes("present moment") || allAiText.includes("notice")) techniques.push({ name: "MBSR", desc: "Mindfulness & present-moment anchoring" });
-  if (allAiText.includes("self-compassion") || allAiText.includes("kind to yourself") || allAiText.includes("friend")) techniques.push({ name: "Self-Compassion", desc: "Self-kindness & common humanity" });
-  if (allAiText.includes("parts") || allAiText.includes("inner critic") || allAiText.includes("protective")) techniques.push({ name: "IFS", desc: "Parts work & internal system awareness" });
-  if (allAiText.includes("schema") || allAiText.includes("pattern") || allAiText.includes("way back")) techniques.push({ name: "Schema", desc: "Deep pattern identification" });
-  if (allAiText.includes("narrative") || allAiText.includes("story") || allAiText.includes("inherited")) techniques.push({ name: "Narrative", desc: "Story re-authoring & externalization" });
-  if (techniques.length === 0) techniques.push({ name: "Supportive", desc: "Active listening & validation" });
+function SessionInsights({ messages, summary, memory, canExport, onExport, onClose }) {
+  const userMessages = messages.filter((message) => message.role === "user");
+  const techniques = summary?.techniques?.length
+    ? summary.techniques
+    : [{ name: "Supportive listening", desc: "Warm reflection and next-step guidance." }];
+  const duration = summary?.durationMinutes || Math.max(1, Math.round(messages.length * 0.4));
 
   return (
     <div style={{ position: "fixed", inset: 0, background: "rgba(45,42,38,0.85)", backdropFilter: "blur(20px)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: 24, animation: "fadeIn 0.4s ease" }}>
-      <div style={{ background: "var(--surface-elevated)", borderRadius: 24, padding: "36px 32px", maxWidth: 460, width: "100%", maxHeight: "85vh", overflowY: "auto", border: "1px solid rgba(45,42,38,0.08)", boxShadow: "var(--shadow-xl)" }}>
+      <div style={{ background: "var(--surface-elevated)", borderRadius: 24, padding: "36px 32px", maxWidth: 520, width: "100%", maxHeight: "85vh", overflowY: "auto", border: "1px solid rgba(45,42,38,0.08)", boxShadow: "var(--shadow-xl)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
-          <span style={{ fontFamily: "'Fraunces', serif", fontSize: 20, fontWeight: 600, color: "var(--text-primary)" }}>Session Insights</span>
+          <div>
+            <span style={{ fontFamily: "'Fraunces', serif", fontSize: 20, fontWeight: 600, color: "var(--text-primary)", display: "block" }}>Premium Session Note</span>
+            <span style={{ fontSize: 12, color: "var(--text-secondary)", fontFamily: "'DM Sans', sans-serif" }}>On-device continuity, pattern tracking, and carry-forward planning</span>
+          </div>
           <button onClick={onClose} style={{ background: "none", border: "none", color: "var(--text-muted)", fontSize: 20, cursor: "pointer" }}>×</button>
         </div>
 
-        {/* Stats */}
         <div style={{ display: "flex", gap: 12, marginBottom: 20 }}>
-          {[{ val: userMsgs.length, label: "Messages" }, { val: techniques.length, label: "Techniques" }, { val: `${Math.round(messages.length * 0.4)}m`, label: "Duration" }].map(s => (
-            <div key={s.label} style={{ flex: 1, background: "var(--accent-sage-light)", borderRadius: 12, padding: "12px 8px", textAlign: "center", border: "1px solid rgba(125,155,130,0.12)" }}>
-              <span style={{ fontSize: 22, fontWeight: 300, color: "var(--interactive)", display: "block", fontFamily: "'Fraunces', serif" }}>{s.val}</span>
-              <span style={{ fontSize: 10, color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: 1, fontFamily: "'DM Sans', sans-serif" }}>{s.label}</span>
+          {[
+            { value: userMessages.length, label: "Messages" },
+            { value: techniques.length, label: "Approaches" },
+            { value: `${duration}m`, label: "Duration" },
+          ].map((stat) => (
+            <div key={stat.label} style={{ flex: 1, background: "var(--accent-sage-light)", borderRadius: 12, padding: "12px 8px", textAlign: "center", border: "1px solid rgba(125,155,130,0.12)" }}>
+              <span style={{ fontSize: 22, fontWeight: 300, color: "var(--interactive)", display: "block", fontFamily: "'Fraunces', serif" }}>{stat.value}</span>
+              <span style={{ fontSize: 10, color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: 1, fontFamily: "'DM Sans', sans-serif" }}>{stat.label}</span>
             </div>
           ))}
         </div>
 
-        {/* Techniques used */}
-        <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--text-secondary)", fontWeight: 600, display: "block", marginBottom: 10, fontFamily: "'Fraunces', serif" }}>Techniques Applied</span>
-        {techniques.map(t => (
-          <div key={t.name} style={{ display: "flex", gap: 10, alignItems: "center", padding: "8px 12px", background: "var(--accent-sage-light)", borderRadius: 10, marginBottom: 6, borderLeft: "2px solid rgba(125,155,130,0.3)" }}>
-            <span style={{ fontSize: 12, fontWeight: 600, color: "var(--interactive)", minWidth: 60, fontFamily: "'Fraunces', serif" }}>{t.name}</span>
-            <span style={{ fontSize: 11, color: "var(--text-secondary)", fontFamily: "'DM Sans', sans-serif" }}>{t.desc}</span>
+        {summary && (
+          <div style={{ marginBottom: 18, padding: "16px 18px", background: "var(--surface)", borderRadius: 14, border: "1px solid rgba(45,42,38,0.06)" }}>
+            <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--text-secondary)", fontWeight: 600, display: "block", marginBottom: 6, fontFamily: "'Fraunces', serif" }}>Session Note</span>
+            <span style={{ fontSize: 17, color: "var(--text-primary)", lineHeight: 1.45, display: "block", marginBottom: 8, fontFamily: "'Fraunces', serif" }}>{summary.headline}</span>
+            <span style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.7, display: "block", marginBottom: 10, fontFamily: "'DM Sans', sans-serif" }}>
+              {summary.focusText}
+            </span>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {[summary.stateLabel, summary.conversationModeLabel || summary.primaryMode, ...summary.modalities.slice(0, 2)].map((item) => (
+                <span key={item} style={{ fontSize: 11, padding: "4px 10px", borderRadius: 999, background: "var(--accent-sage-light)", color: "var(--accent-sage)", fontWeight: 600 }}>
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--text-secondary)", fontWeight: 600, display: "block", marginBottom: 10, fontFamily: "'Fraunces', serif" }}>Approaches Forj Used</span>
+        {techniques.map((technique) => (
+          <div key={technique.name} style={{ display: "flex", gap: 10, alignItems: "center", padding: "8px 12px", background: "var(--accent-sage-light)", borderRadius: 10, marginBottom: 6, borderLeft: "2px solid rgba(125,155,130,0.3)" }}>
+            <span style={{ fontSize: 12, fontWeight: 600, color: "var(--interactive)", minWidth: 92, fontFamily: "'Fraunces', serif" }}>{technique.name}</span>
+            <span style={{ fontSize: 11, color: "var(--text-secondary)", fontFamily: "'DM Sans', sans-serif" }}>{technique.desc}</span>
           </div>
         ))}
 
-        <div style={{ marginTop: 20, padding: "14px 16px", background: "var(--surface)", borderRadius: 12, border: "1px solid rgba(45,42,38,0.06)" }}>
-          <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--text-secondary)", fontWeight: 600, display: "block", marginBottom: 6, fontFamily: "'Fraunces', serif" }}>Clinical Note</span>
-          <span style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.7, fontFamily: "'DM Sans', sans-serif" }}>
-            This session used {techniques.map(t => t.name).join(", ")} techniques dynamically selected based on your needs.
-            Forj adapted its approach {techniques.length > 1 ? "multiple times" : ""} during your conversation to provide the most relevant support.
-            For deeper work on the patterns explored today, consider connecting with a licensed therapist.
-          </span>
-        </div>
+        {summary && (
+          <div style={{ marginTop: 20, padding: "14px 16px", background: "var(--surface)", borderRadius: 12, border: "1px solid rgba(45,42,38,0.06)" }}>
+            <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--text-secondary)", fontWeight: 600, display: "block", marginBottom: 6, fontFamily: "'Fraunces', serif" }}>Carry Forward</span>
+            <span style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.7, fontFamily: "'DM Sans', sans-serif", display: "block", marginBottom: 12 }}>
+              {summary.nextStep}
+            </span>
+            <div style={{ display: "grid", gap: 8 }}>
+              {summary.microPlan.map((step) => (
+                <div key={step} style={{ padding: "10px 12px", borderRadius: 10, background: "var(--accent-sage-light)" }}>
+                  <span style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.6, fontFamily: "'DM Sans', sans-serif" }}>{step}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {memory && (
+          <div style={{ marginTop: 20, padding: "14px 16px", background: "var(--surface)", borderRadius: 12, border: "1px solid rgba(45,42,38,0.06)" }}>
+            <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--text-secondary)", fontWeight: 600, display: "block", marginBottom: 8, fontFamily: "'Fraunces', serif" }}>What Premium Remembers On This Device</span>
+            {[
+              { label: "Recurring themes", items: memory.recurringThemes },
+              { label: "Helpful approaches", items: memory.helpfulApproaches },
+              { label: "Current focus", items: memory.currentFocus },
+            ].map((section) => (
+              section.items?.length ? (
+                <div key={section.label} style={{ marginBottom: 10 }}>
+                  <span style={{ fontSize: 11, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>{section.label}</span>
+                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                    {section.items.map((item) => (
+                      <span key={`${section.label}-${item.label}`} style={{ fontSize: 11, padding: "4px 10px", borderRadius: 999, background: "var(--accent-sage-light)", color: "var(--accent-sage)", fontWeight: 600 }}>
+                        {item.label}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ) : null
+            ))}
+          </div>
+        )}
+
+        {memory?.recentSessions?.length ? (
+          <div style={{ marginTop: 20 }}>
+            <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--text-secondary)", fontWeight: 600, display: "block", marginBottom: 10, fontFamily: "'Fraunces', serif" }}>Recent Sessions</span>
+            <div style={{ display: "grid", gap: 8 }}>
+              {memory.recentSessions.slice(0, 3).map((session) => (
+                <div key={session.createdAt} style={{ padding: "12px 14px", borderRadius: 12, background: "var(--surface)", border: "1px solid rgba(45,42,38,0.06)" }}>
+                  <span style={{ fontSize: 13, color: "var(--text-primary)", display: "block", marginBottom: 4, fontFamily: "'Fraunces', serif" }}>{session.headline}</span>
+                  <span style={{ fontSize: 11, color: "var(--text-secondary)", display: "block", marginBottom: 4 }}>{session.stateLabel}</span>
+                  <span style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.6 }}>{session.nextStep}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
+
+        {canExport && summary ? (
+          <button
+            onClick={onExport}
+            className="btn-glow"
+            style={{ width: "100%", marginTop: 18, padding: "14px 16px", borderRadius: 999, border: "1px solid rgba(45,42,38,0.08)", background: "var(--surface)", color: "var(--text-primary)", cursor: "pointer", fontWeight: 600 }}
+          >
+            Export Session Note
+          </button>
+        ) : null}
 
         <div style={{ marginTop: 16, textAlign: "center" }}>
-          <span style={{ fontSize: 10, color: "var(--text-muted)", opacity: 0.5, fontFamily: "'DM Sans', sans-serif" }}>Session data stored locally on your device only.</span>
+          <span style={{ fontSize: 10, color: "var(--text-muted)", opacity: 0.5, fontFamily: "'DM Sans', sans-serif" }}>Session notes and memory stay stored locally on your device only.</span>
         </div>
       </div>
     </div>
@@ -582,31 +1210,56 @@ function SessionInsights({ messages, onClose, theme }) {
 function UpgradeModal({ onClose, onSubscribe }) {
   return (
     <div style={{ position: "fixed", inset: 0, background: "rgba(45,42,38,0.85)", backdropFilter: "blur(12px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 200, padding: 24, animation: "fadeIn 0.3s ease" }} onClick={onClose}>
-      <div onClick={e => e.stopPropagation()} style={{ background: "var(--surface-elevated)", borderRadius: 24, padding: "36px 28px", maxWidth: 420, width: "100%", border: "1px solid rgba(45,42,38,0.08)", maxHeight: "90vh", overflowY: "auto", boxShadow: "var(--shadow-xl)" }}>
+      <div onClick={e => e.stopPropagation()} style={{ background: "var(--surface-elevated)", borderRadius: 24, padding: "36px 28px", maxWidth: 460, width: "100%", border: "1px solid rgba(45,42,38,0.08)", maxHeight: "90vh", overflowY: "auto", boxShadow: "var(--shadow-xl)" }}>
         <div style={{ textAlign: "center", marginBottom: 24 }}>
           <span style={{ fontSize: 36, display: "block", marginBottom: 10 }}>✦</span>
           <span style={{ fontFamily: "'Fraunces', serif", fontSize: 22, fontWeight: 600, color: "var(--text-primary)", display: "block" }}>AIForj Premium</span>
-          <span style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 6, display: "block", fontFamily: "'DM Sans', sans-serif" }}>Unlock the full therapeutic experience</span>
+          <span style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 6, display: "block", fontFamily: "'DM Sans', sans-serif" }}>Free helps you feel better now. Premium becomes your private mental fitness system.</span>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 18 }}>
+          <div style={{ padding: "12px 14px", borderRadius: 14, background: "var(--surface)", border: "1px solid rgba(45,42,38,0.06)" }}>
+            <span style={{ fontSize: 10, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: 2, display: "block", marginBottom: 6 }}>Free</span>
+            <span style={{ fontSize: 13, color: "var(--text-primary)", display: "block", fontWeight: 600 }}>In-the-moment relief</span>
+            <span style={{ fontSize: 11, color: "var(--text-secondary)", lineHeight: 1.6 }}>Private support, short sessions, grounded tools, and a real conversation when you need it.</span>
+          </div>
+          <div style={{ padding: "12px 14px", borderRadius: 14, background: "linear-gradient(135deg, rgba(125,155,130,0.16), rgba(107,155,158,0.16))", border: "1px solid rgba(125,155,130,0.18)" }}>
+            <span style={{ fontSize: 10, color: "var(--accent-sage)", textTransform: "uppercase", letterSpacing: 2, display: "block", marginBottom: 6, fontWeight: 700 }}>Premium</span>
+            <span style={{ fontSize: 13, color: "var(--text-primary)", display: "block", fontWeight: 700 }}>Continuity, depth, and a plan</span>
+            <span style={{ fontSize: 11, color: "var(--text-secondary)", lineHeight: 1.6 }}>On-device memory, deeper modes, therapist-ready notes, and unlimited use when life gets messy.</span>
+          </div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 24 }}>
           {[
-            { i: "🧠", t: "Unlimited Conversations", d: "No daily limits — talk whenever you need to" },
-            { i: "🎯", t: "Advanced Techniques", d: "Schema Therapy, IFS Parts Work, Narrative Therapy" },
-            { i: "📊", t: "Session Insights", d: "See which techniques were used and your emotional trajectory" },
-            { i: "📈", t: "Mood Tracking", d: "Track patterns over days, weeks, and months" },
-            { i: "📋", t: "Session History", d: "Review past conversations and insights anytime" },
+            { i: "🧠", t: "Remembers What Helps", d: "Private on-device memory of themes, triggers, and approaches that land for you" },
+            { i: "🎛️", t: "Premium Conversation Modes", d: "Choose Steady Me, Pattern, Plan, or Deep Work instead of staying on one default lane" },
+            { i: "🪞", t: "Deeper Pattern Work", d: "Schema, parts work, and narrative lenses when your conversation points there" },
+            { i: "📋", t: "Session Notes + Micro-Plans", d: "Every meaningful session can end with a carry-forward note and next-step plan" },
+            { i: "📚", t: "Session History", d: "Review recent Premium notes without losing the thread" },
+            { i: "♾️", t: "Unlimited Conversations", d: "No daily limits when you need a longer stretch of support" },
             { i: "🧘", t: "Guided Meditations", d: "AI-personalized breathing and mindfulness exercises" },
             { i: "📄", t: "Export Session Notes", d: "Share summaries with your therapist or doctor" },
             { i: "🔒", t: "Complete Privacy", d: "Everything stays on your device — always" },
-          ].map(f => (
-            <div key={f.t} style={{ display: "flex", gap: 10, padding: "10px 14px", background: "var(--accent-sage-light)", borderRadius: 12, alignItems: "flex-start", border: "1px solid rgba(125,155,130,0.1)" }}>
-              <span style={{ fontSize: 16, flexShrink: 0 }}>{f.i}</span>
+          ].map((feature) => (
+            <div key={feature.t} style={{ display: "flex", gap: 10, padding: "10px 14px", background: "var(--accent-sage-light)", borderRadius: 12, alignItems: "flex-start", border: "1px solid rgba(125,155,130,0.1)" }}>
+              <span style={{ fontSize: 16, flexShrink: 0 }}>{feature.i}</span>
               <div>
-                <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)", display: "block", fontFamily: "'DM Sans', sans-serif" }}>{f.t}</span>
-                <span style={{ fontSize: 11, color: "var(--text-secondary)", fontFamily: "'DM Sans', sans-serif" }}>{f.d}</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)", display: "block", fontFamily: "'DM Sans', sans-serif" }}>{feature.t}</span>
+                <span style={{ fontSize: 11, color: "var(--text-secondary)", fontFamily: "'DM Sans', sans-serif" }}>{feature.d}</span>
               </div>
             </div>
           ))}
+        </div>
+        <div style={{ marginBottom: 24, padding: "14px 16px", background: "var(--surface)", borderRadius: 14, border: "1px solid rgba(45,42,38,0.06)" }}>
+          <span style={{ fontSize: 10, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: 2, display: "block", marginBottom: 8 }}>Why it earns the $9.99</span>
+          <div style={{ display: "grid", gap: 8 }}>
+            {[
+              "It remembers what actually helps you instead of starting from zero every time.",
+              "It turns insight into a concrete next-step plan you can reuse later.",
+              "It gives you a private, lower-friction support layer between therapy sessions or during hard weeks.",
+            ].map((reason) => (
+              <span key={reason} style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.7 }}>{reason}</span>
+            ))}
+          </div>
         </div>
         <button onClick={onSubscribe} className="btn-glow" style={{ width: "100%", padding: "16px", fontSize: 15, fontFamily: "'Fraunces', serif", background: "linear-gradient(135deg, var(--interactive), var(--accent-teal))", color: "#fff", border: "none", borderRadius: 50, cursor: "pointer", fontWeight: 700, letterSpacing: 0.5, transition: "all 0.3s cubic-bezier(0.16,1,0.3,1)" }}>
           Start 7-Day Free Trial
@@ -638,11 +1291,16 @@ export default function ForjVoiceCompanion() {
   const [showShare, setShowShare] = useState(false);
   const [dailyInsight, setDailyInsight] = useState(null);
   const [showAllPathways, setShowAllPathways] = useState(false);
+  const [sessionSummary, setSessionSummary] = useState(null);
+  const [companionMemory, setCompanionMemory] = useState(null);
+  const [premiumMode, setPremiumMode] = useState(PREMIUM_CONVERSATION_MODES[0].id);
 
   const sr = useSpeechRecognition();
   const tts = useTTS();
   const msgsRef = useRef([]);
   useEffect(() => { msgsRef.current = messages; }, [messages]);
+  const companionMemoryRef = useRef(null);
+  useEffect(() => { companionMemoryRef.current = companionMemory; }, [companionMemory]);
 
   // Daily insights — quotable therapeutic truths
   const DAILY_INSIGHTS = [
@@ -665,14 +1323,16 @@ export default function ForjVoiceCompanion() {
   useEffect(() => {
     (async () => {
       const saved = await DB.get("tier");
-      if (saved) {
-        setTier(saved);
-      } else if (typeof window !== "undefined") {
+      if (typeof window !== "undefined") {
         const premiumStatus = getPremiumAccessStatus();
         if (premiumStatus.active) {
           setTier("premium");
           await DB.set("tier", "premium");
+        } else if (saved) {
+          setTier(saved);
         }
+      } else if (saved) {
+        setTier(saved);
       }
       const today = new Date().toDateString();
       const sc = await DB.get(`sessions_${today}`);
@@ -702,6 +1362,8 @@ export default function ForjVoiceCompanion() {
 
 
   const tierConfig = TIERS[tier] || TIERS.free;
+  const hasContinuityMemory = tierConfig.features.continuityMemory;
+  const hasLongerContext = tierConfig.features.deeperContext;
 
   const canSend = () => {
     if (tier === "premium" || tier === "trial") return true;
@@ -712,18 +1374,21 @@ export default function ForjVoiceCompanion() {
 
   // ─── WebLLM Engine (free, private, no API keys) ───
   const webllmRef = useRef(null);
+  const webllmModelRef = useRef(LOCAL_WEBLLM_MODELS.standard);
   const [webllmStatus, setWebllmStatus] = useState("idle"); // idle, loading, ready, unsupported
   const [webllmProgress, setWebllmProgress] = useState(0);
 
   const initWebLLM = useCallback(async () => {
     if (webllmRef.current || webllmStatus === "loading") return;
-    if (!navigator.gpu) { setWebllmStatus("unsupported"); return; }
+    if (typeof navigator === "undefined" || !navigator.gpu) { setWebllmStatus("unsupported"); return; }
+    const selectedModel = chooseLocalModel();
+    webllmModelRef.current = selectedModel;
     setWebllmStatus("loading");
     try {
       const webllm = await import("@mlc-ai/web-llm");
       const engine = new webllm.MLCEngine();
       engine.setInitProgressCallback((p) => setWebllmProgress(Math.round((p.progress || 0) * 100)));
-      await engine.reload("Phi-3.5-mini-instruct-q4f16_1-MLC");
+      await engine.reload(selectedModel.id);
       webllmRef.current = engine;
       setWebllmStatus("ready");
     } catch (e) {
@@ -732,10 +1397,41 @@ export default function ForjVoiceCompanion() {
     }
   }, [webllmStatus]);
 
-  // Auto-load WebLLM for premium users
+  // Auto-load WebLLM for everyone on supported browsers.
   useEffect(() => {
-    if ((tier === "premium" || tier === "trial") && webllmStatus === "idle") initWebLLM();
+    if (webllmStatus !== "idle") return undefined;
+    const timer = setTimeout(() => {
+      initWebLLM();
+    }, tier === "free" ? 900 : 300);
+    return () => clearTimeout(timer);
   }, [tier, webllmStatus, initWebLLM]);
+
+  useEffect(() => {
+    (async () => {
+      if (!hasContinuityMemory) {
+        setSessionSummary(null);
+        setCompanionMemory(null);
+        return;
+      }
+
+      const [storedSummary, storedMemory] = await Promise.all([
+        DB.get("companion_session_note"),
+        DB.get("companion_memory"),
+      ]);
+      if (storedSummary) setSessionSummary(storedSummary);
+      if (storedMemory) setCompanionMemory(storedMemory);
+    })();
+  }, [hasContinuityMemory]);
+
+  useEffect(() => {
+    (async () => {
+      if (!tierConfig.features.deepWorkModes) return;
+      const storedMode = await DB.get("companion_premium_mode");
+      if (storedMode && PREMIUM_CONVERSATION_MODES.some((mode) => mode.id === storedMode)) {
+        setPremiumMode(storedMode);
+      }
+    })();
+  }, [tierConfig.features.deepWorkModes]);
 
   // ─── Intelligent Clinical Response Engine (always available, no API) ───
   function generateClinicalResponse(userText, history) {
@@ -1021,15 +1717,25 @@ export default function ForjVoiceCompanion() {
     setMessages(updated);
 
     let text = "";
+    const planner = buildSessionPlanner(userText, updated, tier, premiumMode);
 
-    // Try WebLLM first (premium, free, no API key)
+    // Try WebLLM first (free + premium, no API key)
     if (webllmRef.current && webllmStatus === "ready") {
       try {
-        const history = updated.slice(-10).map(m => ({ role: m.role, content: m.text }));
+        const history = updated
+          .slice(-(hasLongerContext ? 14 : 10))
+          .map((message) => ({ role: message.role, content: message.text }));
         const reply = await webllmRef.current.chat.completions.create({
-          messages: [{ role: "system", content: CLINICAL_SYSTEM_PROMPT }, ...history],
+          messages: [{
+            role: "system",
+            content: buildCompanionSystemPrompt({
+              tier,
+              planner,
+              memory: hasContinuityMemory ? companionMemoryRef.current : null,
+            }),
+          }, ...history],
           max_tokens: 300,
-          temperature: 0.7,
+          temperature: 0.65,
         });
         text = reply.choices?.[0]?.message?.content || "";
       } catch (e) {
@@ -1046,13 +1752,26 @@ export default function ForjVoiceCompanion() {
     const withResponse = [...updated, { role: "assistant", text, ts: Date.now() }];
     msgsRef.current = withResponse;
     setMessages(withResponse);
+
+    if (hasContinuityMemory) {
+      const summary = buildSessionSummary(withResponse, planner);
+      if (summary) {
+        setSessionSummary(summary);
+        await DB.set("companion_session_note", summary);
+        const nextMemory = mergeCompanionMemory(companionMemoryRef.current, summary);
+        companionMemoryRef.current = nextMemory;
+        setCompanionMemory(nextMemory);
+        await DB.set("companion_memory", nextMemory);
+      }
+    }
+
     setState("speaking");
     tts.speak(text, () => {
       setState("idle");
       // Show share prompt after 3+ exchanges (use refs to avoid stale closure)
       if (msgsRef.current.length >= 6 && !showShareRef.current) setShowShare(true);
     });
-  }, [tts, tier, sessionCount, msgCount, webllmStatus]);
+  }, [tts, tier, sessionCount, msgCount, webllmStatus, hasContinuityMemory, hasLongerContext, premiumMode]);
 
   const handleOrb = useCallback(() => {
     if (state === "speaking") { tts.stop(); setState("idle"); return; }
@@ -1167,15 +1886,24 @@ export default function ForjVoiceCompanion() {
 
       {showBreathing && <BreathingOverlay pattern={showBreathing} onClose={() => setShowBreathing(null)} />}
       {showUpgrade && <UpgradeModal onClose={() => setShowUpgrade(false)} onSubscribe={handleSubscribe} />}
-      {showInsights && messages.length > 2 && <SessionInsights messages={messages} onClose={() => setShowInsights(false)} />}
+      {showInsights && messages.length > 2 && (
+        <SessionInsights
+          messages={messages}
+          summary={sessionSummary}
+          memory={companionMemory}
+          canExport={tierConfig.features.exportNotes}
+          onExport={() => exportSessionNote(sessionSummary, companionMemory)}
+          onClose={() => setShowInsights(false)}
+        />
+      )}
 
       {/* WebLLM loading indicator */}
-      {(tier === "premium" || tier === "trial") && webllmStatus === "loading" && (
+      {webllmStatus === "loading" && (
         <div style={{ position: "fixed", bottom: 20, right: 20, background: "var(--surface-elevated)", boxShadow: "var(--shadow-lg)", borderRadius: 16, padding: "10px 18px", zIndex: 50, border: "1px solid rgba(125,155,130,0.12)", display: "flex", alignItems: "center", gap: 10, animation: "fadeIn 0.3s" }}>
           <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#7D9B82" }} className="pulse-loading" />
           <div>
-            <span style={{ fontSize: 11, color: "var(--text-primary)", fontWeight: 500, display: "block" }}>Loading AI Engine</span>
-            <span style={{ fontSize: 10, color: "var(--text-secondary)" }}>{webllmProgress}% — runs privately on your device</span>
+            <span style={{ fontSize: 11, color: "var(--text-primary)", fontWeight: 500, display: "block" }}>Loading {webllmModelRef.current.label}</span>
+            <span style={{ fontSize: 10, color: "var(--text-secondary)" }}>{webllmProgress}% — {webllmModelRef.current.description}, fully on-device</span>
           </div>
         </div>
       )}
@@ -1187,7 +1915,7 @@ export default function ForjVoiceCompanion() {
         </button>
         {tierConfig.features.sessionInsights && messages.length > 4 && (
           <button onClick={() => setShowInsights(true)} className="btn-glow" style={{ background: "var(--surface)", border: "1px solid rgba(45,42,38,0.08)", padding: "6px 14px", borderRadius: 20, fontSize: 11, color: "var(--text-secondary)", cursor: "pointer", fontWeight: 500 }}>
-            Insights
+            Notes
           </button>
         )}
         {messages.length > 2 && (
@@ -1208,6 +1936,72 @@ export default function ForjVoiceCompanion() {
           </button>
         )}
       </div>
+
+      {tierConfig.features.deepWorkModes ? (
+        <div style={{ padding: "0 24px 12px", display: "flex", justifyContent: "center" }}>
+          <div style={{ maxWidth: 880, width: "100%", background: "var(--surface-elevated)", borderRadius: 20, border: "1px solid rgba(45,42,38,0.06)", boxShadow: "var(--shadow-sm)", padding: "14px 16px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 10 }}>
+              <div>
+                <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--accent-sage)", fontWeight: 700, display: "block", marginBottom: 4, fontFamily: "'Fraunces', serif" }}>Premium Modes</span>
+                <span style={{ fontSize: 12, color: "var(--text-secondary)" }}>Choose the kind of help you want before the conversation starts.</span>
+              </div>
+              <span style={{ fontSize: 11, padding: "5px 10px", borderRadius: 999, background: "linear-gradient(135deg, rgba(125,155,130,0.16), rgba(107,155,158,0.16))", color: "var(--accent-sage)", fontWeight: 700 }}>
+                Included in Premium
+              </span>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 10 }}>
+              {PREMIUM_CONVERSATION_MODES.map((mode) => {
+                const isActive = premiumMode === mode.id;
+                return (
+                  <button
+                    key={mode.id}
+                    onClick={async () => {
+                      setPremiumMode(mode.id);
+                      await DB.set("companion_premium_mode", mode.id);
+                    }}
+                    className="btn-glow"
+                    style={{
+                      textAlign: "left",
+                      padding: "12px 14px",
+                      borderRadius: 16,
+                      border: isActive ? "1.5px solid rgba(125,155,130,0.42)" : "1px solid rgba(45,42,38,0.08)",
+                      background: isActive ? "linear-gradient(135deg, rgba(125,155,130,0.14), rgba(107,155,158,0.14))" : "var(--surface)",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <span style={{ fontSize: 11, color: isActive ? "var(--accent-sage)" : "var(--text-muted)", textTransform: "uppercase", letterSpacing: 1.5, display: "block", marginBottom: 5, fontWeight: 700 }}>{mode.badge}</span>
+                    <span style={{ fontSize: 14, color: "var(--text-primary)", display: "block", marginBottom: 4, fontFamily: "'Fraunces', serif" }}>{mode.label}</span>
+                    <span style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.55 }}>{mode.description}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div style={{ padding: "0 24px 12px", display: "flex", justifyContent: "center" }}>
+          <div style={{ maxWidth: 860, width: "100%", background: "var(--surface-elevated)", borderRadius: 20, border: "1px solid rgba(45,42,38,0.06)", boxShadow: "var(--shadow-sm)", padding: "14px 16px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 10 }}>
+              <div>
+                <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--text-muted)", fontWeight: 700, display: "block", marginBottom: 4, fontFamily: "'Fraunces', serif" }}>Premium Preview</span>
+                <span style={{ fontSize: 12, color: "var(--text-secondary)" }}>Premium lets you choose how Forj helps: calm first, map the pattern, leave with a plan, or go deeper.</span>
+              </div>
+              <button onClick={() => setShowUpgrade(true)} className="btn-glow" style={{ border: "none", background: "var(--interactive)", color: "#fff", padding: "10px 18px", borderRadius: 999, fontWeight: 700, cursor: "pointer" }}>
+                Unlock Premium Modes
+              </button>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 10 }}>
+              {PREMIUM_CONVERSATION_MODES.map((mode) => (
+                <div key={mode.id} style={{ padding: "12px 14px", borderRadius: 16, border: "1px dashed rgba(45,42,38,0.12)", background: "rgba(255,255,255,0.45)", opacity: 0.84 }}>
+                  <span style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: 1.5, display: "block", marginBottom: 5, fontWeight: 700 }}>{mode.badge}</span>
+                  <span style={{ fontSize: 14, color: "var(--text-primary)", display: "block", marginBottom: 4, fontFamily: "'Fraunces', serif" }}>{mode.label}</span>
+                  <span style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.55 }}>{mode.description}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ═══════════ HERO SECTION ═══════════ */}
       <section style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 24px", position: "relative" }}>
@@ -1243,11 +2037,17 @@ export default function ForjVoiceCompanion() {
           </p>
 
           {/* Privacy badge */}
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: 32, animation: "fadeIn 1s ease 0.4s both" }}>
+          <div style={{ display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap", marginBottom: 32, animation: "fadeIn 1s ease 0.4s both" }}>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 18px", background: "var(--accent-sage-light)", borderRadius: 24 }}>
               <span style={{ fontSize: 14 }}>🔒</span>
               <span style={{ fontSize: 12, color: "var(--accent-sage)", fontWeight: 500 }}>100% Private — nothing leaves your browser</span>
             </div>
+            {webllmStatus === "ready" && (
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 18px", background: "rgba(107,155,158,0.12)", borderRadius: 24 }}>
+                <span style={{ fontSize: 14 }}>🧠</span>
+                <span style={{ fontSize: 12, color: "var(--accent-teal)", fontWeight: 600 }}>{webllmModelRef.current.label} ready on this device</span>
+              </div>
+            )}
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 32, animation: 'fadeIn 1s ease 0.5s both' }}>
@@ -1266,6 +2066,15 @@ export default function ForjVoiceCompanion() {
           {aiText && state !== "listening" && (
             <div style={{ marginBottom: 20, padding: "18px 24px", maxWidth: 480, margin: "0 auto 20px", animation: "fadeIn 0.5s", background: "var(--surface)", borderRadius: 16, boxShadow: "var(--shadow-sm)" }}>
               <p style={{ fontSize: 15, lineHeight: 1.8, color: "var(--text-primary)", margin: 0, fontWeight: 300, opacity: 0.9 }}>{aiText}</p>
+            </div>
+          )}
+
+          {sessionSummary && tier !== "free" && state !== "listening" && (
+            <div style={{ margin: "0 auto 20px", maxWidth: 500, padding: "14px 18px", background: "var(--accent-sage-light)", borderRadius: 14, border: "1px solid rgba(125,155,130,0.14)", textAlign: "left", animation: "fadeIn 0.5s" }}>
+              <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--accent-sage)", fontWeight: 700, display: "block", marginBottom: 6, fontFamily: "'Fraunces', serif" }}>Premium Carry Forward</span>
+              <span style={{ fontSize: 14, color: "var(--text-primary)", display: "block", marginBottom: 6, fontFamily: "'Fraunces', serif" }}>{sessionSummary.headline}</span>
+              <span style={{ fontSize: 11, color: "var(--accent-sage)", fontWeight: 700, display: "block", marginBottom: 6 }}>{sessionSummary.conversationModeLabel || getPremiumConversationMode(premiumMode).label}</span>
+              <span style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.7, display: "block" }}>{sessionSummary.nextStep}</span>
             </div>
           )}
 
@@ -1311,6 +2120,41 @@ export default function ForjVoiceCompanion() {
               </button>
             </div>
           </div>
+
+          {tier !== "free" && companionMemory && (
+            <div style={{ margin: "20px auto 0", maxWidth: 640, padding: "18px 18px 16px", background: "var(--surface-elevated)", borderRadius: 20, border: "1px solid rgba(45,42,38,0.06)", boxShadow: "var(--shadow-sm)", textAlign: "left" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 12 }}>
+                <div>
+                  <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--accent-sage)", fontWeight: 700, display: "block", marginBottom: 4, fontFamily: "'Fraunces', serif" }}>Premium Continuity</span>
+                  <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>Forj is building on what tends to help you, privately on this device.</span>
+                </div>
+                <span style={{ fontSize: 11, padding: "5px 10px", borderRadius: 999, background: "var(--accent-sage-light)", color: "var(--accent-sage)", fontWeight: 700 }}>
+                  {getPremiumConversationMode(premiumMode).label}
+                </span>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 10 }}>
+                {[
+                  {
+                    title: "Recurring themes",
+                    value: companionMemory.recurringThemes?.slice(0, 2).map((item) => item.label).join(" • ") || "Not enough data yet",
+                  },
+                  {
+                    title: "Helpful approaches",
+                    value: companionMemory.helpfulApproaches?.slice(0, 2).map((item) => item.label).join(" • ") || "Still learning",
+                  },
+                  {
+                    title: "Current focus",
+                    value: companionMemory.currentFocus?.[0]?.label || "Your recent focus will show up here",
+                  },
+                ].map((card) => (
+                  <div key={card.title} style={{ padding: "12px 14px", borderRadius: 16, background: "var(--surface)", border: "1px solid rgba(45,42,38,0.06)" }}>
+                    <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 1.5, color: "var(--text-muted)", display: "block", marginBottom: 6, fontWeight: 700 }}>{card.title}</span>
+                    <span style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.65 }}>{card.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* "How are you feeling?" prompt */}
           <p style={{ marginTop: 48, fontFamily: "'Fraunces', serif", fontSize: "var(--font-h3)", fontWeight: 400, color: "var(--text-secondary)", animation: "fadeIn 1s ease 0.8s both" }}>
@@ -1434,7 +2278,7 @@ export default function ForjVoiceCompanion() {
           <a href="/techniques" style={{ fontSize: 14, color: "var(--interactive)", fontWeight: 500, textDecoration: "none" }}
             onMouseEnter={e => e.currentTarget.style.color = "var(--interactive-hover)"}
             onMouseLeave={e => e.currentTarget.style.color = "var(--interactive)"}>
-            Browse 15 evidence-based techniques →
+            Browse the technique library →
           </a>
         </div>
       </section>
@@ -1511,10 +2355,50 @@ export default function ForjVoiceCompanion() {
         <section style={{ padding: "80px 24px", maxWidth: 680, width: "100%", margin: "0 auto" }}>
           <div style={{ background: "var(--surface-elevated)", borderRadius: 24, padding: "48px 32px", textAlign: "center", boxShadow: "var(--shadow-lg)", border: "1px solid rgba(45,42,38,0.06)" }}>
             <span style={{ fontSize: 36, display: "block", marginBottom: 12 }}>✦</span>
-            <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "var(--font-h3)", fontWeight: 500, color: "var(--text-primary)", margin: "0 0 12px", lineHeight: 1.3 }}>When the free reset helps — but you need more depth</h2>
+            <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "var(--font-h3)", fontWeight: 500, color: "var(--text-primary)", margin: "0 0 12px", lineHeight: 1.3 }}>When the free conversation helps — but you want something that keeps up with your real life</h2>
             <p style={{ fontSize: 15, color: "var(--text-secondary)", margin: "0 auto 24px", lineHeight: 1.7, maxWidth: 480 }}>
-              Unlimited sessions + Progress Garden + Advanced techniques + PDF session exports + Custom voice
+              Free gives you private in-the-moment support. Premium becomes your continuity layer between hard moments, therapy sessions, and the rest of your week.
             </p>
+            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8, marginBottom: 20 }}>
+              {["Premium modes", "On-device memory", "Pattern tracking", "Session notes", "Unlimited conversations"].map((benefit) => (
+                <span key={benefit} style={{ fontSize: 11, padding: "5px 12px", borderRadius: 999, background: "var(--accent-sage-light)", color: "var(--accent-sage)", fontWeight: 700 }}>
+                  {benefit}
+                </span>
+              ))}
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12, textAlign: "left", marginBottom: 24 }}>
+              {[
+                {
+                  title: "Choose the kind of help",
+                  body: "Steady Me, Pattern, Plan, and Deep Work make Forj feel like four different high-value sessions in one tool.",
+                },
+                {
+                  title: "It remembers what works",
+                  body: "Premium keeps a private on-device memory of recurring themes and helpful approaches, so you do not have to start from zero every time.",
+                },
+                {
+                  title: "It leaves you with something useful",
+                  body: "Session notes, carry-forward actions, and exportable notes turn reflection into something you can actually use after the conversation ends.",
+                },
+              ].map((card) => (
+                <div key={card.title} style={{ padding: "16px 16px 14px", borderRadius: 18, background: "var(--surface)", border: "1px solid rgba(45,42,38,0.06)" }}>
+                  <span style={{ fontSize: 15, color: "var(--text-primary)", display: "block", marginBottom: 6, fontFamily: "'Fraunces', serif" }}>{card.title}</span>
+                  <span style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.7 }}>{card.body}</span>
+                </div>
+              ))}
+            </div>
+            <div style={{ marginBottom: 24, padding: "16px 18px", background: "linear-gradient(135deg, rgba(125,155,130,0.12), rgba(107,155,158,0.12))", borderRadius: 18, border: "1px solid rgba(125,155,130,0.16)", textAlign: "left" }}>
+              <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--accent-sage)", fontWeight: 700, display: "block", marginBottom: 8, fontFamily: "'Fraunces', serif" }}>Why it clears $9.99/month</span>
+              <div style={{ display: "grid", gap: 8 }}>
+                {[
+                  "Cheaper than one therapy copay, but useful between every therapy session.",
+                  "Cheaper than losing a whole evening to a stress spiral you could have interrupted earlier.",
+                  "Cheaper than most subscription clutter, while actually helping you think, regulate, and act differently.",
+                ].map((reason) => (
+                  <span key={reason} style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.7 }}>{reason}</span>
+                ))}
+              </div>
+            </div>
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginBottom: 20 }}>
               <button onClick={handleSubscribe} className="btn-glow" style={{ padding: "16px 40px", fontSize: 16, fontFamily: "'Fraunces', serif", background: "var(--interactive)", color: "#fff", border: "none", borderRadius: 50, cursor: "pointer", fontWeight: 600 }}>
                 Start 7-Day Free Trial
@@ -1617,4 +2501,3 @@ export default function ForjVoiceCompanion() {
     </div>
   );
 }
-import { getPremiumAccessStatus } from "../../utils/premiumAccess";
