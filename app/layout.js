@@ -4,6 +4,7 @@ import BiophilicBackground from './components/BiophilicBackground';
 import Navigation from './components/Navigation';
 import SOS from './components/SOS';
 import SEO from './components/SEO';
+import { SoundProvider } from './components/SoundProvider';
 
 export const metadata = {
   metadataBase: new URL('https://aiforj.com'),
@@ -55,14 +56,16 @@ export default function RootLayout({ children }) {
       </head>
       <body className="grain">
         <ThemeProvider>
-          <BiophilicBackground />
-          <div style={{ position: "relative", zIndex: 1 }}>
-            <Navigation />
-            <div className="page-enter">
-              {children}
+          <SoundProvider>
+            <BiophilicBackground />
+            <div style={{ position: "relative", zIndex: 1 }}>
+              <Navigation />
+              <div className="page-enter">
+                {children}
+              </div>
+              <SOS />
             </div>
-            <SOS />
-          </div>
+          </SoundProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -78,6 +78,7 @@ export default function Navigation() {
             <span style={{ fontFamily: "'Fraunces', serif", fontSize: 18, fontWeight: 700, color: "var(--text-primary)" }}>AIForj</span>
           </a>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <SoundToggle />
             <a href="/" className="btn-ghost" style={{ textDecoration: "none" }}>← Back</a>
           </div>
         </nav>
