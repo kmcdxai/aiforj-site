@@ -812,6 +812,22 @@ function timeoutPromise(ms, message) {
   });
 }
 
+function getSpeechErrorMessage(reason) {
+  if (reason === "not-allowed" || reason === "permission-denied" || reason === "service-not-allowed") {
+    return "Microphone access is blocked for this browser. Allow microphone access for AIForj, or type to Forj below.";
+  }
+  if (reason === "audio-capture") {
+    return "I cannot find an available microphone. You can still type to Forj below.";
+  }
+  if (reason === "network") {
+    return "Voice recognition had a network hiccup. Try again in a moment, or type to Forj below.";
+  }
+  if (reason === "start-failed") {
+    return "Voice input could not start in this browser tab. Refresh once, or type to Forj below.";
+  }
+  return "I did not catch that clearly. Tap again and speak after the Listening message appears, or type to Forj below.";
+}
+
 const PREMIUM_CONVERSATION_MODES = [
   {
     id: "steady",
@@ -871,21 +887,27 @@ function useSpeechRecognition() {
     setListening(true);
     setInterim("");
     let final = "";
+    let latestTranscript = "";
     recogRef.current.onresult = (e) => {
       let tmp = "";
       for (let i = e.resultIndex; i < e.results.length; i++) {
         if (e.results[i].isFinal) final += e.results[i][0].transcript;
         else tmp = e.results[i][0].transcript;
       }
-      setInterim(final || tmp);
+      latestTranscript = final || tmp || latestTranscript;
+      setInterim(latestTranscript);
     };
     recogRef.current.onend = () => {
       setListening(false);
-      if (final.trim()) onResult(final.trim());
-      else onDone?.();
+      const transcript = (final || latestTranscript).trim();
+      if (transcript) onResult(transcript);
+      else onDone?.("no-speech");
     };
-    recogRef.current.onerror = () => { setListening(false); onDone?.(); };
-    try { recogRef.current.start(); } catch { setListening(false); onDone?.(); }
+    recogRef.current.onerror = (event) => {
+      setListening(false);
+      onDone?.(event?.error || "speech-error");
+    };
+    try { recogRef.current.start(); } catch { setListening(false); onDone?.("start-failed"); }
   }, []);
 
   const stop = useCallback(() => {
@@ -1056,7 +1078,7 @@ function BreathingOverlay({ pattern, onClose }) {
 // ─────────────────────────────────────────────────
 function Orb({ state, onClick }) {
   const cfg = {
-    idle:      { c: "125,155,130", op: 0.22, sz: 160, speed: "4s",   label: "Tap to talk" },
+    idle:      { c: "125,155,130", op: 0.22, sz: 160, speed: "4s",   label: "Tap to speak" },
     listening: { c: "107,155,158", op: 0.35, sz: 180, speed: "1.2s", label: "Listening..." },
     thinking:  { c: "107,155,158", op: 0.28, sz: 170, speed: "2.2s", label: "Thinking..." },
     speaking:  { c: "125,155,130", op: 0.32, sz: 175, speed: "1.8s", label: "Speaking..." },
@@ -1834,7 +1856,10 @@ export default function ForjVoiceCompanion() {
     setState("listening");
     sr.start(
       (final) => getResponse(final, "voice"),
-      () => setState("idle")
+      (reason) => {
+        setState("idle");
+        setError(getSpeechErrorMessage(reason));
+      }
     );
   }, [state, sr, tts, getResponse]);
 
@@ -1898,7 +1923,7 @@ export default function ForjVoiceCompanion() {
   const remainingMsgs = tier === "free" ? Math.max(0, TIERS.free.maxMessagesPerSession - msgCount) : null;
   const remainingSessions = tier === "free" ? Math.max(0, TIERS.free.sessionsPerDay - sessionCount) : null;
   const transcriptPreviewMessages = messages.slice(-4);
-  const shouldShowTranscriptPreview = transcriptPreviewMessages.length > 1 || !!liveText || state === "thinking";
+  const shouldShowTranscriptPreview = transcriptPreviewMessages.length > 1 || !!liveText || state === "listening" || state === "thinking";
 
   const emotionColors = {
     anxious: "#6B9B9E", overwhelmed: "#8B7DA8", stressed: "#C4956A",
