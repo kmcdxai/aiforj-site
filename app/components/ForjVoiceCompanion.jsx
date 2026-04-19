@@ -498,6 +498,123 @@ function clipText(text, maxLength = 120) {
   return `${clean.slice(0, maxLength - 1).trim()}…`;
 }
 
+const FORJ_CRISIS_TERMS = [
+  "kill myself", "want to die", "suicide", "suicidal", "end my life", "end it all",
+  "self harm", "self-harm", "cutting myself", "hurt myself", "don't want to live",
+  "don't want to be here", "no reason to live", "better off dead", "planning to die",
+];
+
+const FORJ_CRISIS_ADJACENT_TERMS = [
+  "can't take it anymore", "tired of living", "what's the point of anything",
+  "i give up on life", "i don't see a way out",
+];
+
+const FORJ_SIGNAL_QUESTIONS = {
+  anxiety: "what do you know for sure right now, and what is your mind predicting?",
+  overwhelm: "which one thing would make the pile one percent smaller if you touched only that?",
+  sadness: "what would be kind to do while this feeling is here, not after it disappears?",
+  anger: "what need or boundary is the anger protecting?",
+  connection: "do you need closeness, repair, reassurance, or space?",
+  "self-worth": "what would you say to someone you love if they used that same label on themselves?",
+  numb: "which sensation is easiest to access right now: texture, temperature, sound, or pressure?",
+  motivation: "what is the five-minute version that is small enough you almost cannot argue with it?",
+  stress: "what part is actually controllable in the next ten minutes?",
+  trauma: "can you name three things in the room that prove you are in the present?",
+  general: "do you need to be heard, helped with a reframe, or given one concrete next step?",
+};
+
+function lowerFirst(text = "") {
+  const clean = String(text).trim();
+  if (!clean) return "";
+  return clean.charAt(0).toLowerCase() + clean.slice(1);
+}
+
+function cleanPlanStep(step = "") {
+  return String(step)
+    .replace(/^(now|later today|tonight|next time):\s*/i, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/\.$/, "");
+}
+
+function extractUserQuote(text, maxLength = 96) {
+  const clean = String(text || "").replace(/\s+/g, " ").trim();
+  if (!clean) return "";
+  const firstSentence = clean.split(/[.!?]+/).find((sentence) => sentence.trim().length > 3)?.trim() || clean;
+  return clipText(firstSentence, maxLength);
+}
+
+function getUsefulFollowUpQuestion(planner, history = []) {
+  const userTurns = history.filter((message) => message.role === "user").length;
+  if (userTurns > 1 && planner?.deeperPattern) {
+    return "where have you seen this loop before, and where could you interrupt it earlier next time?";
+  }
+  if (userTurns > 1) {
+    return "what shifted after saying that: the body feeling, the intensity, or the story your mind is telling?";
+  }
+  return FORJ_SIGNAL_QUESTIONS[planner?.id] || FORJ_SIGNAL_QUESTIONS.general;
+}
+
+function getModeLine(planner, tier) {
+  if (tier === "free") return "";
+  const modeId = planner?.conversationMode?.id;
+  if (modeId === "pattern") {
+    return "Because you are in Pattern mode, do not just solve this moment; notice the trigger, the story it woke up, and the reaction it wants from you.";
+  }
+  if (modeId === "plan") {
+    return "Because you are in Plan mode, make the next move visible and give yourself a fallback if the first version feels too hard.";
+  }
+  if (modeId === "deep-work") {
+    return "Because you are in Deep Work mode, look for the older role or story underneath this, then pair the insight with one grounded action.";
+  }
+  return "Because you are in Premium mode, we can keep continuity: regulate first, then connect this moment to the pattern you are practicing changing.";
+}
+
+function getCrisisResponse() {
+  return "I hear you, and I want you to know what you're feeling matters. This is beyond what I can safely help with here, and you deserve real human support right now. Please call or text 988 for the Suicide and Crisis Lifeline, or text HOME to 741741 for the Crisis Text Line. If there is immediate danger, call emergency services now. Will you reach out to one of those supports?";
+}
+
+function generatePlannerBackedResponse(userText, history = [], planner, tier = "free") {
+  const lower = String(userText || "").toLowerCase();
+  if (FORJ_CRISIS_TERMS.some((term) => lower.includes(term))) {
+    return getCrisisResponse();
+  }
+
+  if (FORJ_CRISIS_ADJACENT_TERMS.some((term) => lower.includes(term))) {
+    return "That sounds like a very heavy moment, and I want to check on safety before we do anything else. Are you having thoughts of hurting yourself? If yes, please call or text 988 now, or text HOME to 741741. If no, stay with me here: put both feet on the floor, exhale slowly, and tell me the part that feels most impossible right now.";
+  }
+
+  const clean = String(userText || "").trim();
+  const quote = extractUserQuote(clean);
+  const isGreeting = clean.length < 28 && /\b(hi|hello|hey|good morning|good evening|yo)\b/i.test(clean);
+  if (isGreeting) {
+    return "I'm here with you. Say it plainly, even if it is messy: anxious, angry, numb, overwhelmed, sad, stuck, or something else. What is the strongest feeling in the room with you right now?";
+  }
+
+  const activePlanner = planner || buildSessionPlanner(userText, history, tier, "steady");
+  const technique = activePlanner.techniques?.[0];
+  const action = cleanPlanStep(activePlanner.microPlan?.[0] || activePlanner.nextStep);
+  const question = getUsefulFollowUpQuestion(activePlanner, history);
+  const modeLine = getModeLine(activePlanner, tier);
+
+  const opener = quote
+    ? `The part I want to slow down is: "${quote}."`
+    : "Let's slow this down into something you can actually use.";
+
+  const patternLine = `This looks like ${activePlanner.label.toLowerCase()}, so the goal is to ${lowerFirst(activePlanner.focus)}.`;
+  const techniqueLine = technique
+    ? `The useful move is ${technique.name}: ${lowerFirst(technique.desc)}`
+    : "The useful move is to name what is happening, then shrink it into one next action.";
+  const actionLine = action
+    ? `Right now, ${lowerFirst(action)}.`
+    : "Right now, take one slower exhale and name the next honest sentence.";
+  const questionLine = `Then answer just this: ${question}`;
+
+  return [opener, patternLine, techniqueLine, actionLine, modeLine, questionLine]
+    .filter(Boolean)
+    .join(" ");
+}
+
 function getPrimarySignal(text, history = []) {
   const combined = [text, ...history.filter((message) => message.role === "user").slice(-3).map((message) => message.text)]
     .join(" ")
@@ -680,6 +797,15 @@ CURRENT SESSION FOCUS
 ${tier === "free"
     ? "FREE MODE: prioritize immediate relief, one clear reflection, and one practical next step. Stay depth-aware, but do not overcomplicate."
     : `PREMIUM MODE: ${planner.conversationMode?.description || "use continuity, deeper pattern recognition, and multi-step guidance when it fits."} You may use schema and parts language when clearly relevant.`}
+
+RESPONSE SHAPE
+- Be specific to the user's actual words. Do not give generic reassurance.
+- Use 2-5 short, voice-friendly sentences.
+- Move 1: reflect the concrete phrase or feeling you heard.
+- Move 2: name the likely pattern or clinical lens in plain language.
+- Move 3: guide one immediate micro-action the user can do in the next 30-90 seconds.
+- Move 4: ask one precise follow-up question that moves the session forward.
+- Avoid unsupported statistics, overpromising, diagnosing, or sounding like a form letter.
 
 ${recurringThemes ? `ON-DEVICE LONGITUDINAL MEMORY\n- Recurring themes: ${recurringThemes}\n- What tends to help: ${helpfulApproaches || "Not enough data yet"}\n- Current focus: ${focusTrail || "Not enough data yet"}` : ""}`.trim();
 }
@@ -921,14 +1047,81 @@ function useSpeechRecognition() {
 // ─────────────────────────────────────────────────
 // SPEECH SYNTHESIS HOOK
 // ─────────────────────────────────────────────────
+function chooseCompanionVoice(voices = []) {
+  const candidates = voices.filter((voice) => {
+    const lang = voice.lang || "";
+    const name = voice.name || "";
+    return /^en([-_]|$)/i.test(lang) || /english/i.test(name);
+  });
+
+  const scored = candidates.map((voice, index) => {
+    const name = `${voice.name || ""} ${voice.voiceURI || ""}`.toLowerCase();
+    const lang = voice.lang || "";
+    let score = 0;
+
+    if (/en-us/i.test(lang)) score += 18;
+    if (/en-gb|en-au|en-ca/i.test(lang)) score += 10;
+    if (/premium|enhanced|neural|natural|online/i.test(name)) score += 26;
+    if (/ava|zoe|samantha|allison|nicky|jamie|aria|jenny|emma|olivia|serena|google us english|microsoft aria|microsoft jenny/i.test(name)) score += 24;
+    if (/siri/i.test(name)) score += 10;
+    if (voice.localService) score += 4;
+    if (/compact/i.test(name)) score -= 10;
+    if (/fred|albert|bad news|bells|boing|bubbles|cellos|hysterical|junior|organ|princess|ralph|trinoids|whisper|zarvox/i.test(name)) score -= 100;
+
+    return { voice, score, index };
+  });
+
+  scored.sort((a, b) => b.score - a.score || a.index - b.index);
+  return scored[0]?.voice || voices.find((voice) => /^en/i.test(voice.lang || "")) || null;
+}
+
+function prepareSpeechText(text = "") {
+  return String(text)
+    .replace(/\[(.*?)\]\((.*?)\)/g, "$1")
+    .replace(/\*\*|__|`|#/g, "")
+    .replace(/[•]/g, "")
+    .replace(/\s*[—–]\s*/g, ", ")
+    .replace(/\bFORJ\b/g, "Forj")
+    .replace(/\bAIForj\b/g, "A I Forj")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function useTTS() {
   const [speaking, setSpeaking] = useState(false);
   const activeRef = useRef(false);
   const utteranceIdRef = useRef(0);
+  const voiceRef = useRef(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.speechSynthesis) return undefined;
+    const synth = window.speechSynthesis;
+    const refreshVoices = () => {
+      voiceRef.current = chooseCompanionVoice(synth.getVoices() || []);
+    };
+
+    refreshVoices();
+    if (typeof synth.addEventListener === "function") {
+      synth.addEventListener("voiceschanged", refreshVoices);
+      return () => synth.removeEventListener("voiceschanged", refreshVoices);
+    }
+
+    const previousHandler = synth.onvoiceschanged;
+    synth.onvoiceschanged = refreshVoices;
+    return () => {
+      if (synth.onvoiceschanged === refreshVoices) synth.onvoiceschanged = previousHandler || null;
+    };
+  }, []);
 
   const speak = useCallback((text, onEnd) => {
     // If no speech synthesis, skip TTS entirely
     if (typeof window === "undefined" || !window.speechSynthesis) {
+      onEnd?.();
+      return;
+    }
+
+    const speechText = prepareSpeechText(text);
+    if (!speechText) {
       onEnd?.();
       return;
     }
@@ -943,11 +1136,8 @@ function useTTS() {
     let voice = null;
     try {
       const voices = window.speechSynthesis.getVoices() || [];
-      voice = voices.find(v => /Samantha.*Enhanced|Samantha.*Premium|Ava.*Premium|Google US English|Microsoft Aria Online|Microsoft Jenny/i.test(v.name))
-        || voices.find(v => /Samantha|Karen|Moira|Google UK English Female|Microsoft Aria/i.test(v.name))
-        || voices.find(v => v.lang?.startsWith("en") && /female/i.test(v.name))
-        || voices.find(v => v.lang?.startsWith("en"))
-        || null;
+      voice = chooseCompanionVoice(voices) || voiceRef.current;
+      if (voice) voiceRef.current = voice;
     } catch {}
 
     let hardTimeout = null;
@@ -963,10 +1153,13 @@ function useTTS() {
       onEnd?.();
     };
 
-    // Speak the full text as one utterance but with a safety timeout
-    const u = new SpeechSynthesisUtterance(text);
-    u.rate = 0.92; u.pitch = 1.0; u.volume = 1;
-    if (voice) u.voice = voice;
+    // Speak the full text as one utterance but with a safety timeout.
+    const u = new SpeechSynthesisUtterance(speechText);
+    u.rate = 0.96; u.pitch = 0.97; u.volume = 0.96;
+    u.lang = voice?.lang || "en-US";
+    if (voice) {
+      try { u.voice = voice; } catch { voice = null; }
+    }
     u.onend = finish;
     u.onerror = finish;
 
@@ -1006,7 +1199,7 @@ function useTTS() {
         clearInterval(watchdog);
         finish();
       }
-    }, Math.max(12000, Math.min(26000, text.length * 95)));
+    }, Math.max(12000, Math.min(26000, speechText.length * 88)));
 
     try {
       window.speechSynthesis.speak(u);
@@ -1795,11 +1988,11 @@ export default function ForjVoiceCompanion() {
 
       // Fallback: Intelligent clinical response engine (always works, no API)
       if (!text) {
-        text = generateClinicalResponse(userText, updated);
+        text = generatePlannerBackedResponse(userText, updated, planner, tier);
       }
     } catch (e) {
       console.error("Forj response failed, using safe fallback:", e);
-      text = `I'm here with you. Something glitched on my side for a second, so let's keep it simple. What's the hardest part of this moment right now?`;
+      text = generateClinicalResponse(userText, updated) || `I'm here with you. Something glitched on my side for a second, so let's keep it simple. What's the hardest part of this moment right now?`;
       planner = buildSessionPlanner("general distress", updated, tier, premiumMode);
     }
 
