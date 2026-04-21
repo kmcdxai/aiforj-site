@@ -1,0 +1,11 @@
+<!-- TODO: swap for final asset -->
+<svg width="320" height="320" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Founder avatar</title>
+  <desc id="desc">A geometric AIForj founder avatar with a K initial and leaf motif.</desc>
+  <rect width="320" height="320" rx="160" fill="#F0E8DA"/>
+  <circle cx="160" cy="160" r="126" fill="#FAF6F0" stroke="#7A9E7E" stroke-width="6"/>
+  <circle cx="160" cy="160" r="98" fill="#E8F0E8"/>
+  <path d="M206 91C226 119 223 151 197 176C174 198 142 201 116 185C136 179 154 169 171 152C188 135 199 115 206 91Z" fill="#7A9E7E"/>
+  <path d="M111 229V96H135V153L188 96H219L165 153L222 229H191L148 170L135 184V229H111Z" fill="#2C2520"/>
+  <path d="M122 236C154 219 181 194 202 162" stroke="#4A7A50" stroke-width="8" stroke-linecap="round"/>
+</svg>
