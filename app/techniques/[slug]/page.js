@@ -1,7 +1,7 @@
 import { TECHNIQUES } from "../data";
 import { notFound } from "next/navigation";
 import TechniqueClient from "./TechniqueClient";
-import { buildCalmCardUrl } from "../../../utils/calmCard";
+import { articleOgImage } from "../../../lib/ogImages";
 
 export async function generateStaticParams() {
   return TECHNIQUES.map((t) => ({ slug: t.slug }));
@@ -11,7 +11,7 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const t = TECHNIQUES.find((t) => t.slug === slug);
   if (!t) return {};
-  const socialImage = buildCalmCardUrl({ kind: "technique", slug: t.slug, format: "og" });
+  const socialImage = articleOgImage({ kind: "technique", slug: t.slug, title: t.title });
   return {
     title: t.metaTitle,
     description: t.metaDescription,
