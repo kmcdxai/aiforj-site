@@ -39,16 +39,16 @@ export default function EmailCapture() {
   return (
     <section style={{
       width: "100%",
-      maxWidth: 560,
-      margin: "60px auto 0",
-      padding: "40px 24px",
+      maxWidth: 760,
+      margin: "24px auto 0",
+      padding: "46px 24px",
       textAlign: "center",
     }}>
       <div style={{
         background: "rgba(255,255,255,0.08)",
         border: "1px solid rgba(125,155,130,0.35)",
         borderRadius: 20,
-        padding: "40px 28px",
+        padding: "46px 34px",
       }}>
         {submitted ? (
           <div>
@@ -94,7 +94,7 @@ export default function EmailCapture() {
             <form onSubmit={handleSubmit} style={{
               display: "flex",
               gap: 10,
-              maxWidth: 420,
+              maxWidth: 580,
               margin: "0 auto",
               flexWrap: "wrap",
               justifyContent: "center",
@@ -107,9 +107,9 @@ export default function EmailCapture() {
                 placeholder="your@email.com"
                 aria-label="Email address"
                 style={{
-                  flex: "1 1 220px",
-                  padding: "14px 18px",
-                  fontSize: 17,
+                  flex: "1 1 320px",
+                  padding: "18px 20px",
+                  fontSize: 18,
                   fontFamily: "'DM Sans', sans-serif",
                   background: "rgba(255,255,255,0.12)",
                   border: "1px solid rgba(125,155,130,0.4)",
@@ -122,8 +122,8 @@ export default function EmailCapture() {
                 onBlur={(e) => { e.target.style.borderColor = "rgba(125,155,130,0.35)"; }}
               />
               <button type="submit" disabled={loading} style={{
-                padding: "14px 32px",
-                fontSize: 16,
+                padding: "18px 36px",
+                fontSize: 17,
                 fontWeight: 600,
                 fontFamily: "'Fraunces', serif",
                 background: "linear-gradient(135deg, #7D9B82, #6B8C6B)",

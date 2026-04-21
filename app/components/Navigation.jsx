@@ -7,12 +7,8 @@ import SoundToggle from "./SoundToggle";
 
 const NAV_LINKS = [
   { href: "/#how-it-works", label: "How it works" },
-  { href: "/help", label: "Help guides" },
   { href: "/techniques", label: "Techniques" },
-  { href: "/garden", label: "Mood Garden" },
   { href: "/companion", label: "Talk to Forj" },
-  { href: "/sponsor", label: "Sponsor a friend" },
-  { href: "https://aiforj.gumroad.com/l/jmdqvd", label: "CBT Workbook", external: true },
 ];
 
 export default function Navigation() {

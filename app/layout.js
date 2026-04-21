@@ -2,7 +2,6 @@ import './globals.css';
 import ThemeProvider from './components/ThemeProvider';
 import BiophilicBackground from './components/BiophilicBackground';
 import Navigation from './components/Navigation';
-import SOS from './components/SOS';
 import SEO from './components/SEO';
 import { SoundProvider } from './components/SoundProvider';
 
@@ -63,7 +62,6 @@ export default function RootLayout({ children }) {
               <div className="page-enter">
                 {children}
               </div>
-              <SOS />
             </div>
           </SoundProvider>
         </ThemeProvider>

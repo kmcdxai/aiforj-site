@@ -295,12 +295,6 @@ export default function Homepage() {
           <p className="text-caption" style={{ margin: "18px auto 0", color: "var(--text-muted)" }}>
             No account needed. No data leaves your device. Takes 30 seconds.
           </p>
-          <p style={{ margin: "10px auto 0", fontSize: 14, color: "var(--text-secondary)" }}>
-            Prefer worksheets? <a href="#workbook" style={{ fontWeight: 700 }}>See the CBT workbook →</a>
-          </p>
-          <p style={{ margin: "10px auto 0", fontSize: 14 }}>
-            Already using AIForj? <a href="/garden" style={{ fontWeight: 700 }}>Open your Mood Garden →</a>
-          </p>
         </div>
       </section>
 
@@ -384,7 +378,13 @@ export default function Homepage() {
         </div>
       </RevealSection>
 
-      <RevealSection style={{ padding: "84px 24px", background: "var(--surface)" }}>
+      <RevealSection style={{ padding: "76px 24px", background: "var(--surface)" }}>
+        <div style={{ maxWidth: 880, margin: "0 auto" }}>
+          <EmailCapture />
+        </div>
+      </RevealSection>
+
+      <RevealSection style={{ padding: "84px 24px" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <SectionHeader eyebrow="Coverage" title="A broad toolkit for real moments">
             100+ interventions across 12 emotional states, {FORJ_MODALITY_COUNT} therapeutic modalities, and 7 interaction types.
@@ -410,65 +410,55 @@ export default function Homepage() {
       <RevealSection id="premium" style={{ padding: "84px 24px" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <SectionHeader eyebrow="Go deeper" title="Free first aid stays free. Premium adds depth." />
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20 }}>
-            <article className="card" style={{ background: "linear-gradient(135deg, var(--sage-light), var(--surface-elevated))" }}>
-              <h3 style={{ margin: "0 0 10px" }}>Talk to Forj Premium</h3>
-              <p style={{ color: "var(--text-secondary)", margin: "0 0 18px", lineHeight: 1.75 }}>
-                Unlimited deeper sessions, progress tools, and personalized therapeutic guidance through the existing AIForj Premium subscription.
+          <div style={{ display: "grid", gap: 24 }}>
+            <article
+              className="card"
+              style={{
+                maxWidth: 760,
+                margin: "0 auto",
+                width: "100%",
+                background: "linear-gradient(135deg, var(--sage-light), var(--surface-elevated) 72%)",
+                border: "1px solid rgba(125,155,130,0.28)",
+                boxShadow: "var(--shadow-lg)",
+                textAlign: "center",
+              }}
+            >
+              <p className="text-label" style={{ color: "var(--sage-deep)", margin: "0 0 10px" }}>Best for deeper support</p>
+              <h3 style={{ margin: "0 0 10px", fontSize: "clamp(28px, 4vw, 40px)" }}>AIForj Premium</h3>
+              <p style={{ color: "var(--text-secondary)", margin: "0 auto 18px", lineHeight: 1.75, maxWidth: 620 }}>
+                Unlimited deeper Talk to Forj sessions, premium progress tools, and more personalized therapeutic guidance while keeping emotional data private on your device.
               </p>
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
+              <div style={{ fontFamily: "'Fraunces', serif", fontSize: 34, color: "var(--sage-deep)", marginBottom: 18 }}>
+                $9.99/mo
+              </div>
+              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center", justifyContent: "center" }}>
                 <PremiumCheckoutButton>Start 7-day free trial →</PremiumCheckoutButton>
                 <a href="/companion" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>See Talk to Forj →</a>
               </div>
-              <p className="text-caption" style={{ margin: "14px 0 0", color: "var(--text-muted)" }}>$9.99/month · Cancel anytime</p>
+              <p className="text-caption" style={{ margin: "14px 0 0", color: "var(--text-muted)" }}>Cancel anytime · Free first aid stays free</p>
             </article>
-            <article className="card" style={{ background: "linear-gradient(135deg, rgba(107,155,158,0.12), var(--surface-elevated))" }}>
-              <h3 style={{ margin: "0 0 10px" }}>Family plan</h3>
-              <p style={{ color: "var(--text-secondary)", margin: "0 0 18px", lineHeight: 1.75 }}>
-                Cover up to four people with private Premium access while keeping each person&apos;s emotional data on their own device.
-              </p>
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
-                <a href="/family" className="btn-primary" style={{ textDecoration: "none", background: "var(--accent-teal)" }}>See family plan →</a>
-                <a href="/what-we-collect" className="btn-secondary" style={{ textDecoration: "none", color: "var(--accent-teal)", borderColor: "rgba(107,155,158,0.3)" }}>Privacy details →</a>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20, maxWidth: 900, margin: "0 auto", width: "100%" }}>
+              <div id="workbook">
+                <WorkbookCard compact />
               </div>
-              <p className="text-caption" style={{ margin: "14px 0 0", color: "var(--text-muted)" }}>$19.99/month · up to 4 private seats</p>
-            </article>
-            <article className="card" style={{ background: "linear-gradient(135deg, rgba(196,149,106,0.12), var(--surface-elevated))" }}>
-              <h3 style={{ margin: "0 0 10px" }}>Sponsor a friend</h3>
-              <p style={{ color: "var(--text-secondary)", margin: "0 0 18px", lineHeight: 1.75 }}>
-                Gift one month of Premium to someone you care about without putting first aid behind a paywall or requiring an account.
-              </p>
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
-                <a href="/sponsor" className="btn-primary" style={{ textDecoration: "none", background: "var(--amber-deep)" }}>Gift a month →</a>
-                <a href="/what-we-collect" className="btn-secondary" style={{ textDecoration: "none", color: "var(--amber-deep)", borderColor: "var(--amber)" }}>Privacy details →</a>
-              </div>
-              <p className="text-caption" style={{ margin: "14px 0 0", color: "var(--text-muted)" }}>$9.99 one-time · one redeem link</p>
-            </article>
-            <article className="card" style={{ background: "linear-gradient(135deg, rgba(212,168,67,0.14), var(--surface-elevated))" }}>
-              <h3 style={{ margin: "0 0 10px" }}>Clinician pack</h3>
-              <p style={{ color: "var(--text-secondary)", margin: "0 0 18px", lineHeight: 1.75 }}>
-                A privacy-first toolkit for private practice, with handout links, branded calm cards, and patient-safe disclaimers for between-visit support.
-              </p>
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
-                <a href="/clinician-pack" className="btn-primary" style={{ textDecoration: "none", background: "var(--amber-deep)" }}>See clinician pack →</a>
-                <a href="/how-aiforj-stays-safe" className="btn-secondary" style={{ textDecoration: "none", color: "var(--amber-deep)", borderColor: "var(--amber)" }}>Safety details →</a>
-              </div>
-              <p className="text-caption" style={{ margin: "14px 0 0", color: "var(--text-muted)" }}>Handout generator live · private-practice focused</p>
-            </article>
-            <article className="card" style={{ background: "linear-gradient(135deg, rgba(125,155,130,0.12), var(--surface-elevated))" }}>
-              <h3 style={{ margin: "0 0 10px" }}>For organizations</h3>
-              <p style={{ color: "var(--text-secondary)", margin: "0 0 18px", lineHeight: 1.75 }}>
-                A privacy-first wellness toolkit for teams, schools, and nonprofits, with aggregate-only learning instead of individual mental-health dashboards.
-              </p>
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
-                <a href="/organizations" className="btn-primary" style={{ textDecoration: "none" }}>See organization toolkit →</a>
-                <a href="/organizations/reporting" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>Open reporting →</a>
-                <a href="/what-we-collect" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>Privacy details →</a>
-              </div>
-              <p className="text-caption" style={{ margin: "14px 0 0", color: "var(--text-muted)" }}>Org intake live · aggregate-only by default</p>
-            </article>
-            <div id="workbook">
-              <WorkbookCard />
+              <article className="card" style={{ background: "linear-gradient(135deg, rgba(196,149,106,0.12), var(--surface-elevated))" }}>
+                <h3 style={{ margin: "0 0 10px" }}>Sponsor a friend</h3>
+                <p style={{ color: "var(--text-secondary)", margin: "0 0 18px", lineHeight: 1.75 }}>
+                  Gift one month of Premium to someone you care about without putting first aid behind a paywall or requiring an account.
+                </p>
+                <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
+                  <a href="/sponsor" className="btn-primary" style={{ textDecoration: "none", background: "var(--amber-deep)" }}>Gift a month →</a>
+                  <a href="/what-we-collect" className="btn-secondary" style={{ textDecoration: "none", color: "var(--amber-deep)", borderColor: "var(--amber)" }}>Privacy details →</a>
+                </div>
+                <p className="text-caption" style={{ margin: "14px 0 0", color: "var(--text-muted)" }}>$9.99 one-time · one redeem link</p>
+              </article>
+            </div>
+
+            <div style={{ textAlign: "center" }}>
+              <a href="/for" style={{ color: "var(--interactive)", fontWeight: 700 }}>
+                More ways to use AIForj →
+              </a>
             </div>
           </div>
         </div>
@@ -489,12 +479,6 @@ export default function Homepage() {
           <div style={{ textAlign: "center", marginTop: 28 }}>
             <a href="/techniques" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>Browse all techniques →</a>
           </div>
-        </div>
-      </RevealSection>
-
-      <RevealSection style={{ padding: "72px 24px" }}>
-        <div style={{ maxWidth: 880, margin: "0 auto" }}>
-          <EmailCapture />
         </div>
       </RevealSection>
 
