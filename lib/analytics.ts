@@ -31,6 +31,9 @@ export function track(event: AnalyticsEvent, props: AnalyticsProps = {}) {
   if (!EVENT_SET.has(event) || typeof window === "undefined") return;
 
   const payload = cleanProps(props);
+  if (new URLSearchParams(window.location.search).get("debug_mode") === "1") {
+    payload.debug_mode = 1;
+  }
 
   if (typeof window.gtag === "function") {
     window.gtag("event", event, payload);
