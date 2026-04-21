@@ -4,6 +4,7 @@ import EmailCapture from "../../components/EmailCapture";
 import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
 import AuthorByline from "../../../components/AuthorByline";
+import WorkbookCrossSell from "../../../components/WorkbookCrossSell.jsx";
 import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
@@ -42,6 +43,8 @@ export default function Page() {
             <li><Link href="/techniques/values-clarification">Values Clarification</Link> — find actions that build meaning and competence</li>
             <li><Link href="/techniques/cognitive-restructuring">Cognitive Restructuring</Link> — test negative beliefs with evidence</li>
           </ul>
+
+          <WorkbookCrossSell slug="self-worth" />
 
           <h2>Go deeper</h2>
           <p>Try the <Link href="/blueprint">Blueprint</Link> to map a confidence-building plan or use the <Link href="/send">voice companion</Link> for guided practice.</p>

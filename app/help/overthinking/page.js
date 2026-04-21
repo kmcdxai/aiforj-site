@@ -4,6 +4,7 @@ import EmailCapture from "../../components/EmailCapture";
 import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
 import AuthorByline from "../../../components/AuthorByline";
+import WorkbookCrossSell from "../../../components/WorkbookCrossSell.jsx";
 import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
@@ -42,6 +43,8 @@ export default function Page() {
             <li><Link href="/techniques/cognitive-restructuring">Cognitive Restructuring</Link> — challenge unhelpful thinking</li>
             <li><Link href="/techniques/worry-time">Worry Time</Link> — schedule worry to reduce daytime rumination</li>
           </ul>
+
+          <WorkbookCrossSell slug="overthinking" />
 
           <h2>Go deeper</h2>
           <p>Use the <Link href="/blueprint">Blueprint</Link> to build a personalized anti-rumination routine or the <Link href="/send">voice companion</Link> for a guided interruption.</p>

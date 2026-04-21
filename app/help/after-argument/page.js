@@ -4,6 +4,7 @@ import EmailCapture from "../../components/EmailCapture";
 import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
 import AuthorByline from "../../../components/AuthorByline";
+import WorkbookCrossSell from "../../../components/WorkbookCrossSell.jsx";
 import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
@@ -42,6 +43,8 @@ export default function Page() {
             <li><Link href="/techniques/radical-acceptance">Radical Acceptance</Link> — lower emotional resistance</li>
             <li><Link href="/techniques/cognitive-restructuring">Cognitive Restructuring</Link> — reframe unhelpful thoughts</li>
           </ul>
+
+          <WorkbookCrossSell slug="after-argument" />
 
           <h2>Go deeper</h2>
           <p>Take the <Link href="/blueprint">Blueprint</Link> to learn your reactivity pattern, or use the <Link href="/send">voice companion</Link> for a guided cool-down.</p>

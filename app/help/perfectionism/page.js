@@ -4,6 +4,7 @@ import EmailCapture from "../../components/EmailCapture";
 import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
 import AuthorByline from "../../../components/AuthorByline";
+import WorkbookCrossSell from "../../../components/WorkbookCrossSell.jsx";
 import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
@@ -63,6 +64,8 @@ export default function Page() {
               <Link href="/techniques/self-compassion-break">Self-Compassion Break</Link> — soften the self-attack that perfectionism feeds on
             </li>
           </ul>
+
+          <WorkbookCrossSell slug="perfectionism" />
 
           <h2>Go deeper</h2>
           <p>

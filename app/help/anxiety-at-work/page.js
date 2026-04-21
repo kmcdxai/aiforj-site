@@ -4,6 +4,7 @@ import EmailCapture from "../../components/EmailCapture";
 import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
 import AuthorByline from "../../../components/AuthorByline";
+import WorkbookCrossSell from "../../../components/WorkbookCrossSell.jsx";
 import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
@@ -42,6 +43,8 @@ export default function Page() {
             <li><Link href="/techniques/54321-grounding">5-4-3-2-1 Grounding</Link> — quick sensory anchor</li>
             <li><Link href="/techniques/cognitive-restructuring">Cognitive Restructuring</Link> — fast thought reframing for situational anxiety</li>
           </ul>
+
+          <WorkbookCrossSell slug="anxiety-at-work" />
 
           <h2>Go deeper</h2>
           <p>Explore your stress pattern with the <Link href="/blueprint">Blueprint</Link> or try the <Link href="/send">voice companion</Link> to walk you through a desk reset.</p>

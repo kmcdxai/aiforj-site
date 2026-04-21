@@ -4,6 +4,7 @@ import EmailCapture from "../../components/EmailCapture";
 import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
 import AuthorByline from "../../../components/AuthorByline";
+import WorkbookCrossSell from "../../../components/WorkbookCrossSell.jsx";
 import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
@@ -63,6 +64,8 @@ export default function Page() {
               <Link href="/techniques/self-compassion-break">Self-Compassion Break</Link> — lower the shame that keeps the story sticky
             </li>
           </ul>
+
+          <WorkbookCrossSell slug="imposter-syndrome" />
 
           <h2>Go deeper</h2>
           <p>
