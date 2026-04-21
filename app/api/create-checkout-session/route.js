@@ -1,5 +1,6 @@
 import Stripe from 'stripe';
 import { NextResponse } from 'next/server';
+import { normalizeMedium, premiumAttribution } from '../../../lib/links';
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -14,9 +15,18 @@ function createStripeClient() {
   });
 }
 
-export async function POST() {
+export async function POST(request) {
   const stripe = createStripeClient();
   const domain = (process.env.NEXT_PUBLIC_DOMAIN || 'https://aiforj.com').trim();
+
+  let payload = {};
+  try {
+    payload = await request.json();
+  } catch {}
+
+  const medium = normalizeMedium(payload?.medium || 'site');
+  const attribution = premiumAttribution(medium);
+  const attributionQuery = new URLSearchParams(attribution).toString();
 
   if (!stripe) {
     return NextResponse.json(
@@ -54,11 +64,13 @@ export async function POST() {
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'subscription',
-      success_url: `${domain}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${domain}/`,
+      success_url: `${domain}/success?session_id={CHECKOUT_SESSION_ID}&${attributionQuery}`,
+      cancel_url: `${domain}/?${attributionQuery}`,
       allow_promotion_codes: true,
+      metadata: attribution,
       subscription_data: {
         trial_period_days: 7,
+        metadata: attribution,
       },
     });
 

@@ -5,6 +5,7 @@ import { XAxis, YAxis, Tooltip, ResponsiveContainer, Area, AreaChart } from "rec
 import EmailCapture from "./EmailCapture";
 import SiteFooter from "./SiteFooter";
 import { getForYouRecommendations, getMeasuredSessions } from "../../utils/sessionHistory";
+import { track } from "../../lib/analytics";
 
 // ═══════════════════════════════════════════════════════════════
 // PRODUCTION CONFIG
@@ -1190,8 +1191,13 @@ function MoodDashboard({ sessions, theme, onClose }) {
 // STRIPE PAYMENT INTEGRATION
 // ═══════════════════════════════════════════════════════════════
 async function initiateStripeCheckout() {
+  track('premium_click', { source: 'tools' });
   try {
-    const res = await fetch('/api/create-checkout-session', { method: 'POST' });
+    const res = await fetch('/api/create-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ medium: 'tools' }),
+    });
     const data = await res.json();
     if (data.url) {
       window.location.href = data.url;

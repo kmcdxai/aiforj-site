@@ -6,6 +6,7 @@ import DataManagement from "./DataManagement";
 import { FORJ_MODALITY_COUNT } from "../../lib/forjModalities";
 import { getPremiumAccessStatus } from "../../utils/premiumAccess";
 import { track } from "../../lib/analytics";
+import { workbookLink } from "../../lib/links";
 
 // ═══════════════════════════════════════════════════════════════════════════
 //
@@ -2113,7 +2114,11 @@ export default function ForjVoiceCompanion() {
   const handleSubscribe = async () => {
     track("premium_click", { source: "companion_checkout" });
     try {
-      const res = await fetch('/api/create-checkout-session', { method: 'POST' });
+      const res = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ medium: 'companion' }),
+      });
       const data = await res.json();
       if (data.url) {
         window.location.href = data.url;
@@ -2786,7 +2791,7 @@ export default function ForjVoiceCompanion() {
 
       {/* ═══════════ CBT WORKBOOK ═══════════ */}
       <section style={{ padding: "40px 24px 80px", maxWidth: 680, width: "100%", margin: "0 auto" }}>
-        <a href="https://aiforj.gumroad.com/l/jmdqvd" target="_blank" rel="noopener noreferrer" onClick={() => track("cbt_workbook_click", { source: "companion" })} style={{ textDecoration: "none", display: "block" }}>
+        <a href={workbookLink("companion")} target="_blank" rel="noopener noreferrer" onClick={() => track("cbt_workbook_click", { source: "companion" })} style={{ textDecoration: "none", display: "block" }}>
           <div className="card-hover" style={{ display: "flex", alignItems: "center", gap: 20, padding: "24px 28px", background: "var(--surface-elevated)", border: "1px solid rgba(45,42,38,0.06)", borderRadius: 20, boxShadow: "var(--shadow-md)" }}>
             <span style={{ fontSize: 40, flexShrink: 0 }}>📘</span>
             <div style={{ flex: 1, textAlign: "left" }}>
@@ -2828,7 +2833,7 @@ export default function ForjVoiceCompanion() {
             { href: "https://aiforj.com", label: "AIForj.com" },
             { href: "/tools", label: "Guided Protocols" },
             { href: "/techniques", label: "Technique Library" },
-            { href: "https://aiforj.gumroad.com/l/jmdqvd", label: "📘 CBT Workbook", ext: true },
+            { href: workbookLink("footer"), label: "📘 CBT Workbook", ext: true },
             { href: "https://medium.com/@kcooke493/im-a-psych-np-and-i-built-a-free-ai-wellness-tool-8d46e01a6852", label: "Read Our Story", ext: true },
             { href: "https://x.com/AIForj", label: "𝕏 @AIForj", ext: true },
           ].map(link => (

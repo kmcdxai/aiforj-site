@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { track } from "../../lib/analytics";
+import { workbookLink } from "../../lib/links";
 
 export default function SiteFooter() {
   const handleNavClick = (link) => {
@@ -81,7 +82,7 @@ export default function SiteFooter() {
           { href: "/editorial-policy", label: "Editorial Policy" },
           { href: "/what-we-collect", label: "What We Collect" },
           { href: "/find-help", label: "Find a Provider" },
-          { href: "https://aiforj.gumroad.com/l/jmdqvd", label: "CBT Workbook", external: true },
+          { href: workbookLink("footer"), label: "CBT Workbook", external: true },
         ].map(link => (
           <Link key={link.label} href={link.href}
             {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}

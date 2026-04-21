@@ -6,17 +6,22 @@ import { track } from '../../lib/analytics';
 export default function PremiumCheckoutButton({
   children = 'Start 7-day free trial',
   className = 'btn-primary',
+  medium = 'site',
   style = {},
 }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const startCheckout = async () => {
-    track('premium_click', { source: 'premium_checkout_button' });
+    track('premium_click', { source: medium });
     setLoading(true);
     setError('');
     try {
-      const response = await fetch('/api/create-checkout-session', { method: 'POST' });
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ medium }),
+      });
       const data = await response.json();
       if (data?.url) {
         window.location.href = data.url;

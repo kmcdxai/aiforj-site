@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
 import PremiumCheckoutButton from '../monetization/PremiumCheckoutButton';
 import { track } from '../../lib/analytics';
+import { workbookLink } from '../../lib/links';
 
 const SHIFT_MESSAGES = {
   positiveLarge: "That\u2019s a meaningful shift. This technique works for you.",
@@ -533,10 +534,10 @@ export default function MoodShiftReceipt({
           Talk to Forj Premium adds deeper personalized sessions without blocking the free tools.
         </p>
         <div style={{ display: 'flex', justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
-          <PremiumCheckoutButton style={{ background: 'var(--amber-deep)' }}>
+          <PremiumCheckoutButton medium="receipt" style={{ background: 'var(--amber-deep)' }}>
             Start Premium trial →
           </PremiumCheckoutButton>
-          <a href="https://aiforj.gumroad.com/l/jmdqvd" target="_blank" rel="noopener noreferrer" onClick={() => track('cbt_workbook_click', { source: 'receipt' })} className="btn-secondary" style={{ textDecoration: 'none', color: 'var(--amber-deep)', borderColor: 'var(--amber)' }}>
+          <a href={workbookLink('receipt')} target="_blank" rel="noopener noreferrer" onClick={() => track('cbt_workbook_click', { source: 'receipt' })} className="btn-secondary" style={{ textDecoration: 'none', color: 'var(--amber-deep)', borderColor: 'var(--amber)' }}>
             Get the CBT Workbook →
           </a>
         </div>
