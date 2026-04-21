@@ -4,6 +4,7 @@ import EmailCapture from "../../components/EmailCapture";
 import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
 import AuthorByline from "../../../components/AuthorByline";
+import LeadMagnetCapture from "../../../components/LeadMagnetCapture.jsx";
 import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
@@ -42,6 +43,13 @@ export default function Page() {
             <li><Link href="/techniques/box-breathing">Box Breathing</Link> — paced breathing you can do anywhere</li>
             <li><Link href="/techniques/tipp-skill">TIPP Sequence</Link> — quick body-focused grounding for higher distress</li>
           </ul>
+
+          <LeadMagnetCapture
+            title="“10 evidence-based panic interrupts I use with patients” — by Kevin, licensed clinician and psychiatric NP candidate"
+            description="Get the quick-reference panic interrupt guide by email, then try a guided intervention when you are ready."
+            source="panic_lead_magnet"
+            pdfPath="/lead-magnets/panic-interrupts.pdf"
+          />
 
           <h2 style={{ marginTop: 20 }}>Go deeper</h2>
           <p>Take the <Link href="/blueprint">2-minute Blueprint</Link> to see which patterns fit you, or use the <Link href="/send">voice companion</Link> to guide you through a calm practice.</p>
