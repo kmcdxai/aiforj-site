@@ -310,7 +310,7 @@ export default function GardenClient() {
       <h2>Emotional biome</h2>
       <p>${emotionsUsed}</p>
       <div class="footer">
-        <p>Built by AIForj Team · Clinically informed by a Licensed Healthcare Provider</p>
+        <p>Built and clinically informed by Kevin · Psychiatric NP candidate</p>
         <p>This report was generated locally. Your data never left your device.</p>
       </div>
     </body></html>`);
@@ -799,7 +799,7 @@ export default function GardenClient() {
 
       <footer style={{ textAlign: "center", padding: "28px 0 0", marginTop: 20 }}>
         <p style={{ fontSize: 11, color: "var(--text-muted)", lineHeight: 1.7 }}>
-          AIForj — Built by AIForj Team and clinically informed by a Licensed Healthcare Provider
+          AIForj — Built and clinically informed by Kevin, a clinician in psychiatric NP training
           <br />
           Your data never leaves your device. Privacy is not a feature. It is the foundation.
         </p>

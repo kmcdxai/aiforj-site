@@ -81,7 +81,7 @@ function buildTechniqueCard(technique, kind = 'technique') {
     modality: cleanText(technique.modality, 'Clinically guided'),
     targetUrl,
     pathLabel: getPathFromUrl(targetUrl),
-    footer: 'Built by AIForj Team and clinically informed',
+    footer: 'Built by Kevin, psychiatric NP candidate',
   };
 }
 

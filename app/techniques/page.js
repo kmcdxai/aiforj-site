@@ -5,7 +5,7 @@ import SiteFooter from "../components/SiteFooter";
 export const metadata = {
   title: "Evidence-Based Mental Health Techniques | AIForj",
   description:
-    "Explore 30 interactive mental health techniques for anxiety, stress, grief, burnout, and more. CBT, DBT, ACT, and somatic tools you can use right now. Built by AIForj Team and clinically informed by a Licensed Healthcare Provider.",
+    "Explore 30 interactive mental health techniques for anxiety, stress, grief, burnout, and more. CBT, DBT, ACT, and somatic tools you can use right now. Built and clinically informed by Kevin, a clinician in psychiatric NP training.",
   alternates: {
     canonical: "https://aiforj.com/techniques",
   },
@@ -67,7 +67,7 @@ export default function TechniquesPage() {
           >
             30 evidence-based techniques you can do right now. Each one is
             interactive — not just reading, but doing. Clinically informed by
-            a Licensed Healthcare Provider.
+            Kevin, a clinician in psychiatric NP training.
           </p>
         </header>
 

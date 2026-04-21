@@ -3,7 +3,7 @@ import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
 const metadata = buildContentPageMetadata({
   title: 'The Ghost Emotional Archetype — Clinical Guide | AIForj',
-  description: 'Discover what it means to be The Ghost. Understand your stress response, thinking patterns, and evidence-based techniques matched to this archetype. Free guide from AIForj, clinically informed by a Licensed Healthcare Provider.',
+  description: 'Discover what it means to be The Ghost. Understand your stress response, thinking patterns, and evidence-based techniques matched to this archetype. Free guide from AIForj, clinically informed by Kevin, a clinician in psychiatric NP training.',
   path: "/archetypes/ghost",
   kind: "archetype",
   slug: "ghost",

@@ -104,7 +104,11 @@ export default function SiteFooter() {
       </div>
 
       <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "0 0 8px", lineHeight: 1.8 }}>
-        Built by AIForj Team. Clinically informed by a Licensed Healthcare Provider.
+        Built and clinically informed by{" "}
+        <Link href="/about/founder" style={{ color: "var(--interactive)", textDecoration: "underline" }}>
+          a clinician in psychiatric NP training
+        </Link>.
+        {" "}Your emotional data never leaves your device.
       </p>
       <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.5, margin: 0 }}>
         © 2026 AIForj. All rights reserved.

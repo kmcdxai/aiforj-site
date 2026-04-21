@@ -1432,7 +1432,7 @@ export const TECHNIQUES = [
     title: "When Work Is Too Much: A 3-Minute Reset for Overwhelm",
     metaTitle: "Overwhelmed at Work? A Clinician-Designed 3-Minute Reset",
     metaDescription:
-      "Drowning in tasks and deadlines? This evidence-based protocol helps you regain focus and calm when work feels impossible. Built by AIForj Team and clinically informed by a Licensed Healthcare Provider.",
+      "Drowning in tasks and deadlines? This evidence-based protocol helps you regain focus and calm when work feels impossible. Built and clinically informed by Kevin, a clinician in psychiatric NP training.",
     keywords: "overwhelmed at work, work stress, how to deal with overwhelm, workplace anxiety",
     subtitle: "For task paralysis, racing thoughts, and the feeling that you'll never catch up",
     time: "5 minutes",

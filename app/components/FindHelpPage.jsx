@@ -5,7 +5,7 @@ import { useState, useCallback, useMemo } from "react";
 // ═══════════════════════════════════════════════════════════════
 // /find-help — Smart Provider Finder
 // Searches the NPI Registry (CMS.gov) for real, verified providers
-// Built by AIForj Team and clinically informed by a Licensed Healthcare Provider — AIForj.com
+// Built and clinically informed by Kevin, a clinician in psychiatric NP training — AIForj.com
 // Flow: need → details → results (real provider data)
 // ═══════════════════════════════════════════════════════════════
 
@@ -24,9 +24,9 @@ const C = {
 };
 
 const NEEDS = [
-  { id: "medication", label: "Medication management", desc: "Licensed Healthcare Provider or psychiatrist who can prescribe and manage medications", icon: "💊" },
+  { id: "medication", label: "Medication management", desc: "Psychiatric prescriber or psychiatrist who can prescribe and manage medications", icon: "💊" },
   { id: "therapy", label: "Therapy / talk therapy", desc: "Psychologist, therapist, or licensed counselor for ongoing sessions", icon: "💬" },
-  { id: "both", label: "Both medication and therapy", desc: "Licensed Healthcare Providers can do both — we'll also show psychiatrists, psychologists, and therapists", icon: "🩺" },
+  { id: "both", label: "Both medication and therapy", desc: "Psychiatric prescribers can do both — we'll also show psychiatrists, psychologists, and therapists", icon: "🩺" },
   { id: "substance", label: "Substance use / addiction", desc: "Addiction specialists and dual-diagnosis providers", icon: "⚠️" },
   { id: "any", label: "I'm not sure what I need", desc: "We'll search across all mental health provider types", icon: "🤔" },
 ];
@@ -51,7 +51,7 @@ const INSURERS = [
 ];
 
 const TYPE_STYLES = {
-  "Licensed Healthcare Provider": { color: "#2B7A9C", badge: "Prescribe + Therapy", icon: "🩺" },
+  "Psychiatric Prescriber": { color: "#2B7A9C", badge: "Prescribe + Therapy", icon: "🩺" },
   "Psychiatrist": { color: "#6B5CA5", badge: "Prescriber", icon: "⚕️" },
   "Psychologist": { color: "#3D8B5E", badge: "Therapy + Testing", icon: "🧠" },
   "Licensed Clinical Social Worker": { color: "#B8935A", badge: "Therapist (LCSW)", icon: "💬" },
@@ -191,7 +191,7 @@ export default function FindHelpPage() {
             </div>
 
             <p style={{ fontSize: 11, color: C.muted, opacity: 0.35, marginTop: 28, lineHeight: 1.7 }}>
-              Nothing is stored, sent, or tracked. Provider data from CMS.gov. Built by AIForj Team and clinically informed by a Licensed Healthcare Provider.
+              Nothing is stored, sent, or tracked. Provider data from CMS.gov. Built and clinically informed by Kevin, a clinician in psychiatric NP training.
             </p>
           </div>
         )}
@@ -623,7 +623,7 @@ export default function FindHelpPage() {
         <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.7, margin: "0 0 24px", maxWidth: 480, marginLeft: "auto", marginRight: "auto" }}>
           Forj is a wellness companion — not a therapist or substitute for professional care.
         </p>
-        <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "0 0 8px", lineHeight: 1.8 }}>Built by AIForj Team and clinically informed by a Licensed Healthcare Provider</p>
+        <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "0 0 8px", lineHeight: 1.8 }}>Built and clinically informed by Kevin, a clinician in psychiatric NP training</p>
         <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.5, margin: 0 }}>© 2026 AIForj. All rights reserved.</p>
       </footer>
     </div>

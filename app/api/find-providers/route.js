@@ -9,7 +9,7 @@
 // "Counselor" = counselors, "Addiction Medicine" = addiction docs
 const TAXONOMY_MAP = {
   medication: [
-    { search: "Psych/Mental Health", label: "Licensed Healthcare Provider", priority: 1 },
+    { search: "Psych/Mental Health", label: "Psychiatric Prescriber", priority: 1 },
     { search: "Psychiatry", label: "Psychiatrist", priority: 2 },
   ],
   therapy: [
@@ -18,7 +18,7 @@ const TAXONOMY_MAP = {
     { search: "Counselor", label: "Counselor", priority: 3 },
   ],
   both: [
-    { search: "Psych/Mental Health", label: "Licensed Healthcare Provider", priority: 1 },
+    { search: "Psych/Mental Health", label: "Psychiatric Prescriber", priority: 1 },
     { search: "Psychiatry", label: "Psychiatrist", priority: 2 },
     { search: "Psychologist", label: "Psychologist", priority: 3 },
     { search: "Social Worker", label: "Licensed Clinical Social Worker", priority: 4 },
@@ -26,12 +26,12 @@ const TAXONOMY_MAP = {
   ],
   substance: [
     { search: "Addiction Medicine", label: "Addiction Medicine", priority: 1 },
-    { search: "Psych/Mental Health", label: "Licensed Healthcare Provider", priority: 2 },
+    { search: "Psych/Mental Health", label: "Psychiatric Prescriber", priority: 2 },
     { search: "Psychiatry", label: "Psychiatrist", priority: 3 },
     { search: "Counselor", label: "Counselor", priority: 4 },
   ],
   any: [
-    { search: "Psych/Mental Health", label: "Licensed Healthcare Provider", priority: 1 },
+    { search: "Psych/Mental Health", label: "Psychiatric Prescriber", priority: 1 },
     { search: "Psychiatry", label: "Psychiatrist", priority: 2 },
     { search: "Psychologist", label: "Psychologist", priority: 3 },
     { search: "Social Worker", label: "Licensed Clinical Social Worker", priority: 4 },
@@ -71,7 +71,7 @@ function titleCase(str) {
     .replace(/\bMd\b/g, "MD").replace(/\bDo\b/g, "DO")
     .replace(/\bPhd\b/g, "PhD").replace(/\bPsyd\b/g, "PsyD")
     .replace(/\bLcsw\b/g, "LCSW").replace(/\bLpc\b/g, "LPC")
-    .replace(/\bNp\b/g, "NP").replace(/\bPmhnp\b/g, "Licensed Healthcare Provider");
+    .replace(/\bNp\b/g, "NP").replace(/\bPmhnp\b/g, "Psychiatric Prescriber");
 }
 
 function formatPhone(phone) {

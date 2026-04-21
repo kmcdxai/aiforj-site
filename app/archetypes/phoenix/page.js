@@ -3,7 +3,7 @@ import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
 const metadata = buildContentPageMetadata({
   title: 'The Phoenix Emotional Archetype — Clinical Guide | AIForj',
-  description: 'Discover what it means to be The Phoenix. Understand your stress response, thinking patterns, and evidence-based techniques matched to this archetype. Free guide from AIForj, clinically informed by a Licensed Healthcare Provider.',
+  description: 'Discover what it means to be The Phoenix. Understand your stress response, thinking patterns, and evidence-based techniques matched to this archetype. Free guide from AIForj, clinically informed by Kevin, a clinician in psychiatric NP training.',
   path: "/archetypes/phoenix",
   kind: "archetype",
   slug: "phoenix",

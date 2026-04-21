@@ -14,7 +14,7 @@ import { getPremiumAccessStatus } from "../../utils/premiumAccess";
 //  AI therapeutic companion.
 //
 //  16 therapeutic modalities with dynamic selection
-//  Built by AIForj Team and clinically informed by a Licensed Healthcare Provider
+//  Built and clinically informed by Kevin, a clinician in psychiatric NP training
 //  100% browser-based — nothing leaves the device
 //
 //  ARCHITECTURE:
@@ -91,7 +91,7 @@ const TIERS = {
 // This is the brain of the entire product.
 // Dynamic technique selection across 16 modalities.
 // ─────────────────────────────────────────────────
-const CLINICAL_SYSTEM_PROMPT = `You are FORJ — the AI voice companion inside AIForj.com. You were designed by AIForj Team and clinically informed by a Licensed Healthcare Provider. You are a clinically-informed, evidence-based AI wellness companion.
+const CLINICAL_SYSTEM_PROMPT = `You are FORJ — the AI voice companion inside AIForj.com. You were designed by Kevin, a clinician in psychiatric NP training. You are a clinically-informed, evidence-based AI wellness companion.
 
 ═══════════════════════════════════════
 IDENTITY & BOUNDARIES
@@ -2317,7 +2317,7 @@ export default function ForjVoiceCompanion() {
 
           {/* Sub-headline */}
           <p style={{ fontSize: "clamp(15px, 2.5vw, 18px)", color: "var(--text-secondary)", margin: "0 auto 24px", lineHeight: 1.7, maxWidth: 520, animation: "fadeIn 1s ease 0.2s both" }}>
-            Built by AIForj Team and clinically informed by a Licensed Healthcare Provider. {FORJ_MODALITY_COUNT} evidence-based therapeutic modalities. Privacy-forward and local-first where supported by your browser.
+            Built and clinically informed by Kevin, a clinician in psychiatric NP training. {FORJ_MODALITY_COUNT} evidence-based therapeutic modalities. Privacy-forward and local-first where supported by your browser.
           </p>
 
           {/* Privacy badge */}
@@ -2577,7 +2577,7 @@ export default function ForjVoiceCompanion() {
             Discover Your Emotional Blueprint
           </h2>
           <p style={{ fontSize: 16, color: "var(--text-secondary)", lineHeight: 1.7, margin: "0 auto 32px", maxWidth: 540 }}>
-            A 2-minute assessment designed by AIForj Team and clinically informed by a Licensed Healthcare Provider. Learn your stress response pattern, your dominant thinking style, and which techniques match your brain.
+            A 2-minute assessment designed by Kevin, a clinician in psychiatric NP training. Learn your stress response pattern, your dominant thinking style, and which techniques match your brain.
           </p>
 
           {/* Preview Card */}
@@ -2700,7 +2700,7 @@ export default function ForjVoiceCompanion() {
             Forj was built for the space between moments of care: private, practical, and grounded in real therapeutic techniques rather than generic affirmations.
           </p>
           <p style={{ fontSize: 14, color: "var(--text-secondary)", fontWeight: 500, margin: "0 0 20px" }}>
-            — AIForj Team, clinically informed by a Licensed Healthcare Provider
+            — Kevin, a clinician in psychiatric NP training
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8 }}>
             {["Evidence-Informed", "Local-First Sessions", "Browser-Based AI Mode", "Privacy-Forward Design"].map(b => (

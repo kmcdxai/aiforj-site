@@ -322,7 +322,7 @@ export default function MoodShiftReceipt({
           borderTop: '1px solid rgba(45,42,38,0.06)',
           paddingTop: 16,
         }}>
-          Built by AIForj Team · Clinically informed by a Licensed Healthcare Provider
+          Built and clinically informed by Kevin · Psychiatric NP candidate
         </div>
       </div>
 
@@ -374,7 +374,7 @@ export default function MoodShiftReceipt({
           <div style={{ fontSize: 14, color: '#8A8078' }}>{durationMinutes} min {'\u00b7'} {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
         </div>
         <div style={{ marginTop: 'auto', paddingTop: 40, fontSize: 12, color: '#8A8078', opacity: 0.6 }}>
-          Built by AIForj Team {'\u00b7'} Clinically informed by a Licensed Healthcare Provider {'\u00b7'} aiforj.com
+          Built by Kevin {'\u00b7'} Psychiatric NP candidate {'\u00b7'} aiforj.com
         </div>
       </div>
 

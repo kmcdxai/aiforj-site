@@ -36,8 +36,9 @@ const blueprintStructuredData = {
   },
   author: {
     "@type": "Person",
-    name: "AIForj Team",
-    jobTitle: "Licensed Healthcare Provider",
+    name: "Kevin",
+    jobTitle: "Psychiatric Nurse Practitioner Candidate",
+    url: "https://aiforj.com/about/founder",
   },
   publisher: {
     "@type": "Organization",

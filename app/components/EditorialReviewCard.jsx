@@ -13,8 +13,8 @@ const formatDate = (isoDate) =>
 
 export default function EditorialReviewCard({
   kind = "Guide",
-  authorLabel = "AIForj Team",
-  reviewLabel = "Licensed Healthcare Provider",
+  authorLabel = "Kevin — clinician in psychiatric NP training",
+  reviewLabel = "Kevin — clinician in psychiatric NP training",
   reviewedDate = LAST_REVIEWED_DATE,
   background = "rgba(255,255,255,0.45)",
   border = "1px solid rgba(45,42,38,0.08)",
@@ -56,7 +56,9 @@ export default function EditorialReviewCard({
             Author
           </p>
           <p style={{ margin: 0, fontSize: 14, color: textColor, lineHeight: 1.6 }}>
-            {authorLabel}
+            <Link href="/about/founder" style={{ color: "var(--interactive)", textDecoration: "underline", fontWeight: 700 }}>
+              {authorLabel}
+            </Link>
           </p>
         </div>
         <div>
@@ -64,7 +66,9 @@ export default function EditorialReviewCard({
             Clinical review
           </p>
           <p style={{ margin: 0, fontSize: 14, color: textColor, lineHeight: 1.6 }}>
-            {reviewLabel}
+            <Link href="/about/founder" style={{ color: "var(--interactive)", textDecoration: "underline", fontWeight: 700 }}>
+              {reviewLabel}
+            </Link>
           </p>
         </div>
         <div>

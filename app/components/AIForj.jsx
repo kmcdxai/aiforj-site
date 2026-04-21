@@ -508,7 +508,7 @@ function BreathingExercise({ config, onComplete, theme }) {
 // Runs entirely in user's browser via WebGPU
 // Falls back to intelligent rule-based system when unavailable
 // ═══════════════════════════════════════════════════════════════
-const CLINICAL_SYSTEM_PROMPT = `You are the AI engine behind AIForj — a mental wellness platform built by a Licensed Healthcare Provider. You provide evidence-based, personalized micro-guidance.
+const CLINICAL_SYSTEM_PROMPT = `You are the AI engine behind AIForj — a mental wellness platform built by Kevin, a clinician in psychiatric NP training. You provide evidence-based, personalized micro-guidance.
 
 CRITICAL RULES:
 - You are NOT a therapist. You are a wellness companion providing psychoeducation and self-help techniques.
@@ -1609,7 +1609,7 @@ export default function AIForj() {
               ))}
             </div>
             <p style={{ fontSize: 12, color: theme.accent, opacity: 0.5, lineHeight: 1.6 }}>
-              Built by AIForj Team and clinically informed by a Licensed Healthcare Provider.
+              Built and clinically informed by Kevin, a clinician in psychiatric NP training.
               <br />Science-backed. AI-powered.
             </p>
           </div>

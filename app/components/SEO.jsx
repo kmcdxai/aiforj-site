@@ -6,10 +6,11 @@ export default function SEO() {
     url: "https://aiforj.com",
     logo: "https://aiforj.com/aif.jpeg",
     founder: {
-      "@type": "Organization",
-      name: "AIForj Team"
+      "@type": "Person",
+      name: "Kevin",
+      jobTitle: "Psychiatric Nurse Practitioner Candidate",
+      url: "https://aiforj.com/about/founder"
     },
-    sameAs: ["https://x.com/AIForj"]
   };
 
   const site = {
@@ -34,8 +35,10 @@ export default function SEO() {
       availability: "https://schema.org/InStock"
     },
     creator: {
-      "@type": "Organization",
-      name: "AIForj Team"
+      "@type": "Person",
+      name: "Kevin",
+      jobTitle: "Psychiatric Nurse Practitioner Candidate",
+      url: "https://aiforj.com/about/founder"
     }
   };
 

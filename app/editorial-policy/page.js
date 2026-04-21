@@ -55,10 +55,16 @@ export default function Page() {
           <section style={{ marginBottom: 28 }}>
             <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 24, marginBottom: 12 }}>Who writes and reviews AIForj content</h2>
             <p style={{ color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 10 }}>
-              AIForj content is authored by the <strong style={{ color: "var(--text-primary)" }}>AIForj Team</strong>.
+              AIForj content is authored by{" "}
+              <Link href="/about/founder" style={{ color: "var(--interactive)", textDecoration: "underline", fontWeight: 700 }}>
+                Kevin, a clinician in psychiatric NP training
+              </Link>.
             </p>
             <p style={{ color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 0 }}>
-              Clinical framing is reviewed by a <strong style={{ color: "var(--text-primary)" }}>Licensed Healthcare Provider</strong>. Review is focused on scope, safety, wording, and whether a claim is being stated more strongly than the evidence allows.
+              Clinical framing is reviewed by{" "}
+              <Link href="/about/founder" style={{ color: "var(--interactive)", textDecoration: "underline", fontWeight: 700 }}>
+                Kevin, a clinician in psychiatric NP training
+              </Link>. Review is focused on scope, safety, wording, and whether a claim is being stated more strongly than the evidence allows.
             </p>
           </section>
 

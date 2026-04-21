@@ -236,7 +236,11 @@ export default function Homepage() {
             maxWidth: "min(100%, 560px)",
           }}>
             <img src="/aif.jpeg" alt="AIForj leaf mark" style={{ width: 24, height: 24, borderRadius: 6 }} />
-            Built by AIForj Team · Clinically informed by a Licensed Healthcare Provider
+            Built by{" "}
+            <a href="/about/founder" style={{ color: "inherit", textDecoration: "underline", textUnderlineOffset: 3 }}>
+              a clinician in psychiatric NP training
+            </a>{" "}
+            — clinically grounded in CBT, DBT, ACT, IFS, and 12 more evidence-based modalities.
           </div>
           <h1 style={{ fontSize: "clamp(36px, 6vw, 64px)", maxWidth: 760, margin: "0 auto 20px", letterSpacing: 0 }}>
             Emotional first aid that actually works.
@@ -334,12 +338,17 @@ export default function Homepage() {
               ))}
             </article>
             <article className="card" style={{ boxShadow: "var(--shadow-sm)" }}>
-              <h3 style={{ margin: "0 0 12px" }}>Built by AIForj Team</h3>
+              <h3 style={{ margin: "0 0 12px" }}>Built by Kevin</h3>
               <p style={{ margin: "0 0 16px", color: "var(--text-secondary)", lineHeight: 1.75 }}>
-                AIForj was built because emotionally grounded support should not require a waitlist or a copay.
+                AIForj is built and clinically informed by Kevin, a licensed [CURRENT_LICENSE] and psychiatric nurse practitioner candidate completing training in March 2027.
+              </p>
+              <p style={{ margin: "0 0 16px", color: "var(--text-secondary)", lineHeight: 1.75 }}>
+                It exists because emotionally grounded support should not require a waitlist or a copay.
               </p>
               <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.75 }}>
-                It is clinically informed by a Licensed Healthcare Provider, and your emotional check-ins stay local to your device.
+                <a href="/about/founder" style={{ color: "var(--interactive)", fontWeight: 700 }}>
+                  About the founder →
+                </a>
               </p>
             </article>
           </div>
@@ -498,7 +507,11 @@ export default function Homepage() {
                 <strong style={{ fontFamily: "'Fraunces', serif", fontSize: 20 }}>AIForj</strong>
               </div>
               <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 14, lineHeight: 1.7 }}>
-                Built by AIForj Team and clinically informed by a Licensed Healthcare Provider. Your emotional data never leaves your device.
+                Built and clinically informed by{" "}
+                <a href="/about/founder" style={{ color: "var(--interactive)", fontWeight: 700 }}>
+                  a clinician in psychiatric NP training
+                </a>.
+                {" "}Your emotional data never leaves your device.
               </p>
             </div>
             <nav style={{ display: "grid", gap: 8 }}>

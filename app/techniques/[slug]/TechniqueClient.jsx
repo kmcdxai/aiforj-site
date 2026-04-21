@@ -697,7 +697,7 @@ export default function TechniqueClient({
             {technique.subtitle}
           </p>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px", background: "rgba(107,127,110,0.08)", borderRadius: 20, border: `1px solid ${SUBTLE}` }}>
-            <span style={{ fontSize: 12, color: ACCENT, fontWeight: 500 }}>Built by AIForj Team · Clinically informed by a Licensed Healthcare Provider</span>
+            <span style={{ fontSize: 12, color: ACCENT, fontWeight: 500 }}>Built and clinically informed by Kevin · Psychiatric NP candidate</span>
           </div>
         </header>
 
