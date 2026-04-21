@@ -3,6 +3,7 @@ import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
 import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
+import AuthorByline from "../../../components/AuthorByline";
 import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
@@ -28,6 +29,7 @@ export default function Page() {
       <main style={{ maxWidth: 780, margin: "84px auto 40px", padding: "0 20px" }}>
         <article>
           <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 28 }}>Can't Sleep? Mind Won't Turn Off?</h1>
+          <AuthorByline />
           <p>Racing thoughts at night are common — your brain is replaying problems and scanning for threats. That restlessness is understandable, and there are small changes that help signal your body it's safe to rest.</p>
           <p>You're not failing; sleep systems are sensitive to stress and routine. The goal is to reduce arousal and give your body cues for sleep.</p>
 

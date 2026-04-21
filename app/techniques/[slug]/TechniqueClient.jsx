@@ -7,6 +7,7 @@ import EvidenceDrawer from "../../components/EvidenceDrawer";
 import EditorialReviewCard from "../../components/EditorialReviewCard";
 import ShareResultCard from "../../components/ShareResultCard";
 import SiteFooter from "../../components/SiteFooter";
+import AuthorByline from "../../../components/AuthorByline";
 import { getArchetypeForTechnique } from "../archetypeMap";
 import { getTechniqueEvidence } from "../../../data/evidence";
 import {
@@ -693,6 +694,7 @@ export default function TechniqueClient({
           <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(26px, 5vw, 38px)", fontWeight: 500, color: TEXT, margin: "0 0 12px", lineHeight: 1.2 }}>
             {technique.title}
           </h1>
+          <AuthorByline />
           <p style={{ fontSize: 16, color: `rgba(45,42,38,0.75)`, margin: "0 0 16px", lineHeight: 1.6, fontWeight: 300 }}>
             {technique.subtitle}
           </p>

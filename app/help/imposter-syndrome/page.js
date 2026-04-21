@@ -3,6 +3,7 @@ import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
 import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
+import AuthorByline from "../../../components/AuthorByline";
 import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
@@ -37,6 +38,7 @@ export default function Page() {
           <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 28 }}>
             Feeling Like a Fraud Even When You Have Proof?
           </h1>
+          <AuthorByline />
           <p>
             Imposter syndrome makes success feel slippery. You get the role, the praise, the opportunity, and your mind still reaches for luck, mistake, or eventual exposure.
           </p>

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import EvidenceDrawer from "./EvidenceDrawer";
 import EditorialReviewCard from "./EditorialReviewCard";
+import AuthorByline from "../../components/AuthorByline";
 import { getPageEvidence } from "../../data/evidence";
 
 function InlineEmailCapture({ accentColor = "#5b8fa8", textColor = "rgba(200,215,230,0.75)", bgColor = "rgba(91,143,168,0.06)", borderColor = "rgba(91,143,168,0.12)" }) {
@@ -171,6 +172,7 @@ export default function ThreeAMSpiral() {
           <div key={fk} style={{ animation:"fadeUp 1.2s ease", paddingTop:"14vh" }}>
             <p style={{ fontSize:12, color:"#5b8fa8", letterSpacing:4, textTransform:"uppercase", marginBottom:20, fontWeight:500 }}>Can't sleep</p>
             <h1 style={{ fontFamily:"'Cormorant Garamond', serif", fontSize:"clamp(34px,7vw,52px)", fontWeight:300, lineHeight:1.15, marginBottom:24, color:"#dde4ee" }}>It's late. Your<br/>brain won't stop.</h1>
+            <AuthorByline variant="dark" />
             <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(200,215,230,0.75)", marginBottom:20 }}>Replaying conversations. Predicting disasters. Listing everything undone. The thoughts loop and there's no off switch.</p>
             <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(200,215,230,0.82)", marginBottom:20 }}>Here's what's happening: when you're under-slept or jolted awake in the night, your brain usually gets worse at perspective-taking and better at threat-detection. That's why the same thought that feels manageable at 2pm can feel catastrophic at 2am. Your inner editor is tired, but the alarm system is still loud.</p>
             <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(200,215,230,0.82)", marginBottom:20 }}>Hormones can play a role too. Your cortisol rhythm shifts as morning approaches, but the timing varies by person and by stress load. The practical point is simpler: late-night wakefulness can feel physiologically activating, and that can turn looping thoughts into a full-body spiral.</p>

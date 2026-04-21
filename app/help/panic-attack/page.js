@@ -3,6 +3,7 @@ import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
 import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
+import AuthorByline from "../../../components/AuthorByline";
 import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
@@ -28,6 +29,7 @@ export default function Page() {
       <main style={{ maxWidth: 780, margin: "84px auto 40px", padding: "0 20px" }}>
         <article>
           <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 28 }}>Having a Panic Attack Right Now?</h1>
+          <AuthorByline />
           <p style={{ color: "rgba(45,42,38,0.8)" }}>This feels overwhelming and real — your body is responding as if there's urgent danger. That flood of sensations is terrifying, but there are short, reliable steps that calm the body and help the thinking part of your brain come back online.</p>
           <p style={{ color: "rgba(45,42,38,0.75)" }}>You're not broken for feeling this. Panic is an intense alarm response; many people learn to interrupt it quickly with simple, repeated practices.</p>
 

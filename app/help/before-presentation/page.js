@@ -3,6 +3,7 @@ import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
 import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
+import AuthorByline from "../../../components/AuthorByline";
 import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
@@ -28,6 +29,7 @@ export default function Page() {
       <main style={{ maxWidth: 780, margin: "84px auto 40px", padding: "0 20px" }}>
         <article>
           <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 28 }}>Nervous Before a Presentation or Interview?</h1>
+          <AuthorByline />
           <p>Performance nerves are normal. A few steadying actions can lower your heart rate, clear your mind, and help you speak with more confidence.</p>
           <p>Practice makes habits — the same quick steps repeated before each event will become reliable cues for calm.</p>
 

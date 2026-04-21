@@ -3,6 +3,7 @@ import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
 import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
+import AuthorByline from "../../../components/AuthorByline";
 import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
@@ -37,6 +38,7 @@ export default function Page() {
           <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 28 }}>
             Stuck in the Comparison Trap After Scrolling?
           </h1>
+          <AuthorByline />
           <p>
             Comparison spirals rarely start with a plan. You open an app, see someone else's success, and suddenly your own life feels smaller, slower, or behind.
           </p>

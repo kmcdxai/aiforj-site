@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import EvidenceDrawer from "./EvidenceDrawer";
 import EditorialReviewCard from "./EditorialReviewCard";
+import AuthorByline from "../../components/AuthorByline";
 import { getPageEvidence } from "../../data/evidence";
 
 function InlineEmailCapture({ accentColor = "#b8935a", textColor = "#2d2a25", bgColor = "rgba(184,147,90,0.06)", borderColor = "rgba(184,147,90,0.12)" }) {
@@ -120,6 +121,7 @@ export default function BurnedOutPage() {
           <div key={fk} style={{ animation:"fadeUp 1s ease", paddingTop:"10vh" }}>
             <p style={{ fontSize:12, color:ac, letterSpacing:4, textTransform:"uppercase", marginBottom:20, fontWeight:500 }}>Burnout protocol</p>
             <h1 style={{ fontFamily:"'Literata', serif", fontSize:"clamp(30px,6vw,46px)", fontWeight:300, lineHeight:1.25, marginBottom:24 }}>You're not lazy.<br/>You're running<br/>on empty.</h1>
+            <AuthorByline />
             <p style={{ fontSize:15, lineHeight:1.9, color:"#5d5850", marginBottom:20 }}>You keep pushing but nothing moves. Things that used to energize you feel like obligations. Rest doesn't recharge. You wonder if you're broken, weak, or just not trying hard enough.</p>
             <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(45,42,37,0.8)", marginBottom:20 }}>Nothing is wrong with you. In formal WHO language, burnout is an occupational phenomenon tied to chronic workplace stress that has not been successfully managed. People can also feel profoundly depleted by caregiving, relationships, financial pressure, or prolonged strain outside work. The experience is real even when the label needs care.</p>
 

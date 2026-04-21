@@ -3,6 +3,7 @@ import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
 import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
+import AuthorByline from "../../../components/AuthorByline";
 import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
@@ -37,6 +38,7 @@ export default function Page() {
           <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 28 }}>
             Nothing Ever Feels Good Enough?
           </h1>
+          <AuthorByline />
           <p>
             Perfectionism can look impressive from the outside, but inside it often feels like pressure, delay, and never quite arriving. You keep raising the standard while your nervous system keeps treating anything less than flawless as failure.
           </p>

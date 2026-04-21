@@ -3,6 +3,7 @@ import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
 import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
+import AuthorByline from "../../../components/AuthorByline";
 import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
@@ -28,6 +29,7 @@ export default function Page() {
       <main style={{ maxWidth: 780, margin: "84px auto 40px", padding: "0 20px" }}>
         <article>
           <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 28 }}>Stuck in an Overthinking Spiral?</h1>
+          <AuthorByline />
           <p>Overthinking keeps you locked on what-ifs and replayed scenes. It feels like mental noise that won't stop. That experience is common and there are practical ways to interrupt it.</p>
           <p>Small shifts in attention and simple behavioral steps weaken the habit over time.</p>
 

@@ -4,6 +4,7 @@ import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
 import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
+import AuthorByline from "../../../components/AuthorByline";
 import Link from "next/link";
 import { getPageEvidence } from "../../../data/evidence";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
@@ -31,6 +32,7 @@ export default function Page() {
       <main style={{ maxWidth: 780, margin: "84px auto 40px", padding: "0 20px" }}>
         <article>
           <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 28 }}>Burned Out and Can't Recover? Start Here.</h1>
+          <AuthorByline />
           <p>Burnout is a state of chronic workplace stress. It can feel like exhaustion, detachment, and reduced capacity. Recovery usually involves structured rest, boundary-setting, and small behavioral steps.</p>
           <p>You're not alone — begin with manageable changes that protect your energy and rebuild resilience.</p>
 

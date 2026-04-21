@@ -3,6 +3,7 @@ import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
 import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
+import AuthorByline from "../../../components/AuthorByline";
 import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
@@ -28,6 +29,7 @@ export default function Page() {
       <main style={{ maxWidth: 780, margin: "84px auto 40px", padding: "0 20px" }}>
         <article>
           <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 28 }}>Anxiety at Work: Quick Resets You Can Do at Your Desk</h1>
+          <AuthorByline />
           <p>Work stress can trigger a body-first anxiety response — sweaty palms, fast heart, and a mind that races. These sensations are common and treatable with short resets you can do without leaving your seat.</p>
           <p>You deserve practical tools that fit into your day and protect your focus and confidence.</p>
 

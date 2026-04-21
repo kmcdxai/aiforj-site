@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import AuthorByline from "../../components/AuthorByline";
 
 function InlineEmailCapture({ accentColor = "#7b6b9a", textColor = "#2a2f35", bgColor = "rgba(123,107,154,0.06)", borderColor = "rgba(123,107,154,0.12)" }) {
   const [email, setEmail] = useState("");
@@ -125,6 +126,7 @@ export default function OverwhelmedPage() {
           <div key={fk} style={{ animation:"fadeUp 1s ease", paddingTop:"10vh" }}>
             <p style={{ fontSize:12, color:ac, letterSpacing:4, textTransform:"uppercase", marginBottom:20, fontWeight:500 }}>Overwhelm protocol</p>
             <h1 style={{ fontFamily:"'Newsreader', serif", fontSize:"clamp(30px,6vw,46px)", fontWeight:300, lineHeight:1.25, marginBottom:24 }}>Everything is<br/>too much<br/>right now.</h1>
+            <AuthorByline />
             <p style={{ fontSize:15, lineHeight:1.9, color:"#5a5a62", marginBottom:20 }}>The to-do list has a to-do list. There's no visible starting point. You feel paralyzed, panicky, numb, or all three at once.</p>
             <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(42,47,53,0.8)", marginBottom:20 }}>That's not weakness — it's a cognitive bottleneck. When the load gets too high, attention narrows, sequencing gets harder, and even obvious next steps can disappear. That's why overwhelm can make you feel scattered or stuck. You're not failing. Your system hit a limit.</p>
             <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(42,47,53,0.8)", marginBottom:20 }}>There's a name for this: <strong>cognitive overload</strong>. Working memory can only hold a limited amount at once, and stress often makes that feel even smaller. When you're trying to carry dozens of obligations, worries, and emotions at the same time, the system jams. It's not a character flaw — it's overload.</p>

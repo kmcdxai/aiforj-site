@@ -3,6 +3,7 @@ import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
 import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
+import AuthorByline from "../../../components/AuthorByline";
 import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
@@ -28,6 +29,7 @@ export default function Page() {
       <main style={{ maxWidth: 780, margin: "84px auto 40px", padding: "0 20px" }}>
         <article>
           <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 28 }}>Just Had a Big Argument? Here's What to Do Next</h1>
+          <AuthorByline />
           <p>Right after an argument your body is still in alarm mode — you might feel hot, shaky, or emotionally flooded. Those sensations make it hard to think clearly or reconcile the relationship immediately.</p>
           <p>It's okay to step back and use short practices to calm your nervous system before responding or reconnecting.</p>
 

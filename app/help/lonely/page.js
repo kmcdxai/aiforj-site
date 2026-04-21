@@ -3,6 +3,7 @@ import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
 import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
+import AuthorByline from "../../../components/AuthorByline";
 import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
@@ -28,6 +29,7 @@ export default function Page() {
       <main style={{ maxWidth: 780, margin: "84px auto 40px", padding: "0 20px" }}>
         <article>
           <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 28 }}>Feeling Lonely Even Around People?</h1>
+          <AuthorByline />
           <p>Loneliness is the painful sense of social disconnection. It can happen even when surrounded by others. It's a real feeling that deserves care and practical steps.</p>
           <p>Small, consistent actions and values-aligned connections reduce loneliness over time.</p>
 

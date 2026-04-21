@@ -3,6 +3,7 @@ import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
 import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
+import AuthorByline from "../../../components/AuthorByline";
 import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
@@ -28,6 +29,7 @@ export default function Page() {
       <main style={{ maxWidth: 780, margin: "84px auto 40px", padding: "0 20px" }}>
         <article>
           <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 28 }}>Grief Hit You Out of Nowhere?</h1>
+          <AuthorByline />
           <p>Grief isn't only about funerals — it shows up for endings, disappointments, and changes. That flood of feeling is a deeply human response and it's okay to honor it gently.</p>
           <p>Small practices can reduce overwhelm and give you space to process.</p>
 

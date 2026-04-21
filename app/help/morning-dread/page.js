@@ -3,6 +3,7 @@ import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
 import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
+import AuthorByline from "../../../components/AuthorByline";
 import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
@@ -37,6 +38,7 @@ export default function Page() {
           <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 28 }}>
             Waking Up With Anxiety? Start Here.
           </h1>
+          <AuthorByline />
           <p>
             Morning dread can hit before you are fully awake: a pit in your stomach, racing thoughts, and the sense that something is already wrong. That feeling is miserable, but it is also workable.
           </p>

@@ -3,6 +3,7 @@ import SOS from "../../components/SOS";
 import EmailCapture from "../../components/EmailCapture";
 import HelpPageEnhancements from "../../components/HelpPageEnhancements";
 import SiteFooter from "../../components/SiteFooter";
+import AuthorByline from "../../../components/AuthorByline";
 import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
@@ -28,6 +29,7 @@ export default function Page() {
       <main style={{ maxWidth: 780, margin: "84px auto 40px", padding: "0 20px" }}>
         <article>
           <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 28 }}>Struggling With Self-Worth?</h1>
+          <AuthorByline />
           <p>Low self-worth feels like a persistent inner critic telling you you're not enough. That voice is learned, and with structured practice you can loosen its hold and build a kinder, truer sense of self.</p>
           <p>Small, evidence-based exercises change belief and behavior over time.</p>
 
