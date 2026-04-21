@@ -229,6 +229,7 @@ export default function InterventionWrapper({
           emotion={emotion}
           interventionName={interventionName}
           interventionSlug={interventionSlug}
+          modality={intervention?.modality}
           duration={duration}
           onSendCalm={handleSendCalm}
           onTryDifferent={() => { window.location.href = '/start'; }}

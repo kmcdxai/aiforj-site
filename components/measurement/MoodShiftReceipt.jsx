@@ -39,6 +39,7 @@ export default function MoodShiftReceipt({
   emotion,
   interventionName,
   interventionSlug,
+  modality,
   duration,
   onSendCalm,
   onTryDifferent,
@@ -55,13 +56,25 @@ export default function MoodShiftReceipt({
   const afterData = getEmojiForRating(postRating);
   const shiftColor = shift >= 3 ? 'var(--success)' : shift > 0 ? 'var(--interactive)' : shift === 0 ? 'var(--text-secondary)' : 'var(--warning)';
   const durationMinutes = Math.max(1, Math.ceil((duration || 0) / 60000));
+  const modalityLabel = modality || interventionName || 'AIForj tool';
+  const receiptParams = new URLSearchParams({
+    e: String(emotion || 'general'),
+    from: String(preRating),
+    to: String(postRating),
+    mod: modalityLabel,
+    d: String(durationMinutes),
+  });
+  const receiptPath = `/receipt?${receiptParams.toString()}`;
+  const ogImagePath = `/api/og/receipt?${receiptParams.toString()}`;
+  const shareUrl = typeof window !== 'undefined' ? `${window.location.origin}${receiptPath}` : `https://aiforj.com${receiptPath}`;
+  const ogImageUrl = typeof window !== 'undefined' ? `${window.location.origin}${ogImagePath}` : `https://aiforj.com${ogImagePath}`;
 
-  const shareText = `I went from ${beforeData.emoji} to ${afterData.emoji} in ${durationMinutes} minutes using ${interventionName} on AIForj. Try it: aiforj.com/start`;
+  const shareText = `My mood shifted from ${preRating}/10 to ${postRating}/10 in ${durationMinutes} minutes using ${interventionName} on AIForj. Private emotional first aid:`;
   const sendCalmText = `Hey, I just tried this and it actually helped. Thought of you: aiforj.com/start`;
 
   const handleCopyShare = async () => {
     try {
-      await navigator.clipboard.writeText(shareText);
+      await navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
       track('mood_shift_receipt_shared', { channel: 'copy', emotion: emotion || 'unknown' });
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -70,10 +83,56 @@ export default function MoodShiftReceipt({
     }
   };
 
+  const handleNativeShare = async () => {
+    if (typeof navigator === 'undefined' || !navigator.share) {
+      await handleCopyShare();
+      return;
+    }
+
+    try {
+      await navigator.share({
+        title: 'AIForj Mood Shift Receipt',
+        text: shareText,
+        url: shareUrl,
+      });
+      track('mood_shift_receipt_shared', { channel: 'native', emotion: emotion || 'unknown' });
+    } catch (error) {
+      if (error?.name !== 'AbortError') console.warn('Native share failed:', error);
+    }
+  };
+
+  const openShareWindow = (channel, url) => {
+    track('mood_shift_receipt_shared', { channel, emotion: emotion || 'unknown' });
+    window.open(url, '_blank', 'noopener,noreferrer,width=720,height=640');
+  };
+
+  const handleXShare = () => {
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+    openShareWindow('x', url);
+  };
+
+  const handleLinkedInShare = () => {
+    const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
+    openShareWindow('linkedin', url);
+  };
+
   const handleDownloadImage = async () => {
-    if (!downloadRef.current) return;
     setIsGeneratingImage(true);
     try {
+      const response = await fetch(ogImageUrl);
+      if (response.ok) {
+        const blob = await response.blob();
+        const objectUrl = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = `aiforj-mood-shift-${Date.now()}.png`;
+        link.href = objectUrl;
+        link.click();
+        URL.revokeObjectURL(objectUrl);
+        track('mood_shift_receipt_shared', { channel: 'download', emotion: emotion || 'unknown' });
+        return;
+      }
+
+      if (!downloadRef.current) return;
       // Temporarily show the download-optimized card
       downloadRef.current.style.display = 'flex';
       const canvas = await html2canvas(downloadRef.current, {
@@ -288,7 +347,7 @@ export default function MoodShiftReceipt({
             color: 'var(--text-muted)',
             marginTop: 6,
           }}>
-            {durationMinutes} {durationMinutes === 1 ? 'minute' : 'minutes'} {'\u00b7'} {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+            {modalityLabel} {'\u00b7'} {durationMinutes} {durationMinutes === 1 ? 'minute' : 'minutes'} {'\u00b7'} {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
           </div>
         </div>
 
@@ -331,7 +390,7 @@ export default function MoodShiftReceipt({
           borderTop: '1px solid rgba(45,42,38,0.06)',
           paddingTop: 16,
         }}>
-          Built and clinically informed by Kevin · Psychiatric NP candidate
+          Built by Kevin · Licensed clinician · Psychiatric NP candidate · aiforj.com
         </div>
       </div>
 
@@ -383,7 +442,7 @@ export default function MoodShiftReceipt({
           <div style={{ fontSize: 14, color: '#8A8078' }}>{durationMinutes} min {'\u00b7'} {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
         </div>
         <div style={{ marginTop: 'auto', paddingTop: 40, fontSize: 12, color: '#8A8078', opacity: 0.6 }}>
-          Built by Kevin {'\u00b7'} Psychiatric NP candidate {'\u00b7'} aiforj.com
+          Built by Kevin {'\u00b7'} Licensed clinician {'\u00b7'} Psychiatric NP candidate {'\u00b7'} aiforj.com
         </div>
       </div>
 
@@ -406,6 +465,58 @@ export default function MoodShiftReceipt({
           justifyContent: 'center',
         }}>
           <button
+            onClick={handleNativeShare}
+            style={{
+              padding: '12px 22px',
+              borderRadius: 50,
+              background: 'var(--interactive)',
+              border: 'none',
+              color: '#fff',
+              fontSize: 14,
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
+              minWidth: 140,
+            }}
+          >
+            Share
+          </button>
+
+          <button
+            onClick={handleXShare}
+            style={{
+              padding: '12px 20px',
+              borderRadius: 50,
+              background: 'var(--surface)',
+              border: '1px solid rgba(45,42,38,0.08)',
+              color: 'var(--text-primary)',
+              fontSize: 14,
+              fontWeight: 500,
+              cursor: 'pointer',
+              minWidth: 96,
+            }}
+          >
+            X
+          </button>
+
+          <button
+            onClick={handleLinkedInShare}
+            style={{
+              padding: '12px 20px',
+              borderRadius: 50,
+              background: 'var(--surface)',
+              border: '1px solid rgba(45,42,38,0.08)',
+              color: 'var(--text-primary)',
+              fontSize: 14,
+              fontWeight: 500,
+              cursor: 'pointer',
+              minWidth: 110,
+            }}
+          >
+            LinkedIn
+          </button>
+
+          <button
             onClick={handleCopyShare}
             style={{
               padding: '12px 22px',
@@ -420,7 +531,7 @@ export default function MoodShiftReceipt({
               minWidth: 140,
             }}
           >
-            {copied ? '\u2713 Copied!' : 'Copy to clipboard'}
+            {copied ? '\u2713 Copied!' : 'Copy link'}
           </button>
 
           <button
