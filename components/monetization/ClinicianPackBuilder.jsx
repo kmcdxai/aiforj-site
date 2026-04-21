@@ -131,7 +131,7 @@ export default function ClinicianPackBuilder() {
               type="text"
               value={practiceName}
               onChange={(event) => setPracticeName(event.target.value)}
-              placeholder="North Shore Therapy"
+              placeholder="Bright Harbor Therapy"
               maxLength={48}
               style={{
                 width: "100%",

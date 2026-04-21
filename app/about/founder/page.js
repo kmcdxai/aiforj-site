@@ -136,7 +136,7 @@ export default function FounderPage() {
           <SectionCard style={{ background: "linear-gradient(135deg, var(--sage-light), var(--surface-elevated))" }}>
             <h2 style={{ margin: "0 0 14px" }}>Why a candidate, not a board-certified NP?</h2>
             <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.85, fontSize: 16 }}>
-              AIForj is informed by clinical training, not a substitute for it. The tools in this app are evidence-based interventions any well-trained clinician would recognize. I am completing PMHNP training and will sit for board certification in 2027. Until then, AIForj does not diagnose, treat, or replace professional care — and I&apos;d rather be transparent about where I am in training than overclaim a credential I haven&apos;t earned yet.
+              AIForj is informed by clinical training, not a substitute for it. The tools in this app are evidence-based interventions any well-trained clinician would recognize. I am a psychiatric nurse practitioner candidate completing training in 2027. Until then, AIForj does not diagnose, treat, or replace professional care — and I&apos;d rather be transparent about where I am in training than overclaim a credential I haven&apos;t earned yet.
             </p>
           </SectionCard>
 
