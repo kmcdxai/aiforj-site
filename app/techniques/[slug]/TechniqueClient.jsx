@@ -15,6 +15,7 @@ import {
   buildArticleSchema,
   buildBreadcrumbSchema,
   buildFaqSchema,
+  buildMedicalWebPageSchema,
 } from "../../../lib/contentSchemas";
 import { trackAnonymousMetric } from "../../../utils/anonymousMetrics";
 
@@ -588,6 +589,13 @@ function StructuredData({ technique }) {
     about: technique.subtitle,
     dateModified: LAST_REVIEWED_DATE,
   });
+  const medicalWebPageSchema = buildMedicalWebPageSchema({
+    title: technique.metaTitle,
+    description: technique.metaDescription,
+    url: `https://aiforj.com/techniques/${technique.slug}`,
+    about: technique.title,
+    lastReviewed: LAST_REVIEWED_DATE,
+  });
   const breadcrumbSchema = buildBreadcrumbSchema([
     { name: "Home", item: "https://aiforj.com" },
     { name: "Techniques", item: "https://aiforj.com/techniques" },
@@ -607,6 +615,10 @@ function StructuredData({ technique }) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(medicalWebPageSchema) }}
       />
       <script
         type="application/ld+json"

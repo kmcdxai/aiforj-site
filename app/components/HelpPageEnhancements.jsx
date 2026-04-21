@@ -4,6 +4,7 @@ import {
   buildArticleSchema,
   buildBreadcrumbSchema,
   buildFaqSchema,
+  buildMedicalWebPageSchema,
 } from "../../lib/contentSchemas";
 
 export default function HelpPageEnhancements({
@@ -21,6 +22,12 @@ export default function HelpPageEnhancements({
     section: "Help guide",
     about,
   });
+  const medicalWebPageSchema = buildMedicalWebPageSchema({
+    title,
+    description,
+    url,
+    about,
+  });
   const breadcrumbSchema = buildBreadcrumbSchema([
     { name: "Home", item: "https://aiforj.com" },
     { name: "Help", item: "https://aiforj.com/help" },
@@ -35,6 +42,10 @@ export default function HelpPageEnhancements({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(medicalWebPageSchema) }}
       />
       <script
         type="application/ld+json"

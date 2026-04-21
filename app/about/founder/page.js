@@ -1,32 +1,11 @@
 import Link from "next/link";
 import BiophilicBackground from "../../components/BiophilicBackground";
 import SiteFooter from "../../components/SiteFooter";
-
-const FOUNDER_MODALITIES = [
-  "CBT",
-  "DBT",
-  "ACT",
-  "IFS",
-  "Polyvagal theory",
-  "Somatic experiencing",
-  "CFT",
-  "Narrative therapy",
-  "Motivational interviewing",
-  "Behavioral activation",
-  "Schema therapy",
-  "Trauma-informed care",
-  "Mindfulness-based approaches",
-  "Emotion-focused therapy",
-  "Attachment-based work",
-  "Solution-focused brief therapy",
-];
+import { founderAuthor, founderKnowsAbout } from "../../../lib/schemas/founder";
 
 const founderPerson = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Kevin",
-  jobTitle: "Psychiatric Nurse Practitioner Candidate",
-  knowsAbout: FOUNDER_MODALITIES,
+  ...founderAuthor,
 };
 
 export const metadata = {
@@ -170,7 +149,7 @@ export default function FounderPage() {
               <span className="tag tag-cbt">Clinically trained in CBT, DBT, ACT, IFS + more</span>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 10 }}>
-              {FOUNDER_MODALITIES.map((modality) => (
+              {founderKnowsAbout.map((modality) => (
                 <div
                   key={modality}
                   style={{
