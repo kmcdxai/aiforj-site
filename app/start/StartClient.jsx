@@ -6,6 +6,7 @@ import { Button, Card, EmotionCard, Tag } from '../components/ui';
 import { emotionOptions, intensityLabels, timePreferences } from './emotionData';
 import { getAllInterventions, getInterventions } from '../../data/interventions';
 import { getMeasuredSessions, getSessions, rankInterventions } from '../../utils/sessionHistory';
+import { track } from '../../lib/analytics';
 
 const stepLabels = [
   "What's going on?",
@@ -101,6 +102,7 @@ export default function StartClient() {
     const emotion = emotionOptions.find((item) => item.id === emotionId);
     if (!emotion) return;
     setSelectedEmotionId(emotionId);
+    track('start_emotion_selected', { emotion: emotionId });
     if (emotion.crisis) {
       setShowCrisis(true);
     } else {
@@ -127,6 +129,7 @@ export default function StartClient() {
   const handleEmotionSelect = (id) => {
     const emotion = emotionOptions.find((item) => item.id === id);
     setSelectedEmotionId(id);
+    track('start_emotion_selected', { emotion: id });
     setIntensity(5);
     setTimePref(null);
     if (emotion?.crisis) {

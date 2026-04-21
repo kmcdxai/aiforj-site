@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import useScrollReveal from "../hooks/useScrollReveal";
+import { track } from "../../lib/analytics";
 
 function RevealSection({ children, style, ...props }) {
   const ref = useScrollReveal();
@@ -101,7 +102,7 @@ export default function LandingPage({
         <div style={{ padding: "28px 24px", background: "var(--surface)", border: "1px solid rgba(125,155,130,0.12)", borderRadius: 20, textAlign: "center" }}>
           <p style={{ fontSize: 15, color: "var(--text-primary)", margin: "0 0 10px", lineHeight: 1.6, fontFamily: "'DM Sans', sans-serif" }}>{workbookLine}</p>
           <p style={{ fontSize: 13, color: "var(--text-secondary)", margin: "0 0 16px", fontFamily: "'DM Sans', sans-serif" }}>30 days of guided exercises · 10 cognitive distortions · $27</p>
-          <a href="https://aiforj.gumroad.com/l/jmdqvd" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", padding: "10px 28px", fontSize: 13, fontFamily: "'Fraunces', serif", background: "var(--accent-sage-light)", border: "1px solid rgba(125,155,130,0.2)", borderRadius: 30, color: "var(--interactive)", textDecoration: "none", fontWeight: 600, transition: "all 300ms cubic-bezier(0.16,1,0.3,1)" }}>
+          <a href="https://aiforj.gumroad.com/l/jmdqvd" target="_blank" rel="noopener noreferrer" onClick={() => track("cbt_workbook_click", { source: "landing_page" })} style={{ display: "inline-block", padding: "10px 28px", fontSize: 13, fontFamily: "'Fraunces', serif", background: "var(--accent-sage-light)", border: "1px solid rgba(125,155,130,0.2)", borderRadius: 30, color: "var(--interactive)", textDecoration: "none", fontWeight: 600, transition: "all 300ms cubic-bezier(0.16,1,0.3,1)" }}>
             Get the Workbook →
           </a>
         </div>

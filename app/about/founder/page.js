@@ -1,6 +1,7 @@
 import Link from "next/link";
 import BiophilicBackground from "../../components/BiophilicBackground";
 import SiteFooter from "../../components/SiteFooter";
+import AnalyticsBeacon from "../../../components/AnalyticsBeacon";
 import { founderAuthor, founderKnowsAbout } from "../../../lib/schemas/founder";
 
 const founderPerson = {
@@ -46,6 +47,7 @@ function SectionCard({ children, style }) {
 export default function FounderPage() {
   return (
     <>
+      <AnalyticsBeacon event="about_founder_view" />
       <BiophilicBackground />
       <script
         type="application/ld+json"

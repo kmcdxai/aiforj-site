@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
 import PremiumCheckoutButton from '../monetization/PremiumCheckoutButton';
+import { track } from '../../lib/analytics';
 
 const SHIFT_MESSAGES = {
   positiveLarge: "That\u2019s a meaningful shift. This technique works for you.",
@@ -60,6 +61,7 @@ export default function MoodShiftReceipt({
   const handleCopyShare = async () => {
     try {
       await navigator.clipboard.writeText(shareText);
+      track('mood_shift_receipt_shared', { channel: 'copy', emotion: emotion || 'unknown' });
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
@@ -84,6 +86,7 @@ export default function MoodShiftReceipt({
       link.download = `mood-shift-${Date.now()}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
+      track('mood_shift_receipt_shared', { channel: 'download', emotion: emotion || 'unknown' });
     } catch (error) {
       console.warn('Failed to generate image:', error);
     } finally {
@@ -93,15 +96,20 @@ export default function MoodShiftReceipt({
 
   const handleSendCalm = () => {
     if (onSendCalm) {
+      track('mood_shift_receipt_shared', { channel: 'native', emotion: emotion || 'unknown' });
       onSendCalm();
     } else if (typeof navigator !== 'undefined' && navigator.share) {
       navigator.share({
         title: 'AIForj \u2014 Send Calm',
         text: sendCalmText,
         url: 'https://aiforj.com/start',
+      }).then(() => {
+        track('mood_shift_receipt_shared', { channel: 'native', emotion: emotion || 'unknown' });
       }).catch(() => {});
     } else {
-      navigator.clipboard.writeText(sendCalmText).catch(() => {});
+      navigator.clipboard.writeText(sendCalmText).then(() => {
+        track('mood_shift_receipt_shared', { channel: 'copy', emotion: emotion || 'unknown' });
+      }).catch(() => {});
     }
   };
 
@@ -528,7 +536,7 @@ export default function MoodShiftReceipt({
           <PremiumCheckoutButton style={{ background: 'var(--amber-deep)' }}>
             Start Premium trial →
           </PremiumCheckoutButton>
-          <a href="https://aiforj.gumroad.com/l/jmdqvd" target="_blank" rel="noopener noreferrer" className="btn-secondary" style={{ textDecoration: 'none', color: 'var(--amber-deep)', borderColor: 'var(--amber)' }}>
+          <a href="https://aiforj.gumroad.com/l/jmdqvd" target="_blank" rel="noopener noreferrer" onClick={() => track('cbt_workbook_click', { source: 'receipt' })} className="btn-secondary" style={{ textDecoration: 'none', color: 'var(--amber-deep)', borderColor: 'var(--amber)' }}>
             Get the CBT Workbook →
           </a>
         </div>

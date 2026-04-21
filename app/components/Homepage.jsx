@@ -5,6 +5,7 @@ import { emotionOptions } from "../start/emotionData";
 import useScrollReveal from "../hooks/useScrollReveal";
 import PremiumCheckoutButton from "../../components/monetization/PremiumCheckoutButton";
 import { FORJ_MODALITIES, FORJ_MODALITY_COUNT } from "../../lib/forjModalities";
+import { track } from "../../lib/analytics";
 
 const GUMROAD_WORKBOOK_URL = "https://aiforj.gumroad.com/l/jmdqvd";
 
@@ -90,7 +91,7 @@ function SectionHeader({ eyebrow, title, children }) {
 
 function WorkbookCard({ compact = false }) {
   return (
-    <a href={GUMROAD_WORKBOOK_URL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit", display: "block" }}>
+    <a href={GUMROAD_WORKBOOK_URL} target="_blank" rel="noopener noreferrer" onClick={() => track("cbt_workbook_click", { source: "home" })} style={{ textDecoration: "none", color: "inherit", display: "block" }}>
       <article className="card-hover" style={{
         padding: compact ? "22px" : "30px",
         borderRadius: 20,
@@ -448,7 +449,7 @@ export default function Homepage() {
                   Gift one month of Premium to someone you care about without putting first aid behind a paywall or requiring an account.
                 </p>
                 <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
-                  <a href="/sponsor" className="btn-primary" style={{ textDecoration: "none", background: "var(--amber-deep)" }}>Gift a month →</a>
+                  <a href="/sponsor" onClick={() => track("sponsor_click", { source: "home" })} className="btn-primary" style={{ textDecoration: "none", background: "var(--amber-deep)" }}>Gift a month →</a>
                   <a href="/what-we-collect" className="btn-secondary" style={{ textDecoration: "none", color: "var(--amber-deep)", borderColor: "var(--amber)" }}>Privacy details →</a>
                 </div>
                 <p className="text-caption" style={{ margin: "14px 0 0", color: "var(--text-muted)" }}>$9.99 one-time · one redeem link</p>
@@ -507,7 +508,7 @@ export default function Homepage() {
             </nav>
             <nav style={{ display: "grid", gap: 8 }}>
               <strong className="text-label">Go deeper</strong>
-              <a href={GUMROAD_WORKBOOK_URL} target="_blank" rel="noopener noreferrer">CBT Workbook</a>
+              <a href={GUMROAD_WORKBOOK_URL} target="_blank" rel="noopener noreferrer" onClick={() => track("cbt_workbook_click", { source: "footer" })}>CBT Workbook</a>
               <a href="/companion">Premium</a>
               <a href="/family">Family plan</a>
               <a href="/clinician-pack">Clinician pack</a>

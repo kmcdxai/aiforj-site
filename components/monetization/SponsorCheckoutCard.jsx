@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { track } from "../../lib/analytics";
 
 export default function SponsorCheckoutCard() {
   const [recipientName, setRecipientName] = useState("");
@@ -8,6 +9,7 @@ export default function SponsorCheckoutCard() {
   const [error, setError] = useState("");
 
   const startCheckout = async () => {
+    track("sponsor_click", { source: "sponsor_checkout" });
     setLoading(true);
     setError("");
 

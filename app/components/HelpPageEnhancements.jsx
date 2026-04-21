@@ -1,5 +1,6 @@
 import EditorialReviewCard from "./EditorialReviewCard";
 import WhenToSeekHelpCard from "./WhenToSeekHelpCard";
+import AnalyticsBeacon from "../../components/AnalyticsBeacon";
 import {
   buildArticleSchema,
   buildBreadcrumbSchema,
@@ -14,6 +15,7 @@ export default function HelpPageEnhancements({
   about,
   faq,
 }) {
+  const slug = url?.split("/help/")[1]?.replace(/^\/|\/$/g, "") || "";
   const faqSchema = buildFaqSchema(faq);
   const articleSchema = buildArticleSchema({
     title,
@@ -36,6 +38,7 @@ export default function HelpPageEnhancements({
 
   return (
     <>
+      <AnalyticsBeacon event="help_page_view" props={{ slug }} />
       <EditorialReviewCard kind="Help guide" />
       <WhenToSeekHelpCard />
 

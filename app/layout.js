@@ -1,7 +1,9 @@
 import './globals.css';
+import Script from 'next/script';
 import ThemeProvider from './components/ThemeProvider';
 import BiophilicBackground from './components/BiophilicBackground';
 import Navigation from './components/Navigation';
+import SOS from './components/SOS';
 import SEO from './components/SEO';
 import { SoundProvider } from './components/SoundProvider';
 
@@ -38,6 +40,21 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,400..700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
         {/* Prevent flash of wrong theme */}
         <SEO />
+        <Script
+          id="plausible-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: `
+            window.plausible = window.plausible || function() {
+              (window.plausible.q = window.plausible.q || []).push(arguments);
+            };
+          ` }}
+        />
+        <Script
+          defer
+          data-domain="aiforj.com"
+          src="https://plausible.io/js/script.js"
+          strategy="afterInteractive"
+        />
         <script dangerouslySetInnerHTML={{ __html: `
           (function() {
             try {
@@ -62,6 +79,7 @@ export default function RootLayout({ children }) {
               <div className="page-enter">
                 {children}
               </div>
+              <SOS />
             </div>
           </SoundProvider>
         </ThemeProvider>

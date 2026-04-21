@@ -6,6 +6,7 @@ import MoodShiftReceipt from './MoodShiftReceipt';
 import { saveSession } from '../../utils/sessionHistory';
 import { saveSession as saveGardenSession } from '../../app/lib/db';
 import { trackAnonymousMetric } from '../../utils/anonymousMetrics';
+import { track } from '../../lib/analytics';
 
 const PHASES = {
   PRE_RATING: 'pre-rating',
@@ -41,8 +42,14 @@ export default function InterventionWrapper({
         emotion,
         source: 'intervention-route',
       });
+      track('start_intervention_began', {
+        emotion: emotion || 'unknown',
+        intervention: interventionSlug,
+        modality: intervention?.modality || 'unknown',
+        tier: intervention?.tier || 'free',
+      });
     }
-  }, [emotion, interventionSlug, phase]);
+  }, [emotion, intervention?.modality, intervention?.tier, interventionSlug, phase]);
 
   const handlePreRatingSubmit = (rating) => {
     setPreRating(rating);
@@ -105,6 +112,19 @@ export default function InterventionWrapper({
       source: 'intervention-route',
       durationSeconds,
       shift,
+    });
+
+    track('start_intervention_completed', {
+      emotion: emotion || 'unknown',
+      intervention: interventionSlug,
+      modality: intervention?.modality || 'unknown',
+      tier: intervention?.tier || 'free',
+    });
+    track('mood_shift_receipt_generated', {
+      emotion: emotion || 'unknown',
+      intervention: interventionSlug,
+      modality: intervention?.modality || 'unknown',
+      tier: intervention?.tier || 'free',
     });
 
     onComplete?.({ preRating, postRating: rating, shift, duration: durationMs });

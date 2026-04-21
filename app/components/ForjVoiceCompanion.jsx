@@ -5,6 +5,7 @@ import EmailCapture from "./EmailCapture";
 import DataManagement from "./DataManagement";
 import { FORJ_MODALITY_COUNT } from "../../lib/forjModalities";
 import { getPremiumAccessStatus } from "../../utils/premiumAccess";
+import { track } from "../../lib/analytics";
 
 // ═══════════════════════════════════════════════════════════════════════════
 //
@@ -1537,6 +1538,11 @@ export default function ForjVoiceCompanion() {
   useEffect(() => { msgsRef.current = messages; }, [messages]);
   const companionMemoryRef = useRef(null);
   useEffect(() => { companionMemoryRef.current = companionMemory; }, [companionMemory]);
+  const firstCompanionMessageTrackedRef = useRef(false);
+
+  useEffect(() => {
+    track("companion_opened");
+  }, []);
 
   // Daily insights — quotable therapeutic truths
   const DAILY_INSIGHTS = [
@@ -1952,6 +1958,10 @@ export default function ForjVoiceCompanion() {
     const updated = [...msgsRef.current, { role: "user", text: userText, ts: Date.now() }];
     msgsRef.current = updated;
     setMessages(updated);
+    if (!firstCompanionMessageTrackedRef.current) {
+      firstCompanionMessageTrackedRef.current = true;
+      track("companion_message_sent", { input_mode: inputMode, tier });
+    }
 
     let text = "";
     let planner = null;
@@ -2085,6 +2095,7 @@ export default function ForjVoiceCompanion() {
     setSessionCount(newCount);
     await DB.set(`sessions_${today}`, newCount);
     setMsgCount(0);
+    firstCompanionMessageTrackedRef.current = false;
   }, [sessionCount]);
 
   // Greeting on mount
@@ -2100,6 +2111,7 @@ export default function ForjVoiceCompanion() {
   useEffect(() => { setLiveText(sr.interim); }, [sr.interim]);
 
   const handleSubscribe = async () => {
+    track("premium_click", { source: "companion_checkout" });
     try {
       const res = await fetch('/api/create-checkout-session', { method: 'POST' });
       const data = await res.json();
@@ -2774,7 +2786,7 @@ export default function ForjVoiceCompanion() {
 
       {/* ═══════════ CBT WORKBOOK ═══════════ */}
       <section style={{ padding: "40px 24px 80px", maxWidth: 680, width: "100%", margin: "0 auto" }}>
-        <a href="https://aiforj.gumroad.com/l/jmdqvd" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "block" }}>
+        <a href="https://aiforj.gumroad.com/l/jmdqvd" target="_blank" rel="noopener noreferrer" onClick={() => track("cbt_workbook_click", { source: "companion" })} style={{ textDecoration: "none", display: "block" }}>
           <div className="card-hover" style={{ display: "flex", alignItems: "center", gap: 20, padding: "24px 28px", background: "var(--surface-elevated)", border: "1px solid rgba(45,42,38,0.06)", borderRadius: 20, boxShadow: "var(--shadow-md)" }}>
             <span style={{ fontSize: 40, flexShrink: 0 }}>📘</span>
             <div style={{ flex: 1, textAlign: "left" }}>
@@ -2821,6 +2833,9 @@ export default function ForjVoiceCompanion() {
             { href: "https://x.com/AIForj", label: "𝕏 @AIForj", ext: true },
           ].map(link => (
             <a key={link.label} href={link.href} {...(link.ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              onClick={() => {
+                if (link.href.includes("gumroad.com")) track("cbt_workbook_click", { source: "companion_footer" });
+              }}
               style={{ fontSize: 12, color: "var(--text-muted)", textDecoration: "none", transition: "color 0.3s" }}
               onMouseEnter={e => e.currentTarget.style.color = "var(--interactive)"}
               onMouseLeave={e => e.currentTarget.style.color = "var(--text-muted)"}>{link.label}</a>

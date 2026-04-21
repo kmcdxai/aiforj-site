@@ -1,8 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import { track } from "../../lib/analytics";
 
 export default function SiteFooter() {
+  const handleNavClick = (link) => {
+    if (link.href.includes("gumroad.com")) {
+      track("cbt_workbook_click", { source: "footer" });
+    }
+    if (link.href === "/sponsor") {
+      track("sponsor_click", { source: "footer" });
+    }
+  };
+
   return (
     <footer style={{
       padding: "48px 24px 32px",
@@ -75,6 +85,7 @@ export default function SiteFooter() {
         ].map(link => (
           <Link key={link.label} href={link.href}
             {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            onClick={() => handleNavClick(link)}
             style={{ fontSize: 12, color: "var(--text-muted)", textDecoration: "none" }}>
             {link.label}
           </Link>

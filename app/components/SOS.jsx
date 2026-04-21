@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { track } from '../../lib/analytics';
 
 function openDB() {
   return new Promise((resolve, reject) => {
@@ -100,12 +101,17 @@ export default function SOS() {
     }
   }
 
+  function openSosModal() {
+    track('sos_button_opened', { path: pathname || '/' });
+    setOpen(true);
+  }
+
   return (
     <>
       <button
         aria-label="Emergency calm button"
         title="Instant calm — tap anytime"
-        onClick={() => setOpen(true)}
+        onClick={openSosModal}
         className="sos-button"
       >
         SOS
@@ -122,6 +128,13 @@ export default function SOS() {
             </div>
 
             <h2 className="sos-affirm">You're safe. This will pass.</h2>
+
+            <div className="sos-resources" aria-label="Crisis resources">
+              <a className="sos-resource primary" href="tel:988">Call 988</a>
+              <a className="sos-resource" href="sms:988">Text 988</a>
+              <a className="sos-resource" href="sms:741741&body=HOME">Text HOME to 741741</a>
+              <a className="sos-resource" href="/find-help">Find a Provider</a>
+            </div>
 
             <div className="sos-scale">
               <div className="sos-scale-prompt">How intense is this right now?</div>
@@ -157,10 +170,12 @@ export default function SOS() {
               {distress && distress === 5 && (
                 <div className="crisis">
                   <h3>You're not alone.</h3>
-                  <p className="crisis-lines">988 Lifeline — Call now</p>
+                  <p className="crisis-lines">If you might hurt yourself or someone else, use real-time human support now.</p>
                   <div className="crisis-actions">
                     <a className="btn-primary" href="tel:988">Call 988</a>
                     <a className="btn-secondary" href="sms:988">Text 988</a>
+                    <a className="btn-secondary" href="sms:741741&body=HOME">Text HOME to 741741</a>
+                    <a className="btn-secondary" href="/find-help">Find a Provider</a>
                   </div>
                 </div>
               )}
@@ -246,6 +261,35 @@ export default function SOS() {
 
         .sos-affirm { font-family: 'Fraunces', serif; color: #fff; margin-top: 18px; margin-bottom: 8px; }
 
+        .sos-resources {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 10px;
+          max-width: 620px;
+          margin: 18px auto 20px;
+        }
+
+        .sos-resource {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 42px;
+          padding: 10px 14px;
+          border-radius: 999px;
+          background: rgba(255,255,255,0.08);
+          border: 1px solid rgba(255,255,255,0.18);
+          color: #fff;
+          text-decoration: none;
+          font-size: 13px;
+          font-weight: 700;
+        }
+
+        .sos-resource.primary {
+          background: #c95d4f;
+          border-color: rgba(255,255,255,0.24);
+        }
+
         .sos-scale { margin-top: 12px; }
         .sos-scale-prompt { color: rgba(255,255,255,0.9); margin-bottom: 8px; }
         .sos-scale-row { display:flex; gap:10px; justify-content:center; }
@@ -260,7 +304,7 @@ export default function SOS() {
 
         .crisis { color: #fff; }
         .crisis-lines { font-size: 1.1rem; margin-bottom: 8px; }
-        .crisis-actions { display:flex; gap:12px; justify-content:center; }
+        .crisis-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
 
         .sos-exit-confirm { position: fixed; inset: 0; display:flex; align-items:center; justify-content:center; z-index:10000; }
         .confirm-card { background: var(--surface-elevated); padding: 18px; border-radius: 12px; box-shadow: var(--shadow-lg); }

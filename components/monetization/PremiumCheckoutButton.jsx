@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from 'react';
+import { track } from '../../lib/analytics';
 
 export default function PremiumCheckoutButton({
   children = 'Start 7-day free trial',
@@ -11,6 +12,7 @@ export default function PremiumCheckoutButton({
   const [error, setError] = useState('');
 
   const startCheckout = async () => {
+    track('premium_click', { source: 'premium_checkout_button' });
     setLoading(true);
     setError('');
     try {
