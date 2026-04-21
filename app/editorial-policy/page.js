@@ -57,13 +57,13 @@ export default function Page() {
             <p style={{ color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 10 }}>
               AIForj content is authored by{" "}
               <Link href="/about/founder" style={{ color: "var(--interactive)", textDecoration: "underline", fontWeight: 700 }}>
-                Kevin, a clinician in psychiatric NP training
+                Kevin, a licensed clinician and psychiatric nurse practitioner candidate
               </Link>.
             </p>
             <p style={{ color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 0 }}>
               Clinical framing is reviewed by{" "}
               <Link href="/about/founder" style={{ color: "var(--interactive)", textDecoration: "underline", fontWeight: 700 }}>
-                Kevin, a clinician in psychiatric NP training
+                Kevin, a licensed clinician and psychiatric nurse practitioner candidate
               </Link>. Review is focused on scope, safety, wording, and whether a claim is being stated more strongly than the evidence allows.
             </p>
           </section>

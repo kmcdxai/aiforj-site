@@ -1,23 +1,23 @@
 import './globals.css';
-import Script from 'next/script';
 import ThemeProvider from './components/ThemeProvider';
 import BiophilicBackground from './components/BiophilicBackground';
 import Navigation from './components/Navigation';
 import SOS from './components/SOS';
 import SEO from './components/SEO';
+import GoogleAnalytics from '../components/GoogleAnalytics';
 import { SoundProvider } from './components/SoundProvider';
 
 export const metadata = {
   metadataBase: new URL('https://aiforj.com'),
   title: 'AIForj — Emotional First Aid That Actually Works',
-  description: '100+ clinically-matched tools for anxiety, sadness, anger, overwhelm, and more. Built and clinically informed by a clinician in psychiatric NP training. Free, private, evidence-based emotional first aid.',
+  description: '100+ clinically-matched tools for anxiety, sadness, anger, overwhelm, and more. Built and clinically informed by a licensed clinician and psychiatric nurse practitioner candidate. Free, private, evidence-based emotional first aid.',
   keywords: 'emotional first aid, mental health tools, CBT tools, DBT skills, ACT defusion, somatic grounding, anxiety grounding, mood tracking, therapeutic techniques, AIForj',
   alternates: {
     canonical: 'https://aiforj.com',
   },
   openGraph: {
     title: 'AIForj — Emotional First Aid That Actually Works',
-    description: '100+ clinically-matched tools for anxiety, sadness, anger, overwhelm, and more. Built and clinically informed by a clinician in psychiatric NP training.',
+    description: '100+ clinically-matched tools for anxiety, sadness, anger, overwhelm, and more. Built and clinically informed by a licensed clinician and psychiatric nurse practitioner candidate.',
     url: 'https://aiforj.com',
     siteName: 'AIForj',
     type: 'website',
@@ -26,7 +26,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'AIForj — Emotional First Aid That Actually Works',
-    description: '100+ clinically-matched emotional first-aid tools. Built and clinically informed by a clinician in psychiatric NP training.',
+    description: '100+ clinically-matched emotional first-aid tools. Built and clinically informed by a licensed clinician and psychiatric nurse practitioner candidate.',
     images: ['/aif.jpeg'],
   },
 };
@@ -40,21 +40,7 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,400..700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
         {/* Prevent flash of wrong theme */}
         <SEO />
-        <Script
-          id="plausible-init"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: `
-            window.plausible = window.plausible || function() {
-              (window.plausible.q = window.plausible.q || []).push(arguments);
-            };
-          ` }}
-        />
-        <Script
-          defer
-          data-domain="aiforj.com"
-          src="https://plausible.io/js/script.js"
-          strategy="afterInteractive"
-        />
+        <GoogleAnalytics />
         <script dangerouslySetInnerHTML={{ __html: `
           (function() {
             try {

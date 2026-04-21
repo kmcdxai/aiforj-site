@@ -3,7 +3,7 @@ import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
 const metadata = buildContentPageMetadata({
   title: 'The Architect Emotional Archetype — Clinical Guide | AIForj',
-  description: 'Discover what it means to be The Architect. Understand your stress response, thinking patterns, and evidence-based techniques matched to this archetype. Free guide from AIForj, clinically informed by Kevin, a clinician in psychiatric NP training.',
+  description: 'Discover what it means to be The Architect. Understand your stress response, thinking patterns, and evidence-based techniques matched to this archetype. Free guide from AIForj, clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate.',
   path: "/archetypes/architect",
   kind: "archetype",
   slug: "architect",

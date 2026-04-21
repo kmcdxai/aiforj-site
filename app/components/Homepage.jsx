@@ -238,7 +238,7 @@ export default function Homepage() {
             <img src="/aif.jpeg" alt="AIForj leaf mark" style={{ width: 24, height: 24, borderRadius: 6 }} />
             Built by{" "}
             <a href="/about/founder" style={{ color: "inherit", textDecoration: "underline", textUnderlineOffset: 3 }}>
-              a clinician in psychiatric NP training
+              a licensed clinician and psychiatric nurse practitioner candidate
             </a>{" "}
             — clinically grounded in CBT, DBT, ACT, IFS, and 12 more evidence-based modalities.
           </div>
@@ -293,7 +293,7 @@ export default function Homepage() {
             </div>
           </div>
           <p className="text-caption" style={{ margin: "18px auto 0", color: "var(--text-muted)" }}>
-            No account needed. No data leaves your device. Takes 30 seconds.
+            No account needed. Your emotional data never leaves your device. Takes 30 seconds.
           </p>
         </div>
       </section>
@@ -334,7 +334,7 @@ export default function Homepage() {
             <article className="card" style={{ boxShadow: "var(--shadow-sm)" }}>
               <h3 style={{ margin: "0 0 12px" }}>Built by Kevin</h3>
               <p style={{ margin: "0 0 16px", color: "var(--text-secondary)", lineHeight: 1.75 }}>
-                AIForj is built and clinically informed by Kevin, a licensed [CURRENT_LICENSE] and psychiatric nurse practitioner candidate completing training in March 2027.
+                AIForj is built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate completing training in March 2027.
               </p>
               <p style={{ margin: "0 0 16px", color: "var(--text-secondary)", lineHeight: 1.75 }}>
                 It exists because emotionally grounded support should not require a waitlist or a copay.
@@ -493,7 +493,7 @@ export default function Homepage() {
               <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 14, lineHeight: 1.7 }}>
                 Built and clinically informed by{" "}
                 <a href="/about/founder" style={{ color: "var(--interactive)", fontWeight: 700 }}>
-                  a clinician in psychiatric NP training
+                  a licensed clinician and psychiatric nurse practitioner candidate
                 </a>.
                 {" "}Your emotional data never leaves your device.
               </p>

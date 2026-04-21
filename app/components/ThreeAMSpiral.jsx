@@ -178,7 +178,7 @@ export default function ThreeAMSpiral() {
             <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(200,215,230,0.82)", marginBottom:20 }}>Hormones can play a role too. Your cortisol rhythm shifts as morning approaches, but the timing varies by person and by stress load. The practical point is simpler: late-night wakefulness can feel physiologically activating, and that can turn looping thoughts into a full-body spiral.</p>
             <p style={{ fontSize:16, lineHeight:1.8, color:"#5b8fa8", marginBottom:44 }}>This protocol uses six evidence-based techniques — sequenced in the order your nervous system needs them — to bring your rational brain back online. About 10 minutes. No app. No login.</p>
             <div style={{ textAlign:"center" }}><Btn onClick={() => go("check")}>Start the protocol</Btn></div>
-            <p style={{ fontSize:10, color:"rgba(200,215,230,0.4)", marginTop:36, lineHeight:1.7, textAlign:"center" }}>Built and clinically informed by Kevin, a clinician in psychiatric NP training. 100% private — nothing stored or sent.</p>
+            <p style={{ fontSize:10, color:"rgba(200,215,230,0.4)", marginTop:36, lineHeight:1.7, textAlign:"center" }}>Built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate. 100% private — nothing stored or sent.</p>
 
             <InlineEmailCapture />
           </div>
@@ -449,7 +449,7 @@ export default function ThreeAMSpiral() {
               <a href="/techniques" style={{ fontSize:12, color:"rgba(200,215,230,0.4)", textDecoration:"none" }}>Techniques</a>
               <a href="/send" style={{ fontSize:12, color:"rgba(200,215,230,0.4)", textDecoration:"none" }}>Send Calm</a>
             </div>
-            <p style={{ textAlign:"center", fontSize:10, color:"rgba(180,200,220,0.15)", margin:0 }}>Built and clinically informed by Kevin, a clinician in psychiatric NP training · © 2026 AIForj</p>
+            <p style={{ textAlign:"center", fontSize:10, color:"rgba(180,200,220,0.15)", margin:0 }}>Built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate · © 2026 AIForj</p>
           </div>
         )}
 

@@ -799,7 +799,7 @@ export default function GardenClient() {
 
       <footer style={{ textAlign: "center", padding: "28px 0 0", marginTop: 20 }}>
         <p style={{ fontSize: 11, color: "var(--text-muted)", lineHeight: 1.7 }}>
-          AIForj — Built and clinically informed by Kevin, a clinician in psychiatric NP training
+          AIForj — Built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate
           <br />
           Your data never leaves your device. Privacy is not a feature. It is the foundation.
         </p>

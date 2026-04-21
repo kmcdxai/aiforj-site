@@ -13,8 +13,8 @@ const formatDate = (isoDate) =>
 
 export default function EditorialReviewCard({
   kind = "Guide",
-  authorLabel = "Kevin — clinician in psychiatric NP training",
-  reviewLabel = "Kevin — clinician in psychiatric NP training",
+  authorLabel = "Kevin — licensed clinician, psychiatric NP candidate",
+  reviewLabel = "Kevin — licensed clinician, psychiatric NP candidate",
   reviewedDate = LAST_REVIEWED_DATE,
   background = "rgba(255,255,255,0.45)",
   border = "1px solid rgba(45,42,38,0.08)",

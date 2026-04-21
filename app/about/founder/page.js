@@ -12,14 +12,14 @@ const founderPerson = {
 export const metadata = {
   title: "About the founder — AIForj",
   description:
-    "Meet Kevin, the licensed healthcare professional and psychiatric nurse practitioner candidate building AIForj.",
+    "Meet Kevin, the licensed clinician and psychiatric nurse practitioner candidate building AIForj.",
   alternates: {
     canonical: "https://aiforj.com/about/founder",
   },
   openGraph: {
     title: "About the founder — AIForj",
     description:
-      "Built by a clinician in psychiatric NP training and clinically grounded in evidence-based emotional first-aid tools.",
+      "Built by a licensed clinician and psychiatric nurse practitioner candidate and clinically grounded in evidence-based emotional first-aid tools.",
     url: "https://aiforj.com/about/founder",
     siteName: "AIForj",
     type: "profile",
@@ -88,7 +88,7 @@ export default function FounderPage() {
                   color: "var(--text-secondary)",
                 }}
               >
-                Built by a clinician in psychiatric NP training
+                Built by a licensed clinician and psychiatric nurse practitioner candidate
               </p>
               <p style={{ margin: 0, maxWidth: 680, color: "var(--text-secondary)", lineHeight: 1.8, fontSize: 17 }}>
                 AIForj is designed to make the first minute of emotional support more private, more specific, and more clinically grounded without pretending to replace real care.
@@ -116,7 +116,7 @@ export default function FounderPage() {
             <h2 style={{ margin: "0 0 18px" }}>Hi, I&apos;m Kevin.</h2>
             <div style={{ display: "grid", gap: 16, color: "var(--text-secondary)", lineHeight: 1.85, fontSize: 16 }}>
               <p style={{ margin: 0 }}>
-                Licensed [CURRENT_LICENSE] currently completing psychiatric nurse practitioner training, on track to graduate in March 2027.
+                Licensed clinician and psychiatric nurse practitioner candidate, currently completing training and on track to graduate in March 2027.
               </p>
               <p style={{ margin: 0 }}>
                 I am clinically trained in 16+ evidence-based modalities: CBT, DBT, ACT, IFS, polyvagal theory, somatic experiencing, CFT, narrative therapy, motivational interviewing, behavioral activation, schema therapy, trauma-informed care, mindfulness-based approaches, emotion-focused therapy, attachment-based work, and solution-focused brief therapy.

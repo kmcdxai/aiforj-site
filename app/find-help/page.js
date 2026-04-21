@@ -2,7 +2,7 @@ import FindHelpPage from "../components/FindHelpPage";
 
 export const metadata = {
   title: "Find a Therapist, Psychiatrist, or Psychiatric Prescriber Near You — AIForj",
-  description: "Free provider finder tool. Search by insurance, specialty, and location for psychiatrists, psychologists, licensed healthcare providers, and therapists. Get a ready-to-use calling script, questions to ask, and affordable options if you're uninsured. 100% private. Built and clinically informed by Kevin, a clinician in psychiatric NP training.",
+  description: "Free provider finder tool. Search by insurance, specialty, and location for psychiatrists, psychologists, licensed healthcare providers, and therapists. Get a ready-to-use calling script, questions to ask, and affordable options if you're uninsured. 100% private. Built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate.",
   alternates: {
     canonical: "https://aiforj.com/find-help",
   },

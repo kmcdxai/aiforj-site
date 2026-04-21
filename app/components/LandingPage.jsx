@@ -121,7 +121,7 @@ export default function LandingPage({
       {/* Footer */}
       <footer style={{ padding: "32px 24px", textAlign: "center", background: "var(--bg-secondary)", borderTop: "1px solid rgba(45,42,38,0.06)", marginTop: "auto" }}>
         <p style={{ fontSize: 12, color: "var(--text-secondary)", margin: "0 0 8px", fontFamily: "'DM Sans', sans-serif" }}>
-          Built and clinically informed by Kevin, a clinician in psychiatric NP training
+          Built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate
         </p>
         <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.5, lineHeight: 1.7, margin: "0 0 8px", fontFamily: "'DM Sans', sans-serif" }}>
           AIForj is a wellness companion — not a therapist or substitute for professional care.

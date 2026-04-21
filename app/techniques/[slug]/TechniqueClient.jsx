@@ -644,11 +644,6 @@ export default function TechniqueClient({
   const exerciseRef = useRef(null);
   const techniqueEvidence = getTechniqueEvidence(technique.slug);
 
-  useEffect(() => {
-    if (metricsSource !== "technique-page") return;
-    track("technique_page_view", { slug: technique.slug });
-  }, [metricsSource, technique.slug]);
-
   const handleStepComplete = () => {
     if (currentStep < technique.steps.length - 1) {
       setCurrentStep(currentStep + 1);

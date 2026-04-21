@@ -352,7 +352,7 @@ function GiftClientInner({ technique }) {
           <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 24, lineHeight: 1.5 }}>
             100% private — nothing is stored or tracked.
             <br />
-            Built and clinically informed by Kevin, a clinician in psychiatric NP training.
+            Built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate.
           </p>
         </div>
       </div>

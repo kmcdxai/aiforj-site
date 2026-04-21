@@ -118,7 +118,7 @@ export default function SiteFooter() {
       <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "0 0 8px", lineHeight: 1.8 }}>
         Built and clinically informed by{" "}
         <Link href="/about/founder" style={{ color: "var(--interactive)", textDecoration: "underline" }}>
-          a clinician in psychiatric NP training
+          a licensed clinician and psychiatric nurse practitioner candidate
         </Link>.
         {" "}Your emotional data never leaves your device.
       </p>

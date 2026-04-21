@@ -5,7 +5,7 @@ import { useState, useCallback, useMemo } from "react";
 // ═══════════════════════════════════════════════════════════════
 // /find-help — Smart Provider Finder
 // Searches the NPI Registry (CMS.gov) for real, verified providers
-// Built and clinically informed by Kevin, a clinician in psychiatric NP training — AIForj.com
+// Built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate — AIForj.com
 // Flow: need → details → results (real provider data)
 // ═══════════════════════════════════════════════════════════════
 
@@ -191,7 +191,7 @@ export default function FindHelpPage() {
             </div>
 
             <p style={{ fontSize: 11, color: C.muted, opacity: 0.35, marginTop: 28, lineHeight: 1.7 }}>
-              Nothing is stored, sent, or tracked. Provider data from CMS.gov. Built and clinically informed by Kevin, a clinician in psychiatric NP training.
+              Nothing is stored, sent, or tracked. Provider data from CMS.gov. Built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate.
             </p>
           </div>
         )}
@@ -623,7 +623,7 @@ export default function FindHelpPage() {
         <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.7, margin: "0 0 24px", maxWidth: 480, marginLeft: "auto", marginRight: "auto" }}>
           Forj is a wellness companion — not a therapist or substitute for professional care.
         </p>
-        <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "0 0 8px", lineHeight: 1.8 }}>Built and clinically informed by Kevin, a clinician in psychiatric NP training</p>
+        <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "0 0 8px", lineHeight: 1.8 }}>Built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate</p>
         <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.5, margin: 0 }}>© 2026 AIForj. All rights reserved.</p>
       </footer>
     </div>

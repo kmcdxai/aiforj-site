@@ -1,5 +1,4 @@
 export const ANALYTICS_EVENTS = [
-  "page_view",
   "start_emotion_selected",
   "start_intervention_began",
   "start_intervention_completed",
@@ -11,22 +10,14 @@ export const ANALYTICS_EVENTS = [
   "premium_click",
   "sponsor_click",
   "email_signup_submitted",
-  "help_page_view",
-  "technique_page_view",
   "about_founder_view",
   "sos_button_opened",
 ] as const;
 
 export type AnalyticsEvent = (typeof ANALYTICS_EVENTS)[number];
-export type AnalyticsProps = Record<string, string | number | boolean>;
+export type AnalyticsProps = Record<string, string | number>;
 
 const EVENT_SET = new Set<string>(ANALYTICS_EVENTS);
-
-declare global {
-  interface Window {
-    plausible?: (event: string, options?: { props?: AnalyticsProps }) => void;
-  }
-}
 
 function cleanProps(props: AnalyticsProps = {}) {
   return Object.fromEntries(
@@ -41,7 +32,7 @@ export function track(event: AnalyticsEvent, props: AnalyticsProps = {}) {
 
   const payload = cleanProps(props);
 
-  if (typeof window.plausible === "function") {
-    window.plausible(event, { props: payload });
+  if (typeof window.gtag === "function") {
+    window.gtag("event", event, payload);
   }
 }
