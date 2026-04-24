@@ -25,7 +25,7 @@ export default function WorkbookCrossSell({ slug }) {
         84 pages · 30 days of structured CBT exercises
       </h2>
       <p style={{ margin: "0 0 16px", color: "var(--text-secondary)", lineHeight: 1.7 }}>
-        Written by Kevin, licensed clinician and psychiatric NP candidate.
+        Written by Kevin, psychiatric NP candidate.
       </p>
       <a
         href={href}

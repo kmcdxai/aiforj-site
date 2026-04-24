@@ -39,7 +39,7 @@ This file captures the binding Phase 1 requirements extracted from the PDF and t
 - Preserve technique discovery
 - Preserve email capture
 - Preserve premium and workbook monetization
-- Credential wording aligned to AIForj Team, Licensed Healthcare Provider
+- Credential wording aligned to AIForj Team and clinician-informed wellness scope
 
 ### Navigation
 - Sticky nav

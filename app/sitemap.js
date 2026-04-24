@@ -1,8 +1,9 @@
 import { TECHNIQUES } from "./techniques/data";
 import { INTERVENTIONS } from "../data/interventions";
+import { FEELING_PAGES, MOMENT_PAGES } from "../data/seoPages";
 
 const BASE_URL = "https://aiforj.com";
-const NOW = new Date("2026-04-16T12:00:00Z");
+const NOW = new Date("2026-04-23T12:00:00Z");
 
 const staticRoutes = [
   "/",
@@ -13,6 +14,7 @@ const staticRoutes = [
   "/techniques",
   "/blueprint",
   "/companion",
+  "/today",
   "/clinician-pack",
   "/family",
   "/organizations",
@@ -30,6 +32,7 @@ const staticRoutes = [
   "/how-aiforj-stays-safe",
   "/editorial-policy",
   "/what-we-collect",
+  "/admin/growth",
   "/receipt",
   "/redeem-family",
   "/redeem-gift",
@@ -74,6 +77,14 @@ export default function sitemap() {
     priority: 0.7,
   }));
 
+  const growthContentRoutes = [...FEELING_PAGES.map((page) => `/feelings/${page.slug}`), ...MOMENT_PAGES.map((page) => `/moments/${page.slug}`)]
+    .map((route) => ({
+      url: `${BASE_URL}${route}`,
+      lastModified: NOW,
+      changeFrequency: "monthly",
+      priority: 0.82,
+    }));
+
   const coreRoutes = staticRoutes.map((route) => ({
     url: `${BASE_URL}${route}`,
     lastModified: NOW,
@@ -85,5 +96,5 @@ export default function sitemap() {
       0.7,
   }));
 
-  return [...coreRoutes, ...techniqueRoutes, ...interventionRoutes];
+  return [...coreRoutes, ...techniqueRoutes, ...interventionRoutes, ...growthContentRoutes];
 }

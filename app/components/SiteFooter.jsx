@@ -118,9 +118,9 @@ export default function SiteFooter() {
       <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "0 0 8px", lineHeight: 1.8 }}>
         Built and clinically informed by{" "}
         <Link href="/about/founder" style={{ color: "var(--interactive)", textDecoration: "underline" }}>
-          a licensed clinician and psychiatric nurse practitioner candidate
+          Kevin, a psychiatric nurse practitioner candidate
         </Link>.
-        {" "}Your emotional data never leaves your device.
+        {" "}Local-first where supported; free-text stays local unless a feature clearly says otherwise.
       </p>
       <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.5, margin: 0 }}>
         © 2026 AIForj. All rights reserved.

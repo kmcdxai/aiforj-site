@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { trackSafeMetric } from "../../lib/metrics";
 
 export default function FamilyCheckoutCard() {
   const [householdName, setHouseholdName] = useState("");
@@ -10,12 +11,13 @@ export default function FamilyCheckoutCard() {
   const startCheckout = async () => {
     setLoading(true);
     setError("");
+    trackSafeMetric({ event: "checkout_started", planType: "family", acquisitionSource: "internal" });
 
     try {
-      const response = await fetch("/api/create-family-session", {
+      const response = await fetch("/api/stripe/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ householdName }),
+        body: JSON.stringify({ planType: "family", householdName, acquisitionSource: "internal" }),
       });
       const data = await response.json();
 

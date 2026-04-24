@@ -53,6 +53,7 @@ export default function SuccessClient() {
   const [activated, setActivated] = useState(false);
   const [giftData, setGiftData] = useState(null);
   const [familyData, setFamilyData] = useState(null);
+  const [activationData, setActivationData] = useState(null);
   const [copyState, setCopyState] = useState("");
   const [seatCopyState, setSeatCopyState] = useState({});
   const [sessionError, setSessionError] = useState("");
@@ -87,13 +88,28 @@ export default function SuccessClient() {
 
     activateSubscriptionPremium();
     setActivated(true);
-
-    const timer = setTimeout(() => {
-      window.location.href = "/";
-    }, 3000);
-
-    return () => clearTimeout(timer);
   }, [isSponsor, isFamily]);
+
+  useEffect(() => {
+    if (isSponsor || isFamily || !sessionId) return;
+
+    let active = true;
+    (async () => {
+      try {
+        const response = await fetch(`/api/stripe/activation-token?session_id=${encodeURIComponent(sessionId)}`);
+        const data = await response.json();
+        if (!response.ok) throw new Error(data?.error || "Activation link unavailable.");
+        if (active) setActivationData(data);
+      } catch (error) {
+        console.warn("Unable to create activation link:", error);
+        if (active) setSessionError(error?.message || "Activation link unavailable.");
+      }
+    })();
+
+    return () => {
+      active = false;
+    };
+  }, [isSponsor, isFamily, sessionId]);
 
   useEffect(() => {
     if (!isSponsor || !sessionId) return;
@@ -169,6 +185,16 @@ export default function SuccessClient() {
 
     try {
       await navigator.clipboard.writeText(giftLink);
+      setTemporaryCopyState("Copied", setCopyState);
+    } catch {
+      setTemporaryCopyState("Copy failed", setCopyState);
+    }
+  };
+
+  const copyActivationLink = async () => {
+    if (!activationData?.activationUrl) return;
+    try {
+      await navigator.clipboard.writeText(activationData.activationUrl);
       setTemporaryCopyState("Copied", setCopyState);
     } catch {
       setTemporaryCopyState("Copy failed", setCopyState);
@@ -254,7 +280,7 @@ export default function SuccessClient() {
             ? "Send the redeem link personally. The first successful redemption activates one month of Premium on the recipient’s device."
             : isFamily
               ? "Share each invite link directly with the people in your household. Every link activates Premium on one device, and each claimed seat stays marked here."
-              : "Your AIForj Premium subscription is now active. AI insights, mood tracking, guided journaling - it is all yours."}
+              : "Premium is active on this device. Save the activation link if you want to activate another device without attaching emotional content to an account."}
         </p>
 
         {isSponsor ? (
@@ -447,6 +473,34 @@ export default function SuccessClient() {
           </div>
         ) : (
           <>
+            {activationData?.activationUrl && (
+              <div style={{ display: "grid", gap: 12, marginBottom: 22 }}>
+                <div
+                  style={{
+                    padding: "18px 18px",
+                    borderRadius: 20,
+                    background: "rgba(255,255,255,0.72)",
+                    border: "1px solid rgba(45,42,38,0.08)",
+                    textAlign: "left",
+                  }}
+                >
+                  <p style={{ margin: "0 0 8px", fontSize: 12, letterSpacing: 1.4, textTransform: "uppercase", color: "#6B7F6E", fontWeight: 700 }}>
+                    Activation link
+                  </p>
+                  <p style={{ margin: 0, color: "#3B463F", lineHeight: 1.7, wordBreak: "break-word" }}>
+                    {activationData.activationUrl}
+                  </p>
+                </div>
+                <PrimaryButton onClick={copyActivationLink}>
+                  {copyState || "Copy activation link"}
+                </PrimaryButton>
+              </div>
+            )}
+            {sessionError ? (
+              <p style={{ fontSize: 13, color: "#A25E48", margin: "0 0 16px" }}>
+                {sessionError}
+              </p>
+            ) : null}
             <p
               style={{
                 fontSize: 14,
@@ -454,7 +508,7 @@ export default function SuccessClient() {
                 opacity: 0.6,
               }}
             >
-              {activated ? "Redirecting you back to AIForj..." : "Activating..."}
+              {activated ? "Activated locally. Payment data stays with Stripe." : "Activating..."}
             </p>
             <a
               href="/"

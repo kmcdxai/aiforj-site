@@ -82,10 +82,10 @@ const EMOTIONS = [
 // ═══════════════════════════════════════════════════════════════
 const QUICK_TOOLS = [
   { id: "box",    icon: "▣",  label: "Box Breathing",        time: "2 min", desc: "4-4-4-4. Instant calm.",          type: "breathing", breathe: { inhale: 4, hold: 4, exhale: 4 }, free: true  },
-  { id: "sigh",   icon: "🌬️", label: "Physiological Sigh",   time: "1 min", desc: "Stanford's fastest stress reset.", type: "breathing", breathe: { inhale: 3, hold: 1, exhale: 7 }, free: true  },
+  { id: "sigh",   icon: "🌬️", label: "Physiological Sigh",   time: "1 min", desc: "A fast stress reset studied at Stanford.", type: "breathing", breathe: { inhale: 3, hold: 1, exhale: 7 }, free: true  },
   { id: "ground", icon: "🌿", label: "5-4-3-2-1 Grounding",  time: "3 min", desc: "Stop panic with your senses.",     type: "grounding",                                              free: true  },
   { id: "defuse", icon: "🧠", label: "Thought Defusion",     time: "2 min", desc: "Detach from a looping thought.",   type: "defusion",                                               free: false },
-  { id: "tipp",   icon: "❄️", label: "TIPP Crisis Skill",    time: "3 min", desc: "DBT's fastest emotion reducer.",   type: "tipp",                                                   free: false },
+  { id: "tipp",   icon: "❄️", label: "TIPP Distress Skill",  time: "3 min", desc: "A DBT body-based distress skill.", type: "tipp",                                                   free: false },
 ];
 
 const TIER_LABELS = {
@@ -252,7 +252,7 @@ const PROTOCOLS = {
     basis: "CBT-Stress + Progressive Muscle Relaxation + ACT",
     icon: "⏰",
     steps: [
-      { type: "breathing", title: "Physiological Sigh", instruction: "The physiological sigh (double inhale + long exhale) is the fastest known way to reduce stress in real-time. Discovered by Stanford neuroscientist Andrew Huberman.", breathe: { inhale: 3, hold: 1, exhale: 7 } },
+      { type: "breathing", title: "Physiological Sigh", instruction: "The physiological sigh (double inhale + long exhale) is a fast real-time stress reset studied by Stanford researchers.", breathe: { inhale: 3, hold: 1, exhale: 7 } },
       { type: "scale", title: "Stress Level", instruction: "How stressed do you feel right now?", fieldKey: "stressLevel", min: 1, max: 10 },
       { type: "input", title: "Stress Inventory", instruction: "List the top 3 things causing stress right now. Be specific.", placeholder: "1. Project deadline Friday\n2. Haven't exercised in a week\n3. Difficult conversation I'm avoiding", fieldKey: "stressors", multiline: true },
       { type: "select", title: "Control Assessment", instruction: "Of the things you listed — how much is within your control?", options: [
@@ -326,7 +326,7 @@ const PROTOCOLS = {
     basis: "CBT-Insomnia (CBT-I) + ACT Defusion + Somatic Calming",
     icon: "🌙",
     steps: [
-      { type: "breathing", title: "4-7-8 Sleep Breath", instruction: "Dr. Andrew Weil's 4-7-8 technique is the fastest method for quieting a racing nighttime mind. The 8-count exhale activates your vagus nerve directly.", breathe: { inhale: 4, hold: 7, exhale: 8 } },
+      { type: "breathing", title: "4-7-8 Sleep Breath", instruction: "Dr. Andrew Weil's 4-7-8 technique is a structured breath practice many people use when a nighttime mind is racing. The long exhale gives your body a slower rhythm to follow.", breathe: { inhale: 4, hold: 7, exhale: 8 } },
       { type: "input", title: "Externalize the Spiral", instruction: "Write the exact thought or worry that's looping. Get it out of your head and onto the screen — externalization alone reduces its power significantly.", placeholder: "e.g., 'The presentation. Whether I said something wrong. The email I haven't sent...'", fieldKey: "worry", multiline: true },
       { type: "select", title: "What Kind of Spiral", instruction: "Knowing the pattern helps break it.", options: [
         { id: "ruminating", label: "Rehashing the past",       desc: "Replaying conversations or events on loop" },
@@ -509,7 +509,7 @@ function BreathingExercise({ config, onComplete, theme }) {
 // Runs entirely in user's browser via WebGPU
 // Falls back to intelligent rule-based system when unavailable
 // ═══════════════════════════════════════════════════════════════
-const CLINICAL_SYSTEM_PROMPT = `You are the AI engine behind AIForj — a mental wellness platform built by Kevin, a licensed clinician and psychiatric nurse practitioner candidate. You provide evidence-based, personalized micro-guidance.
+const CLINICAL_SYSTEM_PROMPT = `You are the AI engine behind AIForj — a self-guided emotional first-aid platform. You provide evidence-framed, personalized micro-guidance.
 
 CRITICAL RULES:
 - You are NOT a therapist. You are a wellness companion providing psychoeducation and self-help techniques.
@@ -582,7 +582,7 @@ function generateFallbackInsight(emotion, responses, protocol) {
       return out;
     },
     stressed: (r) => {
-      let out = "You inventoried your stressors and assessed your control — that's stress inoculation in action. Separating controllables from uncontrollables is the single most effective cognitive strategy for stress reduction.";
+      let out = "You inventoried your stressors and assessed your control — that's stress inoculation in action. Separating controllables from uncontrollables is one practical cognitive strategy for reducing stress.";
       if (r.defusion) out += `\n\n"${r.defusion}" — that ACT defusion technique creates psychological distance between you and the thought. You're not eliminating the stress; you're changing your relationship to it. That shift is where freedom lives.`;
       if (r.action) out += `\n\nYour one controllable action: "${r.action}". Do it now. Acting on something concrete can reduce helplessness and give your system evidence that you are moving, not just bracing.`;
       return out;
@@ -884,7 +884,7 @@ function QuickToolModal({ tool, theme, isPremium, onUpgrade, onClose }) {
           </div>
         ) : tool.type === "breathing" ? (
           <>
-            <p style={{ fontSize: 14, color: theme.accent, lineHeight: 1.7, marginBottom: 24 }}>{tool.id === "box" ? "Box breathing (4-4-4-4) is used by Navy SEALs and surgeons before high-stakes moments. It creates a measurable physiological state change in under 2 minutes." : "The physiological sigh — discovered at Stanford — is the fastest known way to reduce real-time stress. The double inhale fully inflates the lungs; the long exhale triggers the vagus nerve."}</p>
+            <p style={{ fontSize: 14, color: theme.accent, lineHeight: 1.7, marginBottom: 24 }}>{tool.id === "box" ? "Box breathing (4-4-4-4) is a paced breathing exercise used before high-stakes moments. Many people notice a calmer rhythm after a few cycles." : "The physiological sigh has been studied by Stanford researchers as a fast real-time stress reset. The double inhale and long exhale give your body a slower rhythm to follow."}</p>
             <BreathingExercise config={tool.breathe} onComplete={() => setDone(true)} theme={theme} />
           </>
         ) : tool.type === "grounding" ? (
@@ -930,7 +930,7 @@ function QuickToolModal({ tool, theme, isPremium, onUpgrade, onClose }) {
           )
         ) : tool.type === "tipp" ? (
           <div>
-            <p style={{ fontSize: 14, color: theme.accent, lineHeight: 1.7, marginBottom: 20 }}>TIPP is DBT's fastest skill for reducing intense emotional activation. It works by changing your body chemistry directly — no thinking required.</p>
+            <p style={{ fontSize: 14, color: theme.accent, lineHeight: 1.7, marginBottom: 20 }}>TIPP is a DBT distress-tolerance skill for intense activation. It starts with the body before asking you to think clearly.</p>
             {[
               { letter: "T", title: "Temperature", icon: "❄️", desc: "Splash cold water on your face or hold ice for 30 seconds. This triggers the mammalian dive reflex — heart rate drops immediately." },
               { letter: "I", title: "Intense Exercise", icon: "⚡", desc: "60 seconds of jumping jacks or running in place right now. Intense physical action burns the adrenaline driving your emotion." },
@@ -1615,8 +1615,8 @@ export default function AIForj() {
               ))}
             </div>
             <p style={{ fontSize: 12, color: theme.accent, opacity: 0.5, lineHeight: 1.6 }}>
-              Built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate.
-              <br />Science-backed. AI-powered.
+              Clinician-informed by Kevin, a psychiatric nurse practitioner candidate.
+              <br />Evidence-framed. AI-powered.
             </p>
           </div>
 

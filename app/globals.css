@@ -279,10 +279,12 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 body {
   min-height: 100%;
+  overflow-x: hidden;
   font-family: 'DM Sans', sans-serif;
   font-size: var(--font-body);
   font-weight: 400;

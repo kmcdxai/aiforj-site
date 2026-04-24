@@ -93,10 +93,10 @@ export default function PhysiologicalSigh({ onComplete }) {
         <div style={{ ...styles.fadeIn, textAlign: 'center', padding: '48px 24px', maxWidth: 500, margin: '0 auto' }}>
           <div style={{ fontSize: 48, marginBottom: 24 }}>{'\u{1F343}'}</div>
           <h2 style={styles.heading}>
-            The physiological sigh is the fastest evidence-backed way to calm your nervous system.
+            The physiological sigh is a fast evidence-framed way to calm your nervous system.
           </h2>
           <p style={styles.subtext}>
-            Identified by Stanford researchers as the single most effective real-time stress reduction technique. We'll do 3 cycles together.
+            Studied by Stanford researchers as a promising real-time stress-reduction technique. We'll do 3 cycles together.
           </p>
           <button onClick={handleStart} style={styles.primaryBtn}>
             Begin breathing {'\u2192'}

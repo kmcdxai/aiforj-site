@@ -350,9 +350,9 @@ function GiftClientInner({ technique }) {
           </button>
 
           <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 24, lineHeight: 1.5 }}>
-            100% private — nothing is stored or tracked.
+            Privacy-first and local-first where supported.
             <br />
-            Built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate.
+            Clinician-informed by Kevin, a psychiatric nurse practitioner candidate.
           </p>
         </div>
       </div>

@@ -4,21 +4,21 @@ import { useState } from "react";
 import { buildCalmCardUrl } from "../../utils/calmCard";
 
 const SHARE_TEXTS = {
-  "box-breathing": "Just tried this 4-minute box breathing technique and it actually worked. Free, no app needed",
-  "physiological-sigh": "Found the fastest way to calm down — one specific breathing pattern backed by Stanford research. 2 minutes",
-  "54321-grounding": "This 5-4-3-2-1 grounding exercise pulled me out of an anxiety spiral in under 5 minutes",
-  "thought-defusion": "Learned how to create distance from intrusive thoughts using this ACT technique. Game changer",
-  "cognitive-restructuring": "Just challenged a negative thought pattern using this CBT technique. The evidence exercise is eye-opening",
-  "progressive-muscle-relaxation": "Did this guided muscle relaxation exercise and my whole body feels different. 12 minutes well spent",
-  "body-scan": "This body scan meditation is the real deal for stress and sleep. Completely free, guided, private",
-  "tipp-skill": "TIPP skill from DBT — temperature, intense exercise, paced breathing, progressive relaxation. Works fast",
-  "behavioral-activation": "When you can't find motivation, try this: do one tiny thing, rate your mood before and after. The gap is surprising",
-  "cognitive-distortions": "Just identified my most common thinking trap. This cognitive distortions exercise is surprisingly revealing",
-  "self-compassion-break": "Tried a 3-minute self-compassion break and it hit harder than I expected. Free guided exercise",
-  "radical-acceptance": "This radical acceptance exercise from DBT helped me stop fighting what I can't control. 7 minutes",
-  "vagal-toning": "These vagus nerve exercises actually shifted my nervous system in 4 minutes. Cold exposure + humming + stretches",
-  "worry-time": "Scheduled worry time sounds weird but it works — contained my anxiety into 10 focused minutes then moved on",
-  "values-clarification": "This values clarification exercise helped me see exactly where my life is misaligned. Worth 10 minutes",
+  "box-breathing": "I found this 4-minute reset useful. Free, no app needed",
+  "physiological-sigh": "I found this 2-minute breathing reset useful.",
+  "54321-grounding": "This short grounding reset helped me slow down.",
+  "thought-defusion": "This helped me create a little distance from a thought.",
+  "cognitive-restructuring": "This helped me look at a hard thought more clearly.",
+  "progressive-muscle-relaxation": "This guided body reset felt worth the time.",
+  "body-scan": "This body scan helped me pause for a few minutes.",
+  "tipp-skill": "This quick reset helped me shift gears.",
+  "behavioral-activation": "This tiny-step reset helped me start.",
+  "cognitive-distortions": "This helped me notice a thought pattern.",
+  "self-compassion-break": "This short self-compassion reset felt useful.",
+  "radical-acceptance": "This helped me stop fighting the moment for a few minutes.",
+  "vagal-toning": "This simple regulation reset helped me slow down.",
+  "worry-time": "This helped me put worry in a smaller container.",
+  "values-clarification": "This helped me reconnect with what matters.",
 };
 
 export default function ShareResultCard({ technique }) {
@@ -26,7 +26,7 @@ export default function ShareResultCard({ technique }) {
 
   const techniqueShortName = technique.title.split(":")[0];
   const shareUrl = `https://aiforj.com/techniques/${technique.slug}`;
-  const prewrittenText = SHARE_TEXTS[technique.slug] || `Just tried "${techniqueShortName}" and it helped`;
+  const prewrittenText = SHARE_TEXTS[technique.slug] || `I found this 2-minute reset useful.`;
   const fullShareText = `${prewrittenText} → ${shareUrl}`;
   const cardFormats = [
     { id: "story", label: "Story" },

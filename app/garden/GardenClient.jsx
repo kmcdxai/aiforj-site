@@ -14,6 +14,7 @@ import {
 import WeeklyInsightsClient from "./WeeklyInsightsClient";
 import { buildGardenSnapshot, EMOTION_PLANTS } from "./gardenData";
 import { getPremiumAccessStatus } from "../../utils/premiumAccess";
+import ShareSheet from "../../components/share/ShareSheet";
 
 const MOOD_OPTIONS = [
   { value: 1, emoji: "😔", label: "Struggling" },
@@ -216,6 +217,7 @@ export default function GardenClient() {
   const [moodNote, setMoodNote] = useState("");
   const [moodLogged, setMoodLogged] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showGardenShare, setShowGardenShare] = useState(false);
   const [gardenPulse, setGardenPulse] = useState(false);
   const [syncInfo, setSyncInfo] = useState({ imported: 0, total: 0 });
 
@@ -254,6 +256,7 @@ export default function GardenClient() {
   const latestShiftTone = snapshot.latestSession && typeof snapshot.latestSession.shift === "number"
     ? getShiftTone(snapshot.latestSession.shift)
     : getShiftTone(0);
+  const isEmptyGarden = snapshot.totalSessions === 0 && snapshot.totalMoodCheckins === 0;
 
   const logMood = useCallback(async () => {
     if (selectedMood === null) return;
@@ -318,14 +321,7 @@ export default function GardenClient() {
     opened.print();
   };
 
-  const handleShare = async () => {
-    const text = `My AIForj Mood Garden: ${snapshot.totalSessions} sessions, ${snapshot.streak}-day streak, ${snapshot.averageShift > 0 ? "+" : ""}${snapshot.averageShift} average mood shift. aiforj.com/garden`;
-    if (navigator.share) {
-      navigator.share({ title: "My AIForj Mood Garden", text, url: "https://aiforj.com/garden" }).catch(() => {});
-      return;
-    }
-    navigator.clipboard?.writeText(text).catch(() => {});
-  };
+  const handleShare = () => setShowGardenShare(true);
 
   const handleDeleteAll = async () => {
     await deleteAllData();
@@ -376,11 +372,45 @@ export default function GardenClient() {
               Every technique, mood check-in, and quiet comeback adds to a private landscape that lives on this device. Not a feed. Not a streak trap. A calmer way to see your own momentum.
             </p>
 
+            {isEmptyGarden && (
+              <div className="garden-card-sm" style={{ marginBottom: 20, background: "rgba(255,255,255,0.78)" }}>
+                <span className="garden-label">Your garden starts with one reset</span>
+                <h2 style={{ margin: "0 0 10px" }}>Plant the first bloom</h2>
+                <p style={{ margin: "0 0 16px", color: "var(--text-secondary)", lineHeight: 1.7 }}>
+                  Finish one reset and AIForj will save a small local bloom here. The examples below are blurred demo blooms, not your data.
+                </p>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 10, marginBottom: 16 }} aria-label="Example garden blooms">
+                  {["Anxious reset", "Sleep wind-down", "Comeback day"].map((label, index) => (
+                    <div key={label} style={{ minHeight: 86, borderRadius: 18, border: "1px dashed rgba(122,158,126,0.32)", background: "rgba(232,240,232,0.7)", display: "grid", placeItems: "center", filter: "blur(0.25px)", opacity: 0.72 }}>
+                      <div style={{ textAlign: "center" }}>
+                        <div style={{ width: 22, height: 22, margin: "0 auto 8px", borderRadius: "50%", background: ["#7AAFC4", "#8B7DA8", "#C4956A"][index] }} />
+                        <div style={{ fontSize: 11, color: "var(--text-muted)" }}>Example: {label}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                  <a href="/start" className="btn-primary" style={{ textDecoration: "none" }}>Plant first bloom</a>
+                  <a href="/today" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>Take today's reset</a>
+                </div>
+              </div>
+            )}
+
             <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 20 }}>
               <a href="/start" className="btn-primary" style={{ textDecoration: "none" }}>Plant something new →</a>
               <a href="#garden-biome" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>See your biome ↓</a>
               <button onClick={handleShare} className="btn-ghost">Share garden</button>
             </div>
+
+            {showGardenShare && (
+              <div style={{ marginBottom: 20 }}>
+                <ShareSheet
+                  compact
+                  title="Share the bloom, not the private details"
+                  payload={{ type: "garden", ref: "shared_card" }}
+                />
+              </div>
+            )}
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 10, marginBottom: 20 }} className="garden-stat-grid">
               <div className="garden-card-sm" style={{ padding: 14 }}>
@@ -656,15 +686,15 @@ export default function GardenClient() {
 
           <div style={{ display: "grid", gap: 16 }}>
             <div className="garden-card">
-              <span className="garden-label">Growth notes</span>
+              <span className="garden-label">For you, right now</span>
               <div style={{ display: "grid", gap: 12 }}>
                 <div className="garden-card-sm" style={{ padding: 14 }}>
-                  <div className="garden-label" style={{ marginBottom: 4 }}>Momentum</div>
-                  <div style={{ fontWeight: 700, marginBottom: 4 }}>{snapshot.weeklySessions} session{snapshot.weeklySessions === 1 ? "" : "s"} this week</div>
+                  <div className="garden-label" style={{ marginBottom: 4 }}>Recommendation</div>
+                  <div style={{ fontWeight: 700, marginBottom: 4 }}>{snapshot.topTechnique?.name || "Take today's reset"}</div>
                   <p style={{ margin: 0, fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.65 }}>
-                    {snapshot.weeklySessions > 0
-                      ? "Recent activity gives the Garden enough signal to spot patterns quickly."
-                      : "A couple of sessions this week will make the first pattern visible."}
+                    {snapshot.topTechnique
+                      ? "Your local history suggests this is one tool you return to. No server profile is used."
+                      : "Your first completion gives the Garden enough local signal to make a better suggestion."}
                   </p>
                 </div>
 
@@ -799,9 +829,9 @@ export default function GardenClient() {
 
       <footer style={{ textAlign: "center", padding: "28px 0 0", marginTop: 20 }}>
         <p style={{ fontSize: 11, color: "var(--text-muted)", lineHeight: 1.7 }}>
-          AIForj — Built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate
+          AIForj — Clinician-informed by Kevin, a psychiatric nurse practitioner candidate
           <br />
-          Your data never leaves your device. Privacy is not a feature. It is the foundation.
+          Local-first where supported. Free-text stays local unless a feature clearly says otherwise.
         </p>
       </footer>
     </div>

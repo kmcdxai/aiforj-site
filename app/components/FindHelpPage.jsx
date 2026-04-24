@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useCallback, useMemo } from "react";
+import { trackSafeMetric } from "../../lib/metrics";
 
 // ═══════════════════════════════════════════════════════════════
 // /find-help — Smart Provider Finder
-// Searches the NPI Registry (CMS.gov) for real, verified providers
-// Built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate — AIForj.com
+// Searches the NPI Registry (CMS.gov) for registry-listed providers.
+// AIForj does not endorse, verify, or store provider searches by default.
 // Flow: need → details → results (real provider data)
 // ═══════════════════════════════════════════════════════════════
 
@@ -77,6 +78,14 @@ export default function FindHelpPage() {
   const [copiedScript, setCopiedScript] = useState(false);
   const [expandedNpi, setExpandedNpi] = useState(null);
   const [filterType, setFilterType] = useState("all");
+  const [savedProviders, setSavedProviders] = useState(() => {
+    if (typeof window === "undefined") return [];
+    try {
+      return JSON.parse(localStorage.getItem("aiforj_provider_shortlist") || "[]");
+    } catch {
+      return [];
+    }
+  });
 
   const go = (next) => { setFadeKey(k => k + 1); setStep(next); window.scrollTo({ top: 0, behavior: "smooth" }); };
 
@@ -90,6 +99,7 @@ export default function FindHelpPage() {
     setFilterType("all");
     setExpandedNpi(null);
     go("results");
+    trackSafeMetric({ event: "provider_search_started", acquisitionSource: "internal" });
     try {
       const res = await fetch(`/api/find-providers?zip=${zip}&type=${need}`);
       const data = await res.json();
@@ -128,8 +138,19 @@ export default function FindHelpPage() {
 
   const callScript = `Hi, I'm looking for a mental health provider${!isUninsured && insurance !== "unknown" ? ` who accepts ${insLabel}` : " with sliding scale or self-pay options"}. I'm looking for help with ${NEEDS.find(n => n.id === need)?.label?.toLowerCase() || "mental health concerns"}. Are you accepting new patients?`;
 
+  const saveProviderLocally = (provider) => {
+    const next = [
+      provider,
+      ...savedProviders.filter((item) => item.npi !== provider.npi),
+    ].slice(0, 12);
+    setSavedProviders(next);
+    try {
+      localStorage.setItem("aiforj_provider_shortlist", JSON.stringify(next));
+    } catch {}
+  };
+
   const handleShare = (type) => {
-    const text = "Find a therapist, psychiatrist, or licensed healthcare provider near you — free tool → aiforj.com/find-help";
+    const text = "Find a mental health provider search bridge — free tool → aiforj.com/find-help";
     const url = "https://aiforj.com/find-help";
     if (type === "sms") window.open(`sms:?&body=${encodeURIComponent(text)}`, "_self");
     else if (type === "native" && navigator.share) navigator.share({ title: "Find a Mental Health Provider", text, url }).catch(() => {});
@@ -163,7 +184,7 @@ export default function FindHelpPage() {
               What would help<br />you most right now?
             </h1>
             <p style={{ fontSize: 14, lineHeight: 1.8, color: C.muted, marginBottom: 28 }}>
-              We search the National Provider Registry and return real providers near you — with name, address, phone number, and specialty. One click to call.
+              We search the National Provider Registry and return registry-listed providers near you — with name, address, phone number, and specialty when available. Confirm availability, insurance, and licensing directly.
             </p>
 
             <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 24 }}>
@@ -191,7 +212,7 @@ export default function FindHelpPage() {
             </div>
 
             <p style={{ fontSize: 11, color: C.muted, opacity: 0.35, marginTop: 28, lineHeight: 1.7 }}>
-              Nothing is stored, sent, or tracked. Provider data from CMS.gov. Built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate.
+              Provider searches are not stored server-side by default. If anonymous metrics are enabled, AIForj only records a provider_search_started count, not your ZIP, city, provider details, or search type.
             </p>
           </div>
         )}
@@ -308,11 +329,25 @@ export default function FindHelpPage() {
                   {NEEDS.find(n => n.id === need)?.label} · {isUninsured ? "Cash pay / self-pay" : insLabel}
                 </p>
 
+                {savedProviders.length > 0 && (
+                  <div style={{ padding: 16, background: "rgba(61,139,94,0.05)", borderRadius: 14, border: "1px solid rgba(61,139,94,0.14)", marginBottom: 16 }}>
+                    <p style={{ fontSize: 11, color: C.sage, letterSpacing: 2, textTransform: "uppercase", margin: "0 0 8px", fontWeight: 600 }}>Saved locally</p>
+                    <div style={{ display: "grid", gap: 8 }}>
+                      {savedProviders.slice(0, 4).map((provider) => (
+                        <div key={provider.npi} style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", fontSize: 13, color: C.text }}>
+                          <span>{provider.name} · {provider.address?.city}, {provider.address?.state}</span>
+                          {provider.phone && <a href={`tel:${provider.phone.replace(/\D/g, "")}`} style={{ color: C.sage, fontWeight: 700, textDecoration: "none" }}>Call</a>}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* Cash pay guidance */}
                 {isUninsured && (
                   <div style={{ padding: 18, background: `rgba(61,139,94,0.06)`, borderRadius: 14, border: `1px solid rgba(61,139,94,0.15)`, marginBottom: 16 }}>
                     <p style={{ fontSize: 13, color: C.text, lineHeight: 1.8, margin: 0 }}>
-                      <strong style={{ color: C.sage }}>Cash pay tip:</strong> These are licensed providers near you. When you call, ask: <em>"What is your self-pay rate? Do you offer a sliding scale based on income? Can you provide a superbill?"</em> Many providers charge $100–$200/session for cash pay, and sliding scale can bring it to $50–$80. A superbill lets you submit to any insurance you may have for partial reimbursement.
+                      <strong style={{ color: C.sage }}>Cash pay tip:</strong> When you call, ask: <em>"What is your self-pay rate? Do you offer a sliding scale based on income? Can you provide a superbill?"</em> Rates and reimbursement vary, so confirm costs directly before booking.
                     </p>
                   </div>
                 )}
@@ -424,6 +459,10 @@ export default function FindHelpPage() {
                                 padding: "10px 22px", fontSize: 13, background: "transparent", color: C.muted,
                                 border: `1px solid ${C.line}`, borderRadius: 24, textDecoration: "none", fontWeight: 500,
                               }}>View profile</a>
+                              <button type="button" onClick={(e) => { e.stopPropagation(); saveProviderLocally(p); }} style={{
+                                padding: "10px 22px", fontSize: 13, background: "transparent", color: C.sage,
+                                border: `1px solid rgba(61,139,94,0.22)`, borderRadius: 24, fontWeight: 500, cursor: "pointer",
+                              }}>{savedProviders.some((item) => item.npi === p.npi) ? "Saved locally" : "Save locally"}</button>
                             </div>
 
                             <p style={{ fontSize: 11, color: C.muted, opacity: 0.5, marginTop: 10, lineHeight: 1.5 }}>
@@ -476,7 +515,7 @@ export default function FindHelpPage() {
                   <p style={{ fontSize: 11, color: C.accent, letterSpacing: 2, textTransform: "uppercase", marginBottom: 10, fontWeight: 600 }}>Good to know</p>
                   <div style={{ fontSize: 13, color: C.text, lineHeight: 1.8 }}>
                     <p style={{ margin: "0 0 8px" }}><strong>Your first session is an intake,</strong> not a test. They'll ask about your history and goals. Just be honest about where you are.</p>
-                    <p style={{ margin: "0 0 8px" }}><strong>You're evaluating them too.</strong> The therapeutic relationship is the #1 predictor of outcomes. Trust matters more than technique.</p>
+                    <p style={{ margin: "0 0 8px" }}><strong>You're evaluating them too.</strong> A good fit matters. Notice whether you feel respected, understood, and able to ask questions.</p>
                     <p style={{ margin: 0 }}><strong>It's okay to switch.</strong> If it doesn't feel right after 2-3 sessions, that's not failure — it's good practice.</p>
                   </div>
                 </div>
@@ -508,7 +547,7 @@ export default function FindHelpPage() {
                         <span style={{ fontSize: 22, flexShrink: 0 }}>🤝</span>
                         <div style={{ flex: 1 }}>
                           <span style={{ fontSize: 14, fontWeight: 600, color: C.sage, display: "block" }}>Open Path Collective</span>
-                          <span style={{ fontSize: 12, color: C.text, lineHeight: 1.5, display: "block" }}>Licensed therapists at <strong>$30–$120/session</strong>. One-time $65 membership. Browse and book directly.</span>
+                          <span style={{ fontSize: 12, color: C.text, lineHeight: 1.5, display: "block" }}>Lower-cost therapy directory. Confirm current fees and membership details directly.</span>
                         </div>
                         <span style={{ fontSize: 14, color: C.sage, flexShrink: 0 }}>→</span>
                       </a>
@@ -519,7 +558,7 @@ export default function FindHelpPage() {
                         <span style={{ fontSize: 22, flexShrink: 0 }}>🏥</span>
                         <div style={{ flex: 1 }}>
                           <span style={{ fontSize: 14, fontWeight: 600, color: C.sage, display: "block" }}>Community Health Centers near {zip}</span>
-                          <span style={{ fontSize: 12, color: C.text, lineHeight: 1.5, display: "block" }}>Federally funded. <strong>Sliding scale fees</strong> based on income. No one turned away. Many offer mental health services.</span>
+                          <span style={{ fontSize: 12, color: C.text, lineHeight: 1.5, display: "block" }}>Federally funded clinics that may offer sliding scale fees and behavioral health services.</span>
                         </div>
                         <span style={{ fontSize: 14, color: C.sage, flexShrink: 0 }}>→</span>
                       </a>
@@ -530,13 +569,13 @@ export default function FindHelpPage() {
                         <span style={{ fontSize: 22, flexShrink: 0 }}>🎓</span>
                         <div style={{ flex: 1 }}>
                           <span style={{ fontSize: 14, fontWeight: 600, color: C.sage, display: "block" }}>University Training Clinics</span>
-                          <span style={{ fontSize: 12, color: C.text, lineHeight: 1.5, display: "block" }}>Graduate students supervised by licensed psychologists. <strong>$5–$30/session</strong>. Quality care at a fraction of private practice rates.</span>
+                          <span style={{ fontSize: 12, color: C.text, lineHeight: 1.5, display: "block" }}>Some universities offer lower-cost clinics supervised by licensed professionals. Confirm availability and fees directly.</span>
                         </div>
                         <span style={{ fontSize: 14, color: C.sage, flexShrink: 0 }}>→</span>
                       </a>
                       <div style={{ padding: "14px 16px", background: "rgba(255,255,255,0.5)", borderRadius: 10, border: `1px solid rgba(61,139,94,0.1)` }}>
                         <p style={{ fontSize: 13, color: C.text, lineHeight: 1.7, margin: 0 }}>
-                          <strong style={{ color: C.sage }}>Superbill reimbursement:</strong> Even without in-network coverage, ask any provider for a <strong>superbill</strong> (a detailed receipt). Submit it to your insurance — many plans reimburse <strong>50–80%</strong> for out-of-network mental health care. You may have benefits you don't know about.
+                          <strong style={{ color: C.sage }}>Superbill reimbursement:</strong> Ask any provider whether they can provide a superbill, then confirm with your insurance whether out-of-network reimbursement is available.
                         </p>
                       </div>
                     </div>
@@ -611,7 +650,7 @@ export default function FindHelpPage() {
 
       <div style={{ padding: "20px 24px", textAlign: "center", borderTop: "1px solid rgba(45,42,38,0.06)" }}>
         <p style={{ fontSize: 11, color: "var(--text-muted)", lineHeight: 1.7, margin: 0, maxWidth: 560, marginLeft: "auto", marginRight: "auto" }}>
-          Provider data from the National Plan & Provider Enumeration System (NPPES/CMS.gov). AIForj does not verify, endorse, or guarantee any provider. Always confirm insurance acceptance and availability directly.
+          Provider data may be incomplete and comes from the National Plan & Provider Enumeration System (NPPES/CMS.gov). AIForj does not endorse or verify providers. Confirm licensing, insurance acceptance, availability, costs, and scope directly before booking.
         </p>
       </div>
 
@@ -623,7 +662,7 @@ export default function FindHelpPage() {
         <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.7, margin: "0 0 24px", maxWidth: 480, marginLeft: "auto", marginRight: "auto" }}>
           Forj is a wellness companion — not a therapist or substitute for professional care.
         </p>
-        <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "0 0 8px", lineHeight: 1.8 }}>Built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate</p>
+        <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "0 0 8px", lineHeight: 1.8 }}>Clinician-informed by Kevin, a psychiatric nurse practitioner candidate</p>
         <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.5, margin: 0 }}>© 2026 AIForj. All rights reserved.</p>
       </footer>
     </div>

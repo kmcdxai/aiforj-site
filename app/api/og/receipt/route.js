@@ -17,9 +17,9 @@ function titleCase(value = "emotion") {
 }
 
 function stateLabel(emotion, from, to) {
-  if (to < from) return `${titleCase(emotion)} → Calmer`;
-  if (to > from) return `${titleCase(emotion)} → Steadier`;
-  return `${titleCase(emotion)} → Noticed`;
+  if (to < from) return `${titleCase(emotion)} Reset`;
+  if (to > from) return `${titleCase(emotion)} Reset`;
+  return `${titleCase(emotion)} Reset`;
 }
 
 export async function GET(request) {
@@ -30,12 +30,8 @@ export async function GET(request) {
   const modality = titleCase(searchParams.get("mod") || "ACT defusion");
   const duration = Math.max(1, Math.min(60, Number(searchParams.get("d") || 3) || 3));
   const delta = to - from;
-  const beforeWidth = `${from * 10}%`;
-  const afterWidth = `${to * 10}%`;
-  const scoreBefore = `${from}/10`;
-  const scoreAfter = `${to}/10`;
   const modalityLine = `${modality} · ${duration} min`;
-  const shiftLine = `${delta > 0 ? "+" : ""}${delta} point shift`;
+  const shiftLine = delta > 1 ? "Helpful shift" : delta === 1 ? "Small helpful shift" : delta === 0 ? "Noticed the moment" : "Tried a reset";
 
   return new ImageResponse(
     (
@@ -91,20 +87,12 @@ export async function GET(request) {
             </div>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 26 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
-              <div style={{ display: "flex", width: 170, fontSize: 30, fontWeight: 800 }}>Before</div>
-              <div style={{ display: "flex", flex: 1, height: 34, borderRadius: 999, background: "rgba(45,42,38,0.08)", overflow: "hidden" }}>
-                <div style={{ display: "flex", width: beforeWidth, height: "100%", background: "#c4956a", borderRadius: 999 }} />
-              </div>
-              <div style={{ display: "flex", width: 88, textAlign: "right", fontSize: 38, fontWeight: 900 }}>{scoreBefore}</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 760 }}>
+            <div style={{ display: "flex", fontSize: 42, fontWeight: 900, color: delta >= 0 ? "#5f8363" : "#a96d55" }}>
+              {shiftLine}
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
-              <div style={{ display: "flex", width: 170, fontSize: 30, fontWeight: 800 }}>After</div>
-              <div style={{ display: "flex", flex: 1, height: 34, borderRadius: 999, background: "rgba(45,42,38,0.08)", overflow: "hidden" }}>
-                <div style={{ display: "flex", width: afterWidth, height: "100%", background: "#7d9b82", borderRadius: 999 }} />
-              </div>
-              <div style={{ display: "flex", width: 88, textAlign: "right", fontSize: 38, fontWeight: 900 }}>{scoreAfter}</div>
+            <div style={{ display: "flex", fontSize: 29, color: "#6c6259", lineHeight: 1.4 }}>
+              Shared receipts point to the reset, not the private before-and-after scores.
             </div>
           </div>
 
@@ -113,12 +101,9 @@ export async function GET(request) {
               <div style={{ display: "flex", fontSize: 22, color: "#6c6259", fontWeight: 700 }}>
                 {modalityLine}
               </div>
-              <div style={{ display: "flex", fontSize: 34, fontWeight: 900, color: delta >= 0 ? "#5f8363" : "#a96d55" }}>
-                {shiftLine}
-              </div>
             </div>
             <div style={{ display: "flex", fontSize: 22, color: "#6c6259", fontWeight: 700, textAlign: "right" }}>
-              Built by Kevin · Licensed clinician · Psychiatric NP candidate · aiforj.com
+              Clinician-informed · wellness companion, not therapy · aiforj.com
             </div>
           </div>
         </div>

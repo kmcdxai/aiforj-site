@@ -58,12 +58,43 @@ const TECHNIQUE_LINKS = [
 ];
 
 const HELP_LINKS = [
+  { href: "/moments/3am-spiral", label: "3AM Spiral" },
   { href: "/help/panic-attack", label: "Panic attack help" },
+  { href: "/moments/burnout-recovery", label: "Burnout" },
   { href: "/help/cant-sleep", label: "Can't sleep" },
   { href: "/help/anxiety-at-work", label: "Anxiety at work" },
   { href: "/help/overthinking", label: "Overthinking" },
   { href: "/help/burnout-recovery", label: "Burnout recovery" },
   { href: "/help/self-worth", label: "Self-worth" },
+  { href: "/feelings/grief-loss", label: "Grief" },
+  { href: "/feelings/angry", label: "Anger spiral" },
+];
+
+const HERO_FEELINGS = emotionOptions.filter((emotion) => [
+  "anxious",
+  "sad-low",
+  "angry",
+  "overwhelmed",
+  "lonely",
+  "numb-disconnected",
+  "stressed-burned-out",
+  "stuck-lost",
+].includes(emotion.id));
+
+const TRUST_POINTS = [
+  "Local-first where supported",
+  "Free first aid",
+  "No ad-tech use of emotional data",
+  "Crisis handoff",
+  "Evidence-framed",
+];
+
+const PRICING_PREVIEW = [
+  ["Free", "$0", "Guided check-in, provider search, Send Calm, and useful starter tools."],
+  ["Premium", "$9.99/mo", "Deeper structured sessions, advanced Garden insights, exports, custom routine."],
+  ["Family", "$19.99/mo", "Four private seats with no shared emotional dashboard."],
+  ["Clinician", "$49/mo", "Handout links, calm cards, and practice-safe implementation tools."],
+  ["Organization", "$399/mo", "Early pilot with aggregate-only reporting and no employee monitoring."],
 ];
 
 function RevealSection({ as: Component = "section", children, className = "", style, ...props }) {
@@ -198,13 +229,13 @@ function GardenShowcase() {
 
 export default function Homepage() {
   return (
-    <main style={{ color: "var(--text-primary)", fontFamily: "'DM Sans', sans-serif" }}>
+    <main style={{ color: "var(--text-primary)", fontFamily: "'DM Sans', sans-serif", width: "100%", maxWidth: "100vw", overflowX: "hidden" }}>
       <section id="top" style={{
         minHeight: "calc(100vh - 60px)",
         display: "grid",
         placeItems: "center",
         textAlign: "center",
-        padding: "56px 24px 72px",
+        padding: "56px clamp(16px, 5vw, 24px) 72px",
         position: "relative",
         overflow: "hidden",
         background: "linear-gradient(180deg, var(--parchment-deep), var(--parchment))",
@@ -219,7 +250,7 @@ export default function Homepage() {
           background: "radial-gradient(circle at 40% 40%, rgba(122,158,126,0.18), transparent 68%)",
           pointerEvents: "none",
         }} />
-        <div className="fade-in-up" style={{ position: "relative", zIndex: 1, maxWidth: 820 }}>
+        <div className="fade-in-up" style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: 820, minWidth: 0 }}>
           <div style={{
             display: "inline-flex",
             alignItems: "center",
@@ -233,21 +264,55 @@ export default function Homepage() {
             fontSize: 13,
             fontWeight: 700,
             marginBottom: 24,
+            width: "fit-content",
             maxWidth: "min(100%, 560px)",
+            overflowWrap: "anywhere",
           }}>
             <img src="/aif.jpeg" alt="AIForj leaf mark" style={{ width: 24, height: 24, borderRadius: 6 }} />
-            Built by{" "}
+            Clinician-informed by{" "}
             <a href="/about/founder" style={{ color: "inherit", textDecoration: "underline", textUnderlineOffset: 3 }}>
-              a licensed clinician and psychiatric nurse practitioner candidate
+              Kevin, a psychiatric nurse practitioner candidate
             </a>{" "}
-            — clinically grounded in CBT, DBT, ACT, IFS, and 12 more evidence-based modalities.
+            — evidence-framed across CBT, DBT, ACT, IFS, and more.
           </div>
-          <h1 style={{ fontSize: "clamp(36px, 6vw, 64px)", maxWidth: 760, margin: "0 auto 20px", letterSpacing: 0 }}>
-            Emotional first aid that actually works.
+          <h1 style={{ fontSize: "clamp(32px, 10vw, 64px)", maxWidth: 760, margin: "0 auto 20px", letterSpacing: 0, overflowWrap: "break-word" }}>
+            Emotional first aid for the moment before the moment gets worse.
           </h1>
           <p style={{ fontSize: "clamp(17px, 2vw, 20px)", color: "var(--text-secondary)", maxWidth: 680, margin: "0 auto 34px", lineHeight: 1.75 }}>
-            Not another breathing app. 100+ clinically-matched tools for anxiety, sadness, anger, overwhelm, and everything in between — matched to how you actually feel right now.
+            Private, fast, clinician-informed, not therapy. 30 public guides plus 100+ guided interventions across emotional states, matched to how you actually feel right now.
           </p>
+          <div style={{ margin: "0 auto 24px", maxWidth: 760, padding: "18px", borderRadius: 22, background: "rgba(255,255,255,0.72)", border: "1px solid rgba(45,42,38,0.08)", boxShadow: "var(--shadow-sm)" }}>
+            <p className="text-label" style={{ margin: "0 0 12px", color: "var(--sage-deep)" }}>What are you feeling right now?</p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(126px, 1fr))", gap: 10 }}>
+              {HERO_FEELINGS.map((emotion) => (
+                <a
+                  key={emotion.id}
+                  href={`/start?emotion=${emotion.id}`}
+                  style={{
+                    minHeight: 52,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 8,
+                    padding: "10px 12px",
+                    borderRadius: 14,
+                    background: emotion.accentLight,
+                    border: "1px solid rgba(45,42,38,0.08)",
+                    color: "var(--text-primary)",
+                    textDecoration: "none",
+                    fontWeight: 700,
+                    fontSize: 14,
+                  }}
+                >
+                  <span>{emotion.emoji}</span>
+                  <span>{emotion.shortLabel}</span>
+                </a>
+              ))}
+            </div>
+            <a href="/start" className="btn-primary" style={{ display: "inline-flex", marginTop: 14, textDecoration: "none" }}>
+              Get matched in 30 seconds
+            </a>
+          </div>
           <div style={{ display: "flex", justifyContent: "center", gap: 14, flexWrap: "wrap" }}>
             <a href="/start" className="btn-primary" style={{ textDecoration: "none", padding: "16px 30px", fontSize: 16 }}>
               Get support now — it's free →
@@ -255,6 +320,16 @@ export default function Homepage() {
             <a href="/companion" className="btn-secondary" style={{ textDecoration: "none", padding: "16px 26px", color: "var(--sage-deep)" }}>
               Talk to Forj →
             </a>
+            <a href="/today" className="btn-secondary" style={{ textDecoration: "none", padding: "16px 26px", color: "var(--sage-deep)" }}>
+              Today's Reset →
+            </a>
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 10, margin: "22px auto 0", maxWidth: 820 }}>
+            {TRUST_POINTS.map((point) => (
+              <span key={point} style={{ padding: "8px 12px", borderRadius: 999, background: "rgba(255,255,255,0.68)", border: "1px solid rgba(45,42,38,0.08)", color: "var(--text-secondary)", fontSize: 13, fontWeight: 700 }}>
+                {point}
+              </span>
+            ))}
           </div>
           <div style={{ margin: "28px auto 0", maxWidth: 760 }}>
             <p className="text-label" style={{ margin: "0 0 12px", color: "var(--sage-deep)" }}>
@@ -293,7 +368,7 @@ export default function Homepage() {
             </div>
           </div>
           <p className="text-caption" style={{ margin: "18px auto 0", color: "var(--text-muted)" }}>
-            No account needed. Your emotional data never leaves your device. Takes 30 seconds.
+            No account needed. Free-text stays local unless a feature clearly says otherwise. Takes 30 seconds.
           </p>
         </div>
       </section>
@@ -320,7 +395,7 @@ export default function Homepage() {
           <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1.1fr) minmax(0, 0.9fr)", gap: 28, alignItems: "start" }} className="home-value-grid">
             <article style={{ display: "grid", gap: 18 }}>
               {[
-                [`${FORJ_MODALITY_COUNT} therapeutic modalities, not just meditation`, FORJ_MODALITIES],
+                [`${FORJ_MODALITY_COUNT} evidence-framed modalities, not just meditation`, FORJ_MODALITIES],
                 ["7 types of interactions", INTERACTIONS],
               ].map(([title, list]) => (
                 <div key={title} className="card" style={{ boxShadow: "var(--shadow-sm)" }}>
@@ -334,7 +409,7 @@ export default function Homepage() {
             <article className="card" style={{ boxShadow: "var(--shadow-sm)" }}>
               <h3 style={{ margin: "0 0 12px" }}>Built by Kevin</h3>
               <p style={{ margin: "0 0 16px", color: "var(--text-secondary)", lineHeight: 1.75 }}>
-                AIForj is built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate completing training in March 2027.
+                AIForj is built and clinician-informed by Kevin, a psychiatric nurse practitioner candidate completing training in March 2027.
               </p>
               <p style={{ margin: "0 0 16px", color: "var(--text-secondary)", lineHeight: 1.75 }}>
                 It exists because emotionally grounded support should not require a waitlist or a copay.
@@ -387,13 +462,14 @@ export default function Homepage() {
       <RevealSection style={{ padding: "84px 24px" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <SectionHeader eyebrow="Coverage" title="A broad toolkit for real moments">
-            100+ interventions across 12 emotional states, {FORJ_MODALITY_COUNT} therapeutic modalities, and 7 interaction types.
+            30 public guides plus 100+ guided interventions across emotional states, {FORJ_MODALITY_COUNT} evidence-framed modalities, and 7 interaction types.
           </SectionHeader>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 16 }}>
             {[
-              ["100+", "interventions"],
+              ["30", "public guides"],
+              ["100+", "guided interventions"],
               ["12", "emotional states"],
-              [String(FORJ_MODALITY_COUNT), "therapeutic modalities"],
+              [String(FORJ_MODALITY_COUNT), "evidence-framed modalities"],
               ["7", "interaction types"],
             ].map(([value, label]) => (
               <div key={label} style={{ textAlign: "center", padding: "30px 18px", background: "var(--surface-elevated)", border: "1px solid var(--border)", borderRadius: 18 }}>
@@ -406,6 +482,47 @@ export default function Homepage() {
       </RevealSection>
 
       <GardenShowcase />
+
+      <RevealSection style={{ padding: "84px 24px", background: "var(--surface)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <SectionHeader eyebrow="Share without oversharing" title="Why people share it">
+            Calm links and cards point to a useful reset, not the private reason someone needed it.
+          </SectionHeader>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16 }}>
+            {[
+              ["Send a calm link", "A no-pressure reset someone can open when words are hard."],
+              ["Share a non-private card", "Technique, Garden, Blueprint, and milestone cards avoid raw scores or journal text."],
+              ["Invite a friend to a 7-day reset", "Bounded daily support without shame mechanics or endless scrolling."],
+            ].map(([title, body]) => (
+              <article key={title} className="card" style={{ boxShadow: "var(--shadow-sm)" }}>
+                <h3 style={{ margin: "0 0 10px" }}>{title}</h3>
+                <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.75 }}>{body}</p>
+              </article>
+            ))}
+          </div>
+          <div style={{ display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap", marginTop: 24 }}>
+            <a href="/send" className="btn-primary" style={{ textDecoration: "none" }}>Send Calm →</a>
+            <a href="/today" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>Start a 7-day reset →</a>
+          </div>
+        </div>
+      </RevealSection>
+
+      <RevealSection style={{ padding: "84px 24px" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <SectionHeader eyebrow="Pricing preview" title="A path to support the free layer">
+            Basic emotional first aid stays free. Paid plans add depth, exports, private seats, and rollout tools.
+          </SectionHeader>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 14 }}>
+            {PRICING_PREVIEW.map(([name, price, body]) => (
+              <article key={name} className="card" style={{ boxShadow: "var(--shadow-sm)", minHeight: 210, display: "grid", alignContent: "start", gap: 10 }}>
+                <p className="text-label" style={{ margin: 0, color: "var(--sage-deep)" }}>{name}</p>
+                <div style={{ fontFamily: "'Fraunces', serif", fontSize: 30, color: "var(--text-primary)" }}>{price}</div>
+                <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.7, fontSize: 14 }}>{body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </RevealSection>
 
       <RevealSection id="premium" style={{ padding: "84px 24px" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
@@ -426,7 +543,7 @@ export default function Homepage() {
               <p className="text-label" style={{ color: "var(--sage-deep)", margin: "0 0 10px" }}>Best for deeper support</p>
               <h3 style={{ margin: "0 0 10px", fontSize: "clamp(28px, 4vw, 40px)" }}>AIForj Premium</h3>
               <p style={{ color: "var(--text-secondary)", margin: "0 auto 18px", lineHeight: 1.75, maxWidth: 620 }}>
-                Unlimited deeper Talk to Forj sessions, premium progress tools, and more personalized therapeutic guidance while keeping emotional data private on your device.
+                Unlimited deeper Talk to Forj sessions, premium progress tools, and more personalized self-guided support while keeping local progress private on your device.
               </p>
               <div style={{ fontFamily: "'Fraunces', serif", fontSize: 34, color: "var(--sage-deep)", marginBottom: 18 }}>
                 $9.99/mo
@@ -493,9 +610,9 @@ export default function Homepage() {
               <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 14, lineHeight: 1.7 }}>
                 Built and clinically informed by{" "}
                 <a href="/about/founder" style={{ color: "var(--interactive)", fontWeight: 700 }}>
-                  a licensed clinician and psychiatric nurse practitioner candidate
+                  Kevin, a psychiatric nurse practitioner candidate
                 </a>.
-                {" "}Your emotional data never leaves your device.
+                {" "}Free-text stays local unless a feature clearly says otherwise.
               </p>
             </div>
             <nav style={{ display: "grid", gap: 8 }}>

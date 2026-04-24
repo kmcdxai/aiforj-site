@@ -96,9 +96,13 @@ export default function Page() {
               <li>your mood ratings and mood-shift history</li>
               <li>session history used for “For You, right now” recommendations</li>
               <li>written responses you enter inside techniques and interventions</li>
+              <li>Talk to Forj typed messages and local companion memory, unless a feature clearly says otherwise</li>
               <li>garden progress data and local streaks</li>
               <li>your anonymous-metrics preference itself</li>
             </ul>
+            <p style={{ margin: "12px 0 0", color: "var(--text-secondary)", lineHeight: 1.8 }}>
+              Voice input depends on your browser and device. Some browsers process speech through their own speech services. AIForj does not store voice audio or transcripts on its server.
+            </p>
           </section>
 
           <section
@@ -114,13 +118,15 @@ export default function Page() {
               What can be shared only if you opt in
             </h2>
             <p style={{ margin: "0 0 12px", color: "var(--text-secondary)", lineHeight: 1.8 }}>
-              If you turn on anonymous metrics, AIForj can send a small set of whitelisted counters to a first-party AIForj endpoint:
+              Public marketing pages can send aggregate page-view counters without cookies, user identity, raw URLs, or free-text. Sensitive tool usage requires the anonymous metrics opt-in. If you turn it on, AIForj can send a small set of whitelisted counters to a first-party AIForj endpoint:
             </p>
             <ul style={{ margin: "0 0 12px", paddingLeft: 20, color: "var(--text-secondary)", lineHeight: 1.85 }}>
               <li>whether a tool was started</li>
               <li>whether a tool was completed</li>
               <li>a duration bucket such as “2 to 5 minutes”</li>
-              <li>a mood-shift bucket such as “up 1 to 2” when a measured intervention has both ratings</li>
+              <li>a mood-shift bucket such as “up 1” or “up 2 plus” when a measured intervention has both ratings</li>
+              <li>safe share-card counts and share-link opens</li>
+              <li>checkout starts and successes by plan type only</li>
               <li>a short rotating anonymous client id that refreshes regularly</li>
             </ul>
             <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.8 }}>
@@ -146,7 +152,28 @@ export default function Page() {
               <li>names, phone numbers, email addresses, or gift-note text</li>
               <li>provider-search details or anything meant for crisis support</li>
               <li>full raw mood histories as a default background feed</li>
+              <li>IP addresses or raw browser user-agent strings</li>
             </ul>
+          </section>
+
+          <section
+            style={{
+              padding: "22px 20px",
+              borderRadius: 18,
+              background: "rgba(107,155,158,0.07)",
+              border: "1px solid rgba(107,155,158,0.16)",
+              marginBottom: 28,
+            }}
+          >
+            <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 24, margin: "0 0 12px", color: "var(--text-primary)" }}>
+              Payments, gifts, and share links
+            </h2>
+            <p style={{ margin: "0 0 12px", color: "var(--text-secondary)", lineHeight: 1.8 }}>
+              Payments are handled by Stripe. AIForj stores only what is needed for checkout, entitlement, invite, and redeem flows: plan type, Stripe session/customer/subscription identifiers when needed, gift or family invite codes, activation status, and expiration status. Emotional content is not attached to Stripe metadata.
+            </p>
+            <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.8 }}>
+              Calm Card share links use a minimal token with card type, tool slug or blueprint archetype, optional sender first name, and optional short non-sensitive message. They do not include journal text, chat text, raw mood scores, crisis status, provider searches, or full histories.
+            </p>
           </section>
 
           <section style={{ marginBottom: 28 }}>

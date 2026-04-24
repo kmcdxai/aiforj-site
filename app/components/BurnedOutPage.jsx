@@ -132,7 +132,7 @@ export default function BurnedOutPage() {
             <p style={{ fontSize:16, lineHeight:1.8, color:ac, marginBottom:40 }}>This protocol is informed by the Maslach burnout model, one of the most widely used research frameworks in this area. You'll check in on your current pattern, identify what's draining you, and leave with a concrete recovery plan.</p>
 
             <div style={{ textAlign:"center" }}><Btn onClick={() => go("assess")}>Assess my burnout</Btn></div>
-            <p style={{ fontSize:10, color:"#5d5850", opacity:0.4, marginTop:32, textAlign:"center", lineHeight:1.7 }}>Built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate. Nothing stored or sent.</p>
+            <p style={{ fontSize:10, color:"#5d5850", opacity:0.4, marginTop:32, textAlign:"center", lineHeight:1.7 }}>Clinician-informed by Kevin, a psychiatric nurse practitioner candidate. Local-first where supported.</p>
 
             <InlineEmailCapture />
           </div>

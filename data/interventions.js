@@ -28,7 +28,7 @@ export const INTERVENTIONS = {
         id: 'physiological-sigh',
         name: 'Physiological Sigh',
         title: 'Physiological Sigh',
-        description: 'The fastest evidence-backed way to reduce anxiety. Double inhale through nose, long exhale through mouth.',
+        description: 'A fast evidence-framed way to reduce anxiety. Double inhale through nose, long exhale through mouth.',
         modalities: ['Somatic'],
         modality: 'Somatic',
         interactionType: 'body',

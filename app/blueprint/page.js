@@ -4,7 +4,7 @@ import ArchetypesList from "./ArchetypesList";
 export const metadata = {
   title: "Your Emotional Blueprint — AIForj",
   description:
-    "A 2-minute clinician-designed assessment. Discover your stress archetype, thinking patterns, and which techniques match your brain. 100% private — nothing leaves your browser.",
+    "A 2-minute self-reflection assessment. Discover your stress archetype, thinking patterns, and which self-guided techniques may fit you. Local-first and not a diagnosis.",
   alternates: {
     canonical: "https://aiforj.com/blueprint",
   },

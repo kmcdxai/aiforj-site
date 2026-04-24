@@ -35,7 +35,10 @@ export function track(event: AnalyticsEvent, props: AnalyticsProps = {}) {
     payload.debug_mode = 1;
   }
 
-  if (typeof window.gtag === "function") {
+  if (
+    process.env.NEXT_PUBLIC_ENABLE_LEGACY_GA === "true" &&
+    typeof window.gtag === "function"
+  ) {
     window.gtag("event", event, payload);
   }
 }

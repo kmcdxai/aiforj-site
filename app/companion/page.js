@@ -4,7 +4,7 @@ import ForjVoiceCompanion from '../components/ForjVoiceCompanion';
 
 export const metadata = buildContentPageMetadata({
   title: 'Talk to Forj — Voice AI Therapeutic Companion | AIForj',
-  description: `Free voice-based AI therapeutic companion built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate. ${FORJ_MODALITY_COUNT} evidence-based therapeutic modalities. Premium upgrades are available for deeper support.`,
+  description: `Free voice/text wellness companion for self-guided emotional first aid. Clinician-informed, local-first where supported, and not therapy, diagnosis, medication advice, or crisis care. ${FORJ_MODALITY_COUNT} evidence-framed modalities.`,
   path: '/companion',
   socialTitle: 'Talk to Forj',
   socialDescription: 'Private voice-based emotional first aid with clinician-informed guidance, structured tools, and optional premium depth.',

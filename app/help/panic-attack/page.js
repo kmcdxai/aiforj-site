@@ -45,7 +45,7 @@ export default function Page() {
           </ul>
 
           <LeadMagnetCapture
-            title="“10 evidence-based panic interrupts I use with patients” — by Kevin, licensed clinician and psychiatric NP candidate"
+            title="“10 evidence-framed panic interrupts” — by Kevin, psychiatric NP candidate"
             description="Get the quick-reference panic interrupt guide by email, then try a guided intervention when you are ready."
             source="panic_lead_magnet"
             pdfPath="/lead-magnets/panic-interrupts.pdf"

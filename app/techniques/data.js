@@ -99,7 +99,7 @@ export const TECHNIQUES = [
     metaTitle:
       "Physiological Sigh: The Fastest Science-Backed Way to Calm Down",
     metaDescription:
-      "Learn the physiological sigh — a double inhale and long exhale technique from Stanford research. The fastest evidence-based way to reduce stress in real time.",
+      "Learn the physiological sigh — a double inhale and long exhale technique from Stanford research. A fast evidence-framed way to reduce stress in real time.",
     keywords:
       "physiological sigh, double inhale exhale, stress relief breathing",
     subtitle: "For acute stress, panic spirals, and emotional reactivity",
@@ -1432,7 +1432,7 @@ export const TECHNIQUES = [
     title: "When Work Is Too Much: A 3-Minute Reset for Overwhelm",
     metaTitle: "Overwhelmed at Work? A Clinician-Designed 3-Minute Reset",
     metaDescription:
-      "Drowning in tasks and deadlines? This evidence-based protocol helps you regain focus and calm when work feels impossible. Built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate.",
+      "Drowning in tasks and deadlines? This evidence-framed protocol helps you regain focus and calm when work feels impossible. Clinician-informed by Kevin, a psychiatric nurse practitioner candidate.",
     keywords: "overwhelmed at work, work stress, how to deal with overwhelm, workplace anxiety",
     subtitle: "For task paralysis, racing thoughts, and the feeling that you'll never catch up",
     time: "5 minutes",

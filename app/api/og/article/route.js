@@ -166,7 +166,7 @@ export async function GET(request) {
             />
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               <div style={{ display: "flex", fontSize: 28, fontWeight: 700 }}>
-                By Kevin · Licensed clinician · Psychiatric NP candidate
+                By Kevin · Psychiatric NP candidate
               </div>
               <div style={{ display: "flex", fontSize: 21, color: COLORS.muted }}>
                 Clinically trained in CBT, DBT, ACT, IFS, polyvagal theory + more

@@ -60,7 +60,7 @@ export default function LandingPage({
         </a>
         <div style={{ marginTop: 20, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
           <span style={{ fontSize: 13 }}>🔒</span>
-          <span style={{ fontSize: 12, color: "var(--text-muted)", fontFamily: "'DM Sans', sans-serif" }}>100% private — nothing leaves your browser</span>
+          <span style={{ fontSize: 12, color: "var(--text-muted)", fontFamily: "'DM Sans', sans-serif" }}>Privacy-first and local-first where supported</span>
         </div>
       </section>
 
@@ -121,7 +121,7 @@ export default function LandingPage({
       {/* Footer */}
       <footer style={{ padding: "32px 24px", textAlign: "center", background: "var(--bg-secondary)", borderTop: "1px solid rgba(45,42,38,0.06)", marginTop: "auto" }}>
         <p style={{ fontSize: 12, color: "var(--text-secondary)", margin: "0 0 8px", fontFamily: "'DM Sans', sans-serif" }}>
-          Built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate
+          Clinician-informed by Kevin, a psychiatric nurse practitioner candidate
         </p>
         <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.5, lineHeight: 1.7, margin: "0 0 8px", fontFamily: "'DM Sans', sans-serif" }}>
           AIForj is a wellness companion — not a therapist or substitute for professional care.

@@ -26,8 +26,6 @@ function buildReceiptParams(searchParams = {}) {
 function buildOgUrl(params) {
   const query = new URLSearchParams({
     e: params.emotion.toLowerCase().replace(/\s+/g, "-"),
-    from: String(params.from),
-    to: String(params.to),
     mod: params.modality.toLowerCase().replace(/\s+/g, "-"),
     d: String(params.duration),
   });
@@ -39,7 +37,7 @@ export function generateMetadata({ searchParams }) {
   const imageUrl = buildOgUrl(receipt);
   return {
     title: `${receipt.emotion} mood shift receipt | AIForj`,
-    description: `A private AIForj mood shift receipt: ${receipt.from}/10 to ${receipt.to}/10 using ${receipt.modality}.`,
+    description: `A private AIForj emotional first-aid receipt using ${receipt.modality}.`,
     alternates: {
       canonical: "https://aiforj.com/receipt",
     },
@@ -64,36 +62,28 @@ export default function ReceiptPage({ searchParams }) {
   const receipt = buildReceiptParams(searchParams);
   const imageUrl = buildOgUrl(receipt);
   const delta = receipt.to - receipt.from;
-  const beforeWidth = `${receipt.from * 10}%`;
-  const afterWidth = `${receipt.to * 10}%`;
+  const shiftLabel = delta > 1 ? "Helpful shift" : delta === 1 ? "Small helpful shift" : delta === 0 ? "Noticed the moment" : "Tried a reset";
 
   return (
     <main style={{ minHeight: "100vh", padding: "96px 24px 72px", background: "linear-gradient(180deg, var(--parchment), var(--surface))", color: "var(--text-primary)" }}>
       <section style={{ maxWidth: 920, margin: "0 auto", display: "grid", gap: 28 }}>
         <div style={{ textAlign: "center" }}>
           <p className="text-label" style={{ color: "var(--sage-deep)", margin: "0 0 12px" }}>Mood Shift Receipt</p>
-          <h1 style={{ margin: "0 0 14px", fontSize: "clamp(36px, 6vw, 62px)" }}>{receipt.emotion} → {receipt.to < receipt.from ? "Calmer" : receipt.to > receipt.from ? "Steadier" : "Noticed"}</h1>
+          <h1 style={{ margin: "0 0 14px", fontSize: "clamp(36px, 6vw, 62px)" }}>{receipt.emotion} reset</h1>
           <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 18, lineHeight: 1.7 }}>
-            An anonymous receipt from one AIForj emotional first-aid session.
+            An anonymous receipt from one AIForj emotional first-aid session. Raw mood scores are not shown on shared receipts.
           </p>
         </div>
 
         <article style={{ borderRadius: 32, padding: "clamp(24px, 5vw, 44px)", background: "rgba(255,255,255,0.78)", border: "1px solid var(--border)", boxShadow: "var(--shadow-lg)", display: "grid", gap: 28 }}>
-          <div style={{ display: "grid", gap: 18 }}>
-            <div style={{ display: "grid", gridTemplateColumns: "92px 1fr 70px", gap: 16, alignItems: "center" }}>
-              <strong>Before</strong>
-              <div style={{ height: 18, borderRadius: 999, background: "rgba(45,42,38,0.08)", overflow: "hidden" }}>
-                <div style={{ width: beforeWidth, height: "100%", background: "var(--amber-deep)", borderRadius: 999 }} />
-              </div>
-              <strong style={{ textAlign: "right" }}>{receipt.from}/10</strong>
+          <div style={{ display: "grid", gap: 12, justifyItems: "center", textAlign: "center" }}>
+            <div style={{ width: 82, height: 82, borderRadius: 28, background: "var(--sage-light)", display: "grid", placeItems: "center", color: "var(--sage-deep)", fontSize: 34, fontWeight: 900 }}>
+              AI
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "92px 1fr 70px", gap: 16, alignItems: "center" }}>
-              <strong>After</strong>
-              <div style={{ height: 18, borderRadius: 999, background: "rgba(45,42,38,0.08)", overflow: "hidden" }}>
-                <div style={{ width: afterWidth, height: "100%", background: "var(--sage-deep)", borderRadius: 999 }} />
-              </div>
-              <strong style={{ textAlign: "right" }}>{receipt.to}/10</strong>
-            </div>
+            <h2 style={{ margin: 0, fontSize: "clamp(28px, 4vw, 42px)" }}>{shiftLabel}</h2>
+            <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.75, maxWidth: 620 }}>
+              This shared card points to the reset, not the private details of the session.
+            </p>
           </div>
 
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "space-between", alignItems: "center" }}>
@@ -101,13 +91,13 @@ export default function ReceiptPage({ searchParams }) {
               <p className="text-label" style={{ margin: "0 0 8px", color: "var(--text-muted)" }}>Technique</p>
               <h2 style={{ margin: 0 }}>{receipt.modality} · {receipt.duration} min</h2>
             </div>
-            <div style={{ fontFamily: "'Fraunces', serif", fontSize: 32, color: delta >= 0 ? "var(--sage-deep)" : "var(--amber-deep)" }}>
-              {delta > 0 ? "+" : ""}{delta} points
+            <div style={{ fontFamily: "'Fraunces', serif", fontSize: 28, color: delta >= 0 ? "var(--sage-deep)" : "var(--amber-deep)" }}>
+              No private scores shown
             </div>
           </div>
 
           <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.75 }}>
-            Built by Kevin · Licensed clinician · Psychiatric NP candidate · aiforj.com
+            Clinician-informed · wellness companion, not a substitute for professional care · aiforj.com
           </p>
         </article>
 

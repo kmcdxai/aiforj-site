@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
 import PremiumCheckoutButton from '../monetization/PremiumCheckoutButton';
+import ShareAfterSession from '../share/ShareAfterSession';
+import { createShareToken } from '../../lib/shareToken';
 import { track } from '../../lib/analytics';
 import { workbookLink } from '../../lib/links';
 
@@ -57,19 +59,18 @@ export default function MoodShiftReceipt({
   const shiftColor = shift >= 3 ? 'var(--success)' : shift > 0 ? 'var(--interactive)' : shift === 0 ? 'var(--text-secondary)' : 'var(--warning)';
   const durationMinutes = Math.max(1, Math.ceil((duration || 0) / 60000));
   const modalityLabel = modality || interventionName || 'AIForj tool';
-  const receiptParams = new URLSearchParams({
-    e: String(emotion || 'general'),
-    from: String(preRating),
-    to: String(postRating),
-    mod: modalityLabel,
-    d: String(durationMinutes),
+  const safeShareToken = createShareToken({
+    type: 'technique',
+    toolSlug: interventionSlug,
+    message: 'This helped me slow down.',
+    ref: 'shared_card',
   });
-  const receiptPath = `/receipt?${receiptParams.toString()}`;
-  const ogImagePath = `/api/og/receipt?${receiptParams.toString()}`;
+  const receiptPath = `/share/${safeShareToken}`;
+  const ogImagePath = `/api/og/calm-card?token=${encodeURIComponent(safeShareToken)}`;
   const shareUrl = typeof window !== 'undefined' ? `${window.location.origin}${receiptPath}` : `https://aiforj.com${receiptPath}`;
   const ogImageUrl = typeof window !== 'undefined' ? `${window.location.origin}${ogImagePath}` : `https://aiforj.com${ogImagePath}`;
 
-  const shareText = `My mood shifted from ${preRating}/10 to ${postRating}/10 in ${durationMinutes} minutes using ${interventionName} on AIForj. Private emotional first aid:`;
+  const shareText = 'I found this 2-minute reset useful. No private details included:';
   const sendCalmText = `Hey, I just tried this and it actually helped. Thought of you: aiforj.com/start`;
 
   const handleCopyShare = async () => {
@@ -390,7 +391,7 @@ export default function MoodShiftReceipt({
           borderTop: '1px solid rgba(45,42,38,0.06)',
           paddingTop: 16,
         }}>
-          Built by Kevin · Licensed clinician · Psychiatric NP candidate · aiforj.com
+          Clinician-informed · Psychiatric NP candidate · aiforj.com
         </div>
       </div>
 
@@ -420,19 +421,8 @@ export default function MoodShiftReceipt({
         <div style={{ fontFamily: "'Fraunces', serif", fontSize: 32, fontWeight: 500, color: '#2C2520', marginBottom: 40 }}>
           My Mood Shift
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 28, marginBottom: 24 }}>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 48, opacity: 0.5 }}>{beforeData.emoji}</div>
-            <div style={{ fontSize: 18, color: '#8A8078', marginTop: 8 }}>{preRating}/10</div>
-          </div>
-          <div style={{ fontSize: 36, color: '#7A9E7E' }}>{'\u2192'}</div>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 60 }}>{afterData.emoji}</div>
-            <div style={{ fontSize: 18, color: '#2C2520', fontWeight: 600, marginTop: 8 }}>{postRating}/10</div>
-          </div>
-        </div>
         <div style={{ fontSize: 28, fontWeight: 700, color: shift >= 0 ? '#5A8B5E' : '#C4856C', marginBottom: 20, fontFamily: "'Fraunces', serif" }}>
-          {shift > 0 ? '+' : ''}{shift} {Math.abs(shift) === 1 ? 'point' : 'points'}
+          I found this reset useful
         </div>
         <div style={{ fontSize: 16, color: '#5C534A', lineHeight: 1.6, maxWidth: 380, marginBottom: 40 }}>
           {shiftMessage}
@@ -442,124 +432,16 @@ export default function MoodShiftReceipt({
           <div style={{ fontSize: 14, color: '#8A8078' }}>{durationMinutes} min {'\u00b7'} {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
         </div>
         <div style={{ marginTop: 'auto', paddingTop: 40, fontSize: 12, color: '#8A8078', opacity: 0.6 }}>
-          Built by Kevin {'\u00b7'} Licensed clinician {'\u00b7'} Psychiatric NP candidate {'\u00b7'} aiforj.com
+          Clinician-informed {'\u00b7'} Psychiatric NP candidate {'\u00b7'} aiforj.com
         </div>
       </div>
 
-      {/* ── Share Section ── */}
-      <div style={{ marginTop: 28, textAlign: 'center' }}>
-        <h3 style={{
-          fontFamily: "'Fraunces', serif",
-          fontSize: '1.2rem',
-          fontWeight: 500,
-          color: 'var(--text-primary)',
-          margin: '0 0 16px',
-        }}>
-          Share your shift
-        </h3>
-
-        <div style={{
-          display: 'flex',
-          gap: 12,
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-        }}>
-          <button
-            onClick={handleNativeShare}
-            style={{
-              padding: '12px 22px',
-              borderRadius: 50,
-              background: 'var(--interactive)',
-              border: 'none',
-              color: '#fff',
-              fontSize: 14,
-              fontWeight: 600,
-              cursor: 'pointer',
-              transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
-              minWidth: 140,
-            }}
-          >
-            Share
-          </button>
-
-          <button
-            onClick={handleXShare}
-            style={{
-              padding: '12px 20px',
-              borderRadius: 50,
-              background: 'var(--surface)',
-              border: '1px solid rgba(45,42,38,0.08)',
-              color: 'var(--text-primary)',
-              fontSize: 14,
-              fontWeight: 500,
-              cursor: 'pointer',
-              minWidth: 96,
-            }}
-          >
-            X
-          </button>
-
-          <button
-            onClick={handleLinkedInShare}
-            style={{
-              padding: '12px 20px',
-              borderRadius: 50,
-              background: 'var(--surface)',
-              border: '1px solid rgba(45,42,38,0.08)',
-              color: 'var(--text-primary)',
-              fontSize: 14,
-              fontWeight: 500,
-              cursor: 'pointer',
-              minWidth: 110,
-            }}
-          >
-            LinkedIn
-          </button>
-
-          <button
-            onClick={handleCopyShare}
-            style={{
-              padding: '12px 22px',
-              borderRadius: 50,
-              background: copied ? 'var(--accent-sage-light)' : 'var(--surface)',
-              border: '1px solid rgba(45,42,38,0.08)',
-              color: copied ? 'var(--sage-deep)' : 'var(--text-primary)',
-              fontSize: 14,
-              fontWeight: 500,
-              cursor: 'pointer',
-              transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
-              minWidth: 140,
-            }}
-          >
-            {copied ? '\u2713 Copied!' : 'Copy link'}
-          </button>
-
-          <button
-            onClick={handleDownloadImage}
-            disabled={isGeneratingImage}
-            style={{
-              padding: '12px 22px',
-              borderRadius: 50,
-              background: 'var(--interactive)',
-              border: 'none',
-              color: '#fff',
-              fontSize: 14,
-              fontWeight: 500,
-              cursor: isGeneratingImage ? 'not-allowed' : 'pointer',
-              opacity: isGeneratingImage ? 0.6 : 1,
-              transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
-              minWidth: 140,
-            }}
-            onMouseEnter={(e) => {
-              if (!isGeneratingImage) e.currentTarget.style.background = 'var(--interactive-hover)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'var(--interactive)';
-            }}
-          >
-            {isGeneratingImage ? 'Generating...' : 'Download card'}
-          </button>
-        </div>
+      <div style={{ marginTop: 28 }}>
+        <ShareAfterSession
+          toolSlug={interventionSlug}
+          toolName={interventionName}
+          shift={shift}
+        />
       </div>
 
       {/* ── Send Calm CTA ── */}

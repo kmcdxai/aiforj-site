@@ -12,14 +12,14 @@ const founderPerson = {
 export const metadata = {
   title: "About the founder — AIForj",
   description:
-    "Meet Kevin, the licensed clinician and psychiatric nurse practitioner candidate building AIForj.",
+    "Meet Kevin, the psychiatric nurse practitioner candidate building AIForj.",
   alternates: {
     canonical: "https://aiforj.com/about/founder",
   },
   openGraph: {
     title: "About the founder — AIForj",
     description:
-      "Built by a licensed clinician and psychiatric nurse practitioner candidate and clinically grounded in evidence-based emotional first-aid tools.",
+      "Clinician-informed by a psychiatric nurse practitioner candidate and grounded in evidence-framed emotional first-aid tools.",
     url: "https://aiforj.com/about/founder",
     siteName: "AIForj",
     type: "profile",
@@ -88,7 +88,7 @@ export default function FounderPage() {
                   color: "var(--text-secondary)",
                 }}
               >
-                Built by a licensed clinician and psychiatric nurse practitioner candidate
+                Clinician-informed by a psychiatric nurse practitioner candidate
               </p>
               <p style={{ margin: 0, maxWidth: 680, color: "var(--text-secondary)", lineHeight: 1.8, fontSize: 17 }}>
                 AIForj is designed to make the first minute of emotional support more private, more specific, and more clinically grounded without pretending to replace real care.
@@ -119,10 +119,10 @@ export default function FounderPage() {
                 Licensed clinician and psychiatric nurse practitioner candidate, currently completing training and on track to graduate in March 2027.
               </p>
               <p style={{ margin: 0 }}>
-                I am clinically trained in 16+ evidence-based modalities: CBT, DBT, ACT, IFS, polyvagal theory, somatic experiencing, CFT, narrative therapy, motivational interviewing, behavioral activation, schema therapy, trauma-informed care, mindfulness-based approaches, emotion-focused therapy, attachment-based work, and solution-focused brief therapy.
+                AIForj is informed by training and study across evidence-framed modalities including CBT, DBT, ACT, IFS, polyvagal-informed education, somatic practices, CFT, narrative therapy, motivational interviewing, behavioral activation, schema-informed tools, trauma-informed care, mindfulness-based approaches, emotion-focused work, attachment-informed tools, and solution-focused brief practices.
               </p>
               <p style={{ margin: 0 }}>
-                I built AIForj because waitlists and copays should not stand between someone and the first 60 seconds of help. The interventions in AIForj are matched to specific emotional states based on the modalities with the strongest evidence for that state, not a universal technique applied everywhere.
+                I built AIForj because waitlists and copays should not stand between someone and the first 60 seconds of self-guided support. The interventions in AIForj are matched to emotional states based on evidence-framed practices, not a universal technique applied everywhere.
               </p>
               <p style={{ margin: 0 }}>
                 I am building this in the open. If you&apos;re a clinician with feedback, I want it. Email{" "}
@@ -134,9 +134,9 @@ export default function FounderPage() {
           </SectionCard>
 
           <SectionCard style={{ background: "linear-gradient(135deg, var(--sage-light), var(--surface-elevated))" }}>
-            <h2 style={{ margin: "0 0 14px" }}>Why a candidate, not a board-certified NP?</h2>
+            <h2 style={{ margin: "0 0 14px" }}>Why the credential wording is careful</h2>
             <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.85, fontSize: 16 }}>
-              AIForj is informed by clinical training, not a substitute for it. The tools in this app are evidence-based interventions any well-trained clinician would recognize. I am a psychiatric nurse practitioner candidate completing training in 2027. Until then, AIForj does not diagnose, treat, or replace professional care — and I&apos;d rather be transparent about where I am in training than overclaim a credential I haven&apos;t earned yet.
+              AIForj is informed by clinical training and careful review, not a substitute for professional care. The tools in this app are self-guided wellness practices, not diagnosis, treatment, medication advice, or crisis care. I would rather be transparent about where AIForj ends than overclaim a credential or outcome.
             </p>
           </SectionCard>
 
@@ -148,7 +148,7 @@ export default function FounderPage() {
                 </p>
                 <h2 style={{ margin: 0 }}>16 evidence-based modalities</h2>
               </div>
-              <span className="tag tag-cbt">Clinically trained in CBT, DBT, ACT, IFS + more</span>
+              <span className="tag tag-cbt">Evidence-framed: CBT, DBT, ACT, IFS + more</span>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 10 }}>
               {founderKnowsAbout.map((modality) => (

@@ -11,7 +11,7 @@ This file verifies the implementation against the 5 prompt sequence provided in 
 Two prompt-level wording changes were made intentionally because of explicit later user direction:
 
 - Public `Kevin Cooke` references were replaced with `AIForj Team`.
-- Public `PMHNP` / related wording was replaced with `Licensed Healthcare Provider`.
+- Public `PMHNP` / related wording was replaced with clinician-informed wellness scope language.
 
 Those changes affect prompt 3 and prompt 5 copy, but they were made on purpose to match the updated source of truth.
 
@@ -202,7 +202,7 @@ Example smoke output:
 
 ### Notes
 
-- The original prompt specified a public credential line naming Kevin Cooke / PMHNP-BC. Public-facing copy was intentionally changed to `AIForj Team` / `Licensed Healthcare Provider` based on later explicit user instruction.
+- The original prompt specified a public credential line naming Kevin Cooke / PMHNP-BC. Public-facing copy was intentionally changed to `AIForj Team` and clinician-informed wellness scope language based on later explicit user instruction.
 
 ---
 
@@ -306,7 +306,7 @@ Smoke test confirmed:
 
 ### Notes
 
-- The original prompt used PMHNP-specific public trust wording. Public-facing copy was intentionally changed to `AIForj Team` / `Licensed Healthcare Provider` based on later explicit user direction.
+- The original prompt used PMHNP-specific public trust wording. Public-facing copy was intentionally changed to `AIForj Team` and clinician-informed wellness scope language based on later explicit user direction.
 - The stats row uses real blueprint counts only; no fake testimonials, fake user counts, or fake social proof were added.
 
 ---

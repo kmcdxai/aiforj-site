@@ -1,5 +1,6 @@
 import Stripe from 'stripe';
 import { NextResponse } from 'next/server';
+import { appendOrganizationMetricEntry } from '../../../lib/organizationReporting';
 
 function createStripeClient() {
   const apiKey = process.env.STRIPE_SECRET_KEY;
@@ -42,8 +43,17 @@ export async function POST(request) {
 
   // Handle subscription events
   switch (event.type) {
-    case 'checkout.session.completed':
+    case 'checkout.session.completed': {
       const session = event.data.object;
+      const planType = session.metadata?.plan_type
+        || (session.metadata?.checkout_kind === 'family_plan' ? 'family' : session.metadata?.checkout_kind === 'sponsor_friend' ? 'gift' : 'premium');
+      await appendOrganizationMetricEntry({
+        event: 'checkout_success',
+        planType,
+        acquisitionSource: session.metadata?.acquisition_source || 'direct',
+        receivedAt: new Date().toISOString(),
+        dateBucket: new Date().toISOString().slice(0, 10),
+      }).catch(() => {});
       if (session.metadata?.checkout_kind === 'sponsor_friend') {
         console.log('🎁 New sponsor gift purchased:', session.id);
       } else if (session.metadata?.checkout_kind === 'family_plan') {
@@ -52,16 +62,19 @@ export async function POST(request) {
         console.log('✅ New subscriber:', session.customer_email || session.customer);
       }
       break;
+    }
 
-    case 'customer.subscription.deleted':
+    case 'customer.subscription.deleted': {
       const subscription = event.data.object;
       console.log('❌ Subscription cancelled:', subscription.customer);
       break;
+    }
 
-    case 'invoice.payment_failed':
+    case 'invoice.payment_failed': {
       const invoice = event.data.object;
       console.log('⚠️ Payment failed:', invoice.customer);
       break;
+    }
 
     default:
       console.log(`Unhandled event type: ${event.type}`);

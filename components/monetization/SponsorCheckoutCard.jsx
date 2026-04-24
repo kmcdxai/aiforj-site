@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { track } from "../../lib/analytics";
+import { trackSafeMetric } from "../../lib/metrics";
 
 export default function SponsorCheckoutCard() {
   const [recipientName, setRecipientName] = useState("");
@@ -10,14 +11,15 @@ export default function SponsorCheckoutCard() {
 
   const startCheckout = async () => {
     track("sponsor_click", { source: "sponsor_checkout" });
+    trackSafeMetric({ event: "checkout_started", planType: "gift", acquisitionSource: "internal" });
     setLoading(true);
     setError("");
 
     try {
-      const response = await fetch("/api/create-sponsor-session", {
+      const response = await fetch("/api/stripe/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ recipientName }),
+        body: JSON.stringify({ planType: "gift", recipientName, acquisitionSource: "internal" }),
       });
       const data = await response.json();
 

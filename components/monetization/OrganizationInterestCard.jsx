@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { trackSafeMetric } from "../../lib/metrics";
 
 const TEAM_SIZE_OPTIONS = [
   "1-25 people",
@@ -26,6 +27,7 @@ export default function OrganizationInterestCard() {
     teamSize: TEAM_SIZE_OPTIONS[0],
   });
   const [status, setStatus] = useState("idle");
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [message, setMessage] = useState("");
 
   const updateField = (key) => (event) => {
@@ -67,6 +69,35 @@ export default function OrganizationInterestCard() {
     } catch (error) {
       setStatus("error");
       setMessage(error?.message || "Unable to join the organization list.");
+    }
+  };
+
+  const startPilotCheckout = async () => {
+    setCheckoutLoading(true);
+    setMessage("");
+    trackSafeMetric({ event: "checkout_started", planType: "organization", acquisitionSource: "org_link" });
+
+    try {
+      const response = await fetch("/api/stripe/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          planType: "organization",
+          organizationName: form.organization,
+          acquisitionSource: "org_link",
+        }),
+      });
+      const data = await response.json();
+      if (data?.url) {
+        window.location.href = data.url;
+        return;
+      }
+      throw new Error(data?.error || "Pilot checkout unavailable.");
+    } catch (error) {
+      setStatus("error");
+      setMessage(error?.message || "Pilot checkout unavailable.");
+    } finally {
+      setCheckoutLoading(false);
     }
   };
 
@@ -258,17 +289,31 @@ export default function OrganizationInterestCard() {
             gap: 14,
           }}
         >
-          <div style={{ fontSize: 13, color: "var(--text-muted)" }}>
-            Early access list for the first organization toolkit cohort.
+          <div>
+            <div style={{ fontFamily: "'Fraunces', serif", fontSize: 28, color: "var(--text-primary)" }}>$399/mo</div>
+            <div style={{ fontSize: 13, color: "var(--text-muted)" }}>
+              Early pilot or request a rollout conversation.
+            </div>
           </div>
-          <button
-            type="submit"
-            disabled={status === "loading"}
-            className="btn-primary"
-            style={{ minWidth: 240, opacity: status === "loading" ? 0.7 : 1 }}
-          >
-            {status === "loading" ? "Joining..." : "Join organization list →"}
-          </button>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+            <button
+              type="button"
+              onClick={startPilotCheckout}
+              disabled={checkoutLoading}
+              className="btn-primary"
+              style={{ minWidth: 190, opacity: checkoutLoading ? 0.7 : 1 }}
+            >
+              {checkoutLoading ? "Opening..." : "Start pilot"}
+            </button>
+            <button
+              type="submit"
+              disabled={status === "loading"}
+              className="btn-secondary"
+              style={{ minWidth: 190, opacity: status === "loading" ? 0.7 : 1 }}
+            >
+              {status === "loading" ? "Joining..." : "Request pilot"}
+            </button>
+          </div>
         </div>
 
         {message ? (

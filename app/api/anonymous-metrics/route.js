@@ -1,37 +1,13 @@
 import { NextResponse } from "next/server";
-import { TECHNIQUES } from "../../techniques/data";
-import { getAllInterventions } from "../../../data/interventions";
 import {
-  ANONYMOUS_METRIC_EVENTS,
-  DURATION_BUCKETS,
-  SHIFT_BUCKETS,
-  sanitizeMetricToken,
-} from "../../../lib/anonymousMetricsShared";
+  normalizeDateBucket,
+  normalizeHourBucket,
+  validateMetricPayload,
+} from "../../../lib/metricsSchema.mjs";
 import { appendOrganizationMetricEntry } from "../../../lib/organizationReporting";
 
 export const runtime = "nodejs";
-
-const TECHNIQUE_IDS = new Set(TECHNIQUES.map((technique) => technique.slug));
-const INTERVENTION_IDS = new Set(
-  getAllInterventions().map((intervention) => intervention.id)
-);
-
-function validateToolId(toolKind, toolId) {
-  if (toolKind === "technique") {
-    return TECHNIQUE_IDS.has(toolId);
-  }
-
-  if (toolKind === "intervention") {
-    return INTERVENTION_IDS.has(toolId);
-  }
-
-  return false;
-}
-
-function normalizeOptionalBucket(value, validBuckets) {
-  if (value == null) return null;
-  return validBuckets.has(value) ? value : null;
-}
+export const dynamic = "force-dynamic";
 
 export async function POST(request) {
   let body;
@@ -42,43 +18,35 @@ export async function POST(request) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const event = sanitizeMetricToken(body?.event, 32);
-  const toolKind = sanitizeMetricToken(body?.toolKind, 24);
-  const toolId = sanitizeMetricToken(body?.toolId, 80);
-  const clientId = sanitizeMetricToken(body?.clientId, 64);
-  const emotion = sanitizeMetricToken(body?.emotion, 40);
-  const source = sanitizeMetricToken(body?.source, 40);
-  const durationBucket = normalizeOptionalBucket(body?.durationBucket, DURATION_BUCKETS);
-  const shiftBucket = normalizeOptionalBucket(body?.shiftBucket, SHIFT_BUCKETS);
+  const compatibilityPayload = {
+    event: body?.event,
+    toolKind: body?.toolKind,
+    toolSlug: body?.toolSlug || body?.toolId,
+    emotionCategory: body?.emotionCategory || body?.emotion,
+    acquisitionSource: body?.acquisitionSource || body?.source,
+    durationBucket: body?.durationBucket,
+    moodShiftBucket: body?.moodShiftBucket || body?.shiftBucket,
+    clientId: body?.clientId,
+  };
 
-  if (
-    !event ||
-    !toolKind ||
-    !toolId ||
-    !clientId ||
-    !ANONYMOUS_METRIC_EVENTS.has(event) ||
-    !validateToolId(toolKind, toolId)
-  ) {
-    return NextResponse.json({ error: "Invalid metric payload" }, { status: 400 });
+  const validation = validateMetricPayload(compatibilityPayload, {
+    allowSensitive: Boolean(compatibilityPayload.clientId),
+  });
+
+  if (!validation.ok) {
+    return NextResponse.json({ error: validation.error }, { status: 400 });
   }
 
+  const now = new Date();
   const safeMetric = {
-    type: "anonymous_metric",
-    event,
-    toolKind,
-    toolId,
-    clientId,
-    emotion,
-    source,
-    durationBucket,
-    shiftBucket,
-    receivedAt: new Date().toISOString(),
+    type: "privacy_metric",
+    ...validation.sanitized,
+    dateBucket: normalizeDateBucket(now),
+    hourBucket: normalizeHourBucket(now),
+    receivedAt: now.toISOString(),
   };
 
   await appendOrganizationMetricEntry(safeMetric);
-
-  const { clientId: _clientId, ...loggableMetric } = safeMetric;
-  console.info("[aiforj-anonymous-metric]", JSON.stringify(loggableMetric));
 
   return new NextResponse(null, { status: 204 });
 }

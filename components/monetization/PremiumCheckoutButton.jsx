@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { track } from '../../lib/analytics';
+import { trackSafeMetric } from '../../lib/metrics';
 
 export default function PremiumCheckoutButton({
   children = 'Start 7-day free trial',
@@ -14,13 +15,14 @@ export default function PremiumCheckoutButton({
 
   const startCheckout = async () => {
     track('premium_click', { source: medium });
+    trackSafeMetric({ event: 'checkout_started', planType: 'premium', acquisitionSource: 'internal' });
     setLoading(true);
     setError('');
     try {
-      const response = await fetch('/api/create-checkout-session', {
+      const response = await fetch('/api/stripe/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ medium }),
+        body: JSON.stringify({ planType: 'premium', acquisitionSource: 'internal' }),
       });
       const data = await response.json();
       if (data?.url) {

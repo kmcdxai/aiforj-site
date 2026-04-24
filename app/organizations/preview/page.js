@@ -3,6 +3,7 @@ import BiophilicBackground from "../../components/BiophilicBackground";
 import EditorialReviewCard from "../../components/EditorialReviewCard";
 import SiteFooter from "../../components/SiteFooter";
 import SOS from "../../components/SOS";
+import AdminGrowthDashboard from "../../../components/metrics/AdminGrowthDashboard";
 import {
   buildArticleSchema,
   buildBreadcrumbSchema,
@@ -341,6 +342,8 @@ export default async function Page() {
           </section>
 
           <EditorialReviewCard kind="Aggregate-only reporting" />
+
+          <AdminGrowthDashboard snapshot={snapshot} />
 
           {hasReportingData ? (
             <>

@@ -3,6 +3,7 @@ import Script from "next/script";
 const measurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-2VSX5RJH0J";
 
 export default function GoogleAnalytics() {
+  if (process.env.NEXT_PUBLIC_ENABLE_LEGACY_GA !== "true") return null;
   if (!measurementId) return null;
 
   return (

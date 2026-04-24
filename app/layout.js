@@ -5,19 +5,21 @@ import Navigation from './components/Navigation';
 import SOS from './components/SOS';
 import SEO from './components/SEO';
 import GoogleAnalytics from '../components/GoogleAnalytics';
+import PageViewBeacon from '../components/metrics/PageViewBeacon';
 import { SoundProvider } from './components/SoundProvider';
+import { Suspense } from 'react';
 
 export const metadata = {
   metadataBase: new URL('https://aiforj.com'),
   title: 'AIForj — Emotional First Aid That Actually Works',
-  description: '100+ clinically-matched tools for anxiety, sadness, anger, overwhelm, and more. Built and clinically informed by a licensed clinician and psychiatric nurse practitioner candidate. Free, private, evidence-based emotional first aid.',
+  description: '30 public guides plus 100+ guided interventions for anxiety, sadness, anger, overwhelm, and more. Clinician-informed, privacy-first, evidence-framed emotional first aid.',
   keywords: 'emotional first aid, mental health tools, CBT tools, DBT skills, ACT defusion, somatic grounding, anxiety grounding, mood tracking, therapeutic techniques, AIForj',
   alternates: {
     canonical: 'https://aiforj.com',
   },
   openGraph: {
     title: 'AIForj — Emotional First Aid That Actually Works',
-    description: '100+ clinically-matched tools for anxiety, sadness, anger, overwhelm, and more. Built and clinically informed by a licensed clinician and psychiatric nurse practitioner candidate.',
+    description: '30 public guides plus 100+ guided interventions for anxiety, sadness, anger, overwhelm, and more. Clinician-informed emotional first aid.',
     url: 'https://aiforj.com',
     siteName: 'AIForj',
     type: 'website',
@@ -26,7 +28,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'AIForj — Emotional First Aid That Actually Works',
-    description: '100+ clinically-matched emotional first-aid tools. Built and clinically informed by a licensed clinician and psychiatric nurse practitioner candidate.',
+    description: '30 public guides plus 100+ guided emotional first-aid interventions. Clinician-informed and privacy-first.',
     images: ['/aif.jpeg'],
   },
 };
@@ -62,6 +64,9 @@ export default function RootLayout({ children }) {
             <BiophilicBackground />
             <div style={{ position: "relative", zIndex: 1 }}>
               <Navigation />
+              <Suspense fallback={null}>
+                <PageViewBeacon />
+              </Suspense>
               <div className="page-enter">
                 {children}
               </div>

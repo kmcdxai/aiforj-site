@@ -7,17 +7,17 @@ import { FORJ_MODALITY_COUNT } from "../../lib/forjModalities";
 import { getPremiumAccessStatus } from "../../utils/premiumAccess";
 import { track } from "../../lib/analytics";
 import { workbookLink } from "../../lib/links";
+import { classifySafetyInput, CRISIS_HANDOFF_TEXT, MEDICATION_BOUNDARY_TEXT, buildPrescriberWorksheetPrompt } from "../../lib/safetyClassifier";
 
 // ═══════════════════════════════════════════════════════════════════════════
 //
 //  AIForj VOICE COMPANION — "Talk to Forj"
 //
-//  The world's first voice-based, clinically informed, completely private
-//  AI therapeutic companion.
+//  A voice/text, clinically informed, self-guided emotional first-aid companion.
 //
-//  16 therapeutic modalities with dynamic selection
-//  Built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate
-//  100% browser-based — nothing leaves the device
+//  Evidence-framed modalities with dynamic selection
+//  Clinician-informed by Kevin, a psychiatric nurse practitioner candidate
+//  Local-first where supported. Browser voice services and model downloads may use network services.
 //
 //  ARCHITECTURE:
 //  Web Speech API → captures user's voice
@@ -93,7 +93,7 @@ const TIERS = {
 // This is the brain of the entire product.
 // Dynamic technique selection across 16 modalities.
 // ─────────────────────────────────────────────────
-const CLINICAL_SYSTEM_PROMPT = `You are FORJ — the AI voice companion inside AIForj.com. You were designed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate. You are a clinically-informed, evidence-based AI wellness companion.
+const CLINICAL_SYSTEM_PROMPT = `You are FORJ — the AI voice companion inside AIForj.com. You were designed as a clinically-informed, evidence-framed wellness companion.
 
 ═══════════════════════════════════════
 IDENTITY & BOUNDARIES
@@ -101,13 +101,13 @@ IDENTITY & BOUNDARIES
 
 You are a wellness companion — warm, wise, clinically informed, deeply empathetic.
 You are NOT a licensed therapist. You do NOT diagnose. You do NOT prescribe medication. You do NOT replace professional treatment.
-You are like the most brilliant, compassionate friend someone could have — one who happens to deeply understand therapeutic frameworks.
+You are warm, practical, and boundaried. Your job is to route people toward self-guided emotional first-aid tools, not to provide therapy.
 
 ═══════════════════════════════════════
 DYNAMIC TECHNIQUE SELECTION ENGINE
 ═══════════════════════════════════════
 
-You have mastery across these therapeutic modalities. Based on what the person says, you DYNAMICALLY select the most appropriate technique(s). You do not ask which technique they want — you read their words, assess their state, and apply the right approach seamlessly.
+You can draw from evidence-framed wellness modalities. Based on what the person says, select an appropriate self-guided technique and route them toward a bounded tool.
 
 TECHNIQUE LIBRARY:
 
@@ -224,7 +224,7 @@ CONVERSATION RULES
 ═══════════════════════════════════════
 
 1. KEEP RESPONSES TO 2-4 SENTENCES. This is voice. Long responses feel like lectures. Be concise but powerful.
-2. USE THEIR OWN WORDS back to them. This is the single most powerful therapeutic technique.
+2. USE THEIR OWN WORDS back to them. Keep reflections brief and grounded.
 3. ASK ONE QUESTION at a time. Never stack questions.
 4. VALIDATE BEFORE GUIDING. Always acknowledge the feeling before offering a technique.
 5. NAME THE TECHNIQUE occasionally: "In CBT, we'd call that catastrophizing..." This builds their mental health literacy.
@@ -749,7 +749,7 @@ function buildSessionPlanner(userText, history, tier, premiumModeId = "steady") 
 
     if (mode.id === "deep-work") {
       primaryMode = "Deep Work";
-      focus = "use longer context, deeper pattern recognition, and richer therapeutic language without losing practical grounding";
+      focus = "use longer context, deeper pattern recognition, and richer wellness language without losing practical grounding";
       if (!modalities.includes("Narrative")) modalities.unshift("Narrative");
       if (!modalities.includes("Schema")) modalities.splice(1, 0, "Schema");
       if (!modalities.includes("IFS / Parts Work")) modalities.splice(2, 0, "IFS / Parts Work");
@@ -983,7 +983,7 @@ const PREMIUM_CONVERSATION_MODES = [
     label: "Deep Work",
     shortLabel: "Deep Work",
     badge: "Go deeper",
-    description: "Use longer context, deeper pattern recognition, and richer therapeutic language when it fits.",
+    description: "Use longer context, deeper pattern recognition, and richer wellness language when it fits.",
   },
 ];
 
@@ -1463,7 +1463,7 @@ function UpgradeModal({ onClose, onSubscribe }) {
           <div style={{ padding: "12px 14px", borderRadius: 14, background: "linear-gradient(135deg, rgba(125,155,130,0.16), rgba(107,155,158,0.16))", border: "1px solid rgba(125,155,130,0.18)" }}>
             <span style={{ fontSize: 10, color: "var(--accent-sage)", textTransform: "uppercase", letterSpacing: 2, display: "block", marginBottom: 6, fontWeight: 700 }}>Premium</span>
             <span style={{ fontSize: 13, color: "var(--text-primary)", display: "block", fontWeight: 700 }}>Continuity, depth, and a plan</span>
-            <span style={{ fontSize: 11, color: "var(--text-secondary)", lineHeight: 1.6 }}>On-device memory, deeper modes, therapist-ready notes, and unlimited use when life gets messy.</span>
+            <span style={{ fontSize: 11, color: "var(--text-secondary)", lineHeight: 1.6 }}>On-device memory, deeper modes, printable notes for your own use, and unlimited structured sessions.</span>
           </div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 24 }}>
@@ -1493,7 +1493,7 @@ function UpgradeModal({ onClose, onSubscribe }) {
             {[
               "It remembers what actually helps you instead of starting from zero every time.",
               "It turns insight into a concrete next-step plan you can reuse later.",
-              "It gives you a private, lower-friction support layer between therapy sessions or during hard weeks.",
+              "It gives you a private, lower-friction support layer during hard weeks.",
             ].map((reason) => (
               <span key={reason} style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.7 }}>{reason}</span>
             ))}
@@ -1502,7 +1502,7 @@ function UpgradeModal({ onClose, onSubscribe }) {
         <button onClick={onSubscribe} className="btn-glow" style={{ width: "100%", padding: "16px", fontSize: 15, fontFamily: "'Fraunces', serif", background: "linear-gradient(135deg, var(--interactive), var(--accent-teal))", color: "#fff", border: "none", borderRadius: 50, cursor: "pointer", fontWeight: 700, letterSpacing: 0.5, transition: "all 0.3s cubic-bezier(0.16,1,0.3,1)" }}>
           Start 7-Day Free Trial
         </button>
-        <p style={{ textAlign: "center", fontSize: 12, color: "var(--text-muted)", marginTop: 10, lineHeight: 1.6, fontFamily: "'DM Sans', sans-serif" }}>Then $9.99/mo — less than a single therapy copay.<br />Less than one coffee a week. Cancel anytime.</p>
+        <p style={{ textAlign: "center", fontSize: 12, color: "var(--text-muted)", marginTop: 10, lineHeight: 1.6, fontFamily: "'DM Sans', sans-serif" }}>Then $9.99/mo for deeper structured sessions.<br />Free first aid stays free. Cancel anytime.</p>
       </div>
     </div>
   );
@@ -1532,6 +1532,7 @@ export default function ForjVoiceCompanion() {
   const [sessionSummary, setSessionSummary] = useState(null);
   const [companionMemory, setCompanionMemory] = useState(null);
   const [premiumMode, setPremiumMode] = useState(PREMIUM_CONVERSATION_MODES[0].id);
+  const [safetyBoundary, setSafetyBoundary] = useState(null);
 
   const sr = useSpeechRecognition();
   const tts = useTTS();
@@ -1545,7 +1546,7 @@ export default function ForjVoiceCompanion() {
     track("companion_opened");
   }, []);
 
-  // Daily insights — quotable therapeutic truths
+  // Daily insights — quotable wellness truths
   const DAILY_INSIGHTS = [
     { quote: "Feelings are not facts. They're information.", source: "CBT Principle" },
     { quote: "You are not your thoughts. You are the one observing them.", source: "ACT Defusion" },
@@ -1934,7 +1935,7 @@ export default function ForjVoiceCompanion() {
       return followOpts[Math.floor(Math.random() * followOpts.length)];
     }
 
-    // GENERIC / UNDETECTED → Substantive therapeutic engagement
+    // GENERIC / UNDETECTED → Substantive wellness engagement
     const genericOpts = [
       userQuote ? `"${userQuote}" — I want to understand that more deeply. What does that mean to you, specifically?` : "I'm here. Whatever you're carrying right now — I'd like to understand it. What feels most present for you?",
       "What you just shared matters. Something brought you here right now. What's the feeling underneath the surface, if you let yourself name it?",
@@ -1948,7 +1949,16 @@ export default function ForjVoiceCompanion() {
   useEffect(() => { showShareRef.current = showShare; }, [showShare]);
 
   const getResponse = useCallback(async (userText, inputMode = "text") => {
-    if (!canSend()) { setShowUpgrade(true); setState("idle"); return; }
+    const safety = classifySafetyInput(userText);
+    const isCrisisBoundary = safety.level === "crisis";
+    const isCrisisCheck = safety.level === "crisis_check";
+    const isMedicationBoundary = safety.level === "medication";
+
+    if (!isCrisisBoundary && !isCrisisCheck && !isMedicationBoundary && !canSend()) {
+      setShowUpgrade(true);
+      setState("idle");
+      return;
+    }
 
     setState("thinking");
     setAiText("");
@@ -1959,6 +1969,28 @@ export default function ForjVoiceCompanion() {
     const updated = [...msgsRef.current, { role: "user", text: userText, ts: Date.now() }];
     msgsRef.current = updated;
     setMessages(updated);
+
+    if (isCrisisBoundary || isCrisisCheck || isMedicationBoundary) {
+      const text = isCrisisBoundary
+        ? CRISIS_HANDOFF_TEXT
+        : isCrisisCheck
+          ? "I hear how heavy this is. I want to check safety before anything else: if you might hurt yourself or someone else, or you cannot stay safe, please call or text 988 in the U.S., text HOME to 741741, contact emergency services, or reach a trusted person who can stay with you. If this is not immediate danger, we can use a grounding tool next."
+          : `${MEDICATION_BOUNDARY_TEXT}\n\n${buildPrescriberWorksheetPrompt()}`;
+      setSafetyBoundary(isCrisisBoundary || isCrisisCheck ? "crisis" : "medication");
+      setShowUpgrade(false);
+      setShowShare(false);
+      setAiText(text);
+      const withResponse = [...updated, { role: "assistant", text, ts: Date.now() }];
+      msgsRef.current = withResponse;
+      setMessages(withResponse);
+      setState(inputMode === "voice" ? "speaking" : "idle");
+      if (inputMode === "voice") {
+        tts.speak(text, () => setState("idle"));
+      }
+      return;
+    }
+
+    setSafetyBoundary(null);
     if (!firstCompanionMessageTrackedRef.current) {
       firstCompanionMessageTrackedRef.current = true;
       track("companion_message_sent", { input_mode: inputMode, tier });
@@ -2050,7 +2082,6 @@ export default function ForjVoiceCompanion() {
     if (state === "speaking") { tts.stop(); setState("idle"); return; }
     if (state === "listening") { sr.stop(); setState("idle"); return; }
     if (state !== "idle") return;
-    if (!canSend()) { setShowUpgrade(true); return; }
     setError("");
     setLiveText("");
     if (!sr.supported) {
@@ -2069,7 +2100,8 @@ export default function ForjVoiceCompanion() {
 
   const handleTextSend = useCallback(() => {
     if (!textInput.trim() || state === "listening" || state === "thinking") return;
-    if (!canSend()) { setShowUpgrade(true); return; }
+    const safety = classifySafetyInput(textInput);
+    if (!["crisis", "crisis_check", "medication"].includes(safety.level) && !canSend()) { setShowUpgrade(true); return; }
     if (state === "speaking") {
       tts.stop();
       setState("idle");
@@ -2102,7 +2134,7 @@ export default function ForjVoiceCompanion() {
   // Greeting on mount
   useEffect(() => {
     if (messages.length === 0) {
-      const g = "Hey. Whatever brought you here right now — I'm glad you came. This space is completely yours. Nothing you say here ever leaves this screen. No one else hears it. So... how are you really feeling?";
+      const g = "Hey. Whatever brought you here right now, I'm glad you came. Forj helps you choose and use self-guided emotional first-aid tools. It is not therapy, diagnosis, medication advice, or crisis care. How are you feeling right now?";
       setMessages([{ role: "assistant", text: g, ts: Date.now() }]);
       setAiText(g);
       startNewSession();
@@ -2114,10 +2146,10 @@ export default function ForjVoiceCompanion() {
   const handleSubscribe = async () => {
     track("premium_click", { source: "companion_checkout" });
     try {
-      const res = await fetch('/api/create-checkout-session', {
+      const res = await fetch('/api/stripe/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ medium: 'companion' }),
+        body: JSON.stringify({ planType: 'premium', acquisitionSource: 'internal' }),
       });
       const data = await res.json();
       if (data.url) {
@@ -2134,6 +2166,7 @@ export default function ForjVoiceCompanion() {
   const remainingSessions = tier === "free" ? Math.max(0, TIERS.free.sessionsPerDay - sessionCount) : null;
   const transcriptPreviewMessages = messages.slice(-4);
   const shouldShowTranscriptPreview = transcriptPreviewMessages.length > 1 || !!liveText || state === "listening" || state === "thinking";
+  const inCrisisBoundary = safetyBoundary === "crisis";
 
   const emotionColors = {
     anxious: "#6B9B9E", overwhelmed: "#8B7DA8", stressed: "#C4956A",
@@ -2186,7 +2219,7 @@ export default function ForjVoiceCompanion() {
       `}</style>
 
       {showBreathing && <BreathingOverlay pattern={showBreathing} onClose={() => setShowBreathing(null)} />}
-      {showUpgrade && <UpgradeModal onClose={() => setShowUpgrade(false)} onSubscribe={handleSubscribe} />}
+      {showUpgrade && !inCrisisBoundary && <UpgradeModal onClose={() => setShowUpgrade(false)} onSubscribe={handleSubscribe} />}
       {showInsights && messages.length > 2 && (
         <SessionInsights
           messages={messages}
@@ -2231,14 +2264,14 @@ export default function ForjVoiceCompanion() {
           </div>
         )}
         {tier !== "free" && <span style={{ fontSize: 8, padding: "2px 7px", background: "linear-gradient(90deg, #7D9B82, #6B9B9E)", color: "#fff", borderRadius: 8, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>PRO</span>}
-        {tier === "free" && (
+        {tier === "free" && !inCrisisBoundary && (
           <button onClick={() => setShowUpgrade(true)} className="btn-glow" style={{ background: "var(--interactive)", border: "none", padding: "6px 16px", borderRadius: 20, fontSize: 11, color: "#fff", cursor: "pointer", fontWeight: 600 }}>
             ✦ Premium
           </button>
         )}
       </div>
 
-      {tierConfig.features.deepWorkModes ? (
+      {!inCrisisBoundary && (tierConfig.features.deepWorkModes ? (
         <div style={{ padding: "0 24px 12px", display: "flex", justifyContent: "center" }}>
           <div style={{ maxWidth: 880, width: "100%", background: "var(--surface-elevated)", borderRadius: 20, border: "1px solid rgba(45,42,38,0.06)", boxShadow: "var(--shadow-sm)", padding: "14px 16px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 10 }}>
@@ -2302,7 +2335,7 @@ export default function ForjVoiceCompanion() {
             </div>
           </div>
         </div>
-      )}
+      ))}
 
       {/* ═══════════ HERO SECTION ═══════════ */}
       <section style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 24px", position: "relative" }}>
@@ -2329,19 +2362,19 @@ export default function ForjVoiceCompanion() {
 
           {/* Headline */}
           <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: "var(--font-hero)", fontWeight: 600, color: "var(--text-primary)", margin: "0 0 16px", lineHeight: 1.15, animation: "fadeIn 0.8s ease" }}>
-            Your Private Mental Health Co-Pilot
+            Talk to Forj
           </h1>
 
           {/* Sub-headline */}
           <p style={{ fontSize: "clamp(15px, 2.5vw, 18px)", color: "var(--text-secondary)", margin: "0 auto 24px", lineHeight: 1.7, maxWidth: 520, animation: "fadeIn 1s ease 0.2s both" }}>
-            Built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate. {FORJ_MODALITY_COUNT} evidence-based therapeutic modalities. Privacy-forward and local-first where supported by your browser.
+            Forj helps you choose and use self-guided emotional first-aid tools. It is not therapy, diagnosis, medication advice, or crisis care. Clinician-informed and local-first where supported by your browser.
           </p>
 
           {/* Privacy badge */}
           <div style={{ display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap", marginBottom: 32, animation: "fadeIn 1s ease 0.4s both" }}>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 18px", background: "var(--accent-sage-light)", borderRadius: 24 }}>
               <span style={{ fontSize: 14 }}>🔒</span>
-              <span style={{ fontSize: 12, color: "var(--accent-sage)", fontWeight: 500 }}>100% Private — nothing leaves your browser</span>
+              <span style={{ fontSize: 12, color: "var(--accent-sage)", fontWeight: 500 }}>Local-first where supported · free-text is not sent to AIForj servers</span>
             </div>
             {webllmStatus === "ready" && (
               <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 18px", background: "rgba(107,155,158,0.12)", borderRadius: 24 }}>
@@ -2355,6 +2388,29 @@ export default function ForjVoiceCompanion() {
             <a href="/start" className="btn-glow" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '14px 32px', borderRadius: 999, background: 'var(--interactive)', color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Start reset</a>
             <a href="/tools" className="btn-glow" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '14px 32px', borderRadius: 999, background: 'transparent', color: 'var(--interactive)', textDecoration: 'none', border: '1.5px solid var(--interactive)' }}>Explore tools</a>
           </div>
+
+          {messages.length <= 1 && (
+            <div style={{ margin: "0 auto 28px", maxWidth: 620, display: "grid", gap: 10, animation: "fadeIn 1s ease 0.55s both" }}>
+              <p className="text-label" style={{ margin: 0, color: "var(--text-muted)" }}>Choose a guided path</p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 10 }}>
+                {[
+                  ["I feel anxious", "I feel anxious and want a short calming path."],
+                  ["I am overwhelmed", "I am overwhelmed and need help choosing one next step."],
+                  ["I feel stuck", "I feel stuck and need a bounded decision path."],
+                ].map(([label, prompt]) => (
+                  <button
+                    key={label}
+                    type="button"
+                    onClick={() => getResponse(prompt, "text")}
+                    className="btn-glow"
+                    style={{ padding: "12px 14px", borderRadius: 16, border: "1px solid rgba(45,42,38,0.08)", background: "var(--surface)", color: "var(--text-primary)", cursor: "pointer", textAlign: "left", fontWeight: 700 }}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Siri-style conversation transcript */}
           {shouldShowTranscriptPreview && (
@@ -2470,11 +2526,11 @@ export default function ForjVoiceCompanion() {
           )}
 
           {/* Share prompt */}
-          {showShare && messages.length >= 4 && (
+          {showShare && !inCrisisBoundary && messages.length >= 4 && (
             <div style={{ marginBottom: 14, animation: "slideUp 0.5s ease", display: "flex", flexDirection: "column", gap: 10, alignItems: "center" }}>
               <button onClick={() => {
-                const shareText = `I just had a real conversation about my mental health — completely free and private.\n\n"${aiText.slice(0, 120)}..."\n\n— aiforj.com`;
-                if (navigator.share) navigator.share({ title: "This helped me", text: shareText, url: "https://aiforj.com" }).catch(() => {});
+                const shareText = "I found this self-guided emotional first-aid tool useful. No private details included.";
+                if (navigator.share) navigator.share({ title: "AIForj", text: shareText, url: "https://aiforj.com/companion" }).catch(() => {});
                 else navigator.clipboard.writeText(shareText).catch(() => {});
                 setShowShare(false);
               }} style={{ background: "var(--surface)", border: "1px solid rgba(45,42,38,0.08)", padding: "8px 18px", borderRadius: 20, fontSize: 11, color: "var(--text-secondary)", cursor: "pointer" }}>
@@ -2594,7 +2650,7 @@ export default function ForjVoiceCompanion() {
             Discover Your Emotional Blueprint
           </h2>
           <p style={{ fontSize: 16, color: "var(--text-secondary)", lineHeight: 1.7, margin: "0 auto 32px", maxWidth: 540 }}>
-            A 2-minute assessment designed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate. Learn your stress response pattern, your dominant thinking style, and which techniques match your brain.
+            A 2-minute reflection built to help you understand your stress response pattern and which self-guided tools may fit you. It is not a diagnosis.
           </p>
 
           {/* Preview Card */}
@@ -2619,7 +2675,7 @@ export default function ForjVoiceCompanion() {
           <a href="/blueprint" className="btn-glow" style={{ display: "inline-block", padding: "16px 40px", fontSize: 16, fontFamily: "'Fraunces', serif", fontWeight: 600, background: "var(--interactive)", color: "#fff", borderRadius: 50, textDecoration: "none", marginBottom: 16 }}>
             Take the Assessment — Free, 2 Minutes
           </a>
-          <p style={{ fontSize: 12, color: "var(--text-muted)", margin: 0 }}>Nothing is stored. Nothing leaves your browser.</p>
+          <p style={{ fontSize: 12, color: "var(--text-muted)", margin: 0 }}>Local-first where supported. Free-text stays local unless a feature clearly says otherwise.</p>
         </div>
       </section>
 
@@ -2635,8 +2691,8 @@ export default function ForjVoiceCompanion() {
             { id: "sigh",   icon: "🌬️", label: "Physiological Sigh",  time: "1 min", free: true },
             { id: "ground", icon: "🌿", label: "5-4-3-2-1 Grounding", time: "3 min", free: true },
             { id: "defuse", icon: "🧠", label: "Thought Defusion",    time: "2 min", free: false },
-            { id: "tipp",   icon: "❄️", label: "TIPP Crisis Skill",   time: "3 min", free: false },
-          ].map((tool) => (
+            { id: "tipp",   icon: "❄️", label: "TIPP Distress Skill",   time: "3 min", free: false },
+          ].filter((tool) => !inCrisisBoundary || tool.free).map((tool) => (
             <a key={tool.id} href={`/tools?tool=${tool.id}`} className="quicktool-hover card-hover" style={{
               display: "flex", alignItems: "center", gap: 12, padding: "16px 18px",
               background: "var(--surface-elevated)", border: "1px solid rgba(45,42,38,0.06)",
@@ -2699,7 +2755,7 @@ export default function ForjVoiceCompanion() {
           <div className="card-hover" style={{ padding: "32px 28px", background: "var(--surface-elevated)", border: "1px solid rgba(45,42,38,0.06)", borderRadius: 20, boxShadow: "var(--shadow-md)" }}>
             <span style={{ fontSize: 32, display: "block", marginBottom: 14 }}>🗣️</span>
             <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 19, fontWeight: 500, color: "var(--text-primary)", margin: "0 0 10px" }}>Talk or Type</h3>
-            <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.7, margin: 0 }}>Personalized support in the moment. The AI adapts to what you say using {FORJ_MODALITY_COUNT} therapeutic modalities.</p>
+            <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.7, margin: 0 }}>Personalized support in the moment. Forj adapts to what you say using {FORJ_MODALITY_COUNT} evidence-framed modalities.</p>
           </div>
           <div className="card-hover" style={{ padding: "32px 28px", background: "var(--surface-elevated)", border: "1px solid rgba(45,42,38,0.06)", borderRadius: 20, boxShadow: "var(--shadow-md)" }}>
             <span style={{ fontSize: 32, display: "block", marginBottom: 14 }}>🧭</span>
@@ -2714,10 +2770,10 @@ export default function ForjVoiceCompanion() {
         <div style={{ maxWidth: 620, margin: "0 auto", textAlign: "center" }}>
           <img src="/aif.jpeg" alt="AIForj" style={{ height: 64, width: "auto", borderRadius: 14, marginBottom: 20, boxShadow: "var(--shadow-md)" }} />
           <p style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(16px, 2.5vw, 20px)", color: "var(--text-primary)", lineHeight: 1.8, margin: "0 0 24px", fontWeight: 400, fontStyle: "italic" }}>
-            Forj was built for the space between moments of care: private, practical, and grounded in real therapeutic techniques rather than generic affirmations.
+            Forj was built for the space between moments of care: private, practical, and grounded in self-guided emotional first-aid techniques rather than generic affirmations.
           </p>
           <p style={{ fontSize: 14, color: "var(--text-secondary)", fontWeight: 500, margin: "0 0 20px" }}>
-            — Kevin, a licensed clinician and psychiatric nurse practitioner candidate
+            — Kevin, psychiatric nurse practitioner candidate
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8 }}>
             {["Evidence-Informed", "Local-First Sessions", "Browser-Based AI Mode", "Privacy-Forward Design"].map(b => (
@@ -2728,13 +2784,13 @@ export default function ForjVoiceCompanion() {
       </section>
 
       {/* ═══════════ PREMIUM ═══════════ */}
-      {tier === "free" && (
+      {tier === "free" && !inCrisisBoundary && (
         <section style={{ padding: "80px 24px", maxWidth: 680, width: "100%", margin: "0 auto" }}>
           <div style={{ background: "var(--surface-elevated)", borderRadius: 24, padding: "48px 32px", textAlign: "center", boxShadow: "var(--shadow-lg)", border: "1px solid rgba(45,42,38,0.06)" }}>
             <span style={{ fontSize: 36, display: "block", marginBottom: 12 }}>✦</span>
             <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "var(--font-h3)", fontWeight: 500, color: "var(--text-primary)", margin: "0 0 12px", lineHeight: 1.3 }}>When the free conversation helps — but you want something that keeps up with your real life</h2>
             <p style={{ fontSize: 15, color: "var(--text-secondary)", margin: "0 auto 24px", lineHeight: 1.7, maxWidth: 480 }}>
-              Free gives you private in-the-moment support. Premium becomes your continuity layer between hard moments, therapy sessions, and the rest of your week.
+              Free gives you private in-the-moment support. Premium becomes your continuity layer between hard moments and the rest of your week.
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8, marginBottom: 20 }}>
               {["Premium modes", "On-device memory", "Pattern tracking", "Session notes", "Unlimited conversations"].map((benefit) => (
@@ -2768,7 +2824,7 @@ export default function ForjVoiceCompanion() {
               <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--accent-sage)", fontWeight: 700, display: "block", marginBottom: 8, fontFamily: "'Fraunces', serif" }}>Why it clears $9.99/month</span>
               <div style={{ display: "grid", gap: 8 }}>
                 {[
-                  "Cheaper than one therapy copay, but useful between every therapy session.",
+                  "Deeper structured sessions while the free first-aid layer stays free.",
                   "Cheaper than losing a whole evening to a stress spiral you could have interrupted earlier.",
                   "Cheaper than most subscription clutter, while actually helping you think, regulate, and act differently.",
                 ].map((reason) => (
@@ -2790,26 +2846,30 @@ export default function ForjVoiceCompanion() {
       )}
 
       {/* ═══════════ CBT WORKBOOK ═══════════ */}
-      <section style={{ padding: "40px 24px 80px", maxWidth: 680, width: "100%", margin: "0 auto" }}>
-        <a href={workbookLink("companion")} target="_blank" rel="noopener noreferrer" onClick={() => track("cbt_workbook_click", { source: "companion" })} style={{ textDecoration: "none", display: "block" }}>
-          <div className="card-hover" style={{ display: "flex", alignItems: "center", gap: 20, padding: "24px 28px", background: "var(--surface-elevated)", border: "1px solid rgba(45,42,38,0.06)", borderRadius: 20, boxShadow: "var(--shadow-md)" }}>
-            <span style={{ fontSize: 40, flexShrink: 0 }}>📘</span>
-            <div style={{ flex: 1, textAlign: "left" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4, flexWrap: "wrap" }}>
-                <span style={{ fontSize: 16, fontWeight: 600, color: "var(--text-primary)", fontFamily: "'Fraunces', serif" }}>CBT Thought Reframe Workbook</span>
-                <span style={{ fontSize: 12, padding: "3px 10px", background: "var(--accent-warm-light)", color: "var(--accent-warm)", borderRadius: 20, fontWeight: 600 }}>$27</span>
+      {!inCrisisBoundary && (
+        <section style={{ padding: "40px 24px 80px", maxWidth: 680, width: "100%", margin: "0 auto" }}>
+          <a href={workbookLink("companion")} target="_blank" rel="noopener noreferrer" onClick={() => track("cbt_workbook_click", { source: "companion" })} style={{ textDecoration: "none", display: "block" }}>
+            <div className="card-hover" style={{ display: "flex", alignItems: "center", gap: 20, padding: "24px 28px", background: "var(--surface-elevated)", border: "1px solid rgba(45,42,38,0.06)", borderRadius: 20, boxShadow: "var(--shadow-md)" }}>
+              <span style={{ fontSize: 40, flexShrink: 0 }}>📘</span>
+              <div style={{ flex: 1, textAlign: "left" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4, flexWrap: "wrap" }}>
+                  <span style={{ fontSize: 16, fontWeight: 600, color: "var(--text-primary)", fontFamily: "'Fraunces', serif" }}>CBT Thought Reframe Workbook</span>
+                  <span style={{ fontSize: 12, padding: "3px 10px", background: "var(--accent-warm-light)", color: "var(--accent-warm)", borderRadius: 20, fontWeight: 600 }}>$27</span>
+                </div>
+                <span style={{ fontSize: 14, color: "var(--text-secondary)" }}>84 pages · 30 days of exercises · 10 cognitive distortions</span>
               </div>
-              <span style={{ fontSize: 14, color: "var(--text-secondary)" }}>84 pages · 30 days of exercises · 10 cognitive distortions</span>
+              <span style={{ fontSize: 20, color: "var(--accent-sage)", opacity: 0.6, flexShrink: 0 }}>→</span>
             </div>
-            <span style={{ fontSize: 20, color: "var(--accent-sage)", opacity: 0.6, flexShrink: 0 }}>→</span>
-          </div>
-        </a>
-      </section>
+          </a>
+        </section>
+      )}
 
       {/* ═══════════ EMAIL CAPTURE ═══════════ */}
-      <section style={{ padding: "40px 24px 80px" }}>
-        <EmailCapture />
-      </section>
+      {!inCrisisBoundary && (
+        <section style={{ padding: "40px 24px 80px" }}>
+          <EmailCapture />
+        </section>
+      )}
 
       {/* ═══════════ FOOTER ═══════════ */}
       <footer style={{ padding: "48px 24px 32px", textAlign: "center", background: "var(--bg-secondary)", borderTop: "1px solid rgba(45,42,38,0.06)" }}>
@@ -2836,7 +2896,7 @@ export default function ForjVoiceCompanion() {
             { href: workbookLink("footer"), label: "📘 CBT Workbook", ext: true },
             { href: "https://medium.com/@kcooke493/im-a-psych-np-and-i-built-a-free-ai-wellness-tool-8d46e01a6852", label: "Read Our Story", ext: true },
             { href: "https://x.com/AIForj", label: "𝕏 @AIForj", ext: true },
-          ].map(link => (
+          ].filter((link) => !(inCrisisBoundary && link.label.includes("CBT Workbook"))).map(link => (
             <a key={link.label} href={link.href} {...(link.ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               onClick={() => {
                 if (link.href.includes("gumroad.com")) track("cbt_workbook_click", { source: "companion_footer" });
@@ -2864,13 +2924,13 @@ export default function ForjVoiceCompanion() {
         </div>
 
         <div style={{ display: "flex", justifyContent: "center", gap: 12, marginBottom: 24, flexWrap: "wrap" }}>
-          <button onClick={() => {
-            const text = "Free AI therapeutic companion — clinically informed, completely private, evidence-based. This helped me.\n\naiforj.com";
+          {!inCrisisBoundary && <button onClick={() => {
+            const text = "Free self-guided emotional first-aid companion — clinically informed and privacy-forward. This helped me.\n\naiforj.com";
             if (navigator.share) navigator.share({ title: "AIForj", text, url: "https://aiforj.com" }).catch(() => {});
             else navigator.clipboard.writeText(text).catch(() => {});
           }} className="btn-glow" style={{ background: "none", border: "1px solid rgba(45,42,38,0.08)", padding: "8px 20px", borderRadius: 20, fontSize: 12, color: "var(--text-secondary)", cursor: "pointer" }}>
             ↗ Share Forj
-          </button>
+          </button>}
           <DataManagement />
         </div>
 

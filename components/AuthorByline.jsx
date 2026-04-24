@@ -51,7 +51,7 @@ export default function AuthorByline({ lastReviewed = LAST_REVIEWED_DATE, varian
           </Link>
         </p>
         <p style={{ margin: 0, color: mutedColor, fontSize: 13, lineHeight: 1.55 }}>
-          Licensed clinician · Psychiatric NP candidate
+          Clinician-informed · Psychiatric NP candidate
         </p>
         <p style={{ margin: 0, color: mutedColor, fontSize: 13, lineHeight: 1.55 }}>
           Clinically trained in CBT, DBT, ACT, IFS, polyvagal theory + more

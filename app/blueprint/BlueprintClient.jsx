@@ -199,7 +199,7 @@ const ARCHETYPES = {
     thinkingPattern: "Catastrophizing & Rumination",
     nervousSystem: "Sympathetic \u2014 High Activation",
     techniques: [
-      { name: "TIPP Crisis Skill", slug: "tipp-skill", duration: "5 min" },
+      { name: "TIPP Distress Skill", slug: "tipp-skill", duration: "5 min" },
       { name: "5-4-3-2-1 Grounding", slug: "54321-grounding", duration: "3 min" },
       { name: "Body Scan", slug: "body-scan", duration: "10 min" },
     ],
@@ -482,7 +482,7 @@ export default function BlueprintClient() {
       ctx.fillText("aiforj.com/blueprint", d.w / 2, d.h - 60);
       ctx.font = "400 16px 'DM Sans', sans-serif";
       ctx.globalAlpha = 0.4;
-      ctx.fillText("Designed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate", d.w / 2, d.h - 32);
+      ctx.fillText("Clinician-informed by Kevin, a psychiatric nurse practitioner candidate", d.w / 2, d.h - 32);
 
       const blob = await new Promise((res) => out.toBlob(res, "image/png"));
       const file = new File([blob], `blueprint-${result.archetype}.png`, { type: "image/png" });
@@ -542,13 +542,13 @@ export default function BlueprintClient() {
           </div>
           <h1 style={styles.introTitle}>Discover Your Emotional Blueprint</h1>
           <p style={styles.introSub}>
-            A 2-minute assessment designed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate. Learn your stress response pattern, your dominant thinking style, and which techniques match your brain.
+            A 2-minute self-reflection assessment. Learn your stress response pattern, your dominant thinking style, and which self-guided techniques may fit you.
           </p>
           <button onClick={handleStart} style={styles.startBtn}>
             Begin Assessment
           </button>
           <p style={styles.privacyNote}>
-            Nothing is stored on any server. Nothing leaves your browser.
+            Local-first where supported. Blueprint free-text stays local unless a feature clearly says otherwise.
           </p>
         </div>
       </div>
@@ -692,7 +692,7 @@ export default function BlueprintClient() {
           {/* Disclaimer */}
           <p style={{ fontSize: 11, color: "var(--text-muted)", textAlign: "center", marginTop: 40, lineHeight: 1.6 }}>
             This assessment is for self-reflection only — not a clinical diagnosis.
-            {" "}Built and clinically informed by Kevin, a licensed clinician and psychiatric nurse practitioner candidate. Nothing is stored or sent to any server.
+            {" "}Clinician-informed by Kevin, a psychiatric nurse practitioner candidate. Results are saved locally unless you choose to share a safe card.
           </p>
         </div>
       </div>

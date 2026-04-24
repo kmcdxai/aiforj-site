@@ -3,7 +3,7 @@ import GardenClient from './GardenClient';
 
 export const metadata = {
   title: 'Your Progress Garden | AIForj',
-  description: 'Watch your mental wellness garden grow as you engage with evidence-based tools. Private, local-only — your data never leaves your device.',
+  description: 'Watch your Mood Garden grow from local-first sessions and check-ins. Free-text stays local unless a feature clearly says otherwise.',
   alternates: {
     canonical: 'https://aiforj.com/garden',
   },
