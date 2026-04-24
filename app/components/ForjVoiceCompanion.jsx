@@ -40,7 +40,7 @@ const TIERS = {
       privateBrowserAI: true,
       voiceInput: true,
       textInput: true,
-      basicTherapeuticResponse: true,
+      basicWellnessResponse: true,
       breathingExercise: true,
       groundingExercise: true,
       crisisDetection: true,
@@ -65,7 +65,7 @@ const TIERS = {
     sessionsPerDay: Infinity,
     maxMessagesPerSession: Infinity,
     features: {
-      privateBrowserAI: true, voiceInput: true, textInput: true, basicTherapeuticResponse: true,
+      privateBrowserAI: true, voiceInput: true, textInput: true, basicWellnessResponse: true,
       breathingExercise: true, groundingExercise: true, crisisDetection: true, sessionTakeaway: true,
       sessionHistory: true, moodTracking: true, sessionInsights: true, continuityMemory: true,
       sessionNotes: true, deeperContext: true, deepWorkModes: true,
@@ -79,7 +79,7 @@ const TIERS = {
     sessionsPerDay: Infinity,
     maxMessagesPerSession: Infinity,
     features: {
-      privateBrowserAI: true, voiceInput: true, textInput: true, basicTherapeuticResponse: true,
+      privateBrowserAI: true, voiceInput: true, textInput: true, basicWellnessResponse: true,
       breathingExercise: true, groundingExercise: true, crisisDetection: true, sessionTakeaway: true,
       sessionHistory: true, moodTracking: true, sessionInsights: true, continuityMemory: true,
       sessionNotes: true, deeperContext: true, deepWorkModes: true,

@@ -391,7 +391,7 @@ export default function Homepage() {
 
       <RevealSection style={{ padding: "84px 24px", background: "var(--surface)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <SectionHeader eyebrow="Why AIForj" title="Clinical-grade support without clinical coldness">
+          <SectionHeader eyebrow="Why AIForj" title="Evidence-framed support without clinical coldness">
             Built for moments when you need something more specific than “just breathe.”
           </SectionHeader>
           <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1.1fr) minmax(0, 0.9fr)", gap: 28, alignItems: "start" }} className="home-value-grid">

@@ -3,25 +3,25 @@ import Link from "next/link";
 import SiteFooter from "../components/SiteFooter";
 
 export const metadata = {
-  title: "Evidence-Based Mental Health Techniques | AIForj",
+  title: "Evidence-Framed Emotional First-Aid Techniques | AIForj",
   description:
     "Explore 30 interactive emotional first-aid techniques for anxiety, stress, grief, burnout, and more. CBT, DBT, ACT, and somatic tools you can use right now. Clinician-informed and evidence-framed.",
   alternates: {
     canonical: "https://aiforj.com/techniques",
   },
   openGraph: {
-    title: "Evidence-Based Mental Health Techniques | AIForj",
+    title: "Evidence-Framed Emotional First-Aid Techniques | AIForj",
     description:
-      "30 interactive techniques for anxiety, stress, depression, and more. Free. Private. Clinically informed.",
+      "30 interactive techniques for anxiety, stress, low mood, and more. Free, private, and clinician-informed.",
     url: "https://aiforj.com/techniques",
     siteName: "AIForj",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Evidence-Based Mental Health Techniques | AIForj",
+    title: "Evidence-Framed Emotional First-Aid Techniques | AIForj",
     description:
-      "30 interactive techniques for anxiety, stress, depression, and more. Free. Private.",
+      "30 interactive techniques for anxiety, stress, low mood, and more. Free and private.",
   },
 };
 
@@ -65,7 +65,7 @@ export default function TechniquesPage() {
               fontWeight: 400,
             }}
           >
-            30 evidence-based techniques you can do right now. Each one is
+            30 evidence-framed techniques you can do right now. Each one is
             interactive — not just reading, but doing. Clinically informed by
             Kevin, a psychiatric nurse practitioner candidate.
           </p>

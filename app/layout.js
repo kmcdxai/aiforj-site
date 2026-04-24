@@ -13,7 +13,7 @@ export const metadata = {
   metadataBase: new URL('https://aiforj.com'),
   title: 'AIForj — Emotional First Aid That Actually Works',
   description: '30 public guides plus 100+ guided interventions for anxiety, sadness, anger, overwhelm, and more. Clinician-informed, privacy-first, evidence-framed emotional first aid.',
-  keywords: 'emotional first aid, mental health tools, CBT tools, DBT skills, ACT defusion, somatic grounding, anxiety grounding, mood tracking, therapeutic techniques, AIForj',
+  keywords: 'emotional first aid, mental health tools, CBT tools, DBT skills, ACT defusion, somatic grounding, anxiety grounding, mood tracking, emotional first-aid techniques, AIForj',
   alternates: {
     canonical: 'https://aiforj.com',
   },

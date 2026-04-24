@@ -9,7 +9,7 @@ import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "After an Argument: Calm Down Techniques by a Healthcare Professional",
+  title: "After an Argument: Calm Down Techniques | AIForj",
   description: "Just had a big argument? Evidence-informed steps to calm your body and process emotions safely.",
   path: "/help/after-argument",
   kind: "help",

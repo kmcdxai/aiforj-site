@@ -791,9 +791,9 @@ export const TECHNIQUES = [
     time: "5 minutes",
     modality: "CBT/Behavioral",
     origin:
-      "Developed as a component of CBT for depression and later studied as a standalone treatment approach.",
+      "Adapted from behavioral activation work in CBT and translated here as a self-guided emotional first-aid skill.",
     whatThisIs:
-      "Behavioral activation is built on one of the most counterintuitive truths in psychology: motivation often follows action, not the other way around. When you're depressed or stuck, your brain tells you to wait until you \"feel like\" doing something. But that feeling often never arrives — because inactivity can deepen low mood, which then makes action feel even harder.\n\nBehavioral activation breaks this cycle by flipping the script. Instead of waiting to feel motivated, you take a tiny action first and let momentum catch up. It's not about doing something huge — it's about doing something small enough that even at your lowest, you can manage it. Make your bed. Send one text. Walk to the mailbox. The action itself can create a little more structure, contact, or accomplishment, which can make the next step easier.\n\nBehavioral activation has a strong evidence base and is widely used as a real treatment approach for depression. The key insight is practical: behavior can influence mood, even when your mood is telling you not to begin.",
+      "Behavioral activation is built on one of the most counterintuitive truths in psychology: motivation often follows action, not the other way around. When you're low, stuck, or depressed, your brain tells you to wait until you \"feel like\" doing something. But that feeling often never arrives — because inactivity can deepen low mood, which then makes action feel even harder.\n\nBehavioral activation breaks this cycle by flipping the script. Instead of waiting to feel motivated, you take a tiny action first and let momentum catch up. It's not about doing something huge — it's about doing something small enough that even at your lowest, you can manage it. Make your bed. Send one text. Walk to the mailbox. The action itself can create a little more structure, contact, or accomplishment, which can make the next step easier.\n\nBehavioral activation has a strong evidence base and is widely used in professional care, but this version is a self-guided wellness exercise, not treatment or a substitute for a clinician. The key insight is practical: behavior can influence mood, even when your mood is telling you not to begin.",
     neuroscience:
       "Depression can make effort, reward, and anticipation feel blunted. Behavioral activation works with that reality by reducing the size of the first step and rebuilding contact with structure, accomplishment, and pleasure over time. The useful takeaway is not a single dopamine story, but that repeated small actions can slowly retrain expectation and momentum.",
     whenToUse: [
@@ -811,11 +811,11 @@ export const TECHNIQUES = [
       },
       {
         q: "How is behavioral activation different from \"just do it\"?",
-        a: "\"Just do it\" implies willpower and effort. Behavioral activation is a structured, clinical technique that starts with tiny actions, tracks mood changes, and builds gradually. It's evidence-based and designed with compassion for how depression actually works.",
+        a: "\"Just do it\" implies willpower and effort. Behavioral activation starts with tiny actions, tracks mood changes, and builds gradually. This AIForj version is evidence-framed and designed with compassion for how low mood actually works.",
       },
       {
         q: "Can behavioral activation replace antidepressants?",
-        a: "Behavioral activation is an evidence-based treatment for depression, but medication decisions belong with you and your clinician. For some people it may be enough on its own; for others, combined care is more helpful.",
+        a: "No. This is a self-guided wellness exercise, not medication advice or a replacement for professional care. Medication decisions belong with you and a qualified prescriber.",
       },
     ],
     steps: [

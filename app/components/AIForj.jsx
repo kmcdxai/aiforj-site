@@ -520,7 +520,7 @@ CRITICAL RULES:
 - End with ONE specific, actionable takeaway the person can do in the next 10 minutes.
 - If anything suggests crisis or self-harm, immediately provide 988 Suicide & Crisis Lifeline (call or text 988).
 - Use the person's actual words from their session to personalize the response.
-- Reference the specific therapeutic technique you're drawing from.
+- Reference the specific self-guided technique you're drawing from.
 - Never use clinical jargon without explaining it simply.`;
 
 // Intelligent rule-based fallback when WebLLM isn't available
@@ -647,9 +647,9 @@ function generateChatFallback(emotion, responses, userMessage) {
   if (msg.includes("what should i do") || msg.includes("what do i do") || msg.includes("what now") || msg.includes("next"))
     return `Based on your session, the most important next step is the concrete action you identified. The research is clear: doing something small — even imperfectly — rewires neural pathways faster than thinking about doing it. What would it take to start that in the next 10 minutes?`;
   if (msg.includes("doesn't work") || msg.includes("not working") || msg.includes("still feel") || msg.includes("not better"))
-    return `That's honest and important. These tools work over time and with repetition — not always in a single session. What you're doing by showing up is itself therapeutic. If this persists or intensifies, please reach out to a professional. You can also text HOME to 741741 anytime. Are there any specific parts of the session that resonated, even a little?`;
+    return `That's honest and important. These tools work over time and with repetition — not always in a single session. What you're doing by showing up is meaningful. If this persists or intensifies, please reach out to a professional. You can also text HOME to 741741 anytime. Are there any specific parts of the session that resonated, even a little?`;
   if (msg.includes("more about") || msg.includes("explain") || msg.includes("tell me"))
-    return `The protocol you completed draws from clinically validated therapy — the same approaches used in professional settings. The breathing came first because emotional processing is almost impossible when you're physiologically activated. We worked with the cognitive layer next, then the behavioral. Which part would you like to go deeper on?`;
+    return `The protocol you completed draws from evidence-framed skill families also used in professional settings. The breathing came first because emotional processing is much harder when you're physiologically activated. We worked with the cognitive layer next, then the behavioral. Which part would you like to go deeper on?`;
   if (msg.includes("thank") || msg.includes("feel better") || msg.includes("helped") || msg.includes("good"))
     return `That means a lot. The real work is yours — you showed up, engaged honestly, and sat with something difficult. That takes real courage. Come back whenever you need to reset. You've genuinely got this.`;
   return `That's worth exploring. What you're noticing — "${userMessage.slice(0, 60)}${userMessage.length > 60 ? "..." : ""}" — shows real self-awareness. The fact that you can observe this pattern in yourself is significant. What feels most true about it right now?`;

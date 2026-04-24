@@ -9,7 +9,7 @@ import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "Stop Overthinking: Break the Loop in 3 Minutes | Healthcare Professional Tool",
+  title: "Stop Overthinking: Break the Loop in 3 Minutes | AIForj",
   description: "Stuck in an overthinking spiral? Practical steps to interrupt rumination and regain focus in minutes.",
   path: "/help/overthinking",
   kind: "help",
