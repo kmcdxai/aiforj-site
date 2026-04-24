@@ -18,7 +18,7 @@ export async function generateMetadata({ params, searchParams }) {
     ? `${fromName} sent you something — open when you need calm`
     : "Someone sent you something — open when you need calm";
   const shortName = t.title.split(":")[0].replace(" Technique", "").replace("The ", "").trim();
-  const description = `A ${shortName} technique, designed by a clinician. Free, private, ${t.time}.`;
+  const description = `A ${shortName} technique from AIForj. Free, private, ${t.time}.`;
   const socialImage = buildCalmCardUrl({ kind: "gift", slug, format: "og" });
 
   return {

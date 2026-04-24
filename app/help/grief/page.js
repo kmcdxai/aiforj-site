@@ -8,7 +8,7 @@ import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "Grief Wave Support: Free Clinician-Designed Coping Tools",
+  title: "Grief Wave Support: Free Evidence-Framed Coping Tools",
   description: "Grief can arrive suddenly. Gentle, evidence-informed steps to ride the wave and care for yourself in the moment.",
   path: "/help/grief",
   kind: "help",

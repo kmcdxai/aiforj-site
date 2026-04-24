@@ -152,7 +152,7 @@ export default function Page() {
                 Clear crisis handoff
               </h3>
               <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.75 }}>
-                If you are in danger, feel unable to stay safe, or need immediate human support, AIForj should give way to 988, emergency services, or a licensed clinician.
+                If you are in danger, feel unable to stay safe, or need immediate human support, AIForj should give way to 988, emergency services, or a licensed mental health professional.
               </p>
             </div>
           </section>

@@ -116,7 +116,7 @@ export default function FounderPage() {
             <h2 style={{ margin: "0 0 18px" }}>Hi, I&apos;m Kevin.</h2>
             <div style={{ display: "grid", gap: 16, color: "var(--text-secondary)", lineHeight: 1.85, fontSize: 16 }}>
               <p style={{ margin: 0 }}>
-                Licensed clinician and psychiatric nurse practitioner candidate, currently completing training and on track to graduate in March 2027.
+                Psychiatric nurse practitioner candidate, currently completing training and on track to graduate in March 2027.
               </p>
               <p style={{ margin: 0 }}>
                 AIForj is informed by training and study across evidence-framed modalities including CBT, DBT, ACT, IFS, polyvagal-informed education, somatic practices, CFT, narrative therapy, motivational interviewing, behavioral activation, schema-informed tools, trauma-informed care, mindfulness-based approaches, emotion-focused work, attachment-informed tools, and solution-focused brief practices.

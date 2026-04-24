@@ -9,7 +9,7 @@ import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "Build Self-Worth: Free Clinician-Designed Exercises",
+  title: "Build Self-Worth: Free Evidence-Framed Exercises",
   description: "Struggling with self-worth? Evidence-based exercises to begin rebuilding confidence and self-compassion.",
   path: "/help/self-worth",
   kind: "help",

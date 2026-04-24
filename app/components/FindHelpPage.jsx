@@ -301,7 +301,7 @@ export default function FindHelpPage() {
               <div style={{ textAlign: "center", paddingTop: "10vh" }}>
                 <div style={{ width: 36, height: 36, border: `3px solid ${C.line}`, borderTopColor: C.accent, borderRadius: "50%", animation: "spin 0.7s linear infinite", margin: "0 auto 20px" }} />
                 <p style={{ fontSize: 15, color: C.muted }}>Searching the National Provider Registry...</p>
-                <p style={{ fontSize: 12, color: C.muted, opacity: 0.5, marginTop: 8 }}>Real, verified provider data from CMS.gov</p>
+                <p style={{ fontSize: 12, color: C.muted, opacity: 0.5, marginTop: 8 }}>Registry-listed provider data from CMS.gov</p>
               </div>
             )}
 

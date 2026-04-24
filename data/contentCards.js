@@ -8,7 +8,7 @@ export const HELP_PAGE_CARDS = {
       "Name the feeling before restarting the conversation",
     ],
     duration: "3 minute guide",
-    modality: "Clinician-designed conflict recovery",
+    modality: "Evidence-framed conflict recovery",
     footer: "Private emotional first aid after conflict",
   },
   "anxiety-at-work": {
@@ -32,7 +32,7 @@ export const HELP_PAGE_CARDS = {
       "Interrupt catastrophic predictions",
     ],
     duration: "60 second guide",
-    modality: "Clinician-designed performance reset",
+    modality: "Evidence-framed performance reset",
     footer: "Shareable calm for high-stakes moments",
   },
   "burnout-recovery": {
@@ -128,7 +128,7 @@ export const HELP_PAGE_CARDS = {
       "Shift attention back to the present task",
     ],
     duration: "3 minute guide",
-    modality: "Clinician-designed rumination reset",
+    modality: "Evidence-framed rumination reset",
     footer: "Small steps that help thoughts loosen",
   },
   "panic-attack": {
@@ -140,7 +140,7 @@ export const HELP_PAGE_CARDS = {
       "Ground your senses until the wave eases",
     ],
     duration: "2 minute guide",
-    modality: "Immediate clinician-designed support",
+    modality: "Immediate evidence-framed support",
     footer: "Fast emotional first aid for high distress",
   },
   "self-worth": {

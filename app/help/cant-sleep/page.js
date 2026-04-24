@@ -8,7 +8,7 @@ import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "Can't Sleep? Clinician-Designed Tools for Racing Thoughts",
+  title: "Can't Sleep? Evidence-Framed Tools for Racing Thoughts",
   description: "Mind won't turn off at night? Practical, evidence-informed steps to quiet racing thoughts and fall asleep faster.",
   path: "/help/cant-sleep",
   kind: "help",

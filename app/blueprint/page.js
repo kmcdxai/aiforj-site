@@ -11,7 +11,7 @@ export const metadata = {
   openGraph: {
     title: "I just discovered my Emotional Blueprint — Take yours free",
     description:
-      "A 2-minute clinician-designed assessment. Discover your stress archetype, thinking patterns, and which techniques match your brain.",
+      "A 2-minute self-reflection. Discover a stress archetype, thinking patterns, and self-guided techniques that may fit you.",
     url: "https://aiforj.com/blueprint",
     siteName: "AIForj",
     type: "website",
@@ -20,7 +20,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "I just discovered my Emotional Blueprint — Take yours free",
     description:
-      "A 2-minute clinician-designed assessment. Discover your stress archetype, thinking patterns, and which techniques match your brain.",
+      "A 2-minute self-reflection. Discover a stress archetype, thinking patterns, and self-guided techniques that may fit you.",
   },
 };
 
@@ -28,11 +28,11 @@ const blueprintStructuredData = {
   "@context": "https://schema.org",
   "@type": "Quiz",
   name: "Emotional Blueprint Assessment",
-  description: "A 2-minute clinician-designed assessment that reveals your stress archetype, thinking patterns, and which therapeutic techniques match your brain.",
+  description: "A 2-minute self-reflection that suggests a stress archetype, thinking patterns, and self-guided tools that may fit you.",
   educationalLevel: "General",
   about: {
-    "@type": "MedicalCondition",
-    name: "Stress Response Patterns",
+    "@type": "Thing",
+    name: "Stress response patterns",
   },
   author: {
     "@type": "Person",

@@ -1,10 +1,10 @@
 // Proxies the NPPES NPI Registry API (free, no key needed)
 // Returns real provider data: name, credentials, address, phone, specialty
 // Filters out non-mental-health providers (e.g., neurologists)
-// Prioritizes licensed healthcare providers, then exact zip, then proximity
+// Prioritizes registry-listed mental health entries, then exact zip, then proximity
 
 // Taxonomy search terms validated against live NPPES API
-// "Psych/Mental Health" = licensed healthcare providers, "Psychiatry" = psychiatrists,
+// "Psych/Mental Health" = psychiatric prescriber taxonomy entries, "Psychiatry" = psychiatrists,
 // "Psychologist" = psychologists, "Social Worker" = LCSWs,
 // "Counselor" = counselors, "Addiction Medicine" = addiction docs
 const TAXONOMY_MAP = {

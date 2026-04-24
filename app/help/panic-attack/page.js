@@ -9,8 +9,8 @@ import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "Panic Attack Help: Instant Free Techniques | Healthcare Professional-Designed",
-  description: "Having a panic attack right now? Quick, clinician-designed steps to calm your body and mind — free and private.",
+  title: "Panic Attack Help: Free Grounding Techniques | AIForj",
+  description: "Having a panic attack right now? Quick, evidence-framed steps to calm your body and mind — free and private.",
   path: "/help/panic-attack",
   kind: "help",
   slug: "panic-attack",

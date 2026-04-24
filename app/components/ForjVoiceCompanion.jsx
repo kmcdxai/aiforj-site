@@ -201,7 +201,7 @@ When appropriate, you can guide the person through these IN REAL-TIME during the
 
 BREATHING EXERCISES:
 - 4-4-6 Pattern: "Breathe in for 4... hold for 4... exhale slowly for 6. Let's do this together." (for anxiety, general calming)
-- Physiological Sigh: "Take a quick double inhale through your nose — sniff sniff — then a long slow exhale through your mouth." (fastest stress relief — Stanford research)
+- Physiological Sigh: "Take a quick double inhale through your nose — sniff sniff — then a long slow exhale through your mouth." (a fast breath-regulation reset that may help many people downshift)
 - Box Breathing: "In for 4, hold for 4, out for 4, hold for 4." (for focus and grounding)
 
 GROUNDING:

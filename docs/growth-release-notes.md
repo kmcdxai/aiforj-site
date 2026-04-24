@@ -1,6 +1,6 @@
 # AIForj Growth Release Notes
 
-Last updated: 2026-04-23
+Last updated: 2026-04-24
 
 ## Summary
 
@@ -20,6 +20,14 @@ This release adds privacy-first growth infrastructure for measurement, sharing, 
 - `app/components/FindHelpPage.jsx`: provider-search privacy copy, opt-in-only search-start metric, local shortlist, and provider verification disclaimers.
 - `app/what-we-collect/page.js`: exact metrics/payment/share/privacy disclosure.
 - `tests/*.test.mjs`: safety classifier, metrics schema, share token, and activation token tests.
+- `tests/trustCopy.test.mjs`: source-level guard against overstrong credential, provider-verification, privacy, clinical superlative, and medical-schema claims.
+
+## Follow-up Hardening
+
+- Replaced remaining `clinician-designed`, `designed by a clinician`, `Healthcare Professional-Designed`, and `licensed clinician` wording with more precise clinician-informed/evidence-framed language.
+- Changed provider-search loading copy from verified-provider wording to registry-listed CMS.gov data.
+- Changed Blueprint structured data so the self-reflection is not marked as a `MedicalCondition`.
+- Removed a superlative breathwork claim from the Talk to Forj prompt.
 
 ## New Routes
 
