@@ -162,7 +162,7 @@ export default function FindHelpPage() {
   return (
     <div className="find-help-page" style={{ minHeight: "100vh", fontFamily: "'DM Sans', sans-serif", color: C.text, background: `linear-gradient(180deg, ${C.bg} 0%, ${C.bg2} 100%)` }}>
       <style>{`
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeUp { from { opacity: 0.9; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes spin { to { transform: rotate(360deg); } }
         input:focus { outline: none !important; }
         ::selection { background: rgba(${C.glow},0.2); }
@@ -233,7 +233,7 @@ export default function FindHelpPage() {
 
         {/* ─── STEP 1: WHAT DO YOU NEED? ─── */}
         {step === "need" && (
-          <div key={fadeKey} style={{ animation: "fadeUp 1s ease", paddingTop: "8vh" }}>
+          <div key={fadeKey} style={{ animation: "fadeUp 0.35s ease", paddingTop: "8vh" }}>
             <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(28px, 5.5vw, 42px)", fontWeight: 500, lineHeight: 1.2, margin: "0 0 12px" }}>
               What would help<br />you most right now?
             </h1>
@@ -265,7 +265,7 @@ export default function FindHelpPage() {
               </p>
             </div>
 
-            <p style={{ fontSize: 11, color: C.muted, opacity: 0.35, marginTop: 28, lineHeight: 1.7 }}>
+            <p style={{ fontSize: 11, color: C.muted, opacity: 0.82, marginTop: 28, lineHeight: 1.7 }}>
               Provider searches are not stored server-side by default. If anonymous metrics are enabled, AIForj only records a provider_search_started count, not your ZIP, city, provider details, or search type.
             </p>
           </div>
@@ -273,7 +273,7 @@ export default function FindHelpPage() {
 
         {/* ─── STEP 2: INSURANCE + ZIP ─── */}
         {step === "details" && (
-          <div key={fadeKey} style={{ animation: "fadeUp 0.8s ease", paddingTop: "6vh" }}>
+          <div key={fadeKey} style={{ animation: "fadeUp 0.35s ease", paddingTop: "6vh" }}>
             <button onClick={() => go("need")} style={{ background: "none", border: "none", fontSize: 13, color: C.accent, cursor: "pointer", marginBottom: 20, padding: 0 }}>← Back</button>
 
             <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 28, fontWeight: 500, margin: "0 0 10px" }}>Almost there.</h2>
@@ -346,7 +346,7 @@ export default function FindHelpPage() {
 
         {/* ─── STEP 3: RESULTS ─── */}
         {step === "results" && (
-          <div key={fadeKey} style={{ animation: "fadeUp 0.8s ease", paddingTop: "5vh" }}>
+          <div key={fadeKey} style={{ animation: "fadeUp 0.35s ease", paddingTop: "5vh" }}>
             <button onClick={() => { go("details"); }} style={{ background: "none", border: "none", fontSize: 13, color: C.accent, cursor: "pointer", marginBottom: 16, padding: 0 }}>← Change search</button>
 
             {/* Loading */}
@@ -354,7 +354,7 @@ export default function FindHelpPage() {
               <div style={{ textAlign: "center", paddingTop: "10vh" }}>
                 <div style={{ width: 36, height: 36, border: `3px solid ${C.line}`, borderTopColor: C.accent, borderRadius: "50%", animation: "spin 0.7s linear infinite", margin: "0 auto 20px" }} />
                 <p style={{ fontSize: 15, color: C.muted }}>Searching the National Provider Registry...</p>
-                <p style={{ fontSize: 12, color: C.muted, opacity: 0.5, marginTop: 8 }}>Registry-listed provider data from CMS.gov</p>
+                <p style={{ fontSize: 12, color: C.muted, opacity: 0.78, marginTop: 8 }}>Registry-listed provider data from CMS.gov</p>
               </div>
             )}
 
@@ -446,7 +446,7 @@ export default function FindHelpPage() {
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 4 }}>
                               <span style={{ fontSize: 15, fontWeight: 600, color: C.text }}>{p.name}</span>
-                              {p.credential && <span style={{ fontSize: 11, color: C.muted, opacity: 0.7 }}>{p.credential}</span>}
+                              {p.credential && <span style={{ fontSize: 11, color: C.muted, opacity: 0.86 }}>{p.credential}</span>}
                             </div>
                             <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                               <span style={{ fontSize: 10, padding: "2px 8px", background: `${ts.color}12`, color: ts.color, borderRadius: 6, fontWeight: 600, letterSpacing: 0.3 }}>{ts.badge}</span>
@@ -460,7 +460,7 @@ export default function FindHelpPage() {
                                 borderRadius: 16, textDecoration: "none", fontWeight: 600, whiteSpace: "nowrap",
                               }}>Call</a>
                             )}
-                            <span style={{ fontSize: 14, color: C.muted, opacity: 0.3, transform: expanded ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>▾</span>
+                            <span style={{ fontSize: 14, color: C.muted, opacity: 0.62, transform: expanded ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>▾</span>
                           </div>
                         </div>
 
@@ -518,7 +518,7 @@ export default function FindHelpPage() {
                               }}>{savedProviders.some((item) => item.npi === p.npi) ? "Saved locally" : "Save locally"}</button>
                             </div>
 
-                            <p style={{ fontSize: 11, color: C.muted, opacity: 0.5, marginTop: 10, lineHeight: 1.5 }}>
+                            <p style={{ fontSize: 11, color: C.muted, opacity: 0.76, marginTop: 10, lineHeight: 1.5 }}>
                               {isUninsured
                                 ? "Call to ask about self-pay rates, sliding scale, or superbill options."
                                 : `Call to verify they accept ${insLabel} and are taking new patients.`}
@@ -655,7 +655,7 @@ export default function FindHelpPage() {
                           <span style={{ fontSize: 13, fontWeight: 600, color: C.text, display: "block" }}>{link.name}</span>
                           <span style={{ fontSize: 11, color: C.muted }}>{link.desc}</span>
                         </div>
-                        <span style={{ fontSize: 14, color: C.accent, opacity: 0.3, flexShrink: 0 }}>→</span>
+                        <span style={{ fontSize: 14, color: C.accent, opacity: 0.62, flexShrink: 0 }}>→</span>
                       </a>
                     ))}
                   </div>
@@ -692,7 +692,7 @@ export default function FindHelpPage() {
                 </div>
                 <div style={{ textAlign: "center" }}>
                   <button onClick={() => { setProviders([]); setShowCount(10); setFilterType("all"); setExpandedNpi(null); go("need"); }} style={{
-                    background: "none", border: "none", fontSize: 12, color: C.muted, cursor: "pointer", opacity: 0.5, textDecoration: "underline",
+                    background: "none", border: "none", fontSize: 12, color: C.muted, cursor: "pointer", opacity: 0.76, textDecoration: "underline",
                   }}>Start a new search</button>
                 </div>
               </>
