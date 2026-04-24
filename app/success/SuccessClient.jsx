@@ -373,7 +373,7 @@ export default function SuccessClient() {
 
             <div style={{ display: "grid", gap: 12 }}>
               {(familyData?.seats || Array.from({ length: 4 }, (_, index) => ({
-                code: `placeholder-${index + 1}`,
+                code: `pending-seat-${index + 1}`,
                 seatNumber: index + 1,
                 redeemed: false,
                 redeemUrl: "",

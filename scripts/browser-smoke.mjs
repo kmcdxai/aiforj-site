@@ -330,16 +330,16 @@ async function run() {
 
   const home = await newPage(`${BASE_URL}/`);
   try {
-    await home.waitFor(`document.body.innerText.includes('Emotional first aid that actually works.')`);
+    await home.waitFor(`document.body.innerText.includes('Emotional first aid for the moment before the moment gets worse.')`);
     results.homepage = await home.evaluate(`(() => {
       const text = document.body.innerText;
       return {
         title: document.title,
         hasStartCTA: text.includes('Get support now'),
         hasWorkbook: text.includes('CBT workbook'),
-        hasPremium: text.includes('Talk to Forj Premium'),
-        hasCredential: text.includes('AIForj Team') && text.includes('Licensed Healthcare Provider'),
-        navHasWorkbook: [...document.querySelectorAll('a[href]')].some((a) => a.textContent.includes('CBT Workbook')),
+        hasPremium: text.includes('AIForj Premium'),
+        hasCredential: text.includes('Kevin, a psychiatric nurse practitioner candidate'),
+        hasWorkbookLink: [...document.querySelectorAll('a[href]')].some((a) => a.textContent.includes('CBT Workbook') || a.textContent.includes('CBT Thought Reframe Workbook')),
         navHasCompanion: [...document.querySelectorAll('a[href]')].some((a) => a.textContent.includes('Talk to Forj')),
       };
     })()`);
@@ -349,7 +349,7 @@ async function run() {
 
   const themePage = await newPage(`${BASE_URL}/`);
   try {
-    await themePage.waitFor(`document.body.innerText.includes('Emotional first aid that actually works.')`);
+    await themePage.waitFor(`document.body.innerText.includes('Emotional first aid for the moment before the moment gets worse.')`);
     const before = await themePage.evaluate(`(() => ({
       theme: document.documentElement.getAttribute('data-theme'),
       manual: localStorage.getItem('aiforj-theme-manual'),
@@ -357,7 +357,6 @@ async function run() {
     await themePage.clickBySelector('button[aria-label^="Switch to"]');
     await themePage.waitFor(`localStorage.getItem('aiforj-theme-manual') === 'true'`);
     results.themeToggle = await themePage.evaluate(`(() => ({
-      beforeTheme: ${JSON.stringify('placeholder')},
       afterTheme: document.documentElement.getAttribute('data-theme'),
       manual: localStorage.getItem('aiforj-theme-manual'),
       storedTheme: localStorage.getItem('aiforj-theme'),
@@ -374,12 +373,12 @@ async function run() {
     mobile: true,
   });
   try {
-    await mobileHome.waitFor(`document.body.innerText.includes('Emotional first aid that actually works.')`);
+    await mobileHome.waitFor(`document.body.innerText.includes('Emotional first aid for the moment before the moment gets worse.')`);
     results.mobileHomepage = await mobileHome.evaluate(`(() => ({
       width: window.innerWidth,
       scrollWidth: document.documentElement.scrollWidth,
       overflowPx: document.documentElement.scrollWidth - window.innerWidth,
-      hasHeroCTA: document.body.innerText.includes('Get support now'),
+      hasHeroCTA: document.body.innerText.includes('Get matched in 30 seconds') || document.body.innerText.includes('Get support now'),
       hasMenuButton: Boolean(document.querySelector('button[aria-label="Open menu"]')?.offsetParent),
     }))()`);
   } finally {
