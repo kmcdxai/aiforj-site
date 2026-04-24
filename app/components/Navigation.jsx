@@ -98,12 +98,12 @@ export default function Navigation() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          background: scrolled ? "var(--surface-elevated)" : "transparent",
-          backdropFilter: scrolled ? "blur(12px)" : "none",
-          WebkitBackdropFilter: scrolled ? "blur(12px)" : "none",
-          borderBottom: scrolled ? "1px solid rgba(45,42,38,0.06)" : "1px solid transparent",
+          background: "var(--surface-elevated)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          borderBottom: "1px solid rgba(45,42,38,0.08)",
           transition: "all 300ms cubic-bezier(0.16,1,0.3,1)",
-          boxShadow: scrolled ? "var(--shadow-sm)" : "none",
+          boxShadow: scrolled ? "var(--shadow-sm)" : "0 1px 0 rgba(45,42,38,0.03)",
           maxWidth: "100%",
         }}
       >

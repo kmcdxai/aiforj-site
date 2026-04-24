@@ -2314,7 +2314,7 @@ export default function ForjVoiceCompanion() {
         </div>
       ) : (
         <div style={{ padding: "0 24px 12px", display: "flex", justifyContent: "center" }}>
-          <div style={{ maxWidth: 860, width: "100%", background: "var(--surface-elevated)", borderRadius: 20, border: "1px solid rgba(45,42,38,0.06)", boxShadow: "var(--shadow-sm)", padding: "14px 16px" }}>
+          <div style={{ maxWidth: 860, width: "100%", background: "var(--surface-elevated)", borderRadius: 20, border: "1px solid var(--border)", boxShadow: "var(--shadow-sm)", padding: "14px 16px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 10 }}>
               <div>
                 <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--text-muted)", fontWeight: 700, display: "block", marginBottom: 4, fontFamily: "'Fraunces', serif" }}>Premium Preview</span>
@@ -2326,8 +2326,8 @@ export default function ForjVoiceCompanion() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 10 }}>
               {PREMIUM_CONVERSATION_MODES.map((mode) => (
-                <div key={mode.id} style={{ padding: "12px 14px", borderRadius: 16, border: "1px dashed rgba(45,42,38,0.12)", background: "rgba(255,255,255,0.45)", opacity: 0.84 }}>
-                  <span style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: 1.5, display: "block", marginBottom: 5, fontWeight: 700 }}>{mode.badge}</span>
+                <div key={mode.id} style={{ padding: "12px 14px", borderRadius: 16, border: "1px dashed var(--border)", background: "var(--surface)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04)" }}>
+                  <span style={{ fontSize: 11, color: "var(--sage-deep)", textTransform: "uppercase", letterSpacing: 1.5, display: "block", marginBottom: 5, fontWeight: 700 }}>{mode.badge}</span>
                   <span style={{ fontSize: 14, color: "var(--text-primary)", display: "block", marginBottom: 4, fontFamily: "'Fraunces', serif" }}>{mode.label}</span>
                   <span style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.55 }}>{mode.description}</span>
                 </div>

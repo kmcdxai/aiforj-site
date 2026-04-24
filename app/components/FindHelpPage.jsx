@@ -11,13 +11,15 @@ import { trackSafeMetric } from "../../lib/metrics";
 // ═══════════════════════════════════════════════════════════════
 
 const C = {
-  bg: "#F3F6FA",
+  bg: "#F4F7FA",
+  bg2: "#EAF1F7",
   text: "#1A2030",
   accent: "#2B7A9C",
   purple: "#6B5CA5",
-  muted: "#6B7B8D",
-  card: "rgba(255,255,255,0.82)",
-  line: "#DDE3ED",
+  muted: "#526173",
+  card: "#FFFFFF",
+  cardSoft: "rgba(255,255,255,0.94)",
+  line: "#C9D5E2",
   urgent: "#C85A3A",
   sage: "#3D8B5E",
   warm: "#B8935A",
@@ -158,29 +160,81 @@ export default function FindHelpPage() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", fontFamily: "'DM Sans', sans-serif", color: "var(--text-primary)", background: "var(--bg-primary)" }}>
+    <div className="find-help-page" style={{ minHeight: "100vh", fontFamily: "'DM Sans', sans-serif", color: C.text, background: `linear-gradient(180deg, ${C.bg} 0%, ${C.bg2} 100%)` }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Instrument+Sans:wght@400;500;600&display=swap');
         @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes spin { to { transform: rotate(360deg); } }
         input:focus { outline: none !important; }
         ::selection { background: rgba(${C.glow},0.2); }
         * { box-sizing: border-box; }
+        .find-help-page {
+          color-scheme: light;
+          isolation: isolate;
+        }
+        .find-help-page h1,
+        .find-help-page h2,
+        .find-help-page h3 {
+          color: ${C.text};
+        }
+        .find-help-page p,
+        .find-help-page span,
+        .find-help-page li,
+        .find-help-page label,
+        .find-help-page button,
+        .find-help-page input {
+          letter-spacing: 0;
+        }
+        .find-help-page button,
+        .find-help-page a,
+        .find-help-page input {
+          -webkit-tap-highlight-color: rgba(${C.glow},0.14);
+        }
+        .provider-choice-button,
+        .provider-card,
+        .provider-panel,
+        .provider-resource-link {
+          box-shadow: 0 10px 30px rgba(26, 32, 48, 0.06);
+        }
+        .provider-choice-button:hover,
+        .provider-resource-link:hover {
+          transform: translateY(-1px);
+          border-color: rgba(${C.glow},0.35) !important;
+        }
+        @media (max-width: 540px) {
+          .find-help-main {
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+            padding-bottom: 120px !important;
+          }
+          .provider-insurance-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .provider-insurance-grid button {
+            grid-column: auto !important;
+          }
+          .provider-choice-button {
+            padding: 16px !important;
+            gap: 12px !important;
+          }
+          .provider-footer {
+            padding-bottom: 112px !important;
+          }
+        }
       `}</style>
 
-      <div style={{ position: "fixed", inset: 0, pointerEvents: "none", background: `radial-gradient(ellipse at 30% 20%, rgba(${C.glow},0.04) 0%, transparent 55%)` }} />
+      <div style={{ position: "fixed", inset: 0, pointerEvents: "none", background: `radial-gradient(ellipse at 30% 20%, rgba(${C.glow},0.08) 0%, transparent 48%), radial-gradient(ellipse at 80% 10%, rgba(61,139,94,0.07) 0%, transparent 46%)` }} />
 
       {/* Page subtitle */}
       <div style={{ textAlign: "center", padding: "8px 24px" }}>
-        <span style={{ fontSize: 11, color: "var(--text-muted)", letterSpacing: 2, textTransform: "uppercase", fontWeight: 500 }}>Find a Provider</span>
+        <span style={{ fontSize: 11, color: C.muted, letterSpacing: 2, textTransform: "uppercase", fontWeight: 700 }}>Find a Provider</span>
       </div>
 
-      <main style={{ maxWidth: 640, margin: "0 auto", padding: "0 24px 100px", position: "relative", zIndex: 5 }}>
+      <main className="find-help-main" style={{ maxWidth: 680, margin: "0 auto", padding: "0 24px 120px", position: "relative", zIndex: 5 }}>
 
         {/* ─── STEP 1: WHAT DO YOU NEED? ─── */}
         {step === "need" && (
           <div key={fadeKey} style={{ animation: "fadeUp 1s ease", paddingTop: "8vh" }}>
-            <h1 style={{ fontFamily: "'Newsreader', serif", fontSize: "clamp(28px, 5.5vw, 42px)", fontWeight: 300, lineHeight: 1.2, margin: "0 0 12px" }}>
+            <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(28px, 5.5vw, 42px)", fontWeight: 500, lineHeight: 1.2, margin: "0 0 12px" }}>
               What would help<br />you most right now?
             </h1>
             <p style={{ fontSize: 14, lineHeight: 1.8, color: C.muted, marginBottom: 28 }}>
@@ -189,7 +243,7 @@ export default function FindHelpPage() {
 
             <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 24 }}>
               {NEEDS.map(n => (
-                <button key={n.id} onClick={() => { setNeed(n.id); go("details"); }} style={{
+                <button key={n.id} className="provider-choice-button" onClick={() => { setNeed(n.id); go("details"); }} style={{
                   padding: "20px 20px", background: C.card,
                   border: `1.5px solid ${C.line}`,
                   borderRadius: 14, cursor: "pointer", textAlign: "left",
@@ -222,27 +276,26 @@ export default function FindHelpPage() {
           <div key={fadeKey} style={{ animation: "fadeUp 0.8s ease", paddingTop: "6vh" }}>
             <button onClick={() => go("need")} style={{ background: "none", border: "none", fontSize: 13, color: C.accent, cursor: "pointer", marginBottom: 20, padding: 0 }}>← Back</button>
 
-            <h2 style={{ fontFamily: "'Newsreader', serif", fontSize: 28, fontWeight: 300, margin: "0 0 10px" }}>Almost there.</h2>
+            <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 28, fontWeight: 500, margin: "0 0 10px" }}>Almost there.</h2>
             <p style={{ fontSize: 14, lineHeight: 1.8, color: C.muted, marginBottom: 24 }}>
               Select your insurance and enter your zip code. We'll search the national registry and return providers near you.
             </p>
 
             <div style={{ marginBottom: 24 }}>
               <label style={{ fontSize: 12, fontWeight: 600, color: C.text, display: "block", marginBottom: 10, letterSpacing: 0.5 }}>Your insurance</label>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+              <div className="provider-insurance-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
                 {INSURERS.map(ins => {
                   const sel = insurance === ins.id;
                   const isSpecial = ins.id === "none" || ins.id === "unknown";
                   return (
                     <button key={ins.id} onClick={() => setInsurance(ins.id)} style={{
-                      padding: "12px 14px", background: sel ? `rgba(${C.glow},0.08)` : C.card,
-                      border: `1.5px solid ${sel ? C.accent : C.line}`,
+                      padding: "14px 15px", background: sel ? `rgba(${C.glow},0.1)` : C.card,
+                      border: `1.5px ${isSpecial && !sel ? "dashed" : "solid"} ${sel ? C.accent : C.line}`,
                       borderRadius: 10, cursor: "pointer", textAlign: "left",
                       transition: "all 0.15s",
                       ...(isSpecial ? { gridColumn: "span 2" } : {}),
-                      ...(isSpecial && !sel ? { borderStyle: "dashed" } : {}),
                     }}>
-                      <span style={{ fontSize: 13, fontWeight: sel ? 600 : 400, color: sel ? C.accent : isSpecial ? C.muted : C.text }}>{ins.label}</span>
+                      <span style={{ fontSize: 14, fontWeight: sel ? 700 : 600, color: sel ? C.accent : isSpecial ? C.muted : C.text }}>{ins.label}</span>
                     </button>
                   );
                 })}
@@ -267,7 +320,7 @@ export default function FindHelpPage() {
                     placeholder="e.g. 90210"
                     style={{
                       width: "100%", maxWidth: 180, padding: "14px 18px", fontSize: 20,
-                      fontFamily: "'Instrument Sans', sans-serif",
+                      fontFamily: "'DM Sans', sans-serif",
                       background: C.card, border: `1.5px solid ${C.line}`, borderRadius: 12, color: C.text,
                       letterSpacing: 6, textAlign: "center",
                     }}
@@ -322,7 +375,7 @@ export default function FindHelpPage() {
             {/* Results */}
             {!loading && providers.length > 0 && (
               <>
-                <h2 style={{ fontFamily: "'Newsreader', serif", fontSize: 26, fontWeight: 300, margin: "0 0 6px" }}>
+                <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 26, fontWeight: 500, margin: "0 0 6px" }}>
                   {totalFound} provider{totalFound !== 1 ? "s" : ""} found near {zip}
                 </h2>
                 <p style={{ fontSize: 13, color: C.muted, marginBottom: 16, lineHeight: 1.5 }}>
@@ -384,8 +437,8 @@ export default function FindHelpPage() {
                     const ts = TYPE_STYLES[p.providerType] || { color: C.accent, badge: p.providerType, icon: "🩺" };
                     const expanded = expandedNpi === p.npi;
                     return (
-                      <div key={p.npi || i} onClick={() => setExpandedNpi(expanded ? null : p.npi)} style={{
-                        padding: "16px 18px", background: expanded ? "rgba(255,255,255,0.95)" : C.card,
+                      <div key={p.npi || i} className="provider-card" onClick={() => setExpandedNpi(expanded ? null : p.npi)} style={{
+                        padding: "16px 18px", background: expanded ? C.card : C.cardSoft,
                         border: `1.5px solid ${expanded ? ts.color : C.line}`,
                         borderRadius: 14, cursor: "pointer", transition: "all 0.15s",
                       }}>
@@ -488,7 +541,7 @@ export default function FindHelpPage() {
                 )}
 
                 {/* What to say */}
-                <div style={{ padding: 22, background: `rgba(${C.glow},0.05)`, borderRadius: 14, border: `1px solid rgba(${C.glow},0.12)`, marginBottom: 16 }}>
+                <div className="provider-panel" style={{ padding: 22, background: `rgba(${C.glow},0.07)`, borderRadius: 14, border: `1px solid rgba(${C.glow},0.16)`, marginBottom: 16 }}>
                   <p style={{ fontSize: 11, color: C.accent, letterSpacing: 2, textTransform: "uppercase", marginBottom: 10, fontWeight: 600 }}>What to say when you call</p>
                   <p style={{ fontSize: 14, color: C.text, lineHeight: 1.8, margin: "0 0 12px", fontStyle: "italic" }}>"{callScript}"</p>
                   <button onClick={() => { navigator.clipboard.writeText(callScript).then(() => { setCopiedScript(true); setTimeout(() => setCopiedScript(false), 2000); }); }} style={{
@@ -499,7 +552,7 @@ export default function FindHelpPage() {
                 </div>
 
                 {/* Quick tips */}
-                <div style={{ padding: 22, background: C.card, borderRadius: 14, border: `1px solid ${C.line}`, marginBottom: 16 }}>
+                <div className="provider-panel" style={{ padding: 22, background: C.card, borderRadius: 14, border: `1px solid ${C.line}`, marginBottom: 16 }}>
                   <p style={{ fontSize: 11, color: C.accent, letterSpacing: 2, textTransform: "uppercase", marginBottom: 10, fontWeight: 600 }}>Questions to ask on the call</p>
                   <ol style={{ margin: 0, padding: "0 0 0 18px", fontSize: 13, color: C.text, lineHeight: 2.2 }}>
                     <li>Are you accepting new patients?</li>
@@ -511,7 +564,7 @@ export default function FindHelpPage() {
                   </ol>
                 </div>
 
-                <div style={{ padding: 22, background: C.card, borderRadius: 14, border: `1px solid ${C.line}`, marginBottom: 16 }}>
+                <div className="provider-panel" style={{ padding: 22, background: C.card, borderRadius: 14, border: `1px solid ${C.line}`, marginBottom: 16 }}>
                   <p style={{ fontSize: 11, color: C.accent, letterSpacing: 2, textTransform: "uppercase", marginBottom: 10, fontWeight: 600 }}>Good to know</p>
                   <div style={{ fontSize: 13, color: C.text, lineHeight: 1.8 }}>
                     <p style={{ margin: "0 0 8px" }}><strong>Your first session is an intake,</strong> not a test. They'll ask about your history and goals. Just be honest about where you are.</p>
@@ -525,7 +578,7 @@ export default function FindHelpPage() {
             {/* No results */}
             {!loading && !error && providers.length === 0 && (
               <div style={{ paddingTop: "4vh" }}>
-                <h2 style={{ fontFamily: "'Newsreader', serif", fontSize: 26, fontWeight: 300, margin: "0 0 12px" }}>No providers found in this area</h2>
+                <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 26, fontWeight: 500, margin: "0 0 12px" }}>No providers found in this area</h2>
                 <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8, marginBottom: 20 }}>
                   The registry didn't return results for your zip code. Try these directories — they have additional provider data:
                 </p>
@@ -537,10 +590,10 @@ export default function FindHelpPage() {
               <>
                 {/* Affordable care — prominent for cash pay users */}
                 {(isUninsured || insurance === "unknown") && (
-                  <div style={{ padding: 22, background: `rgba(61,139,94,0.05)`, borderRadius: 14, border: `1px solid rgba(61,139,94,0.15)`, marginBottom: 16 }}>
+                  <div className="provider-panel" style={{ padding: 22, background: `rgba(61,139,94,0.07)`, borderRadius: 14, border: `1px solid rgba(61,139,94,0.18)`, marginBottom: 16 }}>
                     <p style={{ fontSize: 11, color: C.sage, letterSpacing: 2, textTransform: "uppercase", marginBottom: 14, fontWeight: 600 }}>Affordable care — real options, not just links</p>
                     <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                      <a href="https://openpathcollective.org/" target="_blank" rel="noopener noreferrer" style={{
+                      <a className="provider-resource-link" href="https://openpathcollective.org/" target="_blank" rel="noopener noreferrer" style={{
                         textDecoration: "none", padding: "14px 16px", background: "rgba(255,255,255,0.7)",
                         border: `1px solid rgba(61,139,94,0.2)`, borderRadius: 10, display: "flex", alignItems: "center", gap: 12,
                       }}>
@@ -551,7 +604,7 @@ export default function FindHelpPage() {
                         </div>
                         <span style={{ fontSize: 14, color: C.sage, flexShrink: 0 }}>→</span>
                       </a>
-                      <a href={`https://findahealthcenter.hrsa.gov/?zip=${zip}&radius=30`} target="_blank" rel="noopener noreferrer" style={{
+                      <a className="provider-resource-link" href={`https://findahealthcenter.hrsa.gov/?zip=${zip}&radius=30`} target="_blank" rel="noopener noreferrer" style={{
                         textDecoration: "none", padding: "14px 16px", background: "rgba(255,255,255,0.7)",
                         border: `1px solid rgba(61,139,94,0.2)`, borderRadius: 10, display: "flex", alignItems: "center", gap: 12,
                       }}>
@@ -562,7 +615,7 @@ export default function FindHelpPage() {
                         </div>
                         <span style={{ fontSize: 14, color: C.sage, flexShrink: 0 }}>→</span>
                       </a>
-                      <a href={`https://www.google.com/search?q=university+psychology+training+clinic+near+${zip}`} target="_blank" rel="noopener noreferrer" style={{
+                      <a className="provider-resource-link" href={`https://www.google.com/search?q=university+psychology+training+clinic+near+${zip}`} target="_blank" rel="noopener noreferrer" style={{
                         textDecoration: "none", padding: "14px 16px", background: "rgba(255,255,255,0.7)",
                         border: `1px solid rgba(61,139,94,0.2)`, borderRadius: 10, display: "flex", alignItems: "center", gap: 12,
                       }}>
@@ -583,7 +636,7 @@ export default function FindHelpPage() {
                 )}
 
                 {/* Additional directories */}
-                <div style={{ padding: 22, background: C.card, borderRadius: 14, border: `1px solid ${C.line}`, marginBottom: 16 }}>
+                <div className="provider-panel" style={{ padding: 22, background: C.card, borderRadius: 14, border: `1px solid ${C.line}`, marginBottom: 16 }}>
                   <p style={{ fontSize: 11, color: C.accent, letterSpacing: 2, textTransform: "uppercase", marginBottom: 14, fontWeight: 600 }}>{providers.length > 0 ? "Additional directories" : "Try these directories"}</p>
                   <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                     {[
@@ -593,7 +646,7 @@ export default function FindHelpPage() {
                       { name: "SAMHSA Treatment Locator", url: "https://findtreatment.gov/", desc: "Government database of treatment facilities", icon: "🏛" },
                       { name: "NAMI HelpLine", url: "https://www.nami.org/help", desc: "Free guidance & referrals — call 1-800-950-6264", icon: "📞" },
                     ].map((link, i) => (
-                      <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" style={{
+                      <a key={i} className="provider-resource-link" href={link.url} target="_blank" rel="noopener noreferrer" style={{
                         textDecoration: "none", padding: "12px 14px", background: `rgba(${C.glow},0.02)`,
                         border: `1px solid ${C.line}`, borderRadius: 10, display: "flex", alignItems: "center", gap: 12,
                       }}>
@@ -610,7 +663,7 @@ export default function FindHelpPage() {
 
                 {/* Insurance tips */}
                 {!isUninsured && insurance !== "unknown" && (
-                  <div style={{ padding: 22, background: C.card, borderRadius: 14, border: `1px solid ${C.line}`, marginBottom: 16 }}>
+                  <div className="provider-panel" style={{ padding: 22, background: C.card, borderRadius: 14, border: `1px solid ${C.line}`, marginBottom: 16 }}>
                     <p style={{ fontSize: 11, color: C.accent, letterSpacing: 2, textTransform: "uppercase", marginBottom: 10, fontWeight: 600 }}>Insurance tips</p>
                     <ul style={{ margin: 0, padding: "0 0 0 18px", fontSize: 13, color: C.text, lineHeight: 2 }}>
                       <li>Call the number on your card → ask for in-network mental health providers</li>
@@ -648,22 +701,22 @@ export default function FindHelpPage() {
         )}
       </main>
 
-      <div style={{ padding: "20px 24px", textAlign: "center", borderTop: "1px solid rgba(45,42,38,0.06)" }}>
-        <p style={{ fontSize: 11, color: "var(--text-muted)", lineHeight: 1.7, margin: 0, maxWidth: 560, marginLeft: "auto", marginRight: "auto" }}>
+      <div style={{ padding: "20px 24px", textAlign: "center", borderTop: "1px solid rgba(26,32,48,0.08)", background: "rgba(255,255,255,0.5)" }}>
+        <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, margin: 0, maxWidth: 600, marginLeft: "auto", marginRight: "auto" }}>
           Provider data may be incomplete and comes from the National Plan & Provider Enumeration System (NPPES/CMS.gov). AIForj does not endorse or verify providers. Confirm licensing, insurance acceptance, availability, costs, and scope directly before booking.
         </p>
       </div>
 
-      <footer style={{ padding: "48px 24px 32px", textAlign: "center", background: "var(--bg-secondary)", borderTop: "1px solid rgba(45,42,38,0.06)" }}>
-        <div style={{ marginBottom: 28, padding: "18px 24px", background: "var(--surface-elevated)", borderRadius: 16, display: "inline-block", boxShadow: "var(--shadow-sm)" }}>
-          <p style={{ fontSize: 14, color: "var(--text-primary)", margin: "0 0 4px", fontWeight: 500 }}>In crisis? You're not alone.</p>
-          <p style={{ fontSize: 13, color: "var(--text-secondary)", margin: 0 }}>Call or text <strong style={{ color: "var(--crisis)" }}>988</strong> · Text HOME to <strong style={{ color: "var(--crisis)" }}>741741</strong></p>
+      <footer className="provider-footer" style={{ padding: "48px 24px 96px", textAlign: "center", background: C.bg2, borderTop: "1px solid rgba(26,32,48,0.08)" }}>
+        <div style={{ marginBottom: 28, padding: "18px 24px", background: C.card, borderRadius: 16, display: "inline-block", boxShadow: "0 10px 30px rgba(26,32,48,0.08)", border: `1px solid ${C.line}` }}>
+          <p style={{ fontSize: 14, color: C.text, margin: "0 0 4px", fontWeight: 700 }}>In crisis? You're not alone.</p>
+          <p style={{ fontSize: 13, color: C.muted, margin: 0 }}>Call or text <strong style={{ color: C.urgent }}>988</strong> · Text HOME to <strong style={{ color: C.urgent }}>741741</strong></p>
         </div>
-        <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.7, margin: "0 0 24px", maxWidth: 480, marginLeft: "auto", marginRight: "auto" }}>
+        <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, margin: "0 0 24px", maxWidth: 480, marginLeft: "auto", marginRight: "auto" }}>
           Forj is a wellness companion — not a therapist or substitute for professional care.
         </p>
-        <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "0 0 8px", lineHeight: 1.8 }}>Clinician-informed by Kevin, a psychiatric nurse practitioner candidate</p>
-        <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.5, margin: 0 }}>© 2026 AIForj. All rights reserved.</p>
+        <p style={{ fontSize: 11, color: C.muted, margin: "0 0 8px", lineHeight: 1.8 }}>Clinician-informed by Kevin, a psychiatric nurse practitioner candidate</p>
+        <p style={{ fontSize: 11, color: C.muted, opacity: 0.78, margin: 0 }}>© 2026 AIForj. All rights reserved.</p>
       </footer>
     </div>
   );

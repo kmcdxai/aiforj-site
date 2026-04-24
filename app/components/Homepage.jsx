@@ -259,7 +259,8 @@ export default function Homepage() {
             justifyContent: "center",
             padding: "7px 14px",
             borderRadius: 999,
-            background: "var(--sage-light)",
+            background: "var(--surface-elevated)",
+            border: "1px solid var(--border)",
             color: "var(--sage-deep)",
             fontSize: 13,
             fontWeight: 700,
@@ -281,7 +282,7 @@ export default function Homepage() {
           <p style={{ fontSize: "clamp(17px, 2vw, 20px)", color: "var(--text-secondary)", maxWidth: 680, margin: "0 auto 34px", lineHeight: 1.75 }}>
             Private, fast, clinician-informed, not therapy. 30 public guides plus 100+ guided interventions across emotional states, matched to how you actually feel right now.
           </p>
-          <div style={{ margin: "0 auto 24px", maxWidth: 760, padding: "18px", borderRadius: 22, background: "rgba(255,255,255,0.72)", border: "1px solid rgba(45,42,38,0.08)", boxShadow: "var(--shadow-sm)" }}>
+          <div style={{ margin: "0 auto 24px", maxWidth: 760, padding: "18px", borderRadius: 22, background: "var(--surface-elevated)", border: "1px solid var(--border)", boxShadow: "var(--shadow-md)" }}>
             <p className="text-label" style={{ margin: "0 0 12px", color: "var(--sage-deep)" }}>What are you feeling right now?</p>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(126px, 1fr))", gap: 10 }}>
               {HERO_FEELINGS.map((emotion) => (
@@ -296,8 +297,8 @@ export default function Homepage() {
                     gap: 8,
                     padding: "10px 12px",
                     borderRadius: 14,
-                    background: emotion.accentLight,
-                    border: "1px solid rgba(45,42,38,0.08)",
+                    background: "var(--surface)",
+                    border: `1px solid ${emotion.accent}`,
                     color: "var(--text-primary)",
                     textDecoration: "none",
                     fontWeight: 700,
@@ -326,7 +327,7 @@ export default function Homepage() {
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 10, margin: "22px auto 0", maxWidth: 820 }}>
             {TRUST_POINTS.map((point) => (
-              <span key={point} style={{ padding: "8px 12px", borderRadius: 999, background: "rgba(255,255,255,0.68)", border: "1px solid rgba(45,42,38,0.08)", color: "var(--text-secondary)", fontSize: 13, fontWeight: 700 }}>
+              <span key={point} style={{ padding: "8px 12px", borderRadius: 999, background: "var(--surface-elevated)", border: "1px solid var(--border)", color: "var(--text-primary)", fontSize: 13, fontWeight: 700 }}>
                 {point}
               </span>
             ))}
@@ -346,8 +347,8 @@ export default function Homepage() {
                     color: "inherit",
                     padding: "22px 20px",
                     borderRadius: 22,
-                    background: "rgba(255,255,255,0.72)",
-                    border: "1px solid rgba(45,42,38,0.08)",
+                    background: "var(--surface-elevated)",
+                    border: "1px solid var(--border)",
                     boxShadow: "var(--shadow-sm)",
                     display: "grid",
                     gap: 10,
@@ -437,7 +438,7 @@ export default function Homepage() {
                 textAlign: "center",
                 gap: 10,
                 borderRadius: 18,
-                background: emotion.accentLight,
+                background: "var(--surface-elevated)",
                 border: "1px solid var(--border)",
                 textDecoration: "none",
                 color: "var(--text-primary)",

@@ -13,11 +13,13 @@ export const metadata = buildContentPageMetadata({
 
 export default function TodayPage() {
   return (
-    <main style={{ minHeight: "100vh", padding: "92px 20px 88px", background: "linear-gradient(180deg, var(--parchment), var(--surface))" }}>
+    <main style={{ minHeight: "100vh", padding: "92px 20px 88px", background: "linear-gradient(180deg, var(--bg-primary), var(--surface))" }}>
       <style>{`
         .today-shell { max-width: 1120px; margin: 0 auto; display: grid; gap: 24px; }
-        .today-card { background: rgba(255,255,255,0.76); border: 1px solid var(--border); border-radius: 24px; padding: clamp(20px, 4vw, 32px); box-shadow: var(--shadow-sm); }
-        .today-drop { background: linear-gradient(135deg, rgba(122,158,126,0.14), rgba(107,152,184,0.1), rgba(255,255,255,0.78)); }
+        .today-card { background: var(--surface-elevated); border: 1px solid var(--border); border-radius: 24px; padding: clamp(20px, 4vw, 32px); box-shadow: var(--shadow-sm); }
+        .today-card h1, .today-card h2, .today-card h3 { color: var(--text-primary); }
+        .today-card p, .today-card li { color: var(--text-secondary); }
+        .today-drop { background: linear-gradient(135deg, var(--surface-elevated), var(--sage-light), var(--ocean-light)); }
         .today-option-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(178px, 1fr)); gap: 10px; }
         .today-time-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
         .today-plan-grid { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(280px, 0.88fr); gap: 18px; }
