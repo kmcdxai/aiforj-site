@@ -7,6 +7,7 @@ import PremiumCheckoutButton from "../../components/monetization/PremiumCheckout
 import { FORJ_MODALITIES, FORJ_MODALITY_COUNT } from "../../lib/forjModalities";
 import { track } from "../../lib/analytics";
 import { workbookLink } from "../../lib/links";
+import BrandLogo, { BrandMark } from "./BrandLogo";
 
 const HOW_IT_WORKS = [
   {
@@ -269,7 +270,7 @@ export default function Homepage() {
             maxWidth: "min(100%, 560px)",
             overflowWrap: "anywhere",
           }}>
-            <img src="/aif.jpeg" alt="AIForj leaf mark" style={{ width: 24, height: 24, borderRadius: 6 }} />
+            <BrandMark size={24} title="AIForj mark" style={{ boxShadow: "0 6px 16px rgba(36,69,63,0.14)" }} />
             Clinician-informed by{" "}
             <a href="/about/founder" style={{ color: "inherit", textDecoration: "underline", textUnderlineOffset: 3 }}>
               Kevin, a psychiatric nurse practitioner candidate
@@ -605,8 +606,7 @@ export default function Homepage() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 28 }}>
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-                <img src="/aif.jpeg" alt="AIForj" style={{ width: 34, height: 34, borderRadius: 8 }} />
-                <strong style={{ fontFamily: "'Fraunces', serif", fontSize: 20 }}>AIForj</strong>
+                <BrandLogo size={34} wordmarkSize={20} />
               </div>
               <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 14, lineHeight: 1.7 }}>
                 Built and clinically informed by{" "}

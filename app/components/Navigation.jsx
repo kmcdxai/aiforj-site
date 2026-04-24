@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { useTheme } from "./ThemeProvider";
 import SoundToggle from "./SoundToggle";
+import BrandLogo from "./BrandLogo";
 
 const NAV_LINKS = [
   { href: "/#how-it-works", label: "How it works" },
@@ -69,9 +70,8 @@ export default function Navigation() {
             WebkitBackdropFilter: "blur(12px)",
           }}
         >
-          <a href="/" style={{ display: "inline-flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
-            <img src="/aif.jpeg" alt="AIForj" style={{ height: 30, width: 30, borderRadius: 8 }} />
-            <span style={{ fontFamily: "'Fraunces', serif", fontSize: 18, fontWeight: 700, color: "var(--text-primary)" }}>AIForj</span>
+          <a href="/" aria-label="AIForj home" style={{ display: "inline-flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
+            <BrandLogo size={30} wordmarkSize={18} />
           </a>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <SoundToggle />
@@ -111,6 +111,7 @@ export default function Navigation() {
         <a
           href="/"
           onClick={handleLinkClick}
+          aria-label="AIForj home"
           style={{
             display: "flex",
             alignItems: "center",
@@ -119,26 +120,7 @@ export default function Navigation() {
             flexShrink: 0,
           }}
         >
-          <img
-            src="/aif.jpeg"
-            alt="AIForj"
-            style={{
-              height: 32,
-              width: "auto",
-              borderRadius: 8,
-              boxShadow: "var(--shadow-sm)",
-            }}
-          />
-          <span
-            style={{
-              fontFamily: "'Fraunces', serif",
-              fontSize: 18,
-              fontWeight: 600,
-              color: "var(--text-primary)",
-            }}
-          >
-            AIForj
-          </span>
+          <BrandLogo size={32} wordmarkSize={18} />
         </a>
 
         {/* Desktop links */}

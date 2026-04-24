@@ -8,6 +8,7 @@ import { getPremiumAccessStatus } from "../../utils/premiumAccess";
 import { track } from "../../lib/analytics";
 import { workbookLink } from "../../lib/links";
 import { classifySafetyInput, CRISIS_HANDOFF_TEXT, MEDICATION_BOUNDARY_TEXT, buildPrescriberWorksheetPrompt } from "../../lib/safetyClassifier";
+import { BrandMark } from "./BrandLogo";
 
 // ═══════════════════════════════════════════════════════════════════════════
 //
@@ -2768,7 +2769,7 @@ export default function ForjVoiceCompanion() {
       {/* ═══════════ CLINICAL CREDENTIAL ═══════════ */}
       <section style={{ padding: "80px 24px", background: "var(--bg-secondary)" }}>
         <div style={{ maxWidth: 620, margin: "0 auto", textAlign: "center" }}>
-          <img src="/aif.jpeg" alt="AIForj" style={{ height: 64, width: "auto", borderRadius: 14, marginBottom: 20, boxShadow: "var(--shadow-md)" }} />
+          <BrandMark size={64} title="AIForj mark" style={{ margin: "0 auto 20px", borderRadius: 18, boxShadow: "var(--shadow-md)" }} />
           <p style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(16px, 2.5vw, 20px)", color: "var(--text-primary)", lineHeight: 1.8, margin: "0 0 24px", fontWeight: 400, fontStyle: "italic" }}>
             Forj was built for the space between moments of care: private, practical, and grounded in self-guided emotional first-aid techniques rather than generic affirmations.
           </p>

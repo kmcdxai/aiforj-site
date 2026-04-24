@@ -1,0 +1,38 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">AIForj mark</title>
+  <desc id="desc">A warm rounded AIForj mark with a calm forge flame, leaf forms, and a cool orbital line.</desc>
+  <defs>
+    <linearGradient id="bg" x1="80" y1="64" x2="432" y2="448" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF1D8"/>
+      <stop offset="0.48" stop-color="#DDECD7"/>
+      <stop offset="1" stop-color="#C8E9F0"/>
+    </linearGradient>
+    <linearGradient id="flame" x1="196" y1="134" x2="318" y2="360" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F2C46B"/>
+      <stop offset="0.55" stop-color="#DB8F62"/>
+      <stop offset="1" stop-color="#6FAE8C"/>
+    </linearGradient>
+    <linearGradient id="orbit" x1="126" y1="128" x2="390" y2="396" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7BAF8D"/>
+      <stop offset="0.52" stop-color="#70B7C7"/>
+      <stop offset="1" stop-color="#B9A7F0"/>
+    </linearGradient>
+    <filter id="softShadow" x="24" y="26" width="464" height="464" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="20" stdDeviation="30" flood-color="#22352F" flood-opacity="0.18"/>
+      <feDropShadow dx="0" dy="2" stdDeviation="7" flood-color="#FFFFFF" flood-opacity="0.62"/>
+    </filter>
+  </defs>
+  <rect x="38" y="38" width="436" height="436" rx="118" fill="url(#bg)" filter="url(#softShadow)"/>
+  <rect x="56" y="56" width="400" height="400" rx="101" stroke="#FFFFFF" stroke-opacity="0.72" stroke-width="14"/>
+  <path d="M136 292C170 205 235 144 346 116" stroke="url(#orbit)" stroke-width="22" stroke-linecap="round"/>
+  <path d="M376 190C354 279 294 342 182 376" stroke="url(#orbit)" stroke-width="18" stroke-linecap="round" stroke-opacity="0.78"/>
+  <circle cx="359" cy="174" r="20" fill="#24453F"/>
+  <circle cx="359" cy="174" r="9" fill="#BDEFE8"/>
+  <path d="M255 106C214 161 196 199 196 246C196 314 245 360 255 369C265 360 316 314 316 246C316 199 296 159 255 106Z" fill="url(#flame)" stroke="#24453F" stroke-width="16" stroke-linejoin="round"/>
+  <path d="M255 178C236 207 228 229 228 254C228 294 251 320 255 324C259 320 284 294 284 254C284 229 275 207 255 178Z" fill="#FFF7E8" fill-opacity="0.92"/>
+  <path d="M177 300C218 293 244 272 255 238C268 270 294 292 336 300" stroke="#24453F" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M187 202H325" stroke="#24453F" stroke-width="18" stroke-linecap="round"/>
+  <path d="M206 342H306" stroke="#24453F" stroke-width="18" stroke-linecap="round" stroke-opacity="0.84"/>
+  <circle cx="145" cy="297" r="12" fill="#F2C46B"/>
+  <circle cx="378" cy="192" r="8" fill="#F2C46B"/>
+</svg>

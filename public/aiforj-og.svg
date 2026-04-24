@@ -1,0 +1,63 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">AIForj emotional first aid</title>
+  <desc id="desc">AIForj brand preview with a warm futuristic mark and emotional first aid message.</desc>
+  <defs>
+    <linearGradient id="ogBg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#151715"/>
+      <stop offset="0.42" stop-color="#2F2A23"/>
+      <stop offset="1" stop-color="#243A3F"/>
+    </linearGradient>
+    <radialGradient id="ogGlowA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(316 152) rotate(45) scale(454 302)">
+      <stop stop-color="#F2C46B" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#F2C46B" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ogGlowB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(925 436) rotate(144) scale(390 292)">
+      <stop stop-color="#70B7C7" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#70B7C7" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="markBg" x1="80" y1="64" x2="432" y2="448" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF1D8"/>
+      <stop offset="0.48" stop-color="#DDECD7"/>
+      <stop offset="1" stop-color="#C8E9F0"/>
+    </linearGradient>
+    <linearGradient id="markFlame" x1="196" y1="134" x2="318" y2="360" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F2C46B"/>
+      <stop offset="0.55" stop-color="#DB8F62"/>
+      <stop offset="1" stop-color="#6FAE8C"/>
+    </linearGradient>
+    <linearGradient id="markOrbit" x1="126" y1="128" x2="390" y2="396" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7BAF8D"/>
+      <stop offset="0.52" stop-color="#70B7C7"/>
+      <stop offset="1" stop-color="#B9A7F0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#ogBg)"/>
+  <rect width="1200" height="630" fill="url(#ogGlowA)"/>
+  <rect width="1200" height="630" fill="url(#ogGlowB)"/>
+  <path d="M112 505C219 403 311 348 458 338C574 330 651 278 736 198C814 125 899 84 1056 96" stroke="#C8E9F0" stroke-opacity="0.18" stroke-width="22" stroke-linecap="round"/>
+  <path d="M144 140C254 230 354 270 510 250C631 235 711 263 804 333C895 401 974 424 1064 412" stroke="#F2C46B" stroke-opacity="0.14" stroke-width="18" stroke-linecap="round"/>
+  <rect x="76" y="72" width="1048" height="486" rx="58" fill="#FFF8EA" fill-opacity="0.07" stroke="#FFF8EA" stroke-opacity="0.12"/>
+  <g transform="translate(120 147) scale(0.34765625)">
+    <rect x="38" y="38" width="436" height="436" rx="118" fill="url(#markBg)"/>
+    <rect x="56" y="56" width="400" height="400" rx="101" stroke="#FFFFFF" stroke-opacity="0.72" stroke-width="14"/>
+    <path d="M136 292C170 205 235 144 346 116" stroke="url(#markOrbit)" stroke-width="22" stroke-linecap="round"/>
+    <path d="M376 190C354 279 294 342 182 376" stroke="url(#markOrbit)" stroke-width="18" stroke-linecap="round" stroke-opacity="0.78"/>
+    <circle cx="359" cy="174" r="20" fill="#24453F"/>
+    <circle cx="359" cy="174" r="9" fill="#BDEFE8"/>
+    <path d="M255 106C214 161 196 199 196 246C196 314 245 360 255 369C265 360 316 314 316 246C316 199 296 159 255 106Z" fill="url(#markFlame)" stroke="#24453F" stroke-width="16" stroke-linejoin="round"/>
+    <path d="M255 178C236 207 228 229 228 254C228 294 251 320 255 324C259 320 284 294 284 254C284 229 275 207 255 178Z" fill="#FFF7E8" fill-opacity="0.92"/>
+    <path d="M177 300C218 293 244 272 255 238C268 270 294 292 336 300" stroke="#24453F" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M187 202H325" stroke="#24453F" stroke-width="18" stroke-linecap="round"/>
+    <path d="M206 342H306" stroke="#24453F" stroke-width="18" stroke-linecap="round" stroke-opacity="0.84"/>
+    <circle cx="145" cy="297" r="12" fill="#F2C46B"/>
+    <circle cx="378" cy="192" r="8" fill="#F2C46B"/>
+  </g>
+  <text x="342" y="218" fill="#FFF8EA" font-family="Georgia, 'Times New Roman', serif" font-size="84" font-weight="700">AIForj</text>
+  <text x="346" y="275" fill="#BFDCC5" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" letter-spacing="5">EMOTIONAL FIRST AID</text>
+  <text x="120" y="386" fill="#FFF8EA" font-family="Georgia, 'Times New Roman', serif" font-size="46" font-weight="700">Emotional first aid for the moment</text>
+  <text x="120" y="438" fill="#FFF8EA" font-family="Georgia, 'Times New Roman', serif" font-size="46" font-weight="700">before it gets worse.</text>
+  <text x="122" y="500" fill="#D9CEC3" font-family="Arial, Helvetica, sans-serif" font-size="25">Clinician-informed. Evidence-framed. Wellness companion, not therapy.</text>
+  <circle cx="1040" cy="164" r="7" fill="#F2C46B"/>
+  <circle cx="1012" cy="193" r="5" fill="#BDEFE8"/>
+  <circle cx="1078" cy="218" r="4" fill="#B9A7F0"/>
+</svg>

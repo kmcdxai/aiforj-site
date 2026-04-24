@@ -4,7 +4,7 @@ export default function SEO() {
     "@type": "Organization",
     name: "AIForj",
     url: "https://aiforj.com",
-    logo: "https://aiforj.com/aif.jpeg",
+    logo: "https://aiforj.com/aiforj-mark.png",
     founder: {
       "@type": "Person",
       name: "Kevin",

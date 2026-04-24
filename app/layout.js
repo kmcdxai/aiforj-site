@@ -17,19 +17,24 @@ export const metadata = {
   alternates: {
     canonical: 'https://aiforj.com',
   },
+  icons: {
+    icon: '/aiforj-mark.svg',
+    shortcut: '/aiforj-mark.svg',
+    apple: '/aiforj-mark.png',
+  },
   openGraph: {
     title: 'AIForj — Emotional First Aid That Actually Works',
     description: '30 public guides plus 100+ guided interventions for anxiety, sadness, anger, overwhelm, and more. Clinician-informed emotional first aid.',
     url: 'https://aiforj.com',
     siteName: 'AIForj',
     type: 'website',
-    images: [{ url: '/aif.jpeg', width: 1200, height: 630, alt: 'AIForj' }],
+    images: [{ url: '/aiforj-og.png', width: 1200, height: 630, alt: 'AIForj emotional first aid' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'AIForj — Emotional First Aid That Actually Works',
     description: '30 public guides plus 100+ guided emotional first-aid interventions. Clinician-informed and privacy-first.',
-    images: ['/aif.jpeg'],
+    images: ['/aiforj-og.png'],
   },
 };
 
