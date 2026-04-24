@@ -36,6 +36,17 @@ test("allows public checkout event with plan type only", () => {
   });
 });
 
+test("keeps already-normalized route groups through server validation", () => {
+  const result = validateMetricPayload({
+    event: "page_view",
+    routeGroup: "home",
+    acquisitionSource: "direct",
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.sanitized.routeGroup, "home");
+});
+
 test("free-text heuristic catches sentence-like values", () => {
   assert.equal(assertNoFreeTextMetric({ event: "page_view", routeGroup: "home" }), true);
   assert.equal(assertNoFreeTextMetric({ event: "page_view", routeGroup: "this is a full sentence!!" }), false);
