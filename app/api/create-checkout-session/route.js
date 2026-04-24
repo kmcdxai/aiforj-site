@@ -36,10 +36,11 @@ export async function POST(request) {
   }
 
   try {
-    const lineItems = process.env.STRIPE_PRICE_ID
+    const premiumPriceId = process.env.STRIPE_PRICE_PREMIUM_MONTHLY || process.env.STRIPE_PRICE_ID;
+    const lineItems = premiumPriceId
       ? [
           {
-            price: process.env.STRIPE_PRICE_ID,
+            price: premiumPriceId,
             quantity: 1,
           },
         ]
@@ -67,10 +68,18 @@ export async function POST(request) {
       success_url: `${domain}/success?session_id={CHECKOUT_SESSION_ID}&${attributionQuery}`,
       cancel_url: `${domain}/?${attributionQuery}`,
       allow_promotion_codes: true,
-      metadata: attribution,
+      metadata: {
+        ...attribution,
+        checkout_kind: "premium",
+        plan_type: "premium",
+      },
       subscription_data: {
         trial_period_days: 7,
-        metadata: attribution,
+        metadata: {
+          ...attribution,
+          checkout_kind: "premium",
+          plan_type: "premium",
+        },
       },
     });
 

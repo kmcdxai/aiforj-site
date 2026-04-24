@@ -41,10 +41,11 @@ export async function POST(request) {
   const giftCode = crypto.randomUUID();
 
   try {
-    const lineItems = process.env.STRIPE_SPONSOR_PRICE_ID
+    const giftPriceId = process.env.STRIPE_PRICE_GIFT_MONTH || process.env.STRIPE_SPONSOR_PRICE_ID;
+    const lineItems = giftPriceId
       ? [
           {
-            price: process.env.STRIPE_SPONSOR_PRICE_ID,
+            price: giftPriceId,
             quantity: 1,
           },
         ]
@@ -71,6 +72,8 @@ export async function POST(request) {
       allow_promotion_codes: true,
       metadata: {
         checkout_kind: "sponsor_friend",
+        plan_type: "gift",
+        acquisition_source: "internal",
         gift_code: giftCode,
         recipient_name: recipientName,
         gift_length_days: "30",
@@ -80,6 +83,8 @@ export async function POST(request) {
       payment_intent_data: {
         metadata: {
           checkout_kind: "sponsor_friend",
+          plan_type: "gift",
+          acquisition_source: "internal",
           gift_code: giftCode,
         },
       },

@@ -42,10 +42,11 @@ export async function POST(request) {
   const serializedSeatCodes = serializeFamilyCodes(seatCodes);
 
   try {
-    const lineItems = process.env.STRIPE_FAMILY_PRICE_ID
+    const familyPriceId = process.env.STRIPE_PRICE_FAMILY_MONTHLY || process.env.STRIPE_FAMILY_PRICE_ID;
+    const lineItems = familyPriceId
       ? [
           {
-            price: process.env.STRIPE_FAMILY_PRICE_ID,
+            price: familyPriceId,
             quantity: 1,
           },
         ]
@@ -76,6 +77,8 @@ export async function POST(request) {
       allow_promotion_codes: true,
       metadata: {
         checkout_kind: "family_plan",
+        plan_type: "family",
+        acquisition_source: "internal",
         household_name: householdName,
         family_seat_count: String(FAMILY_SEAT_COUNT),
         family_seat_codes: serializedSeatCodes,
@@ -84,6 +87,8 @@ export async function POST(request) {
       subscription_data: {
         metadata: {
           checkout_kind: "family_plan",
+          plan_type: "family",
+          acquisition_source: "internal",
           household_name: householdName,
           family_seat_count: String(FAMILY_SEAT_COUNT),
         },
