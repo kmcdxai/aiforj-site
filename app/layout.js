@@ -18,8 +18,8 @@ export const metadata = {
     canonical: 'https://aiforj.com',
   },
   icons: {
-    icon: '/aiforj-mark.svg',
-    shortcut: '/aiforj-mark.svg',
+    icon: '/aiforj-mark.png',
+    shortcut: '/aiforj-mark.png',
     apple: '/aiforj-mark.png',
   },
   openGraph: {

@@ -71,7 +71,7 @@ export default function Navigation() {
           }}
         >
           <a href="/" aria-label="AIForj home" style={{ display: "inline-flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
-            <BrandLogo size={30} wordmarkSize={18} />
+            <BrandLogo size={34} wordmarkSize={19} />
           </a>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <SoundToggle />
@@ -120,7 +120,7 @@ export default function Navigation() {
             flexShrink: 0,
           }}
         >
-          <BrandLogo size={32} wordmarkSize={18} />
+          <BrandLogo size={34} wordmarkSize={19} />
         </a>
 
         {/* Desktop links */}

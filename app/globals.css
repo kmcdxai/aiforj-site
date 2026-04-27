@@ -22,6 +22,7 @@
   --text-primary: var(--ink);
   --text-secondary: var(--ink-soft);
   --text-muted: var(--ink-muted);
+  --brand-wordmark-ink: #071842;
 
   /* ── Primary Therapeutic Palette ── */
   /* Sage — Growth, Calm, Nature */
@@ -149,6 +150,7 @@
   --text-primary: #F6EEE6;
   --text-secondary: #D8CEC3;
   --text-muted: #B9AEA4;
+  --brand-wordmark-ink: #EAF7FF;
 
   /* Primary Therapeutic Palette (adjusted for dark) */
   --sage: #9BB89E;
