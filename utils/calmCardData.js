@@ -127,7 +127,7 @@ function buildContentCard(entry, kind, basePath) {
     footer: cleanText(
       entry.footer,
       kind === 'help'
-        ? 'Private emotional first aid on AIForj'
+        ? 'Private emotional first aid on Tredici'
         : 'Patterns are guides, not diagnoses'
     ),
   };

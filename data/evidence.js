@@ -119,7 +119,7 @@ const BREATHING_EVIDENCE = createEvidence(
       claimId: "breathing-plain-language",
       claim:
         "Mechanistic explanations are still evolving, so we frame these practices as nervous-system regulation tools rather than guaranteed vagus-nerve or cortisol hacks.",
-      appliesTo: "all breathing-based techniques on AIForj",
+      appliesTo: "all breathing-based techniques on Tredici",
       strength: "C",
       sources: ["structuredRespirationTrial", "briefStateAnxietyReview"],
     },
@@ -174,7 +174,7 @@ const BODY_RELAXATION_EVIDENCE = createEvidence(
 );
 
 const CBT_EVIDENCE = createEvidence(
-  "CBT-style tools are well supported for anxiety and related distress. On AIForj, that usually means slowing the spiral, checking the thought, and moving toward a more workable interpretation.",
+  "CBT-style tools are well supported for anxiety and related distress. On Tredici, that usually means slowing the spiral, checking the thought, and moving toward a more workable interpretation.",
   [
     {
       claimId: "cbt-anxiety",
@@ -187,13 +187,13 @@ const CBT_EVIDENCE = createEvidence(
     {
       claimId: "cbt-adaptation",
       claim:
-        "These AIForj tools are short-form adaptations of CBT skills, so the evidence applies to the underlying method more directly than to any single scripted prompt.",
-      appliesTo: "all CBT-style AIForj techniques",
+        "These Tredici tools are short-form adaptations of CBT skills, so the evidence applies to the underlying method more directly than to any single scripted prompt.",
+      appliesTo: "all CBT-style Tredici techniques",
       strength: "B",
       sources: ["cbtAnxietyMeta", "briefStateAnxietyReview"],
     },
   ],
-  "AIForj’s brief exercises are not a substitute for therapy. They are short skill translations from better-studied treatment families."
+  "Tredici’s brief exercises are not a substitute for therapy. They are short skill translations from better-studied treatment families."
 );
 
 const ACCEPTANCE_VALUES_EVIDENCE = createEvidence(
@@ -285,7 +285,7 @@ const WORRY_RUMINATION_EVIDENCE = createEvidence(
       sources: ["expressiveWritingOverview", "worryPostponementInternetTrial"],
     },
   ],
-  "Evidence for journaling is mixed across situations. On AIForj we use it as a lightweight containment tool, not as a promise that writing will always improve sleep or mood."
+  "Evidence for journaling is mixed across situations. On Tredici we use it as a lightweight containment tool, not as a promise that writing will always improve sleep or mood."
 );
 
 const BURNOUT_EVIDENCE = createEvidence(
@@ -437,26 +437,26 @@ export const PAGE_EVIDENCE = {
   "burned-out": BURNOUT_EVIDENCE,
   "burnout-recovery": BURNOUT_EVIDENCE,
   "how-aiforj-stays-safe": createEvidence(
-    "AIForj’s safety posture is about product boundaries more than clever prompts: structured tools instead of open-ended therapist claims, local-first privacy, and clear crisis handoff when the need is bigger than a self-guided tool.",
+    "Tredici’s safety posture is about product boundaries more than clever prompts: structured tools instead of open-ended therapist claims, local-first privacy, and clear crisis handoff when the need is bigger than a self-guided tool.",
     [
       {
         claimId: "ai-risk",
         claim:
           "Researchers and consumer-protection agencies have documented real risks in mental-health-adjacent AI products, including unsafe responses and poor privacy practices.",
-        appliesTo: "why AIForj stays narrow in scope and privacy-first by default",
+        appliesTo: "why Tredici stays narrow in scope and privacy-first by default",
         strength: "A",
         sources: ["aiRiskStanford", "privacyRiskFtc", "healthPrivacyFtc"],
       },
       {
         claimId: "ai-scope",
         claim:
-          "Because of those risks, AIForj is designed for emotional first aid and guided self-help, not diagnosis, medication advice, or crisis care.",
+          "Because of those risks, Tredici is designed for emotional first aid and guided self-help, not diagnosis, medication advice, or crisis care.",
         appliesTo: "scope-of-use, escalation boundaries, privacy posture",
         strength: "A",
         sources: ["aiRiskStanford", "healthPrivacyFtc"],
       },
     ],
-    "This page explains AIForj’s design choices. It does not claim that any AI system is risk-free."
+    "This page explains Tredici’s design choices. It does not claim that any AI system is risk-free."
   ),
 };
 
