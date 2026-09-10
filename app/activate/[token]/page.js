@@ -1,7 +1,7 @@
 import ActivateClient from "./ActivateClient";
 
 export const metadata = {
-  title: "Activate Premium | AIForj",
+  title: "Activate Premium | Tredici",
   robots: {
     index: false,
     follow: false,

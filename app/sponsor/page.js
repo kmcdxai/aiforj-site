@@ -12,11 +12,11 @@ import {
 import { buildContentPageMetadata } from "../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "Sponsor a Friend: Gift One Month of AIForj Premium | AIForj",
+  title: "Sponsor a Friend: Gift One Month of Tredici Premium | Tredici",
   description:
-    "Gift one month of AIForj Premium to someone you care about, without paywalling first aid or requiring an account.",
+    "Gift one month of Tredici Premium to someone you care about, without paywalling first aid or requiring an account.",
   path: "/sponsor",
-  socialTitle: "Sponsor a Friend with One Month of AIForj Premium",
+  socialTitle: "Sponsor a Friend with One Month of Tredici Premium",
   socialDescription:
     "A trust-compatible gift flow for one month of Premium support.",
   type: "article",
@@ -24,11 +24,11 @@ export const metadata = buildContentPageMetadata({
 
 export default function Page() {
   const articleSchema = buildArticleSchema({
-    title: "Sponsor a friend with one month of AIForj Premium",
+    title: "Sponsor a friend with one month of Tredici Premium",
     description: metadata.description,
     url: "https://aiforj.com/sponsor",
     section: "Premium gifting",
-    about: "Gifting AIForj Premium to a friend",
+    about: "Gifting Tredici Premium to a friend",
   });
   const breadcrumbSchema = buildBreadcrumbSchema([
     { name: "Home", item: "https://aiforj.com" },
@@ -104,7 +104,7 @@ export default function Page() {
             <p style={{ margin: 0, lineHeight: 1.8, color: "var(--text-secondary)" }}>
               If you want the plain-English privacy details behind this approach, read{" "}
               <Link href="/what-we-collect" style={{ color: "var(--interactive)", textDecoration: "underline" }}>
-                What AIForj collects
+                What Tredici collects
               </Link>
               .
             </p>

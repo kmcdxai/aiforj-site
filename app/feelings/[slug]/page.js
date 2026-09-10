@@ -12,7 +12,7 @@ export function generateMetadata({ params }) {
   const page = getSeoPage("feelings", params.slug);
   if (!page) return {};
   return buildContentPageMetadata({
-    title: `${page.title} Help | AIForj`,
+    title: `${page.title} Help | Tredici`,
     description: page.description,
     path: `/feelings/${page.slug}`,
     kind: "help",
@@ -38,7 +38,7 @@ export default function FeelingPage({ params }) {
       { name: page.title, item: `https://aiforj.com/feelings/${page.slug}` },
     ]),
     buildFaqSchema([
-      { q: `Is AIForj therapy for ${page.title.toLowerCase()}?`, a: "No. AIForj is a wellness companion for self-guided emotional first aid, not therapy, diagnosis, medication advice, or crisis care." },
+      { q: `Is Tredici therapy for ${page.title.toLowerCase()}?`, a: "No. Tredici is a wellness companion for self-guided emotional first aid, not therapy, diagnosis, medication advice, or crisis care." },
       { q: "What if I cannot stay safe?", a: "Call or text 988 in the U.S., text HOME to 741741, contact emergency services, or reach a trusted person immediately." },
     ]),
   ];

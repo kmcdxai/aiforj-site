@@ -315,7 +315,7 @@ export async function GET(request) {
           }}
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            <span style={{ fontSize: layout.footerSize + 2, fontWeight: 700, color: COLORS.accent }}>AIForj</span>
+            <span style={{ fontSize: layout.footerSize + 2, fontWeight: 700, color: COLORS.accent }}>Tredici</span>
             <span style={{ fontSize: layout.footerSize, color: COLORS.muted }}>Built for calm, trust, and repeat relief</span>
           </div>
         </div>

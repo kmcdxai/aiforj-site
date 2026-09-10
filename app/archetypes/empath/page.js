@@ -2,8 +2,8 @@ import ArchetypePageEnhancements from "../../components/ArchetypePageEnhancement
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
 const metadata = buildContentPageMetadata({
-  title: 'The Empath Emotional Archetype — Clinical Guide | AIForj',
-  description: 'Discover what it means to be The Empath. Understand your stress response, thinking patterns, and evidence-framed techniques matched to this archetype. Free guide from AIForj.',
+  title: 'The Empath Emotional Archetype — Clinical Guide | Tredici',
+  description: 'Discover what it means to be The Empath. Understand your stress response, thinking patterns, and evidence-framed techniques matched to this archetype. Free guide from Tredici.',
   path: "/archetypes/empath",
   kind: "archetype",
   slug: "empath",

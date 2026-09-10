@@ -25,10 +25,10 @@ export async function generateMetadata({ params }) {
   if (!t) return {};
 
   const name = t.name || t.title;
-  const title = t.metaTitle || `${name} | AIForj`;
+  const title = t.metaTitle || `${name} | Tredici`;
   const description =
     t.metaDescription ||
-    `${t.description} Use this guided AIForj tool to check in before and after, then save a shareable Mood Shift Receipt.`;
+    `${t.description} Use this guided Tredici tool to check in before and after, then save a shareable Mood Shift Receipt.`;
   const canonicalSlug = t.slug || t.id;
   const socialImage = buildCalmCardUrl({
     kind: t.id ? "intervention" : "technique",
@@ -58,7 +58,7 @@ export async function generateMetadata({ params }) {
       title,
       description,
       url: `https://aiforj.com/intervention/${canonicalSlug}`,
-      siteName: "AIForj",
+      siteName: "Tredici",
       type: "article",
       images: [{ url: socialImage, width: 1200, height: 630, alt: `${name} calm card` }],
     },

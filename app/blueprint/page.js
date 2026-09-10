@@ -2,7 +2,7 @@ import BlueprintClient from "./BlueprintClient";
 import ArchetypesList from "./ArchetypesList";
 
 export const metadata = {
-  title: "Your Emotional Blueprint — AIForj",
+  title: "Your Emotional Blueprint — Tredici",
   description:
     "A 2-minute self-reflection assessment. Discover your stress archetype, thinking patterns, and which self-guided techniques may fit you. Local-first and not a diagnosis.",
   alternates: {
@@ -13,7 +13,7 @@ export const metadata = {
     description:
       "A 2-minute self-reflection. Discover a stress archetype, thinking patterns, and self-guided techniques that may fit you.",
     url: "https://aiforj.com/blueprint",
-    siteName: "AIForj",
+    siteName: "Tredici",
     type: "website",
   },
   twitter: {
@@ -36,13 +36,13 @@ const blueprintStructuredData = {
   },
   author: {
     "@type": "Organization",
-    name: "AIForj",
+    name: "Tredici",
 
     url: "https://aiforj.com/about/founder",
   },
   publisher: {
     "@type": "Organization",
-    name: "AIForj",
+    name: "Tredici",
     url: "https://aiforj.com",
   },
   isAccessibleForFree: true,

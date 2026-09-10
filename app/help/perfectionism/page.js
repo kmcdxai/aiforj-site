@@ -9,7 +9,7 @@ import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "Perfectionism Help: When Nothing Ever Feels Good Enough | AIForj",
+  title: "Perfectionism Help: When Nothing Ever Feels Good Enough | Tredici",
   description:
     "Trapped by impossible standards? Evidence-informed steps to work through perfectionism, all-or-nothing thinking, and the fear of imperfect action.",
   path: "/help/perfectionism",
@@ -69,7 +69,7 @@ export default function Page() {
 
           <h2>Go deeper</h2>
           <p>
-            If perfectionism is linked to work stress, self-worth, or constant indecision, take the <Link href="/blueprint">Blueprint</Link> for a more complete map, or open <Link href="/companion">Talk to Forj</Link> when you need help finding the middle instead of another impossible bar.
+            If perfectionism is linked to work stress, self-worth, or constant indecision, take the <Link href="/blueprint">Blueprint</Link> for a more complete map, or open <Link href="/companion">Wellness companion</Link> when you need help finding the middle instead of another impossible bar.
           </p>
 
           <HelpPageEnhancements

@@ -11,11 +11,11 @@ import {
 import { buildContentPageMetadata } from "../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "What AIForj Collects and What It Never Collects | AIForj",
+  title: "What Tredici Collects and What It Never Collects | Tredici",
   description:
-    "A plain-English explanation of AIForj's local-first data model, anonymous metrics opt-in, and the session content that stays on your device.",
+    "A plain-English explanation of Tredici's local-first data model, anonymous metrics opt-in, and the session content that stays on your device.",
   path: "/what-we-collect",
-  socialTitle: "What AIForj Collects and What It Never Collects",
+  socialTitle: "What Tredici Collects and What It Never Collects",
   socialDescription:
     "Plain-English privacy details, including the anonymous metrics opt-in and what stays on your device.",
   type: "article",
@@ -23,11 +23,11 @@ export const metadata = buildContentPageMetadata({
 
 export default function Page() {
   const articleSchema = buildArticleSchema({
-    title: "What AIForj collects and what it never collects",
+    title: "What Tredici collects and what it never collects",
     description: metadata.description,
     url: "https://aiforj.com/what-we-collect",
     section: "Privacy and metrics",
-    about: "AIForj data collection and anonymous metrics",
+    about: "Tredici data collection and anonymous metrics",
   });
   const breadcrumbSchema = buildBreadcrumbSchema([
     { name: "Home", item: "https://aiforj.com" },
@@ -63,16 +63,16 @@ export default function Page() {
               color: "var(--text-primary)",
             }}
           >
-            What AIForj collects and what it never collects
+            What Tredici collects and what it never collects
           </h1>
 
           <p style={{ fontSize: 16, lineHeight: 1.8, color: "var(--text-secondary)", marginBottom: 16 }}>
-            AIForj is built around a local-first idea: your sessions, mood shifts, and guided-tool history should help you without becoming a pile of sensitive content sent to a remote analytics vendor by default.
+            Tredici is built around a local-first idea: your sessions, mood shifts, and guided-tool history should help you without becoming a pile of sensitive content sent to a remote analytics vendor by default.
           </p>
           <p style={{ fontSize: 16, lineHeight: 1.8, color: "var(--text-secondary)", marginBottom: 28 }}>
             This page explains the plain-English version of that promise. If you want the broader product-safety framing, read{" "}
             <Link href="/how-aiforj-stays-safe" style={{ color: "var(--interactive)", textDecoration: "underline" }}>
-              How AIForj stays safe
+              How Tredici stays safe
             </Link>
             .
           </p>
@@ -96,12 +96,12 @@ export default function Page() {
               <li>your mood ratings and mood-shift history</li>
               <li>session history used for “For You, right now” recommendations</li>
               <li>written responses you enter inside techniques and interventions</li>
-              <li>Talk to Forj typed messages and local companion memory, unless a feature clearly says otherwise</li>
+              <li>Wellness companion typed messages and local companion memory, unless a feature clearly says otherwise</li>
               <li>garden progress data and local streaks</li>
               <li>your anonymous-metrics preference itself</li>
             </ul>
             <p style={{ margin: "12px 0 0", color: "var(--text-secondary)", lineHeight: 1.8 }}>
-              Voice input depends on your browser and device. Some browsers process speech through their own speech services. AIForj does not store voice audio or transcripts on its server.
+              Voice input depends on your browser and device. Some browsers process speech through their own speech services. Tredici does not store voice audio or transcripts on its server.
             </p>
           </section>
 
@@ -118,7 +118,7 @@ export default function Page() {
               What can be shared only if you opt in
             </h2>
             <p style={{ margin: "0 0 12px", color: "var(--text-secondary)", lineHeight: 1.8 }}>
-              Public marketing pages can send aggregate page-view counters without cookies, user identity, raw URLs, or free-text. Sensitive tool usage requires the anonymous metrics opt-in. If you turn it on, AIForj can send a small set of whitelisted counters to a first-party AIForj endpoint:
+              Public marketing pages can send aggregate page-view counters without cookies, user identity, raw URLs, or free-text. Sensitive tool usage requires the anonymous metrics opt-in. If you turn it on, Tredici can send a small set of whitelisted counters to a first-party Tredici endpoint:
             </p>
             <ul style={{ margin: "0 0 12px", paddingLeft: 20, color: "var(--text-secondary)", lineHeight: 1.85 }}>
               <li>whether a tool was started</li>
@@ -144,7 +144,7 @@ export default function Page() {
             }}
           >
             <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 24, margin: "0 0 12px", color: "var(--text-primary)" }}>
-              What AIForj never sends as anonymous metrics
+              What Tredici never sends as anonymous metrics
             </h2>
             <ul style={{ margin: 0, paddingLeft: 20, color: "var(--text-secondary)", lineHeight: 1.85 }}>
               <li>free-text responses from techniques or interventions</li>
@@ -169,7 +169,7 @@ export default function Page() {
               Payments, gifts, and share links
             </h2>
             <p style={{ margin: "0 0 12px", color: "var(--text-secondary)", lineHeight: 1.8 }}>
-              Payments are handled by Stripe. AIForj stores only what is needed for checkout, entitlement, invite, and redeem flows: plan type, Stripe session/customer/subscription identifiers when needed, gift or family invite codes, activation status, and expiration status. Emotional content is not attached to Stripe metadata.
+              Payments are handled by Stripe. Tredici stores only what is needed for checkout, entitlement, invite, and redeem flows: plan type, Stripe session/customer/subscription identifiers when needed, gift or family invite codes, activation status, and expiration status. Emotional content is not attached to Stripe metadata.
             </p>
             <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.8 }}>
               Calm Card share links use a minimal token with card type, tool slug or blueprint archetype, optional sender first name, and optional short non-sensitive message. They do not include journal text, chat text, raw mood scores, crisis status, provider searches, or full histories.
@@ -179,7 +179,7 @@ export default function Page() {
           <section style={{ marginBottom: 28 }}>
             <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 24, marginBottom: 12 }}>Why this is structured so narrowly</h2>
             <p style={{ color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 10 }}>
-              Mental-health-adjacent products lose trust quickly when they treat vulnerable moments like ad-tech fuel. AIForj is trying to do the opposite: keep emotional first aid useful, fast, and measurable without turning the underlying session content into a broad analytics stream.
+              Mental-health-adjacent products lose trust quickly when they treat vulnerable moments like ad-tech fuel. Tredici is trying to do the opposite: keep emotional first aid useful, fast, and measurable without turning the underlying session content into a broad analytics stream.
             </p>
             <p style={{ color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 0 }}>
               If the product can learn enough from counts and buckets, it should not demand more than that.

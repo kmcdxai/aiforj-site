@@ -9,7 +9,7 @@ import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "Comparison Trap: How to Stop Spiraling After Scrolling | AIForj",
+  title: "Comparison Trap: How to Stop Spiraling After Scrolling | Tredici",
   description:
     "Comparing your life to everyone else's online? Evidence-informed steps to interrupt the comparison spiral and come back to your own life.",
   path: "/help/comparison-trap",
@@ -69,7 +69,7 @@ export default function Page() {
 
           <h2>Go deeper</h2>
           <p>
-            Use the <Link href="/blueprint">Blueprint</Link> if comparison is showing up across multiple parts of life, or open <Link href="/companion">Talk to Forj</Link> when you need help disentangling envy from what you actually want.
+            Use the <Link href="/blueprint">Blueprint</Link> if comparison is showing up across multiple parts of life, or open <Link href="/companion">Wellness companion</Link> when you need help disentangling envy from what you actually want.
           </p>
 
           <HelpPageEnhancements

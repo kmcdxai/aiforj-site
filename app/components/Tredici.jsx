@@ -509,7 +509,7 @@ function BreathingExercise({ config, onComplete, theme }) {
 // Runs entirely in user's browser via WebGPU
 // Falls back to intelligent rule-based system when unavailable
 // ═══════════════════════════════════════════════════════════════
-const CLINICAL_SYSTEM_PROMPT = `You are the AI engine behind AIForj — a self-guided emotional first-aid platform. You provide evidence-framed, personalized micro-guidance.
+const CLINICAL_SYSTEM_PROMPT = `You are the AI engine behind Tredici — a self-guided emotional first-aid platform. You provide evidence-framed, personalized micro-guidance.
 
 CRITICAL RULES:
 - You are NOT a therapist. You are a wellness companion providing psychoeducation and self-help techniques.
@@ -811,7 +811,7 @@ function ShareCard({ emotion, protocol, insight, theme }) {
   const [copied, setCopied] = useState(false);
   const e = EMOTIONS.find(x => x.id === emotion);
   const snippet = insight ? insight.split('\n')[0].slice(0, 180) : `Just completed a ${protocol?.title} session using ${protocol?.basis}.`;
-  const cardText = `${e?.icon} I just processed "${e?.label?.toLowerCase()}" with AIForj\n\n"${snippet}"\n\n— Evidence-based wellness, free at aiforj.com`;
+  const cardText = `${e?.icon} I just processed "${e?.label?.toLowerCase()}" with Tredici\n\n"${snippet}"\n\n— Evidence-based wellness, free at aiforj.com`;
   const copy = () => {
     navigator.clipboard.writeText(cardText).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2500); }).catch(() => {});
   };
@@ -1213,7 +1213,7 @@ async function initiateStripeCheckout() {
 // ═══════════════════════════════════════════════════════════════
 // MAIN APPLICATION
 // ═══════════════════════════════════════════════════════════════
-export default function AIForj() {
+export default function Tredici() {
   const [screen, setScreen] = useState("home");
   const [emotion, setEmotion] = useState(null);
   const [step, setStep] = useState(0);
@@ -1355,7 +1355,7 @@ export default function AIForj() {
         <div style={{ textAlign: "center", marginBottom: 20 }}>
           <span style={{ fontSize: 36, display: "block", marginBottom: 8 }}>✦</span>
           <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 24, fontWeight: 400, color: theme.text, margin: "0 0 6px" }}>
-            AIForj Premium
+            Tredici Premium
           </h3>
           <p style={{ fontSize: 13, color: theme.accent, opacity: 0.7, margin: "0 0 10px", lineHeight: 1.5 }}>
             Your personal mental wellness co-pilot.
@@ -1557,7 +1557,7 @@ export default function AIForj() {
                 backdropFilter: "blur(10px)",
               }}>
                 <p style={{ fontSize: 13, color: theme.text, lineHeight: 1.7, margin: 0 }}>
-                  Complete a few interventions and AIForj will start surfacing the tools that help most on this device.
+                  Complete a few interventions and Tredici will start surfacing the tools that help most on this device.
                   The ranking is local-first and based on actual mood shifts, not time-on-site.
                 </p>
               </div>
@@ -1615,7 +1615,7 @@ export default function AIForj() {
               ))}
             </div>
             <p style={{ fontSize: 12, color: theme.accent, opacity: 0.5, lineHeight: 1.6 }}>
-              Self-guided wellness tools by AIForj.
+              Self-guided wellness tools by Tredici.
               <br />Evidence-framed. AI-powered.
             </p>
           </div>
@@ -1745,7 +1745,7 @@ export default function AIForj() {
 
             <div style={{ marginTop: 28, padding: 20, background: theme.subtle, borderRadius: 16, textAlign: "center" }}>
               <p style={{ fontSize: 11, color: theme.accent, opacity: 0.5, lineHeight: 1.7, margin: 0 }}>
-                AIForj provides evidence-based self-help tools and is not a substitute for professional care.
+                Tredici provides evidence-based self-help tools and is not a substitute for professional care.
                 <br />If you are in crisis, contact the <strong>988 Suicide & Crisis Lifeline</strong> — call or text 988.
                 <br />Crisis Text Line: Text HOME to 741741.
               </p>

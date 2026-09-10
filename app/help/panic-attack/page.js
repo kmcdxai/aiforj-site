@@ -9,7 +9,7 @@ import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "Panic Attack Help: Free Grounding Techniques | AIForj",
+  title: "Panic Attack Help: Free Grounding Techniques | Tredici",
   description: "Having a panic attack right now? Quick, evidence-framed steps to calm your body and mind — free and private.",
   path: "/help/panic-attack",
   kind: "help",
@@ -45,7 +45,7 @@ export default function Page() {
           </ul>
 
           <LeadMagnetCapture
-            title="“10 evidence-framed panic interrupts” — by AIForj"
+            title="“10 evidence-framed panic interrupts” — by Tredici"
             description="Get the quick-reference panic interrupt guide by email, then try a guided intervention when you are ready."
             source="panic_lead_magnet"
             pdfPath="/lead-magnets/panic-interrupts.pdf"

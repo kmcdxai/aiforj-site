@@ -6,11 +6,11 @@ import RedeemFamilyClient from "./RedeemFamilyClient";
 import { buildContentPageMetadata } from "../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "Redeem Your AIForj Family Plan Seat | AIForj",
+  title: "Redeem Your Tredici Family Plan Seat | Tredici",
   description:
-    "Claim one AIForj Premium household seat and activate it on this device.",
+    "Claim one Tredici Premium household seat and activate it on this device.",
   path: "/redeem-family",
-  socialTitle: "Redeem Your AIForj Family Plan Seat",
+  socialTitle: "Redeem Your Tredici Family Plan Seat",
   socialDescription:
     "Activate one private family-plan Premium seat on this device.",
   type: "article",

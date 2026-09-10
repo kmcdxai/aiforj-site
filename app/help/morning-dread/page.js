@@ -8,7 +8,7 @@ import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "Morning Dread: What to Do When You Wake Up Anxious | AIForj",
+  title: "Morning Dread: What to Do When You Wake Up Anxious | Tredici",
   description:
     "Waking up with dread or anxiety? Evidence-informed steps to steady your body and keep the first hour of the day from spiraling.",
   path: "/help/morning-dread",
@@ -66,7 +66,7 @@ export default function Page() {
 
           <h2>Go deeper</h2>
           <p>
-            If mornings are where anxiety grabs you most often, take the <Link href="/blueprint">Blueprint</Link> to match the pattern more precisely, or use <Link href="/companion">Talk to Forj</Link> for a guided check-in before the day runs away from you.
+            If mornings are where anxiety grabs you most often, take the <Link href="/blueprint">Blueprint</Link> to match the pattern more precisely, or use <Link href="/companion">Wellness companion</Link> for a guided check-in before the day runs away from you.
           </p>
 
           <HelpPageEnhancements

@@ -482,7 +482,7 @@ export default function BlueprintClient() {
       ctx.fillText("aiforj.com/blueprint", d.w / 2, d.h - 60);
       ctx.font = "400 16px 'DM Sans', sans-serif";
       ctx.globalAlpha = 0.4;
-      ctx.fillText("Self-guided wellness tools by AIForj", d.w / 2, d.h - 32);
+      ctx.fillText("Self-guided wellness tools by Tredici", d.w / 2, d.h - 32);
 
       const blob = await new Promise((res) => out.toBlob(res, "image/png"));
       const file = new File([blob], `blueprint-${result.archetype}.png`, { type: "image/png" });
@@ -534,7 +534,7 @@ export default function BlueprintClient() {
     return (
       <div style={styles.page}>
         <div style={styles.intro}>
-          <a href="/" style={styles.backLink}>← Back to AIForj</a>
+          <a href="/" style={styles.backLink}>← Back to Tredici</a>
           <div style={{ marginTop: 60, marginBottom: 40, display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
             {Object.entries(ARCHETYPES).map(([key, a]) => (
               <ArchetypeIcon key={key} type={key} size={36} color={a.colors.primary} />
@@ -621,7 +621,7 @@ export default function BlueprintClient() {
           {showShare && (
             <div style={{ marginTop: 24, background: "var(--surface-elevated)", borderRadius: 20, padding: "28px 24px", boxShadow: "var(--shadow-md)", border: "1px solid rgba(45,42,38,0.06)" }}>
               <p style={{ fontFamily: "'Fraunces', serif", fontSize: 18, fontWeight: 500, color: "var(--text-primary)", margin: "0 0 16px", textAlign: "center" }}>
-                Create your Forj Card
+                Create your Tredici Card
               </p>
               <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap", marginBottom: 16 }}>
                 {[
@@ -692,7 +692,7 @@ export default function BlueprintClient() {
           {/* Disclaimer */}
           <p style={{ fontSize: 11, color: "var(--text-muted)", textAlign: "center", marginTop: 40, lineHeight: 1.6 }}>
             This assessment is for self-reflection only — not a clinical diagnosis.
-            {" "}Self-guided wellness tools by AIForj. Results are saved locally unless you choose to share a safe card.
+            {" "}Self-guided wellness tools by Tredici. Results are saved locally unless you choose to share a safe card.
           </p>
         </div>
       </div>

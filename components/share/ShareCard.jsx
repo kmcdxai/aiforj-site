@@ -49,7 +49,7 @@ export default function ShareCard({ payload, variant = "preview" }) {
       </div>
       <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, borderTop: "1px solid rgba(45,42,38,0.08)", paddingTop: 14 }}>
         <div>
-          <strong style={{ display: "block", color: view.color }}>AIForj</strong>
+          <strong style={{ display: "block", color: view.color }}>Tredici</strong>
           <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Wellness companion, not therapy</span>
         </div>
         <span style={{ borderRadius: 999, padding: "8px 12px", background: "rgba(255,255,255,0.78)", color: "var(--text-primary)", fontSize: 13, fontWeight: 700 }}>

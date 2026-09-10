@@ -67,8 +67,8 @@ export async function POST(request) {
           lead_magnet_pdf: pdfUrl || null,
         },
         notes: pdfUrl
-          ? `AIForj signup source: ${source}. Lead magnet PDF: ${pdfUrl}`
-          : `AIForj signup source: ${source}.`,
+          ? `Tredici signup source: ${source}. Lead magnet PDF: ${pdfUrl}`
+          : `Tredici signup source: ${source}.`,
         referrer_url: SITE_URL,
         utm_source: "aiforj",
         utm_medium: source,

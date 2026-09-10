@@ -366,7 +366,7 @@ export default function StartClient() {
                     </span>
                   ) : (
                     <span style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 700 }}>
-                      AIForj will start personalizing after you complete a few tools on this device.
+                      Tredici will start personalizing after you complete a few tools on this device.
                     </span>
                   )}
                 </div>
@@ -434,7 +434,7 @@ export default function StartClient() {
                 </a>
                 {timePref !== 'quick' && (
                   <a href="/companion" className="btn-secondary" style={{ textDecoration: 'none', color: 'var(--amber-deep)', borderColor: 'var(--amber)' }}>
-                    Continue with Talk to Forj Premium →
+                    Continue with Wellness companion Premium →
                   </a>
                 )}
               </div>

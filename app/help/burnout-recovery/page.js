@@ -10,7 +10,7 @@ import { getPageEvidence } from "../../../data/evidence";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "Burnout Recovery: Practical, Evidence-Informed Support | AIForj",
+  title: "Burnout Recovery: Practical, Evidence-Informed Support | Tredici",
   description: "Feeling burned out and can't recover? Practical, evidence-informed steps to begin recovering energy, boundaries, and motivation.",
   path: "/help/burnout-recovery",
   kind: "help",

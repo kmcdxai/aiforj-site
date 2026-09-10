@@ -178,7 +178,7 @@ export default function ThreeAMSpiral() {
             <p style={{ fontSize:15, lineHeight:1.9, color:"rgba(200,215,230,0.82)", marginBottom:20 }}>Hormones can play a role too. Your cortisol rhythm shifts as morning approaches, but the timing varies by person and by stress load. The practical point is simpler: late-night wakefulness can feel physiologically activating, and that can turn looping thoughts into a full-body spiral.</p>
             <p style={{ fontSize:16, lineHeight:1.8, color:"#5b8fa8", marginBottom:44 }}>This protocol uses six evidence-based techniques — sequenced in the order your nervous system needs them — to bring your rational brain back online. About 10 minutes. No app. No login.</p>
             <div style={{ textAlign:"center" }}><Btn onClick={() => go("check")}>Start the protocol</Btn></div>
-            <p style={{ fontSize:10, color:"rgba(200,215,230,0.4)", marginTop:36, lineHeight:1.7, textAlign:"center" }}>Self-guided wellness tools by AIForj. Local-first where supported.</p>
+            <p style={{ fontSize:10, color:"rgba(200,215,230,0.4)", marginTop:36, lineHeight:1.7, textAlign:"center" }}>Self-guided wellness tools by Tredici. Local-first where supported.</p>
 
             <InlineEmailCapture />
           </div>
@@ -432,8 +432,8 @@ export default function ThreeAMSpiral() {
             </div>
 
             <div style={{ textAlign:"center", marginBottom:24 }}>
-              <p style={{ fontSize:14, color:"rgba(200,215,230,0.6)", marginBottom:14, lineHeight:1.7 }}>Need more? Talk it through with Forj — voice or text, evidence-based, private.</p>
-              <a href="/" style={{ display:"inline-block", padding:"14px 36px", fontSize:15, background:"transparent", color:"#5b8fa8", border:"1px solid rgba(91,143,168,0.3)", borderRadius:40, textDecoration:"none", fontWeight:600 }}>Talk to Forj — Free</a>
+              <p style={{ fontSize:14, color:"rgba(200,215,230,0.6)", marginBottom:14, lineHeight:1.7 }}>Need more? Talk it through with Tredici — voice or text, evidence-based, private.</p>
+              <a href="/" style={{ display:"inline-block", padding:"14px 36px", fontSize:15, background:"transparent", color:"#5b8fa8", border:"1px solid rgba(91,143,168,0.3)", borderRadius:40, textDecoration:"none", fontWeight:600 }}>Wellness companion — Free</a>
             </div>
 
             <InlineEmailCapture />
@@ -442,14 +442,14 @@ export default function ThreeAMSpiral() {
               <p style={{ fontSize:14, color:"#dde4ee", margin:"0 0 4px", fontWeight:500 }}>In crisis? You're not alone.</p>
               <p style={{ fontSize:13, color:"rgba(200,215,230,0.6)", margin:0 }}>Call or text <strong style={{ color:"#5b8fa8" }}>988</strong> · Text HOME to <strong style={{ color:"#5b8fa8" }}>741741</strong></p>
             </div>
-            <p style={{ textAlign:"center", fontSize:13, color:"rgba(200,215,230,0.5)", lineHeight:1.7, marginBottom:20 }}>Forj is a wellness companion — not a therapist or substitute for professional care.</p>
+            <p style={{ textAlign:"center", fontSize:13, color:"rgba(200,215,230,0.5)", lineHeight:1.7, marginBottom:20 }}>Tredici is a wellness companion — not a therapist or substitute for professional care.</p>
             <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"center", gap:16, marginBottom:20 }}>
               <a href="/" style={{ fontSize:12, color:"rgba(200,215,230,0.4)", textDecoration:"none" }}>Home</a>
               <a href="/blueprint" style={{ fontSize:12, color:"rgba(200,215,230,0.4)", textDecoration:"none" }}>Blueprint</a>
               <a href="/techniques" style={{ fontSize:12, color:"rgba(200,215,230,0.4)", textDecoration:"none" }}>Techniques</a>
               <a href="/send" style={{ fontSize:12, color:"rgba(200,215,230,0.4)", textDecoration:"none" }}>Send Calm</a>
             </div>
-            <p style={{ textAlign:"center", fontSize:10, color:"rgba(180,200,220,0.15)", margin:0 }}>Self-guided wellness tools by AIForj · © 2026 AIForj</p>
+            <p style={{ textAlign:"center", fontSize:10, color:"rgba(180,200,220,0.15)", margin:0 }}>Self-guided wellness tools by Tredici · © 2026 Tredici</p>
           </div>
         )}
 

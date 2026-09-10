@@ -31,7 +31,7 @@ function labelForKind(kind) {
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const kind = searchParams.get("kind") === "technique" ? "technique" : "help";
-  const title = safeText(searchParams.get("title"), "AIForj emotional first aid");
+  const title = safeText(searchParams.get("title"), "Tredici emotional first aid");
   const avatarDataUri = `data:image/svg+xml;utf8,${encodeURIComponent(avatarSvg)}`;
 
   return new ImageResponse(
@@ -105,7 +105,7 @@ export async function GET(request) {
             }}
           >
             <div style={{ width: 28, height: 28, borderRadius: 9, background: COLORS.sage, display: "flex" }} />
-            AIForj.com
+            Tredici
           </div>
         </div>
 
@@ -156,7 +156,7 @@ export async function GET(request) {
           <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
             <img
               src={avatarDataUri}
-              alt="AIForj logo"
+              alt="Tredici logo"
               width={78}
               height={78}
               style={{
@@ -166,7 +166,7 @@ export async function GET(request) {
             />
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               <div style={{ display: "flex", fontSize: 28, fontWeight: 700 }}>
-                By AIForj
+                By Tredici
               </div>
               <div style={{ display: "flex", fontSize: 21, color: COLORS.muted }}>
                 Educational tools; not clinical care

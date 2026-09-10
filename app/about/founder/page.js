@@ -2,17 +2,17 @@ import Link from 'next/link';
 import SiteFooter from '../../components/SiteFooter';
 
 export const metadata = {
-  title: 'About AIForj',
-  description: 'Self-guided wellness tools from Forj by Tredici. Learn what the tools offer and where their limits are.',
+  title: 'About Tredici',
+  description: 'Self-guided wellness tools from Tredici wellness tools. Learn what the tools offer and where their limits are.',
   alternates: {canonical:'https://aiforj.com/about/founder'},
-  openGraph: {title:'About AIForj',description:'Self-guided wellness resources from Forj by Tredici.',url:'https://aiforj.com/about/founder',type:'website'},
+  openGraph: {title:'About Tredici',description:'Self-guided wellness resources from Tredici wellness tools.',url:'https://aiforj.com/about/founder',type:'website'},
 };
 
 export default function AboutForj() {
   return <><main style={{maxWidth:840,margin:'88px auto',padding:'0 24px',fontSize:17,lineHeight:1.85,color:'var(--text-primary)'}}>
-    <Link href="/">Forj by Tredici</Link>
+    <Link href="/">Tredici wellness tools</Link>
     <h1 style={{fontSize:'clamp(36px,6vw,60px)',lineHeight:1.2}}>A little space. A next step.</h1>
-    <p>AIForj offers self-guided tools for pausing, reflecting, and choosing a practical next step. Start with a free guide or check-in, and use what fits your day.</p>
+    <p>Tredici offers self-guided tools for pausing, reflecting, and choosing a practical next step. Start with a free guide or check-in, and use what fits your day.</p>
     <h2>Resources with clear limits.</h2><p>The tools are educational wellness resources. They do not provide diagnosis, therapy, medication advice, or emergency care. They are separate from Tredici’s future clinical practice.</p>
     <p>Guides reference their sources and describe limitations. No exercise is a guaranteed solution. You can stop at any time and seek support from a qualified professional when needed.</p>
     <h2>Your information, your choices.</h2><p>Some features keep information on your device; others depend on your browser or an external service. Read the <Link href="/what-we-collect">privacy explanation</Link> before choosing a feature.</p>

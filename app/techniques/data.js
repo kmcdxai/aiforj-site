@@ -811,7 +811,7 @@ export const TECHNIQUES = [
       },
       {
         q: "How is behavioral activation different from \"just do it\"?",
-        a: "\"Just do it\" implies willpower and effort. Behavioral activation starts with tiny actions, tracks mood changes, and builds gradually. This AIForj version is evidence-framed and designed with compassion for how low mood actually works.",
+        a: "\"Just do it\" implies willpower and effort. Behavioral activation starts with tiny actions, tracks mood changes, and builds gradually. This Tredici version is evidence-framed and designed with compassion for how low mood actually works.",
       },
       {
         q: "Can behavioral activation replace antidepressants?",
@@ -1432,7 +1432,7 @@ export const TECHNIQUES = [
     title: "When Work Is Too Much: A 3-Minute Reset for Overwhelm",
     metaTitle: "Overwhelmed at Work? An Evidence-Framed 3-Minute Reset",
     metaDescription:
-      "Drowning in tasks and deadlines? This evidence-framed protocol helps you regain focus and calm when work feels impossible. Self-guided wellness tools by AIForj.",
+      "Drowning in tasks and deadlines? This evidence-framed protocol helps you regain focus and calm when work feels impossible. Self-guided wellness tools by Tredici.",
     keywords: "overwhelmed at work, work stress, how to deal with overwhelm, workplace anxiety",
     subtitle: "For task paralysis, racing thoughts, and the feeling that you'll never catch up",
     time: "5 minutes",

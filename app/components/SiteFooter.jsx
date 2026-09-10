@@ -48,9 +48,9 @@ export default function SiteFooter() {
         marginLeft: "auto",
         marginRight: "auto",
       }}>
-        Forj is a wellness companion — not a therapist or substitute for professional care.{" "}
+        Tredici is a wellness companion — not a therapist or substitute for professional care.{" "}
         <Link href="/how-aiforj-stays-safe" style={{ color: "var(--interactive)", textDecoration: "underline" }}>
-          How AIForj stays safe
+          How Tredici stays safe
         </Link>
         {" "}·{" "}
         <Link href="/editorial-policy" style={{ color: "var(--interactive)", textDecoration: "underline" }}>
@@ -68,7 +68,7 @@ export default function SiteFooter() {
           { href: "/", label: "Home" },
           { href: "/start", label: "Start" },
           { href: "/help", label: "Help Guides" },
-          { href: "/companion", label: "Talk to Forj" },
+          { href: "/companion", label: "Wellness companion" },
           { href: "/blueprint", label: "Blueprint" },
           { href: "/techniques", label: "Techniques" },
           { href: "/tools", label: "Guided Tools" },
@@ -77,7 +77,7 @@ export default function SiteFooter() {
           { href: "/family", label: "Family Plan" },
           { href: "/clinician-pack", label: "Clinician Pack" },
           { href: "/organizations", label: "Organizations" },
-          { href: "/why-aiforj", label: "Why AIForj" },
+          { href: "/why-aiforj", label: "Why Tredici" },
           { href: "/how-aiforj-stays-safe", label: "Safety" },
           { href: "/editorial-policy", label: "Editorial Policy" },
           { href: "/what-we-collect", label: "What We Collect" },
@@ -119,12 +119,12 @@ export default function SiteFooter() {
       <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "0 0 8px", lineHeight: 1.8 }}>
         Published by{" "}
         <Link href="/about/founder" style={{ color: "var(--interactive)", textDecoration: "underline" }}>
-          AIForj
+          Tredici
         </Link>.
         {" "}Local-first where supported; free-text stays local unless a feature clearly says otherwise.
       </p>
       <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.5, margin: 0 }}>
-        © 2026 AIForj. All rights reserved.
+        © 2026 Tredici. All rights reserved.
       </p>
     </footer>
   );

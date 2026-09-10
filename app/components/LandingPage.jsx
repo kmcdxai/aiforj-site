@@ -46,7 +46,7 @@ export default function LandingPage({
         <a href="/" style={{ fontSize: 12, color: "var(--text-muted)", textDecoration: "none", fontFamily: "'DM Sans', sans-serif", display: "inline-flex", alignItems: "center", gap: 6, transition: "color 300ms cubic-bezier(0.16,1,0.3,1)" }}
           onMouseEnter={e => e.currentTarget.style.color = "var(--interactive)"}
           onMouseLeave={e => e.currentTarget.style.color = "var(--text-muted)"}>
-          ← Back to AIForj
+          ← Back to Tredici
         </a>
       </div>
 
@@ -114,23 +114,23 @@ export default function LandingPage({
         <p style={{ fontSize: 14, color: "var(--text-secondary)", margin: "0 0 10px", lineHeight: 1.6, fontFamily: "'DM Sans', sans-serif" }}>{premiumLine}</p>
         <p style={{ fontSize: 12, color: "var(--text-muted)", opacity: 0.6, margin: "0 0 16px", fontFamily: "'DM Sans', sans-serif" }}>$9.99/month · 7-day free trial</p>
         <a href="/" style={{ fontSize: 13, color: "var(--interactive)", textDecoration: "none", fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>
-          Try AIForj free →
+          Try Tredici free →
         </a>
       </RevealSection>
 
       {/* Footer */}
       <footer style={{ padding: "32px 24px", textAlign: "center", background: "var(--bg-secondary)", borderTop: "1px solid rgba(45,42,38,0.06)", marginTop: "auto" }}>
         <p style={{ fontSize: 12, color: "var(--text-secondary)", margin: "0 0 8px", fontFamily: "'DM Sans', sans-serif" }}>
-          Self-guided wellness tools by AIForj
+          Self-guided wellness tools by Tredici
         </p>
         <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.5, lineHeight: 1.7, margin: "0 0 8px", fontFamily: "'DM Sans', sans-serif" }}>
-          AIForj is a wellness companion — not a therapist or substitute for professional care.
+          Tredici is a wellness companion — not a therapist or substitute for professional care.
         </p>
         <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.5, lineHeight: 1.7, margin: "0 0 12px", fontFamily: "'DM Sans', sans-serif" }}>
           In crisis? Call or text <strong style={{ color: "var(--crisis)" }}>988</strong> · Text HOME to <strong style={{ color: "var(--crisis)" }}>741741</strong>
         </p>
         <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.3, margin: 0, fontFamily: "'DM Sans', sans-serif" }}>
-          © 2026 AIForj. All rights reserved.
+          © 2026 Tredici. All rights reserved.
         </p>
       </footer>
     </div>

@@ -5,11 +5,11 @@ import SOS from "../components/SOS";
 import { buildContentPageMetadata } from "../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "Editorial Policy | AIForj",
+  title: "Editorial Policy | Tredici",
   description:
-    "How AIForj creates, reviews, updates, and scopes emotional first-aid content.",
+    "How Tredici creates, reviews, updates, and scopes emotional first-aid content.",
   path: "/editorial-policy",
-  socialTitle: "AIForj Editorial Policy",
+  socialTitle: "Tredici Editorial Policy",
 });
 
 export default function Page() {
@@ -42,28 +42,28 @@ export default function Page() {
               color: "var(--text-primary)",
             }}
           >
-            How AIForj creates and reviews content
+            How Tredici creates and reviews content
           </h1>
 
           <p style={{ fontSize: 16, lineHeight: 1.8, color: "var(--text-secondary)", marginBottom: 16 }}>
-            AIForj is built for emotional first aid: short, structured tools and explanatory content meant to help people slow down, orient, and take a useful next step. We aim for plain language, truthful clinical scope, and privacy-first design.
+            Tredici is built for emotional first aid: short, structured tools and explanatory content meant to help people slow down, orient, and take a useful next step. We aim for plain language, truthful clinical scope, and privacy-first design.
           </p>
           <p style={{ fontSize: 16, lineHeight: 1.8, color: "var(--text-secondary)", marginBottom: 28 }}>
-            That means we do not write as if AIForj is a diagnosis engine, medication adviser, or replacement for licensed care. When a need crosses that line, pages should clearly route people toward crisis resources or human providers.
+            That means we do not write as if Tredici is a diagnosis engine, medication adviser, or replacement for licensed care. When a need crosses that line, pages should clearly route people toward crisis resources or human providers.
           </p>
 
           <section style={{ marginBottom: 28 }}>
-            <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 24, marginBottom: 12 }}>Who writes and reviews AIForj content</h2>
+            <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 24, marginBottom: 12 }}>Who writes and reviews Tredici content</h2>
             <p style={{ color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 10 }}>
-              AIForj content is authored by{" "}
+              Tredici content is authored by{" "}
               <Link href="/about/founder" style={{ color: "var(--interactive)", textDecoration: "underline", fontWeight: 700 }}>
-                AIForj
+                Tredici
               </Link>.
             </p>
             <p style={{ color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 0 }}>
               Clinical framing is reviewed by{" "}
               <Link href="/about/founder" style={{ color: "var(--interactive)", textDecoration: "underline", fontWeight: 700 }}>
-                AIForj
+                Tredici
               </Link>. Review is focused on scope, safety, wording, and whether a claim is being stated more strongly than the evidence allows.
             </p>
           </section>
@@ -97,16 +97,16 @@ export default function Page() {
           <section style={{ marginBottom: 28 }}>
             <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 24, marginBottom: 12 }}>Clinical scope and safety</h2>
             <p style={{ color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 10 }}>
-              AIForj does not diagnose conditions, tell people to change medication, or present itself as crisis care. Our product and content are designed to be narrow on purpose.
+              Tredici does not diagnose conditions, tell people to change medication, or present itself as crisis care. Our product and content are designed to be narrow on purpose.
             </p>
             <p style={{ color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 0 }}>
               For a fuller explanation of privacy, AI boundaries, and crisis handoff, read{" "}
               <Link href="/how-aiforj-stays-safe" style={{ color: "var(--interactive)", textDecoration: "underline" }}>
-                How AIForj stays safe
+                How Tredici stays safe
               </Link>
               {" "}and{" "}
               <Link href="/what-we-collect" style={{ color: "var(--interactive)", textDecoration: "underline" }}>
-                What AIForj collects
+                What Tredici collects
               </Link>
               .
             </p>
@@ -115,7 +115,7 @@ export default function Page() {
           <section style={{ marginBottom: 28 }}>
             <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 24, marginBottom: 12 }}>Corrections and feedback</h2>
             <p style={{ color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 0 }}>
-              If a page feels misleading, unclear, or too strong for the evidence, that is a product issue, not a minor wording issue. AIForj should be corrected toward clearer scope and more reliable guidance.
+              If a page feels misleading, unclear, or too strong for the evidence, that is a product issue, not a minor wording issue. Tredici should be corrected toward clearer scope and more reliable guidance.
             </p>
           </section>
         </article>

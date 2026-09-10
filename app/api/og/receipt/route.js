@@ -103,7 +103,7 @@ export async function GET(request) {
               </div>
             </div>
             <div style={{ display: "flex", fontSize: 22, color: "#6c6259", fontWeight: 700, textAlign: "right" }}>
-              Clinician-informed · wellness companion, not therapy · aiforj.com
+              Clinician-informed · wellness companion, not therapy
             </div>
           </div>
         </div>

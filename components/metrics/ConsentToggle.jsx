@@ -45,7 +45,7 @@ export default function ConsentToggle({
         {title}
       </h2>
       <p style={{ margin: "0 0 14px", color: "var(--text-secondary)", lineHeight: 1.75 }}>
-        Default is off for sensitive tool usage. When enabled, AIForj sends only whitelisted anonymous counters and buckets to AIForj’s first-party metrics endpoint.
+        Default is off for sensitive tool usage. When enabled, Tredici sends only whitelisted anonymous counters and buckets to Tredici’s first-party metrics endpoint.
       </p>
       <button
         type="button"

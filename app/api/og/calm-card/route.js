@@ -94,7 +94,7 @@ export async function GET(request) {
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 24, color: COLORS.muted }}>
               <div style={{ width: 28, height: 28, borderRadius: 8, background: view.color, display: "flex" }} />
-              AIForj.com
+              Tredici
             </div>
           </div>
 

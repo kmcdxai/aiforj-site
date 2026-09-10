@@ -58,7 +58,7 @@ export default function MoodShiftReceipt({
   const afterData = getEmojiForRating(postRating);
   const shiftColor = shift >= 3 ? 'var(--success)' : shift > 0 ? 'var(--interactive)' : shift === 0 ? 'var(--text-secondary)' : 'var(--warning)';
   const durationMinutes = Math.max(1, Math.ceil((duration || 0) / 60000));
-  const modalityLabel = modality || interventionName || 'AIForj tool';
+  const modalityLabel = modality || interventionName || 'Tredici tool';
   const safeShareToken = createShareToken({
     type: 'technique',
     toolSlug: interventionSlug,
@@ -92,7 +92,7 @@ export default function MoodShiftReceipt({
 
     try {
       await navigator.share({
-        title: 'AIForj Mood Shift Receipt',
+        title: 'Tredici Mood Shift Receipt',
         text: shareText,
         url: shareUrl,
       });
@@ -161,7 +161,7 @@ export default function MoodShiftReceipt({
       onSendCalm();
     } else if (typeof navigator !== 'undefined' && navigator.share) {
       navigator.share({
-        title: 'AIForj \u2014 Send Calm',
+        title: 'Tredici \u2014 Send Calm',
         text: sendCalmText,
         url: 'https://aiforj.com/start',
       }).then(() => {
@@ -241,7 +241,7 @@ export default function MoodShiftReceipt({
           animation: 'receiptSlideUp 0.5s cubic-bezier(0.16,1,0.3,1)',
         }}
       >
-        {/* AIForj watermark */}
+        {/* Tredici watermark */}
         <div style={{
           position: 'absolute',
           top: 16,
@@ -252,7 +252,7 @@ export default function MoodShiftReceipt({
           opacity: 0.5,
           letterSpacing: '0.04em',
         }}>
-          AIForj
+          Tredici
         </div>
 
         {/* After emoji large */}
@@ -391,7 +391,7 @@ export default function MoodShiftReceipt({
           borderTop: '1px solid rgba(45,42,38,0.06)',
           paddingTop: 16,
         }}>
-          Self-guided wellness resources · aiforj.com
+          Self-guided wellness resources
         </div>
       </div>
 
@@ -415,7 +415,7 @@ export default function MoodShiftReceipt({
         }}
       >
         <div style={{ fontSize: 14, fontWeight: 600, color: '#7A9E7E', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 40 }}>
-          AIForj
+          Tredici
         </div>
         <div style={{ fontSize: 72, marginBottom: 24 }}>{afterData.emoji}</div>
         <div style={{ fontFamily: "'Fraunces', serif", fontSize: 32, fontWeight: 500, color: '#2C2520', marginBottom: 40 }}>
@@ -432,7 +432,7 @@ export default function MoodShiftReceipt({
           <div style={{ fontSize: 14, color: '#8A8078' }}>{durationMinutes} min {'\u00b7'} {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
         </div>
         <div style={{ marginTop: 'auto', paddingTop: 40, fontSize: 12, color: '#8A8078', opacity: 0.6 }}>
-          Self-guided wellness {'\u00b7'} AIForj {'\u00b7'} aiforj.com
+          Self-guided wellness {'\u00b7'} Tredici {'\u00b7'} aiforj.com
         </div>
       </div>
 
@@ -524,7 +524,7 @@ export default function MoodShiftReceipt({
           Want more guided support?
         </h3>
         <p style={{ margin: '0 auto 14px', color: 'var(--text-secondary)', fontSize: 14, lineHeight: 1.6 }}>
-          Talk to Forj Premium adds deeper personalized sessions without blocking the free tools.
+          Wellness companion Premium adds deeper personalized sessions without blocking the free tools.
         </p>
         <div style={{ display: 'flex', justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
           <PremiumCheckoutButton medium="receipt" style={{ background: 'var(--amber-deep)' }}>

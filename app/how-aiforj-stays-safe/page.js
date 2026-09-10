@@ -7,11 +7,11 @@ import { getPageEvidence } from "../../data/evidence";
 import { buildContentPageMetadata } from "../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "How AIForj Stays Safe | Scope, Privacy, and Crisis Boundaries",
+  title: "How Tredici Stays Safe | Scope, Privacy, and Crisis Boundaries",
   description:
-    "How AIForj handles privacy, safety boundaries, crisis escalation, and scope of use for guided emotional first aid.",
+    "How Tredici handles privacy, safety boundaries, crisis escalation, and scope of use for guided emotional first aid.",
   path: "/how-aiforj-stays-safe",
-  socialTitle: "How AIForj Stays Safe",
+  socialTitle: "How Tredici Stays Safe",
 });
 
 export default function Page() {
@@ -46,18 +46,18 @@ export default function Page() {
               color: "var(--text-primary)",
             }}
           >
-            How AIForj stays safe
+            How Tredici stays safe
           </h1>
 
           <p style={{ fontSize: 16, lineHeight: 1.8, color: "var(--text-secondary)", marginBottom: 16 }}>
-            AIForj is built for emotional first aid: short, guided tools that can help you slow down, orient, and take a useful next step. It is not designed to diagnose conditions, adjust medication, replace therapy, or manage crises on its own.
+            Tredici is built for emotional first aid: short, guided tools that can help you slow down, orient, and take a useful next step. It is not designed to diagnose conditions, adjust medication, replace therapy, or manage crises on its own.
           </p>
           <p style={{ fontSize: 16, lineHeight: 1.8, color: "var(--text-secondary)", marginBottom: 28 }}>
             That product boundary is intentional. Mental-health-adjacent AI tools can become risky when they overstate their authority, ask for too much sensitive data, or keep people in open-ended conversations that feel like care but are not accountable care.
           </p>
           <p style={{ fontSize: 16, lineHeight: 1.8, color: "var(--text-secondary)", marginBottom: 28 }}>
-            For the plain-English version of AIForj’s data promises, including the anonymous metrics opt-in, read{" "}
-            <Link href="/what-we-collect">What AIForj collects and what it never collects</Link>.
+            For the plain-English version of Tredici’s data promises, including the anonymous metrics opt-in, read{" "}
+            <Link href="/what-we-collect">What Tredici collects and what it never collects</Link>.
           </p>
 
           <section
@@ -70,7 +70,7 @@ export default function Page() {
             }}
           >
             <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 22, margin: "0 0 12px", color: "var(--text-primary)" }}>
-              What AIForj is for
+              What Tredici is for
             </h2>
             <ul style={{ margin: 0, paddingLeft: 18, color: "var(--text-secondary)", lineHeight: 1.8 }}>
               <li>Short self-guided tools for anxiety, overwhelm, grief, shame, burnout, and similar states</li>
@@ -90,7 +90,7 @@ export default function Page() {
             }}
           >
             <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 22, margin: "0 0 12px", color: "var(--text-primary)" }}>
-              What AIForj is not for
+              What Tredici is not for
             </h2>
             <ul style={{ margin: 0, paddingLeft: 18, color: "var(--text-secondary)", lineHeight: 1.8 }}>
               <li>Diagnosing depression, bipolar disorder, PTSD, ADHD, or any other condition</li>
@@ -120,7 +120,7 @@ export default function Page() {
                 Local-first privacy
               </h3>
               <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.75 }}>
-                Core tools are designed so that your entries stay on your device whenever possible. AIForj avoids building the product around surveillance advertising or unnecessary account walls.
+                Core tools are designed so that your entries stay on your device whenever possible. Tredici avoids building the product around surveillance advertising or unnecessary account walls.
               </p>
             </div>
 
@@ -152,7 +152,7 @@ export default function Page() {
                 Clear crisis handoff
               </h3>
               <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.75 }}>
-                If you are in danger, feel unable to stay safe, or need immediate human support, AIForj should give way to 988, emergency services, or a licensed mental health professional.
+                If you are in danger, feel unable to stay safe, or need immediate human support, Tredici should give way to 988, emergency services, or a licensed mental health professional.
               </p>
             </div>
           </section>
@@ -173,7 +173,7 @@ export default function Page() {
               Reach for human support now if you are worried you might hurt yourself, cannot keep yourself safe, are hearing or seeing things other people are not, need medication guidance, or your symptoms are disrupting eating, sleeping, work, school, or relationships in a sustained way.
             </p>
             <p style={{ color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 0 }}>
-              If you need non-crisis care, AIForj’s <Link href="/find-help">Find a Provider</Link> page is the right next step.
+              If you need non-crisis care, Tredici’s <Link href="/find-help">Find a Provider</Link> page is the right next step.
             </p>
           </section>
 

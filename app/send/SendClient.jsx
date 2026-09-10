@@ -428,7 +428,7 @@ export default function SendClient() {
       {/* Privacy notice */}
       <div style={{ padding: "20px 24px", textAlign: "center" }}>
         <p style={{ fontSize: 12, color: "var(--text-muted)", margin: 0, lineHeight: 1.6 }}>
-          No data is stored on AIForj. Personal details stay in the URL fragment by default, so they are not sent to our servers when someone opens the gift link.
+          No data is stored on Tredici. Personal details stay in the URL fragment by default, so they are not sent to our servers when someone opens the gift link.
         </p>
       </div>
 

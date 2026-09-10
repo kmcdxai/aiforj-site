@@ -12,7 +12,7 @@ export function generateMetadata({ params }) {
   const page = getSeoPage("moments", params.slug);
   if (!page) return {};
   return buildContentPageMetadata({
-    title: `${page.title} | AIForj`,
+    title: `${page.title} | Tredici`,
     description: page.description,
     path: `/moments/${page.slug}`,
     kind: "help",
@@ -38,7 +38,7 @@ export default function MomentPage({ params }) {
       { name: page.title, item: `https://aiforj.com/moments/${page.slug}` },
     ]),
     buildFaqSchema([
-      { q: "Is this medical advice?", a: "No. AIForj offers self-guided wellness tools and does not diagnose, treat, prescribe, or replace professional care." },
+      { q: "Is this medical advice?", a: "No. Tredici offers self-guided wellness tools and does not diagnose, treat, prescribe, or replace professional care." },
       { q: "When should I get human help?", a: "Seek professional or emergency support if symptoms are severe, persistent, unsafe, or interfering with daily life." },
     ]),
   ];

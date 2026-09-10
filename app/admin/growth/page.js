@@ -6,8 +6,8 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const metadata = {
-  title: "AIForj Growth Dashboard",
-  description: "Aggregate-only AIForj growth, retention, sharing, and monetization counters.",
+  title: "Tredici Growth Dashboard",
+  description: "Aggregate-only Tredici growth, retention, sharing, and monetization counters.",
   alternates: { canonical: "https://aiforj.com/admin/growth" },
 };
 
@@ -27,7 +27,7 @@ export default async function GrowthDashboardPage() {
         <p className="text-label" style={{ margin: "0 0 8px", color: "var(--sage-deep)" }}>
           Founder view
         </p>
-        <h1 style={{ margin: "0 0 10px" }}>AIForj aggregate growth dashboard</h1>
+        <h1 style={{ margin: "0 0 10px" }}>Tredici aggregate growth dashboard</h1>
         <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.8 }}>
           A first-party, low-resolution view of page views, tool funnels, share loops, checkout starts, and conversions. For the public org-safe version, see{" "}
           <Link href="/organizations/reporting" style={{ color: "var(--interactive)" }}>

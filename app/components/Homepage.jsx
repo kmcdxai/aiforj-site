@@ -40,11 +40,11 @@ const HERO_PATHWAYS = [
   },
   {
     eyebrow: "Voice or text companion",
-    title: "Talk to Forj",
+    title: "Wellness companion",
     description:
-      "If you want to talk it through instead of choosing a tool first, start a private conversation and let Forj adapt in real time.",
+      "If you want to talk it through instead of choosing a tool first, start a private conversation and let Tredici adapt in real time.",
     href: "/companion",
-    cta: "Open Talk to Forj →",
+    cta: "Open Wellness companion →",
     badge: "Voice + text",
   },
 ];
@@ -258,18 +258,18 @@ export default function Homepage() {
             maxWidth: "min(100%, 560px)",
             overflowWrap: "anywhere",
           }}>
-            <BrandMark size={24} title="AIForj mark" style={{ boxShadow: "0 6px 16px rgba(36,69,63,0.14)" }} />
+            <BrandMark size={24} title="Tredici mark" style={{ boxShadow: "0 6px 16px rgba(36,69,63,0.14)" }} />
             Clinician-informed by{" "}
             <a href="/about/founder" style={{ color: "inherit", textDecoration: "underline", textUnderlineOffset: 3 }}>
-              AIForj
+              Tredici
             </a>{" "}
-            · Forj by Tredici
+            · Wellness tools
           </div>
           <h1 style={{ fontSize: "clamp(32px, 10vw, 64px)", maxWidth: 760, margin: "0 auto 20px", letterSpacing: 0, overflowWrap: "break-word" }}>
             A little space. A next step.
           </h1>
           <p style={{ fontSize: "clamp(17px, 2vw, 20px)", color: "var(--text-secondary)", maxWidth: 680, margin: "0 auto 34px", lineHeight: 1.75 }}>
-            Self-guided tools for overthinking, overwhelm, and winding down. Start with one small thing, then decide what feels useful. Forj is a wellness tool, not therapy.
+            Self-guided tools for overthinking, overwhelm, and winding down. Start with one small thing, then decide what feels useful. Tredici is a wellness tool, not therapy.
           </p>
           <div style={{ margin: "0 auto 24px", maxWidth: 760, padding: "18px", borderRadius: 22, background: "var(--surface-elevated)", border: "1px solid var(--border)", boxShadow: "var(--shadow-md)" }}>
             <p className="text-label" style={{ margin: "0 0 12px", color: "var(--sage-deep)" }}>Choose a starting point</p>
@@ -308,13 +308,13 @@ export default function Homepage() {
               Get support now — it's free →
             </a>
             <a href="/companion" className="btn-secondary" style={{ textDecoration: "none", padding: "16px 26px", color: "var(--sage-deep)" }}>
-              Talk to Forj →
+              Wellness companion →
             </a>
             <a href="/today" className="btn-secondary" style={{ textDecoration: "none", padding: "16px 26px", color: "var(--sage-deep)" }}>
               Today's Reset →
             </a>
           </div>
-          <p style={{ margin: "20px auto", fontSize: 14 }}><a href="https://tredicihealth.com/forj" rel="noreferrer">Meet Forj by Tredici</a> · Self-guided wellness, separate from clinical care.</p>
+          <p style={{ margin: "20px auto", fontSize: 14 }}><a href="https://tredicihealth.com/wellness-tools" rel="noreferrer">Meet Tredici wellness tools</a> · Self-guided wellness, separate from clinical care.</p>
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 10, margin: "22px auto 0", maxWidth: 820 }}>
             {TRUST_POINTS.map((point) => (
               <span key={point} style={{ padding: "8px 12px", borderRadius: 999, background: "var(--surface-elevated)", border: "1px solid var(--border)", color: "var(--text-primary)", fontSize: 13, fontWeight: 700 }}>
@@ -380,7 +380,7 @@ export default function Homepage() {
 
       <RevealSection style={{ padding: "84px 24px", background: "var(--surface)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <SectionHeader eyebrow="Why AIForj" title="Evidence-framed support without clinical coldness">
+          <SectionHeader eyebrow="Why Tredici" title="Evidence-framed support without clinical coldness">
             Built for moments when you need something more specific than “just breathe.”
           </SectionHeader>
           <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1.1fr) minmax(0, 0.9fr)", gap: 28, alignItems: "start" }} className="home-value-grid">
@@ -398,16 +398,16 @@ export default function Homepage() {
               ))}
             </article>
             <article className="card" style={{ boxShadow: "var(--shadow-sm)" }}>
-              <h3 style={{ margin: "0 0 12px" }}>About AIForj</h3>
+              <h3 style={{ margin: "0 0 12px" }}>About Tredici</h3>
               <p style={{ margin: "0 0 16px", color: "var(--text-secondary)", lineHeight: 1.75 }}>
-                AIForj offers self-guided wellness tools under the Tredici brand.
+                Tredici offers self-guided wellness tools under the Tredici brand.
               </p>
               <p style={{ margin: "0 0 16px", color: "var(--text-secondary)", lineHeight: 1.75 }}>
                 It exists because emotionally grounded support should not require a waitlist or a copay.
               </p>
               <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.75 }}>
                 <a href="/about/founder" style={{ color: "var(--interactive)", fontWeight: 700 }}>
-                  About AIForj →
+                  About Tredici →
                 </a>
               </p>
             </article>
@@ -515,16 +515,16 @@ export default function Homepage() {
               }}
             >
               <p className="text-label" style={{ color: "var(--sage-deep)", margin: "0 0 10px" }}>Best for deeper support</p>
-              <h3 style={{ margin: "0 0 10px", fontSize: "clamp(28px, 4vw, 40px)" }}>AIForj Premium</h3>
+              <h3 style={{ margin: "0 0 10px", fontSize: "clamp(28px, 4vw, 40px)" }}>Tredici Premium</h3>
               <p style={{ color: "var(--text-secondary)", margin: "0 auto 18px", lineHeight: 1.75, maxWidth: 620 }}>
-                Unlimited deeper Talk to Forj sessions, premium progress tools, and more personalized self-guided support while keeping local progress private on your device.
+                Unlimited deeper Wellness companion sessions, premium progress tools, and more personalized self-guided support while keeping local progress private on your device.
               </p>
               <div style={{ fontFamily: "'Fraunces', serif", fontSize: 34, color: "var(--sage-deep)", marginBottom: 18 }}>
                 $9.99/mo
               </div>
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center", justifyContent: "center" }}>
                 <PremiumCheckoutButton medium="home">Start 7-day free trial →</PremiumCheckoutButton>
-                <a href="/companion" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>See Talk to Forj →</a>
+                <a href="/companion" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>See Wellness companion →</a>
               </div>
               <p className="text-caption" style={{ margin: "14px 0 0", color: "var(--text-muted)" }}>Cancel anytime · Free first aid stays free</p>
             </article>
@@ -548,7 +548,7 @@ export default function Homepage() {
 
             <div style={{ textAlign: "center" }}>
               <a href="/for" style={{ color: "var(--interactive)", fontWeight: 700 }}>
-                More ways to use AIForj →
+                More ways to use Tredici →
               </a>
             </div>
           </div>
@@ -583,7 +583,7 @@ export default function Homepage() {
               <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 14, lineHeight: 1.7 }}>
                 Published by{" "}
                 <a href="/about/founder" style={{ color: "var(--interactive)", fontWeight: 700 }}>
-                  AIForj
+                  Tredici
                 </a>.
                 {" "}Free-text stays local unless a feature clearly says otherwise.
               </p>
@@ -591,7 +591,7 @@ export default function Homepage() {
             <nav style={{ display: "grid", gap: 8 }}>
               <strong className="text-label">Product</strong>
               <a href="/start">Start</a>
-              <a href="/companion">Talk to Forj</a>
+              <a href="/companion">Wellness companion</a>
               <a href="/techniques">Techniques</a>
               <a href="/garden">Mood Garden</a>
             </nav>
@@ -609,12 +609,12 @@ export default function Homepage() {
               <a href="/find-help">Find a Provider</a>
               <a href="https://988lifeline.org" target="_blank" rel="noopener noreferrer">988 Lifeline</a>
               <a href="/send">Send Calm</a>
-              <a href="/why-aiforj">Why AIForj</a>
+              <a href="/why-aiforj">Why Tredici</a>
             </nav>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", gap: 16, flexWrap: "wrap", paddingTop: 20, borderTop: "1px solid var(--border)", color: "var(--text-muted)", fontSize: 13 }}>
-            <span>AIForj is a wellness companion, not a substitute for professional care.</span>
-            <span>© {new Date().getFullYear()} AIForj</span>
+            <span>Tredici is a wellness companion, not a substitute for professional care.</span>
+            <span>© {new Date().getFullYear()} Tredici</span>
           </div>
         </div>
       </footer>

@@ -51,7 +51,7 @@ export default function SoundToggle() {
           ? active
             ? `${profile.label}. ${profile.reason}`
             : `${profile.label} is saved as your audio preference. Tap once to actually start playback.`
-          : "Enable adaptive ambient audio. AIForj picks a low-volume soundscape based on your current route and emotional context."
+          : "Enable adaptive ambient audio. Tredici picks a low-volume soundscape based on your current route and emotional context."
       }
       style={{
         display: "inline-flex",

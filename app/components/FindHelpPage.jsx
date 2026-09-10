@@ -6,7 +6,7 @@ import { trackSafeMetric } from "../../lib/metrics";
 // ═══════════════════════════════════════════════════════════════
 // /find-help — Smart Provider Finder
 // Searches the NPI Registry (CMS.gov) for registry-listed providers.
-// AIForj does not endorse, verify, or store provider searches by default.
+// Tredici does not endorse, verify, or store provider searches by default.
 // Flow: need → details → results (real provider data)
 // ═══════════════════════════════════════════════════════════════
 
@@ -266,7 +266,7 @@ export default function FindHelpPage() {
             </div>
 
             <p style={{ fontSize: 11, color: C.muted, opacity: 0.82, marginTop: 28, lineHeight: 1.7 }}>
-              Provider searches are not stored server-side by default. If anonymous metrics are enabled, AIForj only records a provider_search_started count, not your ZIP, city, provider details, or search type.
+              Provider searches are not stored server-side by default. If anonymous metrics are enabled, Tredici only records a provider_search_started count, not your ZIP, city, provider details, or search type.
             </p>
           </div>
         )}
@@ -688,7 +688,7 @@ export default function FindHelpPage() {
                 </div>
 
                 <div style={{ textAlign: "center", marginBottom: 16 }}>
-                  <a href="/" style={{ display: "inline-block", padding: "14px 36px", fontSize: 14, background: "transparent", color: C.accent, border: `1px solid rgba(${C.glow},0.3)`, borderRadius: 40, textDecoration: "none", fontWeight: 600 }}>Talk to Forj — Free</a>
+                  <a href="/" style={{ display: "inline-block", padding: "14px 36px", fontSize: 14, background: "transparent", color: C.accent, border: `1px solid rgba(${C.glow},0.3)`, borderRadius: 40, textDecoration: "none", fontWeight: 600 }}>Wellness companion — Free</a>
                 </div>
                 <div style={{ textAlign: "center" }}>
                   <button onClick={() => { setProviders([]); setShowCount(10); setFilterType("all"); setExpandedNpi(null); go("need"); }} style={{
@@ -703,7 +703,7 @@ export default function FindHelpPage() {
 
       <div style={{ padding: "20px 24px", textAlign: "center", borderTop: "1px solid rgba(26,32,48,0.08)", background: "rgba(255,255,255,0.5)" }}>
         <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, margin: 0, maxWidth: 600, marginLeft: "auto", marginRight: "auto" }}>
-          Provider data may be incomplete and comes from the National Plan & Provider Enumeration System (NPPES/CMS.gov). AIForj does not endorse or verify providers. Confirm licensing, insurance acceptance, availability, costs, and scope directly before booking.
+          Provider data may be incomplete and comes from the National Plan & Provider Enumeration System (NPPES/CMS.gov). Tredici does not endorse or verify providers. Confirm licensing, insurance acceptance, availability, costs, and scope directly before booking.
         </p>
       </div>
 
@@ -713,10 +713,10 @@ export default function FindHelpPage() {
           <p style={{ fontSize: 13, color: C.muted, margin: 0 }}>Call or text <strong style={{ color: C.urgent }}>988</strong> · Text HOME to <strong style={{ color: C.urgent }}>741741</strong></p>
         </div>
         <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, margin: "0 0 24px", maxWidth: 480, marginLeft: "auto", marginRight: "auto" }}>
-          Forj is a wellness companion — not a therapist or substitute for professional care.
+          Tredici is a wellness companion — not a therapist or substitute for professional care.
         </p>
-        <p style={{ fontSize: 11, color: C.muted, margin: "0 0 8px", lineHeight: 1.8 }}>Self-guided wellness tools by AIForj</p>
-        <p style={{ fontSize: 11, color: C.muted, opacity: 0.78, margin: 0 }}>© 2026 AIForj. All rights reserved.</p>
+        <p style={{ fontSize: 11, color: C.muted, margin: "0 0 8px", lineHeight: 1.8 }}>Self-guided wellness tools by Tredici</p>
+        <p style={{ fontSize: 11, color: C.muted, opacity: 0.78, margin: 0 }}>© 2026 Tredici. All rights reserved.</p>
       </footer>
     </div>
   );

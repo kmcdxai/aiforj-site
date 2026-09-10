@@ -70,7 +70,7 @@ export default function CommonHumanity({ onComplete }) {
             {count.toLocaleString()}+
           </div>
           <p style={{ ...shellStyles.body, marginTop: 10 }}>
-            people on AIForj have explored feelings of shame or guilt.
+            people on Tredici have explored feelings of shame or guilt.
           </p>
           <p style={{ ...shellStyles.body, marginTop: 10, color: 'var(--text-primary)', fontWeight: 700 }}>
             You are not alone in this feeling.

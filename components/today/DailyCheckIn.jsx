@@ -159,7 +159,7 @@ export default function DailyCheckIn() {
           <p className="text-label" style={{ color: "var(--sage-deep)", margin: "0 0 10px" }}>Today's Reset</p>
           <h1 style={{ margin: "0 0 12px", fontSize: "clamp(38px, 7vw, 68px)" }}>What kind of day is this?</h1>
           <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.8, fontSize: 18 }}>
-            Choose what fits well enough. AIForj will give you one reset and one backup, then let you leave.
+            Choose what fits well enough. Tredici will give you one reset and one backup, then let you leave.
           </p>
         </div>
 
@@ -231,7 +231,7 @@ export default function DailyCheckIn() {
             </div>
             {reminderState !== "idle" && (
               <p style={{ margin: "12px 0 0", fontSize: 13, color: "var(--text-muted)" }}>
-                {reminderState === "enabled" ? "Browser reminders are allowed. AIForj will only use calm language." : reminderState === "unsupported" ? "This browser does not support local notification permission." : "No problem. You can still come back anytime."}
+                {reminderState === "enabled" ? "Browser reminders are allowed. Tredici will only use calm language." : reminderState === "unsupported" ? "This browser does not support local notification permission." : "No problem. You can still come back anytime."}
               </p>
             )}
           </div>

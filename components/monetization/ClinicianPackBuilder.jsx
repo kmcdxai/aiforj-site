@@ -14,7 +14,7 @@ const STARTER_SLUGS = [
 ];
 
 const DISCLAIMER_TEXT =
-  "AIForj offers emotional first-aid tools for skill practice between visits. It is not a substitute for diagnosis, medication advice, emergency care, or crisis support. If this feels urgent or unsafe, contact 988 or local emergency services.";
+  "Tredici offers emotional first-aid tools for skill practice between visits. It is not a substitute for diagnosis, medication advice, emergency care, or crisis support. If this feels urgent or unsafe, contact 988 or local emergency services.";
 
 function getTechniqueOptions() {
   const preferred = STARTER_SLUGS

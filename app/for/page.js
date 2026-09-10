@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "More Ways to Use AIForj",
-  description: "Explore AIForj options for families, clinicians, and organizations while keeping emotional support private and on-device.",
+  title: "More Ways to Use Tredici",
+  description: "Explore Tredici options for families, clinicians, and organizations while keeping emotional support private and on-device.",
   alternates: {
     canonical: "https://aiforj.com/for",
   },
@@ -37,9 +37,9 @@ export default function ForPage() {
   return (
     <main style={{ minHeight: "100vh", padding: "96px 24px 80px", background: "linear-gradient(180deg, var(--parchment), var(--surface))" }}>
       <section style={{ maxWidth: 1040, margin: "0 auto" }}>
-        <a href="/" style={{ color: "var(--interactive)", fontWeight: 700, textDecoration: "none" }}>← Back to AIForj</a>
+        <a href="/" style={{ color: "var(--interactive)", fontWeight: 700, textDecoration: "none" }}>← Back to Tredici</a>
         <div style={{ textAlign: "center", margin: "48px auto 42px", maxWidth: 760 }}>
-          <p className="text-label" style={{ color: "var(--sage-deep)", margin: "0 0 12px" }}>More ways to use AIForj</p>
+          <p className="text-label" style={{ color: "var(--sage-deep)", margin: "0 0 12px" }}>More ways to use Tredici</p>
           <h1 style={{ margin: "0 0 16px", fontSize: "clamp(38px, 6vw, 64px)" }}>Support for the people around you.</h1>
           <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 18, lineHeight: 1.75 }}>
             Start free for yourself anytime. If you are helping a family, practice, or organization, these paths keep the same privacy-first foundation and route you to the right setup.
@@ -73,11 +73,11 @@ export default function ForPage() {
         <div className="card" style={{ margin: "34px auto 0", maxWidth: 820, textAlign: "center", background: "var(--surface-elevated)" }}>
           <h2 style={{ margin: "0 0 10px" }}>Need support right now?</h2>
           <p style={{ margin: "0 0 18px", color: "var(--text-secondary)", lineHeight: 1.7 }}>
-            The core AIForj emotional first-aid flow stays free and does not require an account.
+            The core Tredici emotional first-aid flow stays free and does not require an account.
           </p>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
             <a href="/start" className="btn-primary" style={{ textDecoration: "none" }}>Get support now →</a>
-            <a href="/companion" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>Talk to Forj →</a>
+            <a href="/companion" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>Wellness companion →</a>
           </div>
         </div>
       </section>

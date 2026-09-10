@@ -18,7 +18,7 @@ export async function generateMetadata({ params, searchParams }) {
     ? `${fromName} sent you something — open when you need calm`
     : "Someone sent you something — open when you need calm";
   const shortName = t.title.split(":")[0].replace(" Technique", "").replace("The ", "").trim();
-  const description = `A ${shortName} technique from AIForj. Free, private, ${t.time}.`;
+  const description = `A ${shortName} technique from Tredici. Free, private, ${t.time}.`;
   const socialImage = buildCalmCardUrl({ kind: "gift", slug, format: "og" });
 
   return {
@@ -28,7 +28,7 @@ export async function generateMetadata({ params, searchParams }) {
       title,
       description,
       url: `https://aiforj.com/gift/${slug}`,
-      siteName: "AIForj",
+      siteName: "Tredici",
       type: "website",
       images: [{ url: socialImage, width: 1200, height: 630, alt: `${shortName} gift calm card` }],
     },

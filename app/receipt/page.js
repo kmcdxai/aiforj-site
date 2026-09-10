@@ -36,23 +36,23 @@ export function generateMetadata({ searchParams }) {
   const receipt = buildReceiptParams(searchParams);
   const imageUrl = buildOgUrl(receipt);
   return {
-    title: `${receipt.emotion} mood shift receipt | AIForj`,
-    description: `A private AIForj emotional first-aid receipt using ${receipt.modality}.`,
+    title: `${receipt.emotion} mood shift receipt | Tredici`,
+    description: `A private Tredici emotional first-aid receipt using ${receipt.modality}.`,
     alternates: {
       canonical: "https://aiforj.com/receipt",
     },
     openGraph: {
-      title: `${receipt.emotion} mood shift receipt | AIForj`,
-      description: "See a shareable, anonymous emotional first-aid receipt from AIForj.",
+      title: `${receipt.emotion} mood shift receipt | Tredici`,
+      description: "See a shareable, anonymous emotional first-aid receipt from Tredici.",
       url: "https://aiforj.com/receipt",
-      siteName: "AIForj",
+      siteName: "Tredici",
       type: "website",
-      images: [{ url: imageUrl, width: 1200, height: 630, alt: "AIForj mood shift receipt" }],
+      images: [{ url: imageUrl, width: 1200, height: 630, alt: "Tredici mood shift receipt" }],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${receipt.emotion} mood shift receipt | AIForj`,
-      description: "A private, anonymous mood shift receipt from AIForj.",
+      title: `${receipt.emotion} mood shift receipt | Tredici`,
+      description: "A private, anonymous mood shift receipt from Tredici.",
       images: [imageUrl],
     },
   };
@@ -71,7 +71,7 @@ export default function ReceiptPage({ searchParams }) {
           <p className="text-label" style={{ color: "var(--sage-deep)", margin: "0 0 12px" }}>Mood Shift Receipt</p>
           <h1 style={{ margin: "0 0 14px", fontSize: "clamp(36px, 6vw, 62px)" }}>{receipt.emotion} reset</h1>
           <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 18, lineHeight: 1.7 }}>
-            An anonymous receipt from one AIForj emotional first-aid session. Raw mood scores are not shown on shared receipts.
+            An anonymous receipt from one Tredici emotional first-aid session. Raw mood scores are not shown on shared receipts.
           </p>
         </div>
 
@@ -97,7 +97,7 @@ export default function ReceiptPage({ searchParams }) {
           </div>
 
           <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.75 }}>
-            Clinician-informed · wellness companion, not a substitute for professional care · aiforj.com
+            Clinician-informed · wellness companion, not a substitute for professional care
           </p>
         </article>
 

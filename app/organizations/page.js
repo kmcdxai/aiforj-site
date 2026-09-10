@@ -11,11 +11,11 @@ import {
 import { buildContentPageMetadata } from "../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "Privacy-First Wellness Toolkit for Organizations | AIForj",
+  title: "Privacy-First Wellness Toolkit for Organizations | Tredici",
   description:
     "A privacy-first emotional first-aid toolkit for organizations with aggregate-only learning and no individual dashboards by default.",
   path: "/organizations",
-  socialTitle: "AIForj for Organizations",
+  socialTitle: "Tredici for Organizations",
   socialDescription:
     "Roll out emotional first aid with aggregate-only learning, not employee surveillance.",
   type: "article",
@@ -23,11 +23,11 @@ export const metadata = buildContentPageMetadata({
 
 export default function Page() {
   const articleSchema = buildArticleSchema({
-    title: "AIForj privacy-first wellness toolkit for organizations",
+    title: "Tredici privacy-first wellness toolkit for organizations",
     description: metadata.description,
     url: "https://aiforj.com/organizations",
     section: "Organization toolkit",
-    about: "AIForj privacy-first wellness toolkit",
+    about: "Tredici privacy-first wellness toolkit",
   });
   const breadcrumbSchema = buildBreadcrumbSchema([
     { name: "Home", item: "https://aiforj.com" },
@@ -118,7 +118,7 @@ export default function Page() {
             </h2>
             <p style={{ margin: "0 0 14px", lineHeight: 1.8, color: "var(--text-secondary)" }}>
               If you need something more concrete than a principles page, we built
-              a live version of the exact style of org reporting AIForj is designed
+              a live version of the exact style of org reporting Tredici is designed
               to support: trends, completion patterns, and shift buckets in aggregate,
               without individual mental-health dashboards.
             </p>
@@ -174,7 +174,7 @@ export default function Page() {
                 href="/what-we-collect"
                 style={{ color: "var(--interactive)", textDecoration: "underline" }}
               >
-                What AIForj collects
+                What Tredici collects
               </Link>
               .
             </p>

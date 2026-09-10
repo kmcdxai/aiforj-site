@@ -13,7 +13,7 @@ export async function generateMetadata({ params }) {
   const image = `https://aiforj.com/api/og/calm-card?token=${encodeURIComponent(token)}`;
 
   return buildContentPageMetadata({
-    title: `${view.title} | AIForj`,
+    title: `${view.title} | Tredici`,
     description: view.body,
     path: `/share/${token}`,
     socialTitle: view.title,
@@ -47,7 +47,7 @@ export default async function SharePage({ params }) {
           </Link>
         </div>
         <p style={{ margin: "8px 0 0", fontSize: 13, color: "var(--text-muted)", lineHeight: 1.7 }}>
-          Shared cards never include raw mood scores, journal text, chat text, crisis status, or provider-search details. AIForj is a wellness companion, not a substitute for professional care.
+          Shared cards never include raw mood scores, journal text, chat text, crisis status, or provider-search details. Tredici is a wellness companion, not a substitute for professional care.
         </p>
       </section>
     </main>

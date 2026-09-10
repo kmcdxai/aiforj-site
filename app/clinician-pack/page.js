@@ -12,11 +12,11 @@ import {
 import { buildContentPageMetadata } from "../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "AIForj Clinician Pack: Private-Practice Support Tools | AIForj",
+  title: "Tredici Clinician Pack: Private-Practice Support Tools | Tredici",
   description:
     "A privacy-first clinician pack with handout links, branded calm cards, and patient-safe disclaimers for between-visit support.",
   path: "/clinician-pack",
-  socialTitle: "AIForj Clinician Pack for Private Practice",
+  socialTitle: "Tredici Clinician Pack for Private Practice",
   socialDescription:
     "Handout-ready support tools for clinicians who want between-visit help without surveillance.",
   type: "article",
@@ -24,11 +24,11 @@ export const metadata = buildContentPageMetadata({
 
 export default function Page() {
   const articleSchema = buildArticleSchema({
-    title: "AIForj clinician pack for private-practice support",
+    title: "Tredici clinician pack for private-practice support",
     description: metadata.description,
     url: "https://aiforj.com/clinician-pack",
     section: "Clinician tools",
-    about: "AIForj clinician pack",
+    about: "Tredici clinician pack",
   });
   const breadcrumbSchema = buildBreadcrumbSchema([
     { name: "Home", item: "https://aiforj.com" },
@@ -57,7 +57,7 @@ export default function Page() {
             {[
               {
                 title: "Handout-ready links",
-                body: "Give patients a direct path into specific AIForj tools after sessions instead of generic homework instructions that get lost.",
+                body: "Give patients a direct path into specific Tredici tools after sessions instead of generic homework instructions that get lost.",
               },
               {
                 title: "Branded calm cards",
@@ -135,7 +135,7 @@ export default function Page() {
                 href="/how-aiforj-stays-safe"
                 style={{ color: "var(--interactive)", textDecoration: "underline" }}
               >
-                How AIForj stays safe
+                How Tredici stays safe
               </Link>
               {" "}and, if you need an employer, school, or nonprofit rollout instead, see{" "}
               <Link

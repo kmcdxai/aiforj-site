@@ -1,4 +1,4 @@
-export function BrandMark({ size = 32, style = {}, title = "AIForj" }) {
+export function BrandMark({ size = 32, style = {}, title = "Tredici" }) {
   return (
     <span
       aria-label={title}
@@ -68,17 +68,7 @@ export default function BrandLogo({
             whiteSpace: "nowrap",
           }}
         >
-          <span
-            style={{
-              background: "linear-gradient(135deg, #3D66F5 0%, #26D9E8 100%)",
-              WebkitBackgroundClip: "text",
-              backgroundClip: "text",
-              color: "transparent",
-            }}
-          >
-            AI
-          </span>
-          <span>Forj</span>
+          <span>Tredici</span>
         </span>
       )}
     </span>

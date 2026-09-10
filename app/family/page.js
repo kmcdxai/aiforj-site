@@ -12,11 +12,11 @@ import {
 import { buildContentPageMetadata } from "../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "AIForj Family Plan: Premium Support for Your Household | AIForj",
+  title: "Tredici Family Plan: Premium Support for Your Household | Tredici",
   description:
-    "Cover up to four people with private AIForj Premium access without turning your household into a shared account.",
+    "Cover up to four people with private Tredici Premium access without turning your household into a shared account.",
   path: "/family",
-  socialTitle: "AIForj Family Plan for Private Household Support",
+  socialTitle: "Tredici Family Plan for Private Household Support",
   socialDescription:
     "A privacy-first Premium option for up to four people in one household.",
   type: "article",
@@ -24,11 +24,11 @@ export const metadata = buildContentPageMetadata({
 
 export default function Page() {
   const articleSchema = buildArticleSchema({
-    title: "AIForj family plan for privacy-first household support",
+    title: "Tredici family plan for privacy-first household support",
     description: metadata.description,
     url: "https://aiforj.com/family",
     section: "Premium family plan",
-    about: "AIForj Premium family plan",
+    about: "Tredici Premium family plan",
   });
   const breadcrumbSchema = buildBreadcrumbSchema([
     { name: "Home", item: "https://aiforj.com" },
@@ -135,7 +135,7 @@ export default function Page() {
                 href="/what-we-collect"
                 style={{ color: "var(--interactive)", textDecoration: "underline" }}
               >
-                What AIForj collects
+                What Tredici collects
               </Link>
               .
             </p>

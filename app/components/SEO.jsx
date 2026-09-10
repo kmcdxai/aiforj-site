@@ -2,7 +2,7 @@ export default function SEO() {
   const org = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "AIForj",
+    name: "Tredici",
     url: "https://aiforj.com",
     logo: "https://aiforj.com/aiforj-mark.png",
   };
@@ -10,7 +10,7 @@ export default function SEO() {
   const site = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "AIForj",
+    name: "Tredici",
     url: "https://aiforj.com",
     description: "Clinically-informed emotional first-aid tools for anxiety, sadness, anger, overwhelm, and more."
   };
@@ -18,7 +18,7 @@ export default function SEO() {
   const app = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "AIForj",
+    name: "Tredici",
     applicationCategory: "HealthApplication",
     operatingSystem: "Web",
     url: "https://aiforj.com",
@@ -30,7 +30,7 @@ export default function SEO() {
     },
     creator: {
       "@type": "Organization",
-      name: "AIForj",
+      name: "Tredici",
 
       url: "https://aiforj.com/about/founder"
     }

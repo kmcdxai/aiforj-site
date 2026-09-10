@@ -542,7 +542,7 @@ function ExerciseStep({ step, onComplete }) {
 // ─── Share Button ───
 function ShareButton({ technique }) {
   const [copied, setCopied] = useState(false);
-  const shareText = `I just tried "${technique.title.split(":")[0]}" on AIForj — it actually helped. Try it:`;
+  const shareText = `I just tried "${technique.title.split(":")[0]}" on Tredici — it actually helped. Try it:`;
   const shareUrl = `https://aiforj.com/techniques/${technique.slug}`;
 
   const handleShare = async () => {
@@ -712,7 +712,7 @@ export default function TechniqueClient({
             {technique.subtitle}
           </p>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px", background: "rgba(107,127,110,0.08)", borderRadius: 20, border: `1px solid ${SUBTLE}` }}>
-            <span style={{ fontSize: 12, color: ACCENT, fontWeight: 500 }}>Published by AIForj</span>
+            <span style={{ fontSize: 12, color: ACCENT, fontWeight: 500 }}>Published by Tredici</span>
           </div>
         </header>
 
@@ -899,7 +899,7 @@ export default function TechniqueClient({
             Track which techniques work best for you → <span style={{ color: ACCENT, fontWeight: 600 }}>Try the Full Toolkit</span>
           </Link>
           <Link href="/companion" style={{ padding: "14px 24px", background: "var(--surface)", border: `1px solid ${SUBTLE}`, borderRadius: 14, textDecoration: "none", color: TEXT, fontSize: 14 }}>
-            Go deeper with personalized guidance → <span style={{ color: ACCENT, fontWeight: 600 }}>Talk to Forj</span>
+            Go deeper with personalized guidance → <span style={{ color: ACCENT, fontWeight: 600 }}>Wellness companion</span>
           </Link>
         </section>
 

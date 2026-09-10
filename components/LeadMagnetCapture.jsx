@@ -71,7 +71,7 @@ export default function LeadMagnetCapture({
             Your panic interrupt guide is on the way.
           </h2>
           <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.7 }}>
-            Buttondown will deliver the PDF link by email. If it lands in spam, mark it safe so future AIForj techniques arrive cleanly.
+            Buttondown will deliver the PDF link by email. If it lands in spam, mark it safe so future Tredici techniques arrive cleanly.
           </p>
           <Link
             href="/start?emotion=anxious"

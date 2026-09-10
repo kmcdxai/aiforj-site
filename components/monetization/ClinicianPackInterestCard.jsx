@@ -97,7 +97,7 @@ export default function ClinicianPackInterestCard() {
             color: "var(--text-primary)",
           }}
         >
-          Bring AIForj into private practice without compromising patient trust
+          Bring Tredici into private practice without compromising patient trust
         </h1>
         <p
           style={{

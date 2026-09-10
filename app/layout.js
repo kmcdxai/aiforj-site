@@ -11,9 +11,9 @@ import { Suspense } from 'react';
 
 export const metadata = {
   metadataBase: new URL('https://aiforj.com'),
-  title: 'AIForj — Self-Guided Wellness Tools',
+  title: 'Tredici — Self-Guided Wellness Tools',
   description: '30 public guides plus 100+ guided interventions for anxiety, sadness, anger, overwhelm, and more. Clinician-informed, privacy-first, evidence-framed emotional first aid.',
-  keywords: 'emotional first aid, mental health tools, CBT tools, DBT skills, ACT defusion, somatic grounding, anxiety grounding, mood tracking, emotional first-aid techniques, AIForj',
+  keywords: 'emotional first aid, mental health tools, CBT tools, DBT skills, ACT defusion, somatic grounding, anxiety grounding, mood tracking, emotional first-aid techniques, Tredici',
   alternates: {
     canonical: 'https://aiforj.com',
   },
@@ -23,18 +23,18 @@ export const metadata = {
     apple: '/aiforj-mark.png',
   },
   openGraph: {
-    title: 'AIForj — Self-Guided Wellness Tools',
+    title: 'Tredici — Self-Guided Wellness Tools',
     description: '30 public guides plus 100+ guided interventions for anxiety, sadness, anger, overwhelm, and more. Clinician-informed emotional first aid.',
     url: 'https://aiforj.com',
-    siteName: 'AIForj',
+    siteName: 'Tredici',
     type: 'website',
-    images: [{ url: '/aiforj-og.png', width: 1200, height: 630, alt: 'AIForj emotional first aid' }],
+    images: [{ url: '/aiforj-mark.png', width: 512, height: 512, alt: 'Tredici emotional first aid' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AIForj — Self-Guided Wellness Tools',
+    title: 'Tredici — Self-Guided Wellness Tools',
     description: '30 public guides plus 100+ guided emotional first-aid interventions. Clinician-informed and privacy-first.',
-    images: ['/aiforj-og.png'],
+    images: ['/aiforj-mark.png'],
   },
 };
 

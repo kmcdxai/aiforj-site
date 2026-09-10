@@ -295,7 +295,7 @@ export default function GardenClient() {
       ? snapshot.biome.slice(0, 6).map((entry) => `${entry.plantName} (${entry.sessions})`).join(", ")
       : "No planted emotions yet.";
 
-    opened.document.write(`<!DOCTYPE html><html><head><title>My AIForj Mood Garden</title>
+    opened.document.write(`<!DOCTYPE html><html><head><title>My Tredici Mood Garden</title>
       <style>
         body { font-family: Georgia, serif; color: #2C2520; max-width: 760px; margin: 0 auto; padding: 40px; line-height: 1.8; }
         h1 { font-size: 30px; font-weight: 500; margin: 0 0 8px; }
@@ -305,7 +305,7 @@ export default function GardenClient() {
         .value { font-weight: 600; }
         .footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #E8F0E8; font-size: 12px; color: #8A8078; text-align: center; }
       </style></head><body>
-      <h1>My AIForj Mood Garden</h1>
+      <h1>My Tredici Mood Garden</h1>
       <div style="font-size:13px;color:#5C534A;margin-bottom:24px;">Generated ${new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</div>
       <h2>Landscape</h2>
       <div class="stat"><span class="label">Season</span><span class="value">${snapshot.season.label}</span></div>
@@ -320,7 +320,7 @@ export default function GardenClient() {
       <h2>Emotional biome</h2>
       <p>${emotionsUsed}</p>
       <div class="footer">
-        <p>Published by AIForj</p>
+        <p>Published by Tredici</p>
         <p>This report was generated locally. Your data never left your device.</p>
       </div>
     </body></html>`);
@@ -384,7 +384,7 @@ export default function GardenClient() {
                 <span className="garden-label">Your garden starts with one reset</span>
                 <h2 style={{ margin: "0 0 10px" }}>Plant the first bloom</h2>
                 <p style={{ margin: "0 0 16px", color: "var(--text-secondary)", lineHeight: 1.7 }}>
-                  Finish one reset and AIForj will save a small local bloom here. The examples below are blurred demo blooms, not your data.
+                  Finish one reset and Tredici will save a small local bloom here. The examples below are blurred demo blooms, not your data.
                 </p>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 10, marginBottom: 16 }} aria-label="Example garden blooms">
                   {["Anxious reset", "Sleep wind-down", "Comeback day"].map((label, index) => (
@@ -764,7 +764,7 @@ export default function GardenClient() {
             <span className="garden-label">Garden upgrades</span>
             <h2 style={{ margin: "0 0 10px" }}>Make the Garden deeper, not louder</h2>
             <p style={{ margin: "0 0 18px", color: "var(--text-secondary)", lineHeight: 1.75, maxWidth: 760 }}>
-              Premium keeps the free core intact and adds richer reflection surfaces: full bloom visuals, weekly insights, printable summaries, and deeper guided sessions through Talk to Forj.
+              Premium keeps the free core intact and adds richer reflection surfaces: full bloom visuals, weekly insights, printable summaries, and deeper guided sessions through Wellness companion.
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
               <a href="/companion" className="btn-primary" style={{ textDecoration: "none", background: "var(--amber-deep)" }}>Explore Premium →</a>
@@ -836,7 +836,7 @@ export default function GardenClient() {
 
       <footer style={{ textAlign: "center", padding: "28px 0 0", marginTop: 20 }}>
         <p style={{ fontSize: 11, color: "var(--text-muted)", lineHeight: 1.7 }}>
-          AIForj — Self-guided wellness tools by AIForj
+          Tredici — Self-guided wellness tools by Tredici
           <br />
           Local-first where supported. Free-text stays local unless a feature clearly says otherwise.
         </p>

@@ -1,10 +1,10 @@
 import { buildContentPageMetadata } from '../../lib/pageMetadata';
-import AIForj from '../components/AIForj';
+import Tredici from '../components/Tredici';
 
 export const metadata = buildContentPageMetadata({
-  title: 'Guided Emotional First-Aid Tools | AIForj',
+  title: 'Guided Emotional First-Aid Tools | Tredici',
   description:
-    'Browse AIForj guided tools, matched interventions, and emotional first-aid exercises for anxiety, overwhelm, grief, burnout, and more.',
+    'Browse Tredici guided tools, matched interventions, and emotional first-aid exercises for anxiety, overwhelm, grief, burnout, and more.',
   path: '/tools',
   socialTitle: 'Guided Emotional First-Aid Tools',
   socialDescription:
@@ -13,5 +13,5 @@ export const metadata = buildContentPageMetadata({
 });
 
 export default function ToolsPage() {
-  return <AIForj />;
+  return <Tredici />;
 }

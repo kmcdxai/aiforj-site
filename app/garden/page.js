@@ -2,21 +2,21 @@ import { Suspense } from 'react';
 import GardenClient from './GardenClient';
 
 export const metadata = {
-  title: 'Your Progress Garden | AIForj',
+  title: 'Your Progress Garden | Tredici',
   description: 'Watch your Mood Garden grow from local-first sessions and check-ins. Free-text stays local unless a feature clearly says otherwise.',
   alternates: {
     canonical: 'https://aiforj.com/garden',
   },
   openGraph: {
-    title: 'Mood Garden | AIForj',
-    description: 'A private, local-only progress landscape that grows from your AIForj sessions, mood check-ins, and streaks.',
+    title: 'Mood Garden | Tredici',
+    description: 'A private, local-only progress landscape that grows from your Tredici sessions, mood check-ins, and streaks.',
     url: 'https://aiforj.com/garden',
-    siteName: 'AIForj',
+    siteName: 'Tredici',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Mood Garden | AIForj',
+    title: 'Mood Garden | Tredici',
     description: 'See your private progress landscape grow from sessions, mood check-ins, and emotional patterns.',
   },
 };

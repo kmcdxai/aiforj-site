@@ -54,8 +54,8 @@ export async function POST(request) {
             price_data: {
               currency: "usd",
               product_data: {
-                name: "AIForj Premium Gift",
-                description: "One month of AIForj Premium for someone you care about.",
+                name: "Tredici Premium Gift",
+                description: "One month of Tredici Premium for someone you care about.",
               },
               unit_amount: 999,
             },

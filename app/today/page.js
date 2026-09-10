@@ -3,10 +3,10 @@ import DailyCheckIn from "../../components/today/DailyCheckIn";
 import { buildContentPageMetadata } from "../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "Today's Reset | AIForj",
+  title: "Today's Reset | Tredici",
   description: "A fast, private daily emotional first-aid ritual with one best-fit reset, one backup, and local-only progress.",
   path: "/today",
-  socialTitle: "Today's Reset from AIForj",
+  socialTitle: "Today's Reset from Tredici",
   socialDescription: "One useful emotional first-aid reset for the kind of day you are having.",
   type: "website",
 });
@@ -34,7 +34,7 @@ export default function TodayPage() {
         <DailyCheckIn />
         <section className="today-card" style={{ textAlign: "center" }}>
           <p style={{ margin: 0, color: "var(--text-muted)", lineHeight: 1.7 }}>
-            AIForj is a wellness companion, not a substitute for professional care. If you may hurt yourself or someone else, call or text 988 in the U.S., text HOME to 741741, contact emergency services, or reach out to a trusted person now.
+            Tredici is a wellness companion, not a substitute for professional care. If you may hurt yourself or someone else, call or text 988 in the U.S., text HOME to 741741, contact emergency services, or reach out to a trusted person now.
           </p>
         </section>
       </div>

@@ -132,7 +132,7 @@ export default function BurnedOutPage() {
             <p style={{ fontSize:16, lineHeight:1.8, color:ac, marginBottom:40 }}>This protocol is informed by the Maslach burnout model, one of the most widely used research frameworks in this area. You'll check in on your current pattern, identify what's draining you, and leave with a concrete recovery plan.</p>
 
             <div style={{ textAlign:"center" }}><Btn onClick={() => go("assess")}>Assess my burnout</Btn></div>
-            <p style={{ fontSize:10, color:"#5d5850", opacity:0.4, marginTop:32, textAlign:"center", lineHeight:1.7 }}>Self-guided wellness tools by AIForj. Local-first where supported.</p>
+            <p style={{ fontSize:10, color:"#5d5850", opacity:0.4, marginTop:32, textAlign:"center", lineHeight:1.7 }}>Self-guided wellness tools by Tredici. Local-first where supported.</p>
 
             <InlineEmailCapture />
           </div>
@@ -355,8 +355,8 @@ export default function BurnedOutPage() {
             </div>
 
             <div style={{ textAlign:"center", marginBottom:24 }}>
-              <p style={{ fontSize:14, color:"var(--text-secondary)", marginBottom:14 }}>Forj can help build daily recovery practices and guide you through evidence-based techniques.</p>
-              <a href="/" style={{ display:"inline-block", padding:"14px 36px", fontSize:15, background:"transparent", color:ac, border:`1px solid ${ac}`, borderRadius:40, textDecoration:"none", fontWeight:600 }}>Talk to Forj — Free</a>
+              <p style={{ fontSize:14, color:"var(--text-secondary)", marginBottom:14 }}>Tredici can help build daily recovery practices and guide you through evidence-based techniques.</p>
+              <a href="/" style={{ display:"inline-block", padding:"14px 36px", fontSize:15, background:"transparent", color:ac, border:`1px solid ${ac}`, borderRadius:40, textDecoration:"none", fontWeight:600 }}>Wellness companion — Free</a>
             </div>
 
             <InlineEmailCapture />

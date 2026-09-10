@@ -12,12 +12,12 @@ import { BrandMark } from "./BrandLogo";
 
 // ═══════════════════════════════════════════════════════════════════════════
 //
-//  AIForj VOICE COMPANION — "Talk to Forj"
+//  Tredici VOICE COMPANION — "Wellness companion"
 //
 //  A voice/text, clinically informed, self-guided emotional first-aid companion.
 //
 //  Evidence-framed modalities with dynamic selection
-//  Self-guided wellness tools by AIForj
+//  Self-guided wellness tools by Tredici
 //  Local-first where supported. Browser voice services and model downloads may use network services.
 //
 //  ARCHITECTURE:
@@ -94,7 +94,7 @@ const TIERS = {
 // This is the brain of the entire product.
 // Dynamic technique selection across 16 modalities.
 // ─────────────────────────────────────────────────
-const CLINICAL_SYSTEM_PROMPT = `You are FORJ — the AI voice companion inside AIForj.com. You were designed as a clinically-informed, evidence-framed wellness companion.
+const CLINICAL_SYSTEM_PROMPT = `You are TREDICI — the AI voice companion inside Tredici. You were designed as a clinically-informed, evidence-framed wellness companion.
 
 ═══════════════════════════════════════
 IDENTITY & BOUNDARIES
@@ -291,12 +291,12 @@ const DB = {
 const LOCAL_WEBLLM_MODELS = {
   standard: {
     id: "Phi-3.5-mini-instruct-q4f16_1-MLC",
-    label: "Forj Private AI",
+    label: "Tredici Private AI",
     description: "full local reasoning",
   },
   lightweight: {
     id: "Llama-3.2-1B-Instruct-q4f16_1-MLC",
-    label: "Forj Private AI Lite",
+    label: "Tredici Private AI Lite",
     description: "lighter local reasoning",
   },
 };
@@ -849,7 +849,7 @@ function buildSessionSummary(messages, planner) {
     microPlan: planner.microPlan,
     messageCount: userMessages.length,
     durationMinutes,
-    shareableLine: `Today I used AIForj to work through ${planner.label.toLowerCase()} and leave with one concrete next step.`,
+    shareableLine: `Today I used Tredici to work through ${planner.label.toLowerCase()} and leave with one concrete next step.`,
   };
 }
 
@@ -885,7 +885,7 @@ function exportSessionNote(summary, memory) {
   if (typeof window === "undefined" || !summary) return;
 
   const lines = [
-    "AIForj Premium Session Note",
+    "Tredici Premium Session Note",
     "",
     `Date: ${new Date(summary.createdAt).toLocaleString()}`,
     `Headline: ${summary.headline}`,
@@ -894,7 +894,7 @@ function exportSessionNote(summary, memory) {
     `Conversation mode: ${summary.conversationModeLabel || "Auto"}`,
     `Current focus: ${summary.focusText}`,
     "",
-    "What Forj leaned on:",
+    "What Tredici leaned on:",
     ...summary.techniques.map((technique) => `- ${technique.name}: ${technique.desc}`),
     "",
     `Carry forward: ${summary.nextStep}`,
@@ -943,18 +943,18 @@ function timeoutPromise(ms, message) {
 
 function getSpeechErrorMessage(reason) {
   if (reason === "not-allowed" || reason === "permission-denied" || reason === "service-not-allowed") {
-    return "Microphone access is blocked for this browser. Allow microphone access for AIForj, or type to Forj below.";
+    return "Microphone access is blocked for this browser. Allow microphone access for Tredici, or type to Tredici below.";
   }
   if (reason === "audio-capture") {
-    return "I cannot find an available microphone. You can still type to Forj below.";
+    return "I cannot find an available microphone. You can still type to Tredici below.";
   }
   if (reason === "network") {
-    return "Voice recognition had a network hiccup. Try again in a moment, or type to Forj below.";
+    return "Voice recognition had a network hiccup. Try again in a moment, or type to Tredici below.";
   }
   if (reason === "start-failed") {
-    return "Voice input could not start in this browser tab. Refresh once, or type to Forj below.";
+    return "Voice input could not start in this browser tab. Refresh once, or type to Tredici below.";
   }
-  return "I did not catch that clearly. Tap again and speak after the Listening message appears, or type to Forj below.";
+  return "I did not catch that clearly. Tap again and speak after the Listening message appears, or type to Tredici below.";
 }
 
 const PREMIUM_CONVERSATION_MODES = [
@@ -1084,8 +1084,8 @@ function prepareSpeechText(text = "") {
     .replace(/\*\*|__|`|#/g, "")
     .replace(/[•]/g, "")
     .replace(/\s*[—–]\s*/g, ", ")
-    .replace(/\bFORJ\b/g, "Forj")
-    .replace(/\bAIForj\b/g, "A I Forj")
+    .replace(/\bFORJ\b/g, "Tredici")
+    .replace(/\bAIForj\b/g, "Tredici")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -1362,7 +1362,7 @@ function SessionInsights({ messages, summary, memory, canExport, onExport, onClo
           </div>
         )}
 
-        <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--text-secondary)", fontWeight: 600, display: "block", marginBottom: 10, fontFamily: "'Fraunces', serif" }}>Approaches Forj Used</span>
+        <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--text-secondary)", fontWeight: 600, display: "block", marginBottom: 10, fontFamily: "'Fraunces', serif" }}>Approaches Tredici Used</span>
         {techniques.map((technique) => (
           <div key={technique.name} style={{ display: "flex", gap: 10, alignItems: "center", padding: "8px 12px", background: "var(--accent-sage-light)", borderRadius: 10, marginBottom: 6, borderLeft: "2px solid rgba(125,155,130,0.3)" }}>
             <span style={{ fontSize: 12, fontWeight: 600, color: "var(--interactive)", minWidth: 92, fontFamily: "'Fraunces', serif" }}>{technique.name}</span>
@@ -1452,7 +1452,7 @@ function UpgradeModal({ onClose, onSubscribe }) {
       <div onClick={e => e.stopPropagation()} style={{ background: "var(--surface-elevated)", borderRadius: 24, padding: "36px 28px", maxWidth: 460, width: "100%", border: "1px solid rgba(45,42,38,0.08)", maxHeight: "90vh", overflowY: "auto", boxShadow: "var(--shadow-xl)" }}>
         <div style={{ textAlign: "center", marginBottom: 24 }}>
           <span style={{ fontSize: 36, display: "block", marginBottom: 10 }}>✦</span>
-          <span style={{ fontFamily: "'Fraunces', serif", fontSize: 22, fontWeight: 600, color: "var(--text-primary)", display: "block" }}>AIForj Premium</span>
+          <span style={{ fontFamily: "'Fraunces', serif", fontSize: 22, fontWeight: 600, color: "var(--text-primary)", display: "block" }}>Tredici Premium</span>
           <span style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 6, display: "block", fontFamily: "'DM Sans', sans-serif" }}>Free helps you feel better now. Premium becomes your private mental fitness system.</span>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 18 }}>
@@ -1720,7 +1720,7 @@ export default function ForjVoiceCompanion() {
     const isGratitude = detect(["grateful", "thankful", "appreciate", "blessed", "fortunate"]);
     const isGenerallyBad = detect(["bad day", "rough day", "terrible day", "hard day", "tough day", "not great", "not okay", "not doing well", "things suck", "everything sucks", "life sucks", "it sucks", "feel like crap", "feel like shit", "off today", "feel off", "just not right", "something's wrong", "don't feel good", "struggling", "having a hard time", "going through a lot", "it's been rough", "i'm not ok", "things aren't good", "messed up", "crappy", "awful", "horrible", "worst"]);
 
-    // ── Check for questions directed at Forj ──
+    // ── Check for questions directed at Tredici ──
     const isAskingAdvice = detect(["what should i", "what do i do", "how do i", "can you help", "any advice", "what would you"]);
     const isVenting = lower.length > 100 && !isAskingAdvice;
 
@@ -1920,7 +1920,7 @@ export default function ForjVoiceCompanion() {
         : "That's a lot. I'm not going to rush to fix anything — sometimes you just need to be heard. What feels most important about what you just shared?";
     }
 
-    // CONVERSATIONAL FOLLOW-UP — user is responding to something Forj asked
+    // CONVERSATIONAL FOLLOW-UP — user is responding to something Tredici asked
     const lastAiMsg = prevMsgs.length > 0 ? prevMsgs[prevMsgs.length - 1] : "";
     const isFollowUp = lastAiMsg && (lastAiMsg.includes("?") || prevMsgs.length > 1);
     if (isFollowUp && lower.length > 5 && lower.length < 200) {
@@ -2032,7 +2032,7 @@ export default function ForjVoiceCompanion() {
         text = generatePlannerBackedResponse(userText, updated, planner, tier);
       }
     } catch (e) {
-      console.error("Forj response failed, using safe fallback:", e);
+      console.error("Tredici response failed, using safe fallback:", e);
       text = generateClinicalResponse(userText, updated) || `I'm here with you. Something glitched on my side for a second, so let's keep it simple. What's the hardest part of this moment right now?`;
       planner = buildSessionPlanner("general distress", updated, tier, premiumMode);
     }
@@ -2083,7 +2083,7 @@ export default function ForjVoiceCompanion() {
     setError("");
     setLiveText("");
     if (!sr.supported) {
-      setError("Voice input is not available in this browser right now. You can still type to Forj below.");
+      setError("Voice input is not available in this browser right now. You can still type to Tredici below.");
       return;
     }
     setState("listening");
@@ -2132,7 +2132,7 @@ export default function ForjVoiceCompanion() {
   // Greeting on mount
   useEffect(() => {
     if (messages.length === 0) {
-      const g = "Hey. Whatever brought you here right now, I'm glad you came. Forj helps you choose and use self-guided emotional first-aid tools. It is not therapy, diagnosis, medication advice, or crisis care. How are you feeling right now?";
+      const g = "Hey. Whatever brought you here right now, I'm glad you came. Tredici helps you choose and use self-guided emotional first-aid tools. It is not therapy, diagnosis, medication advice, or crisis care. How are you feeling right now?";
       setMessages([{ role: "assistant", text: g, ts: Date.now() }]);
       setAiText(g);
       startNewSession();
@@ -2316,7 +2316,7 @@ export default function ForjVoiceCompanion() {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 10 }}>
               <div>
                 <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--text-muted)", fontWeight: 700, display: "block", marginBottom: 4, fontFamily: "'Fraunces', serif" }}>Premium Preview</span>
-                <span style={{ fontSize: 12, color: "var(--text-secondary)" }}>Premium lets you choose how Forj helps: calm first, map the pattern, leave with a plan, or go deeper.</span>
+                <span style={{ fontSize: 12, color: "var(--text-secondary)" }}>Premium lets you choose how Tredici helps: calm first, map the pattern, leave with a plan, or go deeper.</span>
               </div>
               <button onClick={() => setShowUpgrade(true)} className="btn-glow" style={{ border: "none", background: "var(--interactive)", color: "#fff", padding: "10px 18px", borderRadius: 999, fontWeight: 700, cursor: "pointer" }}>
                 Unlock Premium Modes
@@ -2360,19 +2360,19 @@ export default function ForjVoiceCompanion() {
 
           {/* Headline */}
           <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: "var(--font-hero)", fontWeight: 600, color: "var(--text-primary)", margin: "0 0 16px", lineHeight: 1.15, animation: "fadeIn 0.8s ease" }}>
-            Talk to Forj
+            Wellness companion
           </h1>
 
           {/* Sub-headline */}
           <p style={{ fontSize: "clamp(15px, 2.5vw, 18px)", color: "var(--text-secondary)", margin: "0 auto 24px", lineHeight: 1.7, maxWidth: 520, animation: "fadeIn 1s ease 0.2s both" }}>
-            Forj helps you choose and use self-guided emotional first-aid tools. It is not therapy, diagnosis, medication advice, or crisis care. Clinician-informed and local-first where supported by your browser.
+            Tredici helps you choose and use self-guided emotional first-aid tools. It is not therapy, diagnosis, medication advice, or crisis care. Clinician-informed and local-first where supported by your browser.
           </p>
 
           {/* Privacy badge */}
           <div style={{ display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap", marginBottom: 32, animation: "fadeIn 1s ease 0.4s both" }}>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 18px", background: "var(--accent-sage-light)", borderRadius: 24 }}>
               <span style={{ fontSize: 14 }}>🔒</span>
-              <span style={{ fontSize: 12, color: "var(--accent-sage)", fontWeight: 500 }}>Local-first where supported · free-text is not sent to AIForj servers</span>
+              <span style={{ fontSize: 12, color: "var(--accent-sage)", fontWeight: 500 }}>Local-first where supported · free-text is not sent to Tredici servers</span>
             </div>
             {webllmStatus === "ready" && (
               <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 18px", background: "rgba(107,155,158,0.12)", borderRadius: 24 }}>
@@ -2456,7 +2456,7 @@ export default function ForjVoiceCompanion() {
                     >
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginBottom: 6 }}>
                         <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 1.5, color: isUser ? "var(--accent-teal)" : "var(--accent-sage)", fontWeight: 700, fontFamily: "'Fraunces', serif" }}>
-                          {isUser ? "You said" : "Forj"}
+                          {isUser ? "You said" : "Tredici"}
                         </span>
                         {!isUser && (
                           <button
@@ -2481,7 +2481,7 @@ export default function ForjVoiceCompanion() {
                       Listening…
                     </span>
                     <p style={{ fontSize: 15, lineHeight: 1.8, color: "var(--text-primary)", margin: 0, fontWeight: 300, fontStyle: liveText ? "normal" : "italic" }}>
-                      {liveText || "Speak naturally. Your words will appear here as Forj hears them."}
+                      {liveText || "Speak naturally. Your words will appear here as Tredici hears them."}
                     </p>
                   </div>
                 )}
@@ -2489,7 +2489,7 @@ export default function ForjVoiceCompanion() {
                 {state === "thinking" && (
                   <div style={{ alignSelf: "flex-start", background: "rgba(125,155,130,0.08)", border: "1px dashed rgba(125,155,130,0.22)", borderLeft: "4px solid var(--accent-sage)", padding: "14px 16px", borderRadius: 18, boxShadow: "var(--shadow-sm)" }}>
                     <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 1.5, color: "var(--accent-sage)", fontWeight: 700, display: "block", marginBottom: 6, fontFamily: "'Fraunces', serif" }}>
-                      Forj is thinking…
+                      Tredici is thinking…
                     </span>
                     <p style={{ fontSize: 14, lineHeight: 1.7, color: "var(--text-secondary)", margin: 0, fontWeight: 300 }}>
                       Building a reply based on what you just said.
@@ -2528,7 +2528,7 @@ export default function ForjVoiceCompanion() {
             <div style={{ marginBottom: 14, animation: "slideUp 0.5s ease", display: "flex", flexDirection: "column", gap: 10, alignItems: "center" }}>
               <button onClick={() => {
                 const shareText = "I found this self-guided emotional first-aid tool useful. No private details included.";
-                if (navigator.share) navigator.share({ title: "AIForj", text: shareText, url: "https://aiforj.com/companion" }).catch(() => {});
+                if (navigator.share) navigator.share({ title: "Tredici", text: shareText, url: "https://aiforj.com/companion" }).catch(() => {});
                 else navigator.clipboard.writeText(shareText).catch(() => {});
                 setShowShare(false);
               }} style={{ background: "var(--surface)", border: "1px solid rgba(45,42,38,0.08)", padding: "8px 18px", borderRadius: 20, fontSize: 11, color: "var(--text-secondary)", cursor: "pointer" }}>
@@ -2557,7 +2557,7 @@ export default function ForjVoiceCompanion() {
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 12 }}>
                 <div>
                   <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--accent-sage)", fontWeight: 700, display: "block", marginBottom: 4, fontFamily: "'Fraunces', serif" }}>Premium Continuity</span>
-                  <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>Forj is building on what tends to help you, privately on this device.</span>
+                  <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>Tredici is building on what tends to help you, privately on this device.</span>
                 </div>
                 <span style={{ fontSize: 11, padding: "5px 10px", borderRadius: 999, background: "var(--accent-sage-light)", color: "var(--accent-sage)", fontWeight: 700 }}>
                   {getPremiumConversationMode(premiumMode).label}
@@ -2601,7 +2601,7 @@ export default function ForjVoiceCompanion() {
             <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "var(--text-muted)", fontWeight: 600, display: "block", marginBottom: 12, fontFamily: "'Fraunces', serif" }}>Session</span>
             {messages.map((m, i) => (
               <div key={i} style={{ marginBottom: 8, padding: "10px 14px", background: m.role === "user" ? "rgba(107,155,158,0.06)" : "rgba(125,155,130,0.06)", borderRadius: 12, borderLeft: `3px solid ${m.role === "user" ? "var(--accent-teal)" : "var(--accent-sage)"}` }}>
-                <span style={{ fontSize: 9, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 3, fontFamily: "'Fraunces', serif" }}>{m.role === "user" ? "You" : "Forj"}</span>
+                <span style={{ fontSize: 9, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 3, fontFamily: "'Fraunces', serif" }}>{m.role === "user" ? "You" : "Tredici"}</span>
                 <span style={{ fontSize: 13, color: "var(--text-primary)", lineHeight: 1.6, opacity: 0.85 }}>{m.text}</span>
               </div>
             ))}
@@ -2748,12 +2748,12 @@ export default function ForjVoiceCompanion() {
 
       {/* ═══════════ TWO WAYS ═══════════ */}
       <section style={{ padding: "80px 24px", maxWidth: 1080, width: "100%", margin: "0 auto" }}>
-        <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "var(--font-h2)", fontWeight: 500, color: "var(--text-primary)", textAlign: "center", margin: "0 0 32px" }}>Two Ways to Use AIForj</h2>
+        <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "var(--font-h2)", fontWeight: 500, color: "var(--text-primary)", textAlign: "center", margin: "0 0 32px" }}>Two Ways to Use Tredici</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20, maxWidth: 680, margin: "0 auto" }}>
           <div className="card-hover" style={{ padding: "32px 28px", background: "var(--surface-elevated)", border: "1px solid rgba(45,42,38,0.06)", borderRadius: 20, boxShadow: "var(--shadow-md)" }}>
             <span style={{ fontSize: 32, display: "block", marginBottom: 14 }}>🗣️</span>
             <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 19, fontWeight: 500, color: "var(--text-primary)", margin: "0 0 10px" }}>Talk or Type</h3>
-            <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.7, margin: 0 }}>Personalized support in the moment. Forj adapts to what you say using {FORJ_MODALITY_COUNT} evidence-framed modalities.</p>
+            <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.7, margin: 0 }}>Personalized support in the moment. Tredici adapts to what you say using {FORJ_MODALITY_COUNT} evidence-framed modalities.</p>
           </div>
           <div className="card-hover" style={{ padding: "32px 28px", background: "var(--surface-elevated)", border: "1px solid rgba(45,42,38,0.06)", borderRadius: 20, boxShadow: "var(--shadow-md)" }}>
             <span style={{ fontSize: 32, display: "block", marginBottom: 14 }}>🧭</span>
@@ -2766,12 +2766,12 @@ export default function ForjVoiceCompanion() {
       {/* ═══════════ CLINICAL CREDENTIAL ═══════════ */}
       <section style={{ padding: "80px 24px", background: "var(--bg-secondary)" }}>
         <div style={{ maxWidth: 620, margin: "0 auto", textAlign: "center" }}>
-          <BrandMark size={64} title="AIForj mark" style={{ margin: "0 auto 20px", borderRadius: 18, boxShadow: "var(--shadow-md)" }} />
+          <BrandMark size={64} title="Tredici mark" style={{ margin: "0 auto 20px", borderRadius: 18, boxShadow: "var(--shadow-md)" }} />
           <p style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(16px, 2.5vw, 20px)", color: "var(--text-primary)", lineHeight: 1.8, margin: "0 0 24px", fontWeight: 400, fontStyle: "italic" }}>
-            Forj was built for the space between moments of care: private, practical, and grounded in self-guided emotional first-aid techniques rather than generic affirmations.
+            Tredici was built for the space between moments of care: private, practical, and grounded in self-guided emotional first-aid techniques rather than generic affirmations.
           </p>
           <p style={{ fontSize: 14, color: "var(--text-secondary)", fontWeight: 500, margin: "0 0 20px" }}>
-            — AIForj
+            — Tredici
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8 }}>
             {["Evidence-Informed", "Local-First Sessions", "Browser-Based AI Mode", "Privacy-Forward Design"].map(b => (
@@ -2801,7 +2801,7 @@ export default function ForjVoiceCompanion() {
               {[
                 {
                   title: "Choose the kind of help",
-                  body: "Steady Me, Pattern, Plan, and Deep Work make Forj feel like four different high-value sessions in one tool.",
+                  body: "Steady Me, Pattern, Plan, and Deep Work make Tredici feel like four different high-value sessions in one tool.",
                 },
                 {
                   title: "It remembers what works",
@@ -2882,18 +2882,17 @@ export default function ForjVoiceCompanion() {
         </div>
 
         <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.7, margin: "0 0 24px", maxWidth: 480, marginLeft: "auto", marginRight: "auto" }}>
-          Forj is a wellness companion — not a therapist or substitute for professional care.
+          Tredici is a wellness companion — not a therapist or substitute for professional care.
         </p>
 
         {/* Footer nav */}
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 20, marginBottom: 24 }}>
           {[
-            { href: "https://aiforj.com", label: "AIForj.com" },
+            { href: "https://aiforj.com", label: "Tredici" },
             { href: "/tools", label: "Guided Protocols" },
             { href: "/techniques", label: "Technique Library" },
             { href: workbookLink("footer"), label: "📘 CBT Workbook", ext: true },
             { href: "/about/founder", label: "Read Our Story", ext: true },
-            { href: "https://x.com/AIForj", label: "𝕏 @AIForj", ext: true },
           ].filter((link) => !(inCrisisBoundary && link.label.includes("CBT Workbook"))).map(link => (
             <a key={link.label} href={link.href} {...(link.ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               onClick={() => {
@@ -2924,16 +2923,16 @@ export default function ForjVoiceCompanion() {
         <div style={{ display: "flex", justifyContent: "center", gap: 12, marginBottom: 24, flexWrap: "wrap" }}>
           {!inCrisisBoundary && <button onClick={() => {
             const text = "Free self-guided emotional first-aid companion — clinically informed and privacy-forward. This helped me.\n\naiforj.com";
-            if (navigator.share) navigator.share({ title: "AIForj", text, url: "https://aiforj.com" }).catch(() => {});
+            if (navigator.share) navigator.share({ title: "Tredici", text, url: "https://aiforj.com" }).catch(() => {});
             else navigator.clipboard.writeText(text).catch(() => {});
           }} className="btn-glow" style={{ background: "none", border: "1px solid rgba(45,42,38,0.08)", padding: "8px 20px", borderRadius: 20, fontSize: 12, color: "var(--text-secondary)", cursor: "pointer" }}>
-            ↗ Share Forj
+            ↗ Share Tredici
           </button>}
           <DataManagement />
         </div>
 
         <p style={{ fontSize: 11, color: "var(--text-muted)", opacity: 0.5, margin: 0 }}>
-          © 2026 AIForj. All rights reserved.
+          © 2026 Tredici. All rights reserved.
         </p>
       </footer>
     </div>

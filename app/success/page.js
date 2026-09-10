@@ -30,7 +30,7 @@ function SuccessFallback() {
             margin: "0 0 12px",
           }}
         >
-          Preparing your AIForj Premium confirmation
+          Preparing your Tredici Premium confirmation
         </h1>
         <p
           style={{

@@ -6,11 +6,11 @@ import RedeemGiftClient from "./RedeemGiftClient";
 import { buildContentPageMetadata } from "../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "Redeem Your AIForj Premium Gift | AIForj",
+  title: "Redeem Your Tredici Premium Gift | Tredici",
   description:
-    "Redeem a one-time AIForj Premium gift link and activate one month of Premium support on this device.",
+    "Redeem a one-time Tredici Premium gift link and activate one month of Premium support on this device.",
   path: "/redeem-gift",
-  socialTitle: "Redeem Your AIForj Premium Gift",
+  socialTitle: "Redeem Your Tredici Premium Gift",
   socialDescription:
     "Activate your one-month Premium gift on this device.",
   type: "article",

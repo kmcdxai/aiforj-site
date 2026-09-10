@@ -153,7 +153,7 @@ export default function WeatherClient() {
 
         <div style={{ marginTop: 18, padding: 12, background: 'rgba(255,255,255,0.04)', borderRadius: 12 }}>
           <div style={{ fontWeight: 600 }}>{forecastLine}</div>
-          <div style={{ marginTop: 8, color: 'var(--text-muted)' }}>Powered by Forj — Your Private Mental Health Co-Pilot</div>
+          <div style={{ marginTop: 8, color: 'var(--text-muted)' }}>Powered by Tredici — Your Private Mental Health Co-Pilot</div>
           <div style={{ marginTop: 8, fontSize: 12, color: 'var(--text-muted)' }}>aiforj.com/blueprint</div>
         </div>
       </div>

@@ -147,7 +147,7 @@ export default function OrganizationInterestCard() {
             maxWidth: 720,
           }}
         >
-          AIForj&apos;s privacy-first wellness toolkit is for organizations that
+          Tredici&apos;s privacy-first wellness toolkit is for organizations that
           want useful support, aggregate-only learning, and zero appetite for
           employer-style monitoring of individual vulnerability.
         </p>

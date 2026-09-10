@@ -1,7 +1,7 @@
 "use client";
 
 /*
-  AIForj IndexedDB Data Layer
+  Tredici IndexedDB Data Layer
   ALL data lives exclusively on-device. Nothing is ever sent to any server.
   Stores: sessions, moodCheckins, blueprints, streaks, preferences
 */

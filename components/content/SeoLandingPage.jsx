@@ -48,7 +48,7 @@ export default function SeoLandingPage({ page }) {
         <section className="card" style={{ boxShadow: "var(--shadow-sm)" }}>
           <h2 style={{ margin: "0 0 10px" }}>When to seek human help</h2>
           <p style={{ margin: "0 0 14px", color: "var(--text-secondary)", lineHeight: 1.8 }}>
-            AIForj can support self-guided emotional first aid, but it is not a substitute for professional care. Consider a licensed professional if this feeling is persistent, worsening, connected to trauma, affecting sleep/work/relationships, or making it hard to stay safe.
+            Tredici can support self-guided emotional first aid, but it is not a substitute for professional care. Consider a licensed professional if this feeling is persistent, worsening, connected to trauma, affecting sleep/work/relationships, or making it hard to stay safe.
           </p>
           <Link href="/find-help" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>Find human help →</Link>
         </section>
@@ -74,7 +74,7 @@ export default function SeoLandingPage({ page }) {
         </section>
 
         <footer style={{ color: "var(--text-muted)", fontSize: 13, lineHeight: 1.7, textAlign: "center" }}>
-          AIForj is a wellness companion, not a substitute for professional care.
+          Tredici is a wellness companion, not a substitute for professional care.
         </footer>
       </article>
     </main>

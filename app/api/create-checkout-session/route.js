@@ -49,8 +49,8 @@ export async function POST(request) {
             price_data: {
               currency: 'usd',
               product_data: {
-                name: 'AIForj Premium',
-                description: 'Monthly AIForj Premium subscription.',
+                name: 'Tredici Premium',
+                description: 'Monthly Tredici Premium subscription.',
               },
               recurring: {
                 interval: 'month',

@@ -9,7 +9,7 @@ import BrandLogo from "./BrandLogo";
 const NAV_LINKS = [
   { href: "/#how-it-works", label: "How it works" },
   { href: "/techniques", label: "Techniques" },
-  { href: "/companion", label: "Talk to Forj" },
+  { href: "/companion", label: "Wellness companion" },
 ];
 
 export default function Navigation() {
@@ -70,7 +70,7 @@ export default function Navigation() {
             WebkitBackdropFilter: "blur(12px)",
           }}
         >
-          <a href="/" aria-label="AIForj home" style={{ display: "inline-flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
+          <a href="/" aria-label="Tredici home" style={{ display: "inline-flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
             <BrandLogo size={34} wordmarkSize={19} />
           </a>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -111,7 +111,7 @@ export default function Navigation() {
         <a
           href="/"
           onClick={handleLinkClick}
-          aria-label="AIForj home"
+          aria-label="Tredici home"
           style={{
             display: "flex",
             alignItems: "center",

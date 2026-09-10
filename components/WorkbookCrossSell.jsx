@@ -19,13 +19,13 @@ export default function WorkbookCrossSell({ slug }) {
       }}
     >
       <p style={{ margin: "0 0 8px", fontSize: 12, letterSpacing: 1.7, textTransform: "uppercase", color: "var(--amber-deep)", fontWeight: 800 }}>
-        From the AIForj CBT Workbook
+        From the Tredici CBT Workbook
       </p>
       <h2 style={{ margin: "0 0 10px", fontFamily: "'Fraunces', serif", fontSize: 24, lineHeight: 1.2 }}>
         84 pages · 30 days of structured CBT exercises
       </h2>
       <p style={{ margin: "0 0 16px", color: "var(--text-secondary)", lineHeight: 1.7 }}>
-        Published by AIForj.
+        Published by Tredici.
       </p>
       <a
         href={href}

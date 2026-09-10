@@ -142,7 +142,7 @@ export default function OverwhelmedPage() {
             </div>
 
             <div style={{ textAlign:"center" }}><Btn onClick={() => go("breathe")}>Let's slow it down</Btn></div>
-            <p style={{ fontSize:10, color:"#5a5a62", opacity:0.4, marginTop:32, lineHeight:1.7, textAlign:"center" }}>Self-guided wellness tools by AIForj. Local-first where supported.</p>
+            <p style={{ fontSize:10, color:"#5a5a62", opacity:0.4, marginTop:32, lineHeight:1.7, textAlign:"center" }}>Self-guided wellness tools by Tredici. Local-first where supported.</p>
 
             <InlineEmailCapture />
           </div>
@@ -366,8 +366,8 @@ export default function OverwhelmedPage() {
             </div>
 
             <div style={{ textAlign:"center", marginBottom:24 }}>
-              <p style={{ fontSize:14, color:"var(--text-secondary)", marginBottom:14, lineHeight:1.7 }}>If overwhelm is recurring, Forj can help build longer-term strategies.</p>
-              <a href="/" style={{ display:"inline-block", padding:"14px 36px", fontSize:15, background:"transparent", color:ac, border:`1px solid ${ac}`, borderRadius:40, textDecoration:"none", fontWeight:600 }}>Talk to Forj — Free</a>
+              <p style={{ fontSize:14, color:"var(--text-secondary)", marginBottom:14, lineHeight:1.7 }}>If overwhelm is recurring, Tredici can help build longer-term strategies.</p>
+              <a href="/" style={{ display:"inline-block", padding:"14px 36px", fontSize:15, background:"transparent", color:ac, border:`1px solid ${ac}`, borderRadius:40, textDecoration:"none", fontWeight:600 }}>Wellness companion — Free</a>
             </div>
 
             <InlineEmailCapture />

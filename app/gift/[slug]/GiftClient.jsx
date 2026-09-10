@@ -241,7 +241,7 @@ function GiftClientInner({ technique }) {
     try {
       if (navigator.share) {
         await navigator.share({
-          title: `${shortName} on AIForj`,
+          title: `${shortName} on Tredici`,
           text: shareCopy,
         });
         setActionMessage("Forwarded with care.");
@@ -352,7 +352,7 @@ function GiftClientInner({ technique }) {
           <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 24, lineHeight: 1.5 }}>
             Privacy-first and local-first where supported.
             <br />
-            Self-guided wellness tools by AIForj.
+            Self-guided wellness tools by Tredici.
           </p>
         </div>
       </div>
@@ -540,7 +540,7 @@ function GiftClientInner({ technique }) {
           </div>
 
           <p style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 40, lineHeight: 1.6 }}>
-            Published by AIForj · aiforj.com
+            Published by Tredici
           </p>
         </div>
       </div>

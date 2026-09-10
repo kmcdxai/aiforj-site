@@ -3,10 +3,10 @@ import { buildContentPageMetadata } from '../../lib/pageMetadata';
 import ForjVoiceCompanion from '../components/ForjVoiceCompanion';
 
 export const metadata = buildContentPageMetadata({
-  title: 'Talk to Forj — Voice AI Wellness Companion | AIForj',
+  title: 'Wellness companion — Voice AI Wellness Companion | Tredici',
   description: `Free voice/text wellness companion for self-guided emotional first aid. Clinician-informed, local-first where supported, and not therapy, diagnosis, medication advice, or crisis care. ${FORJ_MODALITY_COUNT} evidence-framed modalities.`,
   path: '/companion',
-  socialTitle: 'Talk to Forj',
+  socialTitle: 'Wellness companion',
   socialDescription: 'Private voice-based emotional first aid with clinician-informed guidance, structured tools, and optional premium depth.',
   type: 'website',
 });

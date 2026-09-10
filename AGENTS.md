@@ -1,0 +1,5 @@
+# Public publishing rules
+
+Use only Tredici Health or Tredici branding in public-facing content. Use descriptive product labels such as Wellness tools and Wellness companion. Never revive the rejected Forj or AIForj names or variations. Historical URLs and private compatibility identifiers may remain only where needed to keep existing access working. Do not publish the owner's name, personal email, home address, initials, biography, credentials, education details, personal profile links, or identifying file metadata. This includes websites, structured data, social previews, newsletters, storefronts, products, downloadable files, and marketing drafts. Use hello@tredicihealth.com for public support.
+
+Keep private authentication, payment verification, and legally required account ownership records accurate. Do not replace required private identity information with a brand name. Before publishing, check visible copy, metadata, document properties, images, and downloadable archives for identifying information.

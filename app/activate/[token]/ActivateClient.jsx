@@ -47,7 +47,7 @@ export default function ActivateClient({ token }) {
       <section style={{ maxWidth: 520, padding: 32, borderRadius: 24, background: "rgba(255,255,255,0.76)", border: "1px solid var(--border)", textAlign: "center", boxShadow: "var(--shadow-md)" }}>
         <h1 style={{ margin: "0 0 12px" }}>{status === "success" ? "You're activated" : status === "error" ? "Activation needs attention" : "Activating Premium"}</h1>
         <p style={{ margin: "0 0 20px", color: "var(--text-secondary)", lineHeight: 1.7 }}>{message}</p>
-        <a href="/companion" className="btn-primary" style={{ textDecoration: "none" }}>Open AIForj</a>
+        <a href="/companion" className="btn-primary" style={{ textDecoration: "none" }}>Open Tredici</a>
       </section>
     </main>
   );

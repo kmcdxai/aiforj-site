@@ -78,7 +78,7 @@ export default function RedeemFamilyClient() {
             color: "var(--text-primary)",
           }}
         >
-          Redeem your AIForj household seat
+          Redeem your Tredici household seat
         </h1>
 
         {!hasFamilyCredentials ? (
@@ -103,7 +103,7 @@ export default function RedeemFamilyClient() {
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
               <a href="/companion" className="btn-primary" style={{ textDecoration: "none" }}>
-                Open Talk to Forj →
+                Open Wellness companion →
               </a>
               <a
                 href="/garden"

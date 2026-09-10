@@ -12,11 +12,11 @@ import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 import { getOrganizationReportingSnapshot } from "../../../lib/organizationReporting";
 
 export const metadata = buildContentPageMetadata({
-  title: "Aggregate-Only Reporting for Organizations | AIForj",
+  title: "Aggregate-Only Reporting for Organizations | Tredici",
   description:
-    "See the live aggregate-only reporting model AIForj offers organizations, without individual mental-health dashboards.",
+    "See the live aggregate-only reporting model Tredici offers organizations, without individual mental-health dashboards.",
   path: "/organizations/reporting",
-  socialTitle: "AIForj Aggregate-Only Reporting",
+  socialTitle: "Tredici Aggregate-Only Reporting",
   socialDescription:
     "See what leaders can learn from aggregate-only emotional first-aid usage without individual surveillance.",
   type: "article",
@@ -248,11 +248,11 @@ export default async function Page() {
     snapshot.source === "live_local" ||
     snapshot.source === "live_memory";
   const articleSchema = buildArticleSchema({
-    title: "AIForj aggregate-only reporting for organizations",
+    title: "Tredici aggregate-only reporting for organizations",
     description: metadata.description,
     url: "https://aiforj.com/organizations/reporting",
     section: "Organization reporting",
-    about: "AIForj aggregate-only organization reporting",
+    about: "Tredici aggregate-only organization reporting",
   });
   const breadcrumbSchema = buildBreadcrumbSchema([
     { name: "Home", item: "https://aiforj.com" },
@@ -305,7 +305,7 @@ export default async function Page() {
               What leaders can learn without seeing anyone’s private emotional data
             </h1>
             <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.85 }}>
-              This page shows the organization view AIForj is built to support:
+              This page shows the organization view Tredici is built to support:
               anonymous counts, completion patterns, shift buckets, and rollout surfaces. It is
               intentionally designed to answer “is this helping?” without answering
               “who is struggling?”.
@@ -423,12 +423,12 @@ export default async function Page() {
                   Reporting is live and waiting for the first real aggregate events
                 </h2>
                 <p style={{ margin: "0 0 10px", color: "var(--text-secondary)", lineHeight: 1.8 }}>
-                  The reporting backend is active now. As soon as people use AIForj with
+                  The reporting backend is active now. As soon as people use Tredici with
                   anonymous metrics enabled, this page will begin filling with real,
                   low-resolution aggregate trends.
                 </p>
                 <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.8 }}>
-                  Until then, AIForj shows an honest empty state instead of synthetic sample
+                  Until then, Tredici shows an honest empty state instead of synthetic sample
                   numbers. That keeps the reporting surface useful without pretending activity
                   exists where it doesn&apos;t.
                 </p>
@@ -446,7 +446,7 @@ export default async function Page() {
                   value={isBlobSnapshot ? "Live" : "Ready"}
                   note={
                     isBlobSnapshot
-                      ? "Aggregate events are stored in AIForj’s durable Vercel Blob reporting store."
+                      ? "Aggregate events are stored in Tredici’s durable Vercel Blob reporting store."
                       : "Aggregate reporting is connected and ready to populate when events arrive."
                   }
                 />
@@ -551,7 +551,7 @@ export default async function Page() {
             </h2>
             <p style={{ margin: "0 0 10px", color: "var(--text-secondary)", lineHeight: 1.8 }}>
               The reporting model is derived from the same narrow event design used
-              in AIForj’s privacy page: tool started, tool completed, duration bucket,
+              in Tredici’s privacy page: tool started, tool completed, duration bucket,
               shift bucket, and a rotating anonymous client id. It is meant to stay
               useful while remaining intentionally low-resolution.
             </p>
@@ -561,7 +561,7 @@ export default async function Page() {
                 href="/what-we-collect"
                 style={{ color: "var(--interactive)", textDecoration: "underline" }}
               >
-                What AIForj collects
+                What Tredici collects
               </Link>
               .
             </p>

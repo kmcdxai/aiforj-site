@@ -70,7 +70,7 @@ export default function RedeemGiftClient() {
           Premium gift
         </p>
         <h1 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontSize: "clamp(28px, 5vw, 42px)", lineHeight: 1.15, color: "var(--text-primary)" }}>
-          Redeem your month of AIForj Premium
+          Redeem your month of Tredici Premium
         </h1>
 
         {!hasGiftCredentials ? (
@@ -90,7 +90,7 @@ export default function RedeemGiftClient() {
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
               <a href="/companion" className="btn-primary" style={{ textDecoration: "none" }}>
-                Open Talk to Forj →
+                Open Wellness companion →
               </a>
               <a href="/garden" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>
                 See Mood Garden →

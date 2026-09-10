@@ -23,7 +23,7 @@ export async function generateMetadata({ params }) {
       title: t.metaTitle,
       description: t.metaDescription,
       url: `https://aiforj.com/techniques/${t.slug}`,
-      siteName: "AIForj",
+      siteName: "Tredici",
       type: "article",
       images: [{ url: socialImage, width: 1200, height: 630, alt: `${t.title} calm card` }],
     },

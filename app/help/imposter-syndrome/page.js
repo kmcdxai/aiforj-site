@@ -9,7 +9,7 @@ import Link from "next/link";
 import { buildContentPageMetadata } from "../../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "Imposter Syndrome Help: When Success Still Feels Fake | AIForj",
+  title: "Imposter Syndrome Help: When Success Still Feels Fake | Tredici",
   description:
     "Feeling like a fraud even when the evidence says otherwise? Evidence-informed steps to challenge imposter syndrome without fake confidence.",
   path: "/help/imposter-syndrome",
@@ -69,7 +69,7 @@ export default function Page() {
 
           <h2>Go deeper</h2>
           <p>
-            If self-doubt is starting to shape your choices, take the <Link href="/blueprint">Blueprint</Link> to see what emotional pattern is feeding it, or use <Link href="/companion">Talk to Forj</Link> to work through the thought in real time.
+            If self-doubt is starting to shape your choices, take the <Link href="/blueprint">Blueprint</Link> to see what emotional pattern is feeding it, or use <Link href="/companion">Wellness companion</Link> to work through the thought in real time.
           </p>
 
           <HelpPageEnhancements

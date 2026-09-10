@@ -100,7 +100,7 @@ function Gate({ error }) {
     <Shell>
       <Card>
         <p className="text-label" style={{ margin: "0 0 12px", color: "var(--sage-deep)" }}>Internal reference</p>
-        <h1 style={{ margin: "0 0 12px" }}>AIForj funnel reference</h1>
+        <h1 style={{ margin: "0 0 12px" }}>Tredici funnel reference</h1>
         {!process.env.ADMIN_PASSWORD ? (
           <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.7 }}>
             Set <code>ADMIN_PASSWORD</code> in Vercel to unlock this internal GA4 reference page.
@@ -134,7 +134,7 @@ export default function FunnelReferencePage({ searchParams }) {
     <Shell>
       <Card>
         <p className="text-label" style={{ margin: "0 0 12px", color: "var(--sage-deep)" }}>GA4 setup reference</p>
-        <h1 style={{ margin: "0 0 14px" }}>AIForj funnel reference</h1>
+        <h1 style={{ margin: "0 0 14px" }}>Tredici funnel reference</h1>
         <p style={{ margin: "0 0 16px", color: "var(--text-secondary)", lineHeight: 1.8 }}>
           In GA4, use Explore → Funnel exploration and add these events as steps to see drop-off. Monetization events are the ones to watch most closely until MRR &gt; 0.
         </p>
@@ -153,7 +153,7 @@ export default function FunnelReferencePage({ searchParams }) {
           In GA4 Admin → Events, mark <code>cbt_workbook_click</code>, <code>premium_click</code>, and <code>email_signup_submitted</code> as conversions so they appear in conversion reports.
         </p>
         <p style={{ margin: "18px 0 0" }}>
-          <Link href="/" style={{ color: "var(--sage-deep)", fontWeight: 700 }}>Return to AIForj →</Link>
+          <Link href="/" style={{ color: "var(--sage-deep)", fontWeight: 700 }}>Return to Tredici →</Link>
         </p>
       </Card>
     </Shell>

@@ -11,7 +11,7 @@ import {
 import { buildContentPageMetadata } from "../../lib/pageMetadata";
 
 export const metadata = buildContentPageMetadata({
-  title: "Help Guides for Real-Life Emotional First Aid | AIForj",
+  title: "Help Guides for Real-Life Emotional First Aid | Tredici",
   description:
     "Browse private, evidence-informed help guides for panic, sleep, burnout, grief, comparison, imposter syndrome, perfectionism, and more.",
   path: "/help",

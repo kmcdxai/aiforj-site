@@ -13,8 +13,8 @@ const formatDate = (isoDate) =>
 
 export default function EditorialReviewCard({
   kind = "Guide",
-  authorLabel = "AIForj",
-  reviewLabel = "AIForj",
+  authorLabel = "Tredici",
+  reviewLabel = "Tredici",
   reviewedDate = LAST_REVIEWED_DATE,
   background = "rgba(255,255,255,0.45)",
   border = "1px solid rgba(45,42,38,0.08)",
@@ -88,7 +88,7 @@ export default function EditorialReviewCard({
         >
           editorial policy
         </Link>{" "}
-        to see how AIForj writes, reviews, and updates content.
+        to see how Tredici writes, reviews, and updates content.
       </p>
     </section>
   );

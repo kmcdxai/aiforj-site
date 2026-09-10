@@ -55,7 +55,7 @@ export async function POST(request) {
             price_data: {
               currency: "usd",
               product_data: {
-                name: "AIForj Premium Family Plan",
+                name: "Tredici Premium Family Plan",
                 description:
                   "Monthly household plan with 4 private Premium invite links.",
               },
