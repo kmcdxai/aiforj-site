@@ -156,7 +156,7 @@ export async function GET(request) {
           <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
             <img
               src={avatarDataUri}
-              alt="Founder avatar"
+              alt="AIForj logo"
               width={78}
               height={78}
               style={{
@@ -166,10 +166,10 @@ export async function GET(request) {
             />
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               <div style={{ display: "flex", fontSize: 28, fontWeight: 700 }}>
-                By Kevin · Psychiatric NP candidate
+                By AIForj
               </div>
               <div style={{ display: "flex", fontSize: 21, color: COLORS.muted }}>
-                Clinically trained in CBT, DBT, ACT, IFS, polyvagal theory + more
+                Educational tools; not clinical care
               </div>
             </div>
           </div>

@@ -139,7 +139,7 @@ export default function FunnelReferencePage({ searchParams }) {
           In GA4, use Explore → Funnel exploration and add these events as steps to see drop-off. Monetization events are the ones to watch most closely until MRR &gt; 0.
         </p>
         <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.8 }}>
-          GA4 dashboard: <a href="https://analytics.google.com/analytics/web/" target="_blank" rel="noopener noreferrer">open Google Analytics</a>. Kevin can paste the exact project property URL here later if he wants a one-click shortcut.
+          GA4 dashboard: <a href="https://analytics.google.com/analytics/web/" target="_blank" rel="noopener noreferrer">open Google Analytics</a>. Add the project property URL here for a direct shortcut.
         </p>
       </Card>
 

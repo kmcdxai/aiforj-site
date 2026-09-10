@@ -1615,7 +1615,7 @@ export default function AIForj() {
               ))}
             </div>
             <p style={{ fontSize: 12, color: theme.accent, opacity: 0.5, lineHeight: 1.6 }}>
-              Clinician-informed by Kevin, a psychiatric nurse practitioner candidate.
+              Self-guided wellness tools by AIForj.
               <br />Evidence-framed. AI-powered.
             </p>
           </div>

@@ -117,9 +117,9 @@ export default function SiteFooter() {
       </div>
 
       <p style={{ fontSize: 11, color: "var(--text-muted)", margin: "0 0 8px", lineHeight: 1.8 }}>
-        Built and clinically informed by{" "}
+        Published by{" "}
         <Link href="/about/founder" style={{ color: "var(--interactive)", textDecoration: "underline" }}>
-          Kevin, a psychiatric nurse practitioner candidate
+          AIForj
         </Link>.
         {" "}Local-first where supported; free-text stays local unless a feature clearly says otherwise.
       </p>

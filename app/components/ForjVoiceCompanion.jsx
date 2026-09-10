@@ -17,7 +17,7 @@ import { BrandMark } from "./BrandLogo";
 //  A voice/text, clinically informed, self-guided emotional first-aid companion.
 //
 //  Evidence-framed modalities with dynamic selection
-//  Clinician-informed by Kevin, a psychiatric nurse practitioner candidate
+//  Self-guided wellness tools by AIForj
 //  Local-first where supported. Browser voice services and model downloads may use network services.
 //
 //  ARCHITECTURE:
@@ -2771,7 +2771,7 @@ export default function ForjVoiceCompanion() {
             Forj was built for the space between moments of care: private, practical, and grounded in self-guided emotional first-aid techniques rather than generic affirmations.
           </p>
           <p style={{ fontSize: 14, color: "var(--text-secondary)", fontWeight: 500, margin: "0 0 20px" }}>
-            — Kevin, psychiatric nurse practitioner candidate
+            — AIForj
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8 }}>
             {["Evidence-Informed", "Local-First Sessions", "Browser-Based AI Mode", "Privacy-Forward Design"].map(b => (
@@ -2892,7 +2892,7 @@ export default function ForjVoiceCompanion() {
             { href: "/tools", label: "Guided Protocols" },
             { href: "/techniques", label: "Technique Library" },
             { href: workbookLink("footer"), label: "📘 CBT Workbook", ext: true },
-            { href: "https://medium.com/@kcooke493/im-a-psych-np-and-i-built-a-free-ai-wellness-tool-8d46e01a6852", label: "Read Our Story", ext: true },
+            { href: "/about/founder", label: "Read Our Story", ext: true },
             { href: "https://x.com/AIForj", label: "𝕏 @AIForj", ext: true },
           ].filter((link) => !(inCrisisBoundary && link.label.includes("CBT Workbook"))).map(link => (
             <a key={link.label} href={link.href} {...(link.ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}

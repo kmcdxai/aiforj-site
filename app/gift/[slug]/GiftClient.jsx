@@ -352,7 +352,7 @@ function GiftClientInner({ technique }) {
           <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 24, lineHeight: 1.5 }}>
             Privacy-first and local-first where supported.
             <br />
-            Clinician-informed by Kevin, a psychiatric nurse practitioner candidate.
+            Self-guided wellness tools by AIForj.
           </p>
         </div>
       </div>
@@ -540,7 +540,7 @@ function GiftClientInner({ technique }) {
           </div>
 
           <p style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 40, lineHeight: 1.6 }}>
-            Built and clinically informed by Kevin · Psychiatric NP candidate · aiforj.com
+            Published by AIForj · aiforj.com
           </p>
         </div>
       </div>

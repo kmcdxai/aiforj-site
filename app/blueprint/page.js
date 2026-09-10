@@ -35,9 +35,9 @@ const blueprintStructuredData = {
     name: "Stress response patterns",
   },
   author: {
-    "@type": "Person",
-    name: "Kevin",
-    jobTitle: "Psychiatric Nurse Practitioner Candidate",
+    "@type": "Organization",
+    name: "AIForj",
+
     url: "https://aiforj.com/about/founder",
   },
   publisher: {

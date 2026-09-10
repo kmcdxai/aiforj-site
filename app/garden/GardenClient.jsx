@@ -320,7 +320,7 @@ export default function GardenClient() {
       <h2>Emotional biome</h2>
       <p>${emotionsUsed}</p>
       <div class="footer">
-        <p>Built and clinically informed by Kevin · Psychiatric NP candidate</p>
+        <p>Published by AIForj</p>
         <p>This report was generated locally. Your data never left your device.</p>
       </div>
     </body></html>`);
@@ -836,7 +836,7 @@ export default function GardenClient() {
 
       <footer style={{ textAlign: "center", padding: "28px 0 0", marginTop: 20 }}>
         <p style={{ fontSize: 11, color: "var(--text-muted)", lineHeight: 1.7 }}>
-          AIForj — Clinician-informed by Kevin, a psychiatric nurse practitioner candidate
+          AIForj — Self-guided wellness tools by AIForj
           <br />
           Local-first where supported. Free-text stays local unless a feature clearly says otherwise.
         </p>

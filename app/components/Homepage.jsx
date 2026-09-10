@@ -261,7 +261,7 @@ export default function Homepage() {
             <BrandMark size={24} title="AIForj mark" style={{ boxShadow: "0 6px 16px rgba(36,69,63,0.14)" }} />
             Clinician-informed by{" "}
             <a href="/about/founder" style={{ color: "inherit", textDecoration: "underline", textUnderlineOffset: 3 }}>
-              Kevin, a psychiatric nurse practitioner candidate
+              AIForj
             </a>{" "}
             · Forj by Tredici
           </div>
@@ -398,16 +398,16 @@ export default function Homepage() {
               ))}
             </article>
             <article className="card" style={{ boxShadow: "var(--shadow-sm)" }}>
-              <h3 style={{ margin: "0 0 12px" }}>Built by Kevin</h3>
+              <h3 style={{ margin: "0 0 12px" }}>About AIForj</h3>
               <p style={{ margin: "0 0 16px", color: "var(--text-secondary)", lineHeight: 1.75 }}>
-                AIForj is built and clinician-informed by Kevin, a psychiatric nurse practitioner candidate completing graduate psychiatric nursing training.
+                AIForj offers self-guided wellness tools under the Tredici brand.
               </p>
               <p style={{ margin: "0 0 16px", color: "var(--text-secondary)", lineHeight: 1.75 }}>
                 It exists because emotionally grounded support should not require a waitlist or a copay.
               </p>
               <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.75 }}>
                 <a href="/about/founder" style={{ color: "var(--interactive)", fontWeight: 700 }}>
-                  About the founder →
+                  About AIForj →
                 </a>
               </p>
             </article>
@@ -581,9 +581,9 @@ export default function Homepage() {
                 <BrandLogo size={34} wordmarkSize={20} />
               </div>
               <p style={{ margin: 0, color: "var(--text-secondary)", fontSize: 14, lineHeight: 1.7 }}>
-                Built and clinically informed by{" "}
+                Published by{" "}
                 <a href="/about/founder" style={{ color: "var(--interactive)", fontWeight: 700 }}>
-                  Kevin, a psychiatric nurse practitioner candidate
+                  AIForj
                 </a>.
                 {" "}Free-text stays local unless a feature clearly says otherwise.
               </p>

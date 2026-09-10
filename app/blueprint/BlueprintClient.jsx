@@ -482,7 +482,7 @@ export default function BlueprintClient() {
       ctx.fillText("aiforj.com/blueprint", d.w / 2, d.h - 60);
       ctx.font = "400 16px 'DM Sans', sans-serif";
       ctx.globalAlpha = 0.4;
-      ctx.fillText("Clinician-informed by Kevin, a psychiatric nurse practitioner candidate", d.w / 2, d.h - 32);
+      ctx.fillText("Self-guided wellness tools by AIForj", d.w / 2, d.h - 32);
 
       const blob = await new Promise((res) => out.toBlob(res, "image/png"));
       const file = new File([blob], `blueprint-${result.archetype}.png`, { type: "image/png" });
@@ -692,7 +692,7 @@ export default function BlueprintClient() {
           {/* Disclaimer */}
           <p style={{ fontSize: 11, color: "var(--text-muted)", textAlign: "center", marginTop: 40, lineHeight: 1.6 }}>
             This assessment is for self-reflection only — not a clinical diagnosis.
-            {" "}Clinician-informed by Kevin, a psychiatric nurse practitioner candidate. Results are saved locally unless you choose to share a safe card.
+            {" "}Self-guided wellness tools by AIForj. Results are saved locally unless you choose to share a safe card.
           </p>
         </div>
       </div>

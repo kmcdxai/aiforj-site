@@ -31,7 +31,7 @@ export default function AuthorByline({ lastReviewed = LAST_REVIEWED_DATE, varian
     >
       <img
         src="/founder-avatar.svg"
-        alt="Founder avatar"
+        alt="AIForj logo"
         width={52}
         height={52}
         style={{
@@ -46,15 +46,13 @@ export default function AuthorByline({ lastReviewed = LAST_REVIEWED_DATE, varian
       <div style={{ display: "grid", gap: 3, minWidth: 0 }}>
         <p style={{ margin: 0, color: textColor, fontWeight: 700, lineHeight: 1.35 }}>
           By{" "}
-          <Link href="/about/founder" style={{ color: isDark ? "#8BB8D4" : "var(--interactive)", textDecoration: "underline", textUnderlineOffset: 3 }}>
-            Kevin
-          </Link>
+          <Link href="/about/founder" style={{ color: isDark ? "#8BB8D4" : "var(--interactive)", textDecoration: "underline", textUnderlineOffset: 3 }}>AIForj</Link>
         </p>
         <p style={{ margin: 0, color: mutedColor, fontSize: 13, lineHeight: 1.55 }}>
-          Clinician-informed · Psychiatric NP candidate
+          Self-guided wellness resources
         </p>
         <p style={{ margin: 0, color: mutedColor, fontSize: 13, lineHeight: 1.55 }}>
-          Clinically trained in CBT, DBT, ACT, IFS, polyvagal theory + more
+          Educational tools; not clinical care
         </p>
         <p style={{ margin: "2px 0 0", color: mutedColor, fontSize: 12, lineHeight: 1.45 }}>
           Last reviewed: {formatDate(lastReviewed)}

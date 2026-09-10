@@ -1,201 +1,23 @@
-import Link from "next/link";
-import BiophilicBackground from "../../components/BiophilicBackground";
-import SiteFooter from "../../components/SiteFooter";
-import AnalyticsBeacon from "../../../components/AnalyticsBeacon";
-import { founderAuthor, founderKnowsAbout } from "../../../lib/schemas/founder";
-
-const founderPerson = {
-  "@context": "https://schema.org",
-  ...founderAuthor,
-};
+import Link from 'next/link';
+import SiteFooter from '../../components/SiteFooter';
 
 export const metadata = {
-  title: "About the founder — AIForj",
-  description:
-    "Meet Kevin, the psychiatric nurse practitioner candidate building AIForj.",
-  alternates: {
-    canonical: "https://aiforj.com/about/founder",
-  },
-  openGraph: {
-    title: "About the founder — AIForj",
-    description:
-      "Clinician-informed by a psychiatric nurse practitioner candidate and grounded in evidence-framed emotional first-aid tools.",
-    url: "https://aiforj.com/about/founder",
-    siteName: "AIForj",
-    type: "profile",
-    images: [{ url: "/founder-avatar.svg", width: 320, height: 320, alt: "Founder avatar" }],
-  },
+  title: 'About AIForj',
+  description: 'Self-guided wellness tools from Forj by Tredici. Learn what the tools offer and where their limits are.',
+  alternates: {canonical:'https://aiforj.com/about/founder'},
+  openGraph: {title:'About AIForj',description:'Self-guided wellness resources from Forj by Tredici.',url:'https://aiforj.com/about/founder',type:'website'},
 };
 
-function SectionCard({ children, style }) {
-  return (
-    <section
-      style={{
-        background: "var(--surface-elevated)",
-        border: "1px solid var(--border)",
-        borderRadius: 28,
-        boxShadow: "var(--shadow-md)",
-        padding: "clamp(24px, 4vw, 38px)",
-        ...style,
-      }}
-    >
-      {children}
-    </section>
-  );
-}
-
-export default function FounderPage() {
-  return (
-    <>
-      <AnalyticsBeacon event="about_founder_view" />
-      <BiophilicBackground />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(founderPerson) }}
-      />
-
-      <main style={{ fontFamily: "'DM Sans', sans-serif", color: "var(--text-primary)" }}>
-        <section
-          style={{
-            padding: "112px 24px 64px",
-            background: "linear-gradient(180deg, var(--parchment-deep), var(--parchment))",
-          }}
-        >
-          <div
-            style={{
-              maxWidth: 1080,
-              margin: "0 auto",
-              display: "grid",
-              gridTemplateColumns: "minmax(0, 1.1fr) minmax(220px, 0.55fr)",
-              gap: 34,
-              alignItems: "center",
-            }}
-            className="founder-hero-grid"
-          >
-            <div>
-              <p className="text-label" style={{ color: "var(--sage-deep)", margin: "0 0 14px" }}>
-                AIForj clinical foundation
-              </p>
-              <h1 style={{ margin: "0 0 14px", fontSize: "clamp(38px, 6vw, 68px)", letterSpacing: -0.5 }}>
-                About the founder
-              </h1>
-              <p
-                style={{
-                  margin: "0 0 24px",
-                  fontFamily: "'Fraunces', serif",
-                  fontSize: "clamp(22px, 3vw, 34px)",
-                  lineHeight: 1.25,
-                  color: "var(--text-secondary)",
-                }}
-              >
-                Clinician-informed by a psychiatric nurse practitioner candidate
-              </p>
-              <p style={{ margin: 0, maxWidth: 680, color: "var(--text-secondary)", lineHeight: 1.8, fontSize: 17 }}>
-                AIForj is designed to make the first minute of emotional support more private, more specific, and more clinically grounded without pretending to replace real care.
-              </p>
-            </div>
-            <div style={{ justifySelf: "center" }}>
-              <img
-                src="/founder-avatar.svg"
-                alt="Geometric founder avatar for Kevin"
-                style={{
-                  width: "min(260px, 62vw)",
-                  height: "auto",
-                  borderRadius: "50%",
-                  boxShadow: "var(--shadow-lg)",
-                  border: "8px solid rgba(255,255,255,0.62)",
-                  background: "var(--surface)",
-                }}
-              />
-            </div>
-          </div>
-        </section>
-
-        <section style={{ padding: "64px 24px", maxWidth: 1080, margin: "0 auto", display: "grid", gap: 24 }}>
-          <SectionCard>
-            <h2 style={{ margin: "0 0 18px" }}>Hi, I&apos;m Kevin.</h2>
-            <div style={{ display: "grid", gap: 16, color: "var(--text-secondary)", lineHeight: 1.85, fontSize: 16 }}>
-              <p style={{ margin: 0 }}>
-                Psychiatric nurse practitioner candidate, currently completing graduate psychiatric nursing training.
-              </p>
-              <p style={{ margin: 0 }}>
-                AIForj is informed by training and study across evidence-framed modalities including CBT, DBT, ACT, IFS, polyvagal-informed education, somatic practices, CFT, narrative therapy, motivational interviewing, behavioral activation, schema-informed tools, trauma-informed care, mindfulness-based approaches, emotion-focused work, attachment-informed tools, and solution-focused brief practices.
-              </p>
-              <p style={{ margin: 0 }}>
-                I built AIForj because waitlists and copays should not stand between someone and the first 60 seconds of self-guided support. The interventions in AIForj are matched to emotional states based on evidence-framed practices, not a universal technique applied everywhere.
-              </p>
-              <p style={{ margin: 0 }}>
-                I am building this in the open. If you&apos;re a clinician with feedback, I want it. Email{" "}
-                <a href="mailto:founder@aiforj.com" style={{ color: "var(--interactive)", fontWeight: 700 }}>
-                  founder@aiforj.com
-                </a>.
-              </p>
-            </div>
-          </SectionCard>
-
-          <SectionCard style={{ background: "linear-gradient(135deg, var(--sage-light), var(--surface-elevated))" }}>
-            <h2 style={{ margin: "0 0 14px" }}>Why the credential wording is careful</h2>
-            <p style={{ margin: 0, color: "var(--text-secondary)", lineHeight: 1.85, fontSize: 16 }}>
-              AIForj is informed by clinical training and careful review, not a substitute for professional care. The tools in this app are self-guided wellness practices, not diagnosis, treatment, medication advice, or crisis care. I would rather be transparent about where AIForj ends than overclaim a credential or outcome.
-            </p>
-          </SectionCard>
-
-          <SectionCard>
-            <div style={{ display: "flex", justifyContent: "space-between", gap: 18, flexWrap: "wrap", alignItems: "end", marginBottom: 22 }}>
-              <div>
-                <p className="text-label" style={{ margin: "0 0 8px", color: "var(--sage-deep)" }}>
-                  Clinical training
-                </p>
-                <h2 style={{ margin: 0 }}>16 evidence-based modalities</h2>
-              </div>
-              <span className="tag tag-cbt">Evidence-framed: CBT, DBT, ACT, IFS + more</span>
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 10 }}>
-              {founderKnowsAbout.map((modality) => (
-                <div
-                  key={modality}
-                  style={{
-                    padding: "13px 14px",
-                    borderRadius: 16,
-                    background: "var(--surface)",
-                    border: "1px solid var(--border)",
-                    color: "var(--text-secondary)",
-                    fontWeight: 700,
-                  }}
-                >
-                  {modality}
-                </div>
-              ))}
-            </div>
-          </SectionCard>
-
-          <SectionCard style={{ borderColor: "rgba(184,134,11,0.24)" }}>
-            <h2 style={{ margin: "0 0 12px" }}>Safety note</h2>
-            <p style={{ margin: "0 0 18px", color: "var(--text-secondary)", lineHeight: 1.8 }}>
-              AIForj is a wellness companion, not a substitute for professional care. If you are in immediate danger or might hurt yourself, call emergency services now. In the U.S., call or text 988 for the Suicide and Crisis Lifeline.
-            </p>
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <a href="https://988lifeline.org" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ textDecoration: "none" }}>
-                988 Lifeline
-              </a>
-              <Link href="/find-help" className="btn-secondary" style={{ textDecoration: "none", color: "var(--sage-deep)" }}>
-                Find a Provider
-              </Link>
-            </div>
-          </SectionCard>
-        </section>
-
-        <style>{`
-          @media (max-width: 820px) {
-            .founder-hero-grid {
-              grid-template-columns: 1fr !important;
-              text-align: center;
-            }
-          }
-        `}</style>
-      </main>
-
-      <SiteFooter />
-    </>
-  );
+export default function AboutForj() {
+  return <><main style={{maxWidth:840,margin:'88px auto',padding:'0 24px',fontSize:17,lineHeight:1.85,color:'var(--text-primary)'}}>
+    <Link href="/">Forj by Tredici</Link>
+    <h1 style={{fontSize:'clamp(36px,6vw,60px)',lineHeight:1.2}}>A little space. A next step.</h1>
+    <p>AIForj offers self-guided tools for pausing, reflecting, and choosing a practical next step. Start with a free guide or check-in, and use what fits your day.</p>
+    <h2>Resources with clear limits.</h2><p>The tools are educational wellness resources. They do not provide diagnosis, therapy, medication advice, or emergency care. They are separate from Tredici’s future clinical practice.</p>
+    <p>Guides reference their sources and describe limitations. No exercise is a guaranteed solution. You can stop at any time and seek support from a qualified professional when needed.</p>
+    <h2>Your information, your choices.</h2><p>Some features keep information on your device; others depend on your browser or an external service. Read the <Link href="/what-we-collect">privacy explanation</Link> before choosing a feature.</p>
+    <h2>Explore at your own pace.</h2><p><Link href="/start">Start a free check-in</Link>, browse the <Link href="/help">help guides</Link>, or read the <Link href="/editorial-policy">editorial policy</Link>.</p>
+    <h2>Product support</h2><p>For billing or download questions, email <a href="mailto:hello@tredicihealth.com">hello@tredicihealth.com</a>. Please do not send health information. <Link href="/billing">Manage a subscription.</Link></p>
+    <p>For urgent help in the U.S., call or text 988. Call 911 for an immediate emergency. This website is not a monitored crisis service.</p>
+  </main><SiteFooter/></>;
 }

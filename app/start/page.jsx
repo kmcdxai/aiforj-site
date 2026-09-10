@@ -2,7 +2,7 @@ import StartClient from './StartClient';
 
 export const metadata = {
   title: 'Get Matched to an Emotional First-Aid Tool | AIForj',
-  description: 'Choose what you feel, rate the intensity, and get a clinically-informed emotional first-aid tool in under 30 seconds. Free, private, and built by Kevin.',
+  description: 'Choose what you feel, rate the intensity, and get a clinically-informed emotional first-aid tool in under 30 seconds. Free, private, and published by AIForj.',
   alternates: {
     canonical: 'https://aiforj.com/start',
   },

@@ -67,7 +67,7 @@ export default function TechniquesPage() {
           >
             30 evidence-framed techniques you can do right now. Each one is
             interactive — not just reading, but doing. Clinically informed by
-            Kevin, a psychiatric nurse practitioner candidate.
+            AIForj.
           </p>
         </header>
 

@@ -715,7 +715,7 @@ export default function FindHelpPage() {
         <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, margin: "0 0 24px", maxWidth: 480, marginLeft: "auto", marginRight: "auto" }}>
           Forj is a wellness companion — not a therapist or substitute for professional care.
         </p>
-        <p style={{ fontSize: 11, color: C.muted, margin: "0 0 8px", lineHeight: 1.8 }}>Clinician-informed by Kevin, a psychiatric nurse practitioner candidate</p>
+        <p style={{ fontSize: 11, color: C.muted, margin: "0 0 8px", lineHeight: 1.8 }}>Self-guided wellness tools by AIForj</p>
         <p style={{ fontSize: 11, color: C.muted, opacity: 0.78, margin: 0 }}>© 2026 AIForj. All rights reserved.</p>
       </footer>
     </div>
