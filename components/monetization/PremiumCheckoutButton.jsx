@@ -49,6 +49,7 @@ export default function PremiumCheckoutButton({
       >
         {loading ? 'Opening checkout...' : children}
       </button>
+      <a href="/billing" style={{fontSize:13,color:'var(--text-muted)',textDecoration:'underline'}}>Subscription terms &amp; cancellation</a>
       {error && (
         <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>{error}</span>
       )}

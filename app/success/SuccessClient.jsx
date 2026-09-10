@@ -526,6 +526,7 @@ export default function SuccessClient() {
         )}
       </div>
 
+      <p style={{textAlign:"center",margin:"24px 0",fontSize:14}}><Link href="/billing">Manage subscription, cancellation &amp; purchase support</Link></p>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }

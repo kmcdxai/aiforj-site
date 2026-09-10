@@ -81,6 +81,7 @@ export default function SiteFooter() {
           { href: "/how-aiforj-stays-safe", label: "Safety" },
           { href: "/editorial-policy", label: "Editorial Policy" },
           { href: "/what-we-collect", label: "What We Collect" },
+          { href: "/billing", label: "Manage subscription" },
           { href: "/find-help", label: "Find a Provider" },
           { href: workbookLink("footer"), label: "CBT Workbook", external: true },
         ].map(link => (
