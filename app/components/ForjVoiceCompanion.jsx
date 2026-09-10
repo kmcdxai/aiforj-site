@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import EmailCapture from "./EmailCapture";
 import DataManagement from "./DataManagement";
 import { FORJ_MODALITY_COUNT } from "../../lib/forjModalities";
-import { getPremiumAccessStatus } from "../../utils/premiumAccess";
+import { refreshPremiumAccess } from "../../utils/premiumAccess";
 import { track } from "../../lib/analytics";
 import { workbookLink } from "../../lib/links";
 import { classifySafetyInput, CRISIS_HANDOFF_TEXT, MEDICATION_BOUNDARY_TEXT, buildPrescriberWorksheetPrompt } from "../../lib/safetyClassifier";
@@ -1564,21 +1564,18 @@ export default function ForjVoiceCompanion() {
   ];
 
 
+  useEffect(() => {
+    const refresh = async () => { const status = await refreshPremiumAccess(); setTier(status.active ? "premium" : "free"); };
+    const interval = setInterval(refresh, 60_000);
+    window.addEventListener("focus", refresh);
+    return () => { clearInterval(interval); window.removeEventListener("focus", refresh); };
+  }, []);
+
   // Load tier + streak on mount
   useEffect(() => {
     (async () => {
-      const saved = await DB.get("tier");
-      if (typeof window !== "undefined") {
-        const premiumStatus = getPremiumAccessStatus();
-        if (premiumStatus.active) {
-          setTier("premium");
-          await DB.set("tier", "premium");
-        } else if (saved) {
-          setTier(saved);
-        }
-      } else if (saved) {
-        setTier(saved);
-      }
+      const premiumStatus = await refreshPremiumAccess();
+      setTier(premiumStatus.active ? "premium" : "free");
       const today = new Date().toDateString();
       const sc = await DB.get(`sessions_${today}`);
       if (sc) setSessionCount(sc);

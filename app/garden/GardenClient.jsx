@@ -13,7 +13,7 @@ import {
 } from "../lib/db";
 import WeeklyInsightsClient from "./WeeklyInsightsClient";
 import { buildGardenSnapshot, EMOTION_PLANTS } from "./gardenData";
-import { getPremiumAccessStatus } from "../../utils/premiumAccess";
+import { getPremiumAccessStatus, refreshPremiumAccess } from "../../utils/premiumAccess";
 import ShareSheet from "../../components/share/ShareSheet";
 
 const MOOD_OPTIONS = [
@@ -235,7 +235,7 @@ export default function GardenClient() {
       setMoods(nextMoods);
       setBlueprints(nextBlueprints);
       setStreakData(nextStreak);
-      setIsPremium(getPremiumStatus());
+      setIsPremium((await refreshPremiumAccess()).active);
     } catch (error) {
       console.warn("Garden: load error", error);
     } finally {
@@ -246,6 +246,13 @@ export default function GardenClient() {
   useEffect(() => {
     loadGarden();
   }, [loadGarden]);
+
+  useEffect(() => {
+    const refresh = async () => setIsPremium((await refreshPremiumAccess()).active);
+    const interval = setInterval(refresh, 60_000);
+    window.addEventListener("focus", refresh);
+    return () => { clearInterval(interval); window.removeEventListener("focus", refresh); };
+  }, []);
 
   const snapshot = useMemo(
     () => buildGardenSnapshot({ sessions, moods, blueprints, streakData }),

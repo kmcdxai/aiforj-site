@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createActivationToken } from "../../../../lib/licenseTokens";
-import { createStripeClient, sanitizePlanType } from "../../../../lib/stripe";
+import { resolveSubscriptionAccess } from "../../../../lib/subscriptionAccess.mjs";
+import { createStripeClient } from "../../../../lib/stripe";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -24,12 +25,9 @@ export async function GET(request) {
   }
 
   try {
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
-    if (session.status !== "complete") {
-      return NextResponse.json({ error: "Checkout is not complete yet." }, { status: 409 });
-    }
-
-    const planType = sanitizePlanType(session.metadata?.plan_type || "premium");
+    const access = await resolveSubscriptionAccess(stripe, sessionId);
+    if (!access) return NextResponse.json({ error: "An active subscription or trial could not be verified." }, { status: 403 });
+    const { planType } = access;
     const token = createActivationToken({
       planType,
       stripeSessionId: sessionId,
@@ -40,6 +38,8 @@ export async function GET(request) {
       token,
       activationUrl: `${domain}/activate/${encodeURIComponent(token)}`,
       planType,
+      expiresAt: access.expiresAt,
+      stripeSessionId: sessionId,
     });
   } catch (error) {
     console.error("Unable to create activation token:", error);

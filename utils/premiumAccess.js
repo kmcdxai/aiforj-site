@@ -65,7 +65,7 @@ export function getStoredPremiumState() {
   const stored = readJSON(PREMIUM_KEY);
 
   if (stored === true) {
-    return createSubscriptionPremiumState();
+    return null;
   }
 
   if (stored && typeof stored === "object") {
@@ -77,9 +77,10 @@ export function getStoredPremiumState() {
 
 export function isPremiumStateActive(state) {
   if (!state) return false;
-  if (state === true) return true;
-  if (state.active === false) return false;
-  if (!state.expiresAt) return true;
+  if (state === true) return false;
+  if (state.active !== true) return false;
+  if (["subscription", "premium", "clinician", "organization"].includes(state.source) && (!state.activationToken || !state.expiresAt)) return false;
+  if (!state.expiresAt) return state.source === "family";
 
   const expiry = Date.parse(state.expiresAt);
   if (!Number.isFinite(expiry)) return false;
@@ -127,7 +128,6 @@ export function getPremiumAccessStatus() {
   }
 
   if (!isPremiumStateActive(state)) {
-    clearPremiumAccess();
     return { active: false, tier: null, source: state.source || null, expiresAt: state.expiresAt || null };
   }
 
@@ -138,4 +138,25 @@ export function getPremiumAccessStatus() {
     expiresAt: state.expiresAt || null,
     grantedAt: state.grantedAt || null,
   };
+}
+
+
+// Refresh only payment entitlement; no journal, mood, or companion content is sent.
+export async function refreshPremiumAccess() {
+  const state = getStoredPremiumState();
+  if (!state?.activationToken) return getPremiumAccessStatus();
+  if (state.active && Date.parse(state.expiresAt) > Date.now() + 60_000) return getPremiumAccessStatus();
+  try {
+    const response = await fetch('/api/stripe/redeem-activation', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: state.activationToken }),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      persistPremiumState({ ...state, active: true, expiresAt: data.expiresAt });
+    } else if (response.status === 400 || response.status === 403) {
+      persistPremiumState({ ...state, active: false });
+    }
+  } catch { /* A brief outage may use only the remaining verified lease. */ }
+  return getPremiumAccessStatus();
 }

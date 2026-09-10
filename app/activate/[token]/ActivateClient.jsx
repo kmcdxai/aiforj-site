@@ -20,7 +20,8 @@ export default function ActivateClient({ token }) {
         if (!response.ok) throw new Error(data?.error || "Activation failed.");
         persistPremiumState({
           active: true,
-          source: data.planType || "premium",
+          source: "subscription",
+          activationToken: token,
           stripeSessionId: data.stripeSessionId,
           grantedAt: new Date().toISOString(),
           expiresAt: data.expiresAt || null,

@@ -11,7 +11,7 @@ import { Suspense } from 'react';
 
 export const metadata = {
   metadataBase: new URL('https://aiforj.com'),
-  title: 'AIForj — Emotional First Aid That Actually Works',
+  title: 'AIForj — Self-Guided Wellness Tools',
   description: '30 public guides plus 100+ guided interventions for anxiety, sadness, anger, overwhelm, and more. Clinician-informed, privacy-first, evidence-framed emotional first aid.',
   keywords: 'emotional first aid, mental health tools, CBT tools, DBT skills, ACT defusion, somatic grounding, anxiety grounding, mood tracking, emotional first-aid techniques, AIForj',
   alternates: {
@@ -23,7 +23,7 @@ export const metadata = {
     apple: '/aiforj-mark.png',
   },
   openGraph: {
-    title: 'AIForj — Emotional First Aid That Actually Works',
+    title: 'AIForj — Self-Guided Wellness Tools',
     description: '30 public guides plus 100+ guided interventions for anxiety, sadness, anger, overwhelm, and more. Clinician-informed emotional first aid.',
     url: 'https://aiforj.com',
     siteName: 'AIForj',
@@ -32,7 +32,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AIForj — Emotional First Aid That Actually Works',
+    title: 'AIForj — Self-Guided Wellness Tools',
     description: '30 public guides plus 100+ guided emotional first-aid interventions. Clinician-informed and privacy-first.',
     images: ['/aiforj-og.png'],
   },

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { activateSubscriptionPremium } from "../../utils/premiumAccess";
+import { persistPremiumState } from "../../utils/premiumAccess";
 
 function PrimaryButton({ children, ...props }) {
   return (
@@ -81,17 +81,9 @@ export default function SuccessClient() {
   );
 
   useEffect(() => {
-    if (isSponsor || isFamily) {
-      setActivated(true);
-      return;
-    }
-
-    activateSubscriptionPremium();
-    setActivated(true);
-  }, [isSponsor, isFamily]);
-
-  useEffect(() => {
-    if (isSponsor || isFamily || !sessionId) return;
+    if (isSponsor || isFamily) return;
+    if (!sessionId) { setSessionError("No checkout reference was provided. Premium has not been activated."); return; }
+    setActivated(false);
 
     let active = true;
     (async () => {
@@ -99,7 +91,11 @@ export default function SuccessClient() {
         const response = await fetch(`/api/stripe/activation-token?session_id=${encodeURIComponent(sessionId)}`);
         const data = await response.json();
         if (!response.ok) throw new Error(data?.error || "Activation link unavailable.");
-        if (active) setActivationData(data);
+        if (active) {
+          persistPremiumState({ active: true, source: 'subscription', activationToken: data.token, stripeSessionId: data.stripeSessionId, expiresAt: data.expiresAt });
+          setActivationData(data);
+          setActivated(true);
+        }
       } catch (error) {
         console.warn("Unable to create activation link:", error);
         if (active) setSessionError(error?.message || "Activation link unavailable.");
@@ -266,7 +262,7 @@ export default function SuccessClient() {
             ? sponsorTitle
             : isFamily
               ? familyTitle
-              : "Welcome to Premium"}
+              : activated ? "Welcome to Premium" : "Verify your Premium access"}
         </h1>
         <p
           style={{
@@ -280,7 +276,7 @@ export default function SuccessClient() {
             ? "Send the redeem link personally. The first successful redemption activates one month of Premium on the recipient’s device."
             : isFamily
               ? "Share each invite link directly with the people in your household. Every link activates Premium on one device, and each claimed seat stays marked here."
-              : "Premium is active on this device. Save the activation link if you want to activate another device without attaching emotional content to an account."}
+              : activated ? "Premium is active on this device. Keep your activation link private; it can restore access on another device. Subscription status is checked periodically." : "Premium is not active yet. We will verify your subscription before unlocking access."}
         </p>
 
         {isSponsor ? (
@@ -508,7 +504,7 @@ export default function SuccessClient() {
                 opacity: 0.6,
               }}
             >
-              {activated ? "Activated locally. Payment data stays with Stripe." : "Activating..."}
+              {activated ? "Activation saved on this device. Payments are handled by Stripe." : sessionError ? "Access has not been activated." : "Verifying your subscription..."}
             </p>
             <a
               href="/"
